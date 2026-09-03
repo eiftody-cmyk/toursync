@@ -94,6 +94,7 @@ export function BlockModal({
     let syncedCount = 0;
     let failedCount = 0;
     let lastError = "";
+    let googleSkipped = false;
 
     for (const tour of toursToBlock) {
       for (const d of dates) {
@@ -157,9 +158,12 @@ export function BlockModal({
               googleEventId = json.eventId ?? null;
               calendarId = json.calendarId ?? null;
               if (googleEventId) syncedCount++;
+              else if (json.warning) googleSkipped = true;
+            } else {
+              googleSkipped = true;
             }
           } catch {
-            // No Google connection — still create local block
+            googleSkipped = true;
           }
         }
 
@@ -216,6 +220,9 @@ export function BlockModal({
       const detail = toursToBlock.length > 1 ? ` across ${toursToBlock.length} tours` : "";
       const sync = syncedCount > 0 ? ` & ${syncedCount} synced to Google` : "";
       toast.success(`${msg}${detail}${sync}`);
+      if (googleSkipped) {
+        toast.warning("Google Calendar sync skipped — check Settings > Google Calendar connection");
+      }
     }
 
     onOpenChange(false);
