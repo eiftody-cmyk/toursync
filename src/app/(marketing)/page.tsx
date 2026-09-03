@@ -24,9 +24,6 @@ export default function LandingPage() {
           <Button size="lg" asChild>
             <Link href="/login">Get Started Free</Link>
           </Button>
-          <Button size="lg" variant="outline" asChild>
-            <Link href="/dashboard">View Demo</Link>
-          </Button>
         </div>
         <p className="mt-3 text-xs text-muted-foreground">
           No credit card required. Connect Google Calendar in 2 clicks.
