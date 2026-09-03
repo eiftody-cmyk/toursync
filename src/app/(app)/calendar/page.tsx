@@ -13,9 +13,15 @@ export default async function CalendarPage({
   } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const { data: tours } = await supabase.from("tours").select("*").eq("user_id", user.id).order("name");
-  const { data: bookings } = await supabase.from("bookings").select("*").eq("user_id", user.id);
-  const { data: blocked } = await supabase.from("blocked_dates").select("*").eq("user_id", user.id);
+  const [toursResult, bookingsResult, blockedResult] = await Promise.all([
+    supabase.from("tours").select("*").eq("user_id", user.id).order("name"),
+    supabase.from("bookings").select("*").eq("user_id", user.id).order("date", { ascending: false }).limit(200),
+    supabase.from("blocked_dates").select("*").eq("user_id", user.id).order("date", { ascending: false }).limit(200),
+  ]);
+
+  const tours = toursResult.data;
+  const bookings = bookingsResult.data;
+  const blocked = blockedResult.data;
 
   const initialFilterTour = tour && tours?.some((t) => t.id === tour) ? tour : "all";
 

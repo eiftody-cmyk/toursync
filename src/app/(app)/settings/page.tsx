@@ -16,8 +16,13 @@ export default async function SettingsPage({
   } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).maybeSingle();
-  const { data: token } = await supabase.from("google_tokens").select("*").eq("user_id", user.id).maybeSingle();
+  const [profileResult, tokenResult] = await Promise.all([
+    supabase.from("profiles").select("*").eq("id", user.id).maybeSingle(),
+    supabase.from("google_tokens").select("*").eq("user_id", user.id).maybeSingle(),
+  ]);
+
+  const profile = profileResult.data;
+  const token = tokenResult.data;
 
   const success = params.google === "connected";
   const error = params.error;

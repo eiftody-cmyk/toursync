@@ -11,17 +11,13 @@ export default async function ToursPage() {
   } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const { data: tours } = await supabase
-    .from("tours")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("created_at");
+  const [toursResult, listingsResult] = await Promise.all([
+    supabase.from("tours").select("*").eq("user_id", user.id).order("created_at"),
+    supabase.from("tour_channel_listings").select("*").eq("user_id", user.id).order("created_at"),
+  ]);
 
-  const { data: listings } = await supabase
-    .from("tour_channel_listings")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("created_at");
+  const tours = toursResult.data;
+  const listings = listingsResult.data;
 
   return (
     <div className="space-y-6 max-w-3xl">

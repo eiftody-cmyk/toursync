@@ -13,31 +13,18 @@ export default async function DashboardPage() {
 
   if (!user) return null;
 
-  const { data: tours } = await supabase
-    .from("tours")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("created_at");
+  const [toursResult, bookingsResult, blockedResult, tokensResult] =
+    await Promise.all([
+      supabase.from("tours").select("*").eq("user_id", user.id).order("created_at"),
+      supabase.from("bookings").select("*").eq("user_id", user.id).order("date", { ascending: true }).limit(20),
+      supabase.from("blocked_dates").select("*").eq("user_id", user.id).order("date", { ascending: true }).limit(20),
+      supabase.from("google_tokens").select("calendar_id, token_expiry").eq("user_id", user.id).maybeSingle(),
+    ]);
 
-  const { data: bookings } = await supabase
-    .from("bookings")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("date", { ascending: true })
-    .limit(20);
-
-  const { data: blocked } = await supabase
-    .from("blocked_dates")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("date", { ascending: true })
-    .limit(20);
-
-  const { data: tokens } = await supabase
-    .from("google_tokens")
-    .select("calendar_id, token_expiry")
-    .eq("user_id", user.id)
-    .maybeSingle();
+  const tours = toursResult.data;
+  const bookings = bookingsResult.data;
+  const blocked = blockedResult.data;
+  const tokens = tokensResult.data;
 
   const today = todayJST();
 
