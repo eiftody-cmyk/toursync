@@ -26,22 +26,30 @@ export async function deleteCalendarFromGoogle(
   await calendar.calendars.delete({ calendarId });
 }
 
-/** Get the Google calendar_id for a specific tour — throws if not configured */
+/** Get the Google calendar_id for a specific tour — falls back to primary calendar */
 export async function getCalendarIdForTour(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   supabase: any,
-  tourId: string
+  tourId: string,
+  userId?: string
 ): Promise<string> {
   const { data: tour, error } = await supabase
     .from("tours")
-    .select("google_calendar_id")
+    .select("google_calendar_id, user_id")
     .eq("id", tourId)
     .single();
   if (error) throw new Error(`Could not read tour calendar: ${error.message}`);
-  if (!tour?.google_calendar_id || tour.google_calendar_id === "primary") {
-    throw new Error("This tour needs a per-tour calendar. Go to Settings → Tour Calendars → Create calendar.");
+  if (tour?.google_calendar_id && tour.google_calendar_id !== "primary") {
+    return tour.google_calendar_id;
   }
-  return tour.google_calendar_id;
+  const uid = userId ?? tour?.user_id;
+  if (!uid) return "primary";
+  const { data: tokens } = await supabase
+    .from("google_tokens")
+    .select("calendar_id")
+    .eq("user_id", uid)
+    .maybeSingle();
+  return tokens?.calendar_id ?? "primary";
 }
 
 export function getCalendarClient(accessToken: string) {
@@ -113,7 +121,8 @@ export async function deleteCalendarEvent(params: {
   });
 }
 
-export async function getValidAccessToken(userId: string): Promise<{
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function getValidAccessToken(_userId: string): Promise<{
   accessToken: string;
   calendarId: string;
 }> {
