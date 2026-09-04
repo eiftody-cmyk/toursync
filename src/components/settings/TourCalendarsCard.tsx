@@ -70,12 +70,13 @@ export function TourCalendarsCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Tour Calendars</CardTitle>
+        <CardTitle className="text-base">Per-Tour Calendars (Required)</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3 text-sm">
         <p className="text-muted-foreground">
-          Each tour can have its own Google Calendar. When you block a date, only that tour&apos;s calendar gets a
-          &quot;busy&quot; event — other Airbnb Experiences stay live.
+          Every tour <strong>MUST</strong> have its own calendar for Airbnb sync to work.
+          When you block a date, only that tour&apos;s calendar gets a &quot;busy&quot; event — other Airbnb Experiences
+          stay live. Create a calendar for each tour, then paste its iCal URL into the matching Airbnb Experience.
         </p>
         <div className="space-y-2">
           {tours.map((t) => (
@@ -88,8 +89,8 @@ export function TourCalendarsCard() {
                       calendar connected
                     </Badge>
                   ) : (
-                    <Badge variant="secondary" className="text-xs">
-                      no calendar
+                    <Badge variant="destructive" className="text-xs">
+                      setup required
                     </Badge>
                   )}
                 </span>

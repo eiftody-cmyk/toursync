@@ -34,7 +34,7 @@ export default async function SettingsPage({
       {success && (
         <Card className="border-emerald-300 bg-emerald-50 dark:bg-emerald-950/20">
           <CardContent className="pt-6 text-sm text-emerald-800 dark:text-emerald-200">
-            Google Calendar connected. Busy blocks push to Airbnb via Google — usually immediate.
+            Google account connected. Now create per-tour calendars below.
           </CardContent>
         </Card>
       )}
@@ -70,7 +70,7 @@ export default async function SettingsPage({
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Google Calendar</CardTitle>
+          <CardTitle className="text-base">Google Calendar Account</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
           {token ? (
@@ -82,8 +82,8 @@ export default async function SettingsPage({
                 <p className="text-muted-foreground">Token expires: {new Date(token.token_expiry).toLocaleString()}</p>
               )}
               <p className="text-muted-foreground">
-                TourSync creates &quot;busy&quot; events on your Google Calendar. Google pushes them to Airbnb
-                — usually immediate. Unblocking deletes the event and Google pushes the removal.
+                This connects TourSync to your Google account so it can create calendars and manage events.
+                This is required before you can set up per-tour calendars below.
               </p>
               <div className="flex gap-2">
                 <Button asChild size="sm" variant="outline">
@@ -99,8 +99,8 @@ export default async function SettingsPage({
           ) : (
             <>
               <p className="text-muted-foreground">
-                Not connected. Connect to enable Airbnb sync. TourSync will create busy blocks on your Google
-                Calendar.
+                Connect your Google account to give TourSync access to create and manage calendars.
+                This is a prerequisite — you still need to create per-tour calendars below.
               </p>
               <Button asChild size="sm">
                 <a href="/api/auth/google">Connect Google Calendar</a>
