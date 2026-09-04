@@ -17,7 +17,7 @@ export default async function DashboardPage() {
     await Promise.all([
       supabase.from("tours").select("*").eq("user_id", user.id).order("created_at"),
       supabase.from("bookings").select("*").eq("user_id", user.id).order("date", { ascending: true }).limit(20),
-      supabase.from("blocked_dates").select("*").eq("user_id", user.id).order("date", { ascending: true }).limit(20),
+      supabase.from("blocked_dates").select("*").eq("user_id", user.id).order("date", { ascending: true }).limit(200),
       supabase.from("google_tokens").select("calendar_id, token_expiry").eq("user_id", user.id).maybeSingle(),
     ]);
 
@@ -167,7 +167,7 @@ export default async function DashboardPage() {
               <p className="text-muted-foreground">No blocks. Click a date on the calendar to block it.</p>
             ) : (
               <ul className="space-y-2">
-                {blocked.slice(0, 8).map((bl) => {
+                {blocked.map((bl) => {
                   const tour = tours?.find((t) => t.id === bl.tour_id);
                   return (
                     <li key={bl.id} className="flex justify-between border-b pb-1 last:border-0">
