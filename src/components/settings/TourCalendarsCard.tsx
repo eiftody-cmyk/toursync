@@ -76,7 +76,7 @@ export function TourCalendarsCard() {
         <p className="text-muted-foreground">
           Every tour <strong>MUST</strong> have its own calendar for Airbnb sync to work.
           When you block a date, only that tour&apos;s calendar gets a &quot;busy&quot; event — other Airbnb Experiences
-          stay live.
+          stay live. Each tour must also be connected to its calendar in Airbnb (see Step 3 below).
         </p>
         <div className="space-y-2">
           {tours.map((t) => (
