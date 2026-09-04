@@ -82,6 +82,38 @@ export const CHANNEL_LABELS: Record<Channel, string> = {
   airbnb: "Airbnb",
 };
 
+export type TourSchedule = {
+  id: string;
+  tour_id: string;
+  user_id: string;
+  day_of_week: number; // 0=Sun, 6=Sat
+  start_time: string; // "HH:MM"
+  duration_minutes: number;
+  start_date: string; // YYYY-MM-DD
+  end_date: string | null;
+  is_active: boolean;
+  created_at: string;
+};
+
+export type ScheduleException = {
+  id: string;
+  tour_id: string;
+  user_id: string;
+  date: string; // YYYY-MM-DD
+  reason: string | null;
+  created_at: string;
+};
+
+export const DAY_NAMES = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+] as const;
+
 export const BOOKING_SOURCES = [
   "viator",
   "gyg",

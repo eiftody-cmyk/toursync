@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import type { Tour, TourChannelListing, Channel } from "@/types";
 import { CHANNEL_LABELS, CHANNELS } from "@/types";
+import { ScheduleEditor } from "@/components/tours/ScheduleEditor";
 
 type ListingsByTour = Record<string, TourChannelListing[]>;
 
@@ -438,6 +439,11 @@ export function ToursClient({
                         </Button>
                       </div>
                     )}
+                  </div>
+
+                  {/* Tour schedule */}
+                  <div className="border-t pt-3">
+                    <ScheduleEditor tourId={t.id} />
                   </div>
 
                   {/* Tour actions */}
