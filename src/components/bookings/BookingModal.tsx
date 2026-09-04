@@ -155,6 +155,16 @@ export function BookingModal({
         <DialogHeader>
           <DialogTitle>Add Booking (Quick Entry)</DialogTitle>
         </DialogHeader>
+        <div className="rounded-md bg-muted p-3 text-xs text-muted-foreground space-y-1">
+          <p>
+            <strong>Manual entry</strong> — record bookings from any source (phone, email, walk-in, Viator, Airbnb, etc.).
+            This does NOT connect to booking platforms.
+          </p>
+          <p>
+            Adjust guest count as needed. When capacity is reached, TourSync auto-blocks the date on Airbnb
+            (prevents new bookings, does NOT cancel existing ones).
+          </p>
+        </div>
         <div className="space-y-3">
           <div>
             <Label>Date (JST)</Label>
@@ -236,9 +246,6 @@ export function BookingModal({
           >
             {loading ? "Adding..." : "Add Booking"}
           </Button>
-          <p className="text-xs text-muted-foreground text-center">
-            If this fills the tour time slot, TourSync will auto-block on Google Calendar.
-          </p>
         </div>
       </DialogContent>
     </Dialog>

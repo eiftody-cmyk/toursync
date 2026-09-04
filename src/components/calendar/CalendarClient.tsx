@@ -253,7 +253,10 @@ export function CalendarClient({
             >
               + Add Booking
             </Button>
-          </div>
+            </div>
+            <p className="text-xs text-muted-foreground mt-2">
+              Manual entry — record bookings from any source. Auto-blocks when full.
+            </p>
         </CardContent>
       </Card>
 
