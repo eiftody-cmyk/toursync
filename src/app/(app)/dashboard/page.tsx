@@ -167,15 +167,18 @@ export default async function DashboardPage() {
               <p className="text-muted-foreground">No blocks. Click a date on the calendar to block it.</p>
             ) : (
               <ul className="space-y-2">
-                {blocked.slice(0, 8).map((bl) => (
-                  <li key={bl.id} className="flex justify-between border-b pb-1 last:border-0">
-                    <span>
-                      {bl.date}
-                      {bl.reason ? ` — ${bl.reason}` : ""}
-                    </span>
-                    {bl.is_auto_blocked && <Badge variant="destructive">auto</Badge>}
-                  </li>
-                ))}
+                {blocked.slice(0, 8).map((bl) => {
+                  const tour = tours?.find((t) => t.id === bl.tour_id);
+                  return (
+                    <li key={bl.id} className="flex justify-between border-b pb-1 last:border-0">
+                      <Link href={`/calendar?tour=${bl.tour_id ?? ""}`} className="hover:underline">
+                        {bl.date} · {tour?.name ?? "All tours"}
+                        {bl.reason ? ` — ${bl.reason}` : ""}
+                      </Link>
+                      {bl.is_auto_blocked && <Badge variant="destructive">auto</Badge>}
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </CardContent>
