@@ -24,22 +24,28 @@ export default async function ToursPage() {
       <div>
         <h1 className="text-2xl font-bold">Tours</h1>
         <p className="text-sm text-muted-foreground">
-          Manage your tours. Capacity controls auto-block when full (e.g. 6 guests max).
+          Create and manage your tours. Each tour has a capacity limit — when bookings reach that limit,
+          TourSync automatically blocks the date on Airbnb.
         </p>
       </div>
 
       <Card className="bg-muted/40">
         <CardHeader>
-          <CardTitle className="text-sm">Suggested tours (from your site)</CardTitle>
+          <CardTitle className="text-sm">Creating a Tour</CardTitle>
         </CardHeader>
         <CardContent className="text-xs text-muted-foreground space-y-1">
-          <div className="flex gap-2 flex-wrap">
-            <Badge variant="outline">Before Japan Had a Name — 6 guests</Badge>
-            <Badge variant="outline">Warrior Monks, a Peasant, and a Shogun — 6 guests</Badge>
-            <Badge variant="outline">A Lord, a Concubine, and a Shogun&apos;s Lie — 6 guests</Badge>
-            <Badge variant="outline">Goddess, Queen, Empress, Concubine — 6 guests</Badge>
-          </div>
-          <p>Tip: All 150-min walks are capped at 6. Premium 5h tour also 6. Prices ¥9,500 / ¥28,000.</p>
+          <p>When you click <strong>+ New Tour</strong>, fill in:</p>
+          <ul className="list-disc pl-4 space-y-0.5">
+            <li><strong>Name</strong> — Your tour name (e.g. &quot;Warrior Monks, a Peasant, and a Shogun&quot;)</li>
+            <li><strong>Description</strong> — Optional details about the tour</li>
+            <li><strong>Capacity</strong> — Max guests per tour (used for auto-blocking when full)</li>
+            <li><strong>Price</strong> — Tour price (optional)</li>
+            <li><strong>Currency</strong> — JPY, USD, EUR, etc.</li>
+          </ul>
+          <p className="pt-1">
+            A Google Calendar is automatically created for each tour.
+            Connect it to your Airbnb Experience to sync blocked dates.
+          </p>
         </CardContent>
       </Card>
 
