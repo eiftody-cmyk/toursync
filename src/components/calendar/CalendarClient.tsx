@@ -237,19 +237,13 @@ export function CalendarClient({
             <Button
               variant="outline"
               size="sm"
-              onClick={() => {
-                if (!selectedDate) toast.error("Click a date on the calendar first");
-                else setBlockOpen(true);
-              }}
+              onClick={() => setBlockOpen(true)}
             >
               + Block Date
             </Button>
             <Button
               size="sm"
-              onClick={() => {
-                if (!selectedDate) toast.error("Click a date on the calendar first");
-                else setBookingOpen(true);
-              }}
+              onClick={() => setBookingOpen(true)}
             >
               + Add Booking
             </Button>
