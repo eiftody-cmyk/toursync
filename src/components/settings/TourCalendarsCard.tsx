@@ -118,14 +118,6 @@ export function TourCalendarsCard() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-muted-foreground">
-          Create a calendar for each tour using the button above. Then in Airbnb:
-          <br />
-          Go to your Experience → <strong>Availability</strong> → <strong>Connect your Google Calendar</strong> → select the
-          calendar with the matching tour name.
-          <br />
-          Repeat for each tour 1:1.
-        </p>
       </CardContent>
     </Card>
   );

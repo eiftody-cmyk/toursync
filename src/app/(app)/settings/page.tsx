@@ -112,22 +112,20 @@ export default async function SettingsPage({
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">How Airbnb sync works</CardTitle>
+          <CardTitle className="text-base">Step 3: Connect Calendars in Airbnb</CardTitle>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground space-y-2">
+          <p>For each Airbnb Experience:</p>
           <ol className="list-decimal pl-5 space-y-1">
-            <li>You block a date in TourSync → TourSync creates a &quot;busy&quot; event on Google Calendar.</li>
-            <li>Google pushes the busy event to Airbnb — usually immediate, allow a minute for propagation.</li>
-            <li>You unblock → TourSync deletes the Google event → Google pushes the removal to Airbnb.</li>
-            <li>
-              Auto-block: when bookings fill a tour (e.g. 4+2 = 6), TourSync auto-creates a block so Airbnb shows
-              unavailable.
-            </li>
-            <li>
-              Per-tour calendars: create a calendar per tour so each Airbnb Experience syncs independently.
-              Block one tour without affecting others.
-            </li>
+            <li>Go to your listing on Airbnb.</li>
+            <li>Click <strong>Availability</strong>.</li>
+            <li>Scroll to the bottom and click <strong>Connect your Google Calendar</strong>.</li>
+            <li>Select the calendar with the matching tour name from TourSync.</li>
           </ol>
+          <p className="pt-1">
+            Repeat for each tour. Once connected, blocking a date in TourSync will automatically mark it as
+            unavailable on Airbnb.
+          </p>
         </CardContent>
       </Card>
     </div>
