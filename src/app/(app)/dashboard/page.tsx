@@ -146,15 +146,18 @@ export default async function DashboardPage() {
             ) : (
               <div className="max-h-64 overflow-y-auto">
                 <ul className="space-y-2">
-                  {bookings.map((b) => (
-                    <li key={b.id} className="flex justify-between border-b pb-1 last:border-0">
-                      <span>
-                        {b.date} · +{b.guest_count} guest{b.guest_count !== 1 && "s"}
-                        {b.source && ` (${b.source})`}
-                      </span>
-                      <span className="text-muted-foreground">{b.customer_name ?? ""}</span>
-                    </li>
-                  ))}
+                  {bookings.map((b) => {
+                    const tour = tours?.find((t) => t.id === b.tour_id);
+                    return (
+                      <li key={b.id} className="flex justify-between border-b pb-1 last:border-0">
+                        <span>
+                          {b.date} · {tour?.name ?? "Unknown tour"} · +{b.guest_count} guest{b.guest_count !== 1 && "s"}
+                          {b.source && ` (${b.source})`}
+                        </span>
+                        <span className="text-muted-foreground">{b.customer_name ?? ""}</span>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}
