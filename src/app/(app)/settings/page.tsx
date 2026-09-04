@@ -70,7 +70,7 @@ export default async function SettingsPage({
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Google Calendar Account</CardTitle>
+          <CardTitle className="text-base">Step 1: Google Calendar Account</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
           {token ? (
@@ -83,7 +83,6 @@ export default async function SettingsPage({
               )}
               <p className="text-muted-foreground">
                 This connects TourSync to your Google account so it can create calendars and manage events.
-                This is required before you can set up per-tour calendars below.
               </p>
               <div className="flex gap-2">
                 <Button asChild size="sm" variant="outline">
@@ -100,7 +99,6 @@ export default async function SettingsPage({
             <>
               <p className="text-muted-foreground">
                 Connect your Google account to give TourSync access to create and manage calendars.
-                This is a prerequisite — you still need to create per-tour calendars below.
               </p>
               <Button asChild size="sm">
                 <a href="/api/auth/google">Connect Google Calendar</a>

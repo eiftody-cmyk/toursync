@@ -70,13 +70,13 @@ export function TourCalendarsCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Per-Tour Calendars (Required)</CardTitle>
+        <CardTitle className="text-base">Step 2: Per-Tour Calendars</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3 text-sm">
         <p className="text-muted-foreground">
           Every tour <strong>MUST</strong> have its own calendar for Airbnb sync to work.
           When you block a date, only that tour&apos;s calendar gets a &quot;busy&quot; event — other Airbnb Experiences
-          stay live. Create a calendar for each tour, then paste its iCal URL into the matching Airbnb Experience.
+          stay live.
         </p>
         <div className="space-y-2">
           {tours.map((t) => (
@@ -119,25 +119,13 @@ export function TourCalendarsCard() {
           ))}
         </div>
         <p className="text-xs text-muted-foreground">
-          Each tour needs its own calendar for per-tour blocking. For each tour:
+          Create a calendar for each tour using the button above. Then in Airbnb:
           <br />
-          <strong>Google Calendar</strong> → Settings → left sidebar → click <code>TourSync — [Tour]</code> → scroll to{" "}
-          <strong>Integrate calendar</strong> → copy <strong>Secret address in iCal format</strong> (starts with{" "}
-          <code>https://calendar.google.com/calendar/ical/...</code>).
+          Go to your Experience → <strong>Availability</strong> → <strong>Connect your Google Calendar</strong> → select the
+          calendar with the matching tour name.
           <br />
-          <strong>Airbnb</strong> → that Experience → Availability → Sync calendars → Import calendar → paste the secret
-          URL.
-          <br />
-          Repeat for each tour 1:1. Do <em>not</em> use Google Calendar&apos;s &quot;Add calendar from URL&quot; — that
-          imports the opposite direction (Airbnb → Google).
+          Repeat for each tour 1:1.
         </p>
-        <div className="p-2 rounded bg-muted text-[11px] text-muted-foreground border">
-          <strong>Why Secret?</strong> Google&apos;s warning &quot;don&apos;t give to other people&quot; means don&apos;t
-          share the link with humans. Pasting into Airbnb as an &quot;other application&quot; is the intended use — Airbnb
-          stores it server-side and polls privately. Calendar stays private. You can reset the URL anytime: same Settings →{" "}
-          <strong>Integrate calendar</strong> → <strong>Reset secret address</strong>. &quot;Public address&quot; works too
-          but requires making the calendar world-readable — not recommended.
-        </div>
       </CardContent>
     </Card>
   );
