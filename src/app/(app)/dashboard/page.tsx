@@ -144,17 +144,19 @@ export default async function DashboardPage() {
             {!bookings || bookings.length === 0 ? (
               <p className="text-muted-foreground">No bookings yet. Add one from the calendar.</p>
             ) : (
-              <ul className="space-y-2">
-                {bookings.slice(0, 8).map((b) => (
-                  <li key={b.id} className="flex justify-between border-b pb-1 last:border-0">
-                    <span>
-                      {b.date} · +{b.guest_count} guest{b.guest_count !== 1 && "s"}
-                      {b.source && ` (${b.source})`}
-                    </span>
-                    <span className="text-muted-foreground">{b.customer_name ?? ""}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="max-h-64 overflow-y-auto">
+                <ul className="space-y-2">
+                  {bookings.map((b) => (
+                    <li key={b.id} className="flex justify-between border-b pb-1 last:border-0">
+                      <span>
+                        {b.date} · +{b.guest_count} guest{b.guest_count !== 1 && "s"}
+                        {b.source && ` (${b.source})`}
+                      </span>
+                      <span className="text-muted-foreground">{b.customer_name ?? ""}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </CardContent>
         </Card>
