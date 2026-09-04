@@ -166,20 +166,22 @@ export default async function DashboardPage() {
             {!blocked || blocked.length === 0 ? (
               <p className="text-muted-foreground">No blocks. Click a date on the calendar to block it.</p>
             ) : (
-              <ul className="space-y-2">
-                {blocked.map((bl) => {
-                  const tour = tours?.find((t) => t.id === bl.tour_id);
-                  return (
-                    <li key={bl.id} className="flex justify-between border-b pb-1 last:border-0">
-                      <Link href={`/calendar?tour=${bl.tour_id ?? ""}`} className="hover:underline">
-                        {bl.date} · {tour?.name ?? "All tours"}
-                        {bl.reason ? ` — ${bl.reason}` : ""}
-                      </Link>
-                      {bl.is_auto_blocked && <Badge variant="destructive">auto</Badge>}
-                    </li>
-                  );
-                })}
-              </ul>
+              <div className="max-h-64 overflow-y-auto">
+                <ul className="space-y-2">
+                  {blocked.map((bl) => {
+                    const tour = tours?.find((t) => t.id === bl.tour_id);
+                    return (
+                      <li key={bl.id} className="flex justify-between border-b pb-1 last:border-0">
+                        <Link href={`/calendar?tour=${bl.tour_id ?? ""}`} className="hover:underline">
+                          {bl.date} · {tour?.name ?? "All tours"}
+                          {bl.reason ? ` — ${bl.reason}` : ""}
+                        </Link>
+                        {bl.is_auto_blocked && <Badge variant="destructive">auto</Badge>}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             )}
           </CardContent>
         </Card>
