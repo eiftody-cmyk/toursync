@@ -29,7 +29,12 @@ export default async function SettingsPage({
 
   return (
     <div className="space-y-6 max-w-2xl">
-      <h1 className="text-2xl font-bold">Settings</h1>
+      <div>
+        <h1 className="text-2xl font-bold">Settings</h1>
+        <p className="text-sm text-muted-foreground">
+          Manage your Google Calendar connection and Airbnb sync.
+        </p>
+      </div>
 
       {success && (
         <Card className="border-emerald-300 bg-emerald-50 dark:bg-emerald-950/20">

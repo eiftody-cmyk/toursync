@@ -22,7 +22,6 @@ const CODE_PATTERNS: Record<Channel, RegExp> = {
   viator: /^\d{7}P\d+$/,
   gyg: /^T-\d+$/,
   travelio: /^PRD-[A-Z0-9]{6}$/,
-  airbnb: /^.+$/, // Airbnb uses calendar URL, any code valid
 };
 
 function validateCode(channel: Channel, code: string): string | null {

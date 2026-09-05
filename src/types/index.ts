@@ -63,7 +63,7 @@ export type TourChannelListing = {
   id: string;
   tour_id: string;
   user_id: string;
-  channel: "viator" | "gyg" | "travelio" | "airbnb";
+  channel: "viator" | "gyg" | "travelio";
   external_product_code: string;
   supplier_code: string | null;
   listing_url: string | null;
@@ -71,7 +71,7 @@ export type TourChannelListing = {
   created_at: string;
 };
 
-export const CHANNELS = ["viator", "gyg", "travelio", "airbnb"] as const;
+export const CHANNELS = ["viator", "gyg", "travelio"] as const;
 
 export type Channel = (typeof CHANNELS)[number];
 
@@ -79,7 +79,6 @@ export const CHANNEL_LABELS: Record<Channel, string> = {
   viator: "Viator",
   gyg: "GetYourGuide",
   travelio: "Travelio",
-  airbnb: "Airbnb",
 };
 
 export type TourSchedule = {
