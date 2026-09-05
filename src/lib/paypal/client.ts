@@ -51,7 +51,7 @@ export async function createPaypalOrder(params: CreateOrderParams): Promise<PayP
           custom_id: params.customId,
           amount: {
             currency_code: params.currency,
-            value: (params.amount / 100).toFixed(2),
+            value: params.currency === "JPY" ? String(params.amount) : (params.amount / 100).toFixed(2),
           },
         },
       ],
