@@ -13,6 +13,11 @@ const DAY_FULL = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 const DEFAULT_TIME = "10:00";
 const DEFAULT_DURATION = 150;
 
+// PostgreSQL time returns "10:00:00" — strip seconds for display and comparison
+function normalizeTime(t: string): string {
+  return t.length > 5 ? t.slice(0, 5) : t;
+}
+
 export function ScheduleEditor({ tourId }: { tourId: string }) {
   const [schedules, setSchedules] = useState<TourSchedule[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,7 +72,7 @@ export function ScheduleEditor({ tourId }: { tourId: string }) {
     setSavingDay(dayOfWeek);
 
     // Find an unused time for this day
-    const existingTimes = (byDay[dayOfWeek] ?? []).map((s) => s.start_time);
+    const existingTimes = (byDay[dayOfWeek] ?? []).map((s) => normalizeTime(s.start_time));
     let newTime = DEFAULT_TIME;
     if (existingTimes.includes(newTime)) {
       // Try 14:00, then 09:00, then any hour not taken
@@ -222,15 +227,21 @@ export function ScheduleEditor({ tourId }: { tourId: string }) {
                   <Input
                     type="time"
                     className="h-7 w-28 text-xs font-mono"
-                    value={s.start_time}
-                    onChange={(e) => updateSlotTime(s, e.target.value)}
+                    defaultValue={normalizeTime(s.start_time)}
+                    onBlur={(e) => {
+                      const val = e.target.value;
+                      if (val !== normalizeTime(s.start_time)) updateSlotTime(s, val);
+                    }}
                   />
                   <Input
                     type="number"
                     className="h-7 w-20 text-xs"
                     min={15}
-                    value={s.duration_minutes}
-                    onChange={(e) => updateSlotDuration(s, e.target.value)}
+                    defaultValue={s.duration_minutes}
+                    onBlur={(e) => {
+                      const val = parseInt(e.target.value, 10);
+                      if (val && val >= 15 && val !== s.duration_minutes) updateSlotDuration(s, String(val));
+                    }}
                   />
                   <span className="text-xs text-muted-foreground">min</span>
                   <Button
