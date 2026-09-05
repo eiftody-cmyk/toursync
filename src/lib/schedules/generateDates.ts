@@ -7,6 +7,12 @@ export interface AvailableDate {
   remaining: number;
 }
 
+export interface DateAvailability {
+  available: AvailableDate[];
+  blocked: string[]; // YYYY-MM-DD
+  full: string[]; // YYYY-MM-DD
+}
+
 // PostgreSQL time returns "10:00:00" — strip seconds for consistent comparison
 function normalizeTime(t: string | null): string {
   if (!t) return "00:00";
@@ -15,19 +21,13 @@ function normalizeTime(t: string | null): string {
 
 /**
  * Generate available dates for a tour based on its schedule.
- *
- * 1. Fetch active schedules for the tour
- * 2. Generate all matching dates from start_date to end_date (or 3 months ahead)
- * 3. Remove exceptions (holidays, cancellations)
- * 4. Remove manually blocked dates
- * 5. Remove dates with zero remaining capacity
- * 6. Return available dates with remaining spots
+ * Returns available dates, blocked dates, and full dates for calendar display.
  */
 export async function generateAvailableDates(
   supabase: SupabaseClient,
   tourId: string,
   monthsAhead: number = 6
-): Promise<AvailableDate[]> {
+): Promise<DateAvailability> {
   // 1. Fetch active schedules
   const { data: schedules } = await supabase
     .from("tour_schedules")
@@ -35,7 +35,7 @@ export async function generateAvailableDates(
     .eq("tour_id", tourId)
     .eq("is_active", true);
 
-  if (!schedules?.length) return [];
+  if (!schedules?.length) return { available: [], blocked: [], full: [] };
 
   // 2. Fetch exceptions
   const { data: exceptions } = await supabase
@@ -51,9 +51,16 @@ export async function generateAvailableDates(
     .select("date, start_time")
     .eq("tour_id", tourId);
 
-  const blockedSet = new Set(
+  // Track blocked per date+time AND per date
+  const blockedTimeSet = new Set(
     (blocked ?? []).map((b) => `${b.date}_${normalizeTime(b.start_time)}`)
   );
+  const blockedDateSet = new Set<string>();
+  for (const b of blocked ?? []) {
+    // A date is "blocked" on the calendar if ALL its time slots are blocked
+    // For now, track individual blocked slots
+    blockedDateSet.add(b.date);
+  }
 
   // 4. Fetch tour capacity
   const { data: tour } = await supabase
@@ -64,11 +71,13 @@ export async function generateAvailableDates(
 
   const capacity = tour?.capacity ?? 10;
 
-  // 5. Generate all candidate dates first
+  // 5. Generate all candidate dates
   const now = new Date();
   const cutoff = new Date();
   cutoff.setMonth(cutoff.getMonth() + monthsAhead);
 
+  // Track all dates that have a schedule (for blocked detection)
+  const allScheduledDates = new Set<string>();
   const candidateDates: Array<{ date: string; schedule: typeof schedules[number] }> = [];
 
   for (const schedule of schedules) {
@@ -87,23 +96,37 @@ export async function generateAvailableDates(
 
     while (current <= effectiveEnd) {
       const dateStr = current.toISOString().split("T")[0];
+      allScheduledDates.add(dateStr);
 
-      if (!exceptionDates.has(dateStr)) {
-        const blockKey = `${dateStr}_${normalizeTime(schedule.start_time)}`;
-        if (!blockedSet.has(blockKey)) {
-          candidateDates.push({ date: dateStr, schedule });
-        }
+      // Skip exceptions
+      if (exceptionDates.has(dateStr)) {
+        current.setDate(current.getDate() + 7);
+        continue;
       }
 
+      // Skip blocked time slots
+      const blockKey = `${dateStr}_${normalizeTime(schedule.start_time)}`;
+      if (blockedTimeSet.has(blockKey)) {
+        // This slot is blocked — if ALL slots for this date are blocked, mark as fully blocked
+        current.setDate(current.getDate() + 7);
+        continue;
+      }
+
+      candidateDates.push({ date: dateStr, schedule });
       current.setDate(current.getDate() + 7);
     }
   }
 
-  if (candidateDates.length === 0) return [];
+  if (candidateDates.length === 0 && allScheduledDates.size === 0) {
+    return { available: [], blocked: [], full: [] };
+  }
 
   // 6. Batch fetch ALL bookings for this tour in one query
-  const earliestDate = candidateDates[0].date;
-  const latestDate = candidateDates[candidateDates.length - 1].date;
+  const allDates = [...allScheduledDates].sort();
+  if (allDates.length === 0) return { available: [], blocked: [], full: [] };
+
+  const earliestDate = allDates[0];
+  const latestDate = allDates[allDates.length - 1];
 
   const { data: allBookings } = await supabase
     .from("bookings")
@@ -119,8 +142,27 @@ export async function generateAvailableDates(
     bookedMap[key] = (bookedMap[key] ?? 0) + (b.guest_count ?? 0);
   }
 
-  // 8. Build available dates
+  // 8. Build available dates and identify full dates
   const available: AvailableDate[] = [];
+  const fullDates: string[] = [];
+  const blockedDates: string[] = [];
+
+  // Find fully blocked dates (all time slots for a date are blocked)
+  for (const dateStr of allScheduledDates) {
+    const slotsForDate = schedules.filter((s) => {
+      const d = new Date(dateStr + "T00:00:00");
+      return d.getDay() === s.day_of_week;
+    });
+
+    const allSlotsBlocked = slotsForDate.every((s) => {
+      const key = `${dateStr}_${normalizeTime(s.start_time)}`;
+      return blockedTimeSet.has(key) || exceptionDates.has(dateStr);
+    });
+
+    if (allSlotsBlocked && slotsForDate.length > 0) {
+      blockedDates.push(dateStr);
+    }
+  }
 
   for (const { date, schedule } of candidateDates) {
     const timeKey = `${date}_${normalizeTime(schedule.start_time)}`;
@@ -134,13 +176,17 @@ export async function generateAvailableDates(
         duration_minutes: schedule.duration_minutes,
         remaining,
       });
+    } else {
+      fullDates.push(date);
     }
   }
 
-  // Sort by date + time
+  // Sort
   available.sort((a, b) =>
     a.date === b.date ? a.start_time.localeCompare(b.start_time) : a.date.localeCompare(b.date)
   );
+  blockedDates.sort();
+  fullDates.sort();
 
-  return available;
+  return { available, blocked: blockedDates, full: fullDates };
 }

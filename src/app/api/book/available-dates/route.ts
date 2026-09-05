@@ -9,6 +9,6 @@ export async function GET(req: NextRequest) {
   }
 
   const supabase = await createClient();
-  const dates = await generateAvailableDates(supabase, tourId);
-  return NextResponse.json({ dates });
+  const result = await generateAvailableDates(supabase, tourId);
+  return NextResponse.json(result);
 }

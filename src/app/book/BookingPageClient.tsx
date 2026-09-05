@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,6 +15,18 @@ interface AvailableDate {
   start_time: string;
   duration_minutes: number;
   remaining: number;
+}
+
+interface DateData {
+  available: AvailableDate[];
+  blocked: string[];
+  full: string[];
+}
+
+interface BookingPageClientProps {
+  tour: Tour;
+  companyName: string | null;
+  logoUrl: string | null;
 }
 
 // Extract local date as YYYY-MM-DD (avoids UTC shift from toISOString)
@@ -30,8 +43,8 @@ function parseDateStr(dateStr: string): Date {
   return new Date(y, m - 1, d);
 }
 
-export function BookingPageClient({ tour }: { tour: Tour }) {
-  const [dates, setDates] = useState<AvailableDate[]>([]);
+export function BookingPageClient({ tour, companyName, logoUrl }: BookingPageClientProps) {
+  const [dateData, setDateData] = useState<DateData>({ available: [], blocked: [], full: [] });
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<AvailableDate | null>(null);
@@ -43,8 +56,8 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
   useEffect(() => {
     fetch(`/api/book/available-dates?tour_id=${tour.id}`)
       .then((r) => r.json())
-      .then((d) => setDates(d.dates ?? []))
-      .catch(() => setDates([]))
+      .then((d) => setDateData({ available: d.available ?? [], blocked: d.blocked ?? [], full: d.full ?? [] }))
+      .catch(() => setDateData({ available: [], blocked: [], full: [] }))
       .finally(() => setLoading(false));
   }, [tour.id]);
 
@@ -55,20 +68,46 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
     }
   }, [selectedSlot]);
 
-  // Build a set of available date strings for quick lookup
-  const availableDateSet = useMemo(() => new Set(dates.map((d) => d.date)), [dates]);
+  // Build sets for quick lookup
+  const availableDateSet = useMemo(() => new Set(dateData.available.map((d) => d.date)), [dateData]);
+  const blockedDateSet = useMemo(() => new Set(dateData.blocked), [dateData]);
+  const fullDateSet = useMemo(() => new Set(dateData.full), [dateData]);
+
+  // All dates that have any status (for calendar display)
+  const allStatusDates = useMemo(() => {
+    const map = new Map<string, "available" | "blocked" | "full">();
+    for (const d of dateData.available) map.set(d.date, "available");
+    for (const d of dateData.blocked) map.set(d, "blocked");
+    for (const d of dateData.full) map.set(d, "full");
+    return map;
+  }, [dateData]);
+
+  // Date objects for calendar modifiers
+  const availableDateObjects = useMemo(
+    () => dateData.available.map((d) => parseDateStr(d.date)),
+    [dateData]
+  );
+  const blockedDateObjects = useMemo(
+    () => dateData.blocked.map((d) => parseDateStr(d)),
+    [dateData]
+  );
+  const fullDateObjects = useMemo(
+    () => dateData.full.map((d) => parseDateStr(d)),
+    [dateData]
+  );
 
   // Get time slots for a given date
   const slotsForDate = useMemo(() => {
     if (!selectedDate) return [];
-    return dates.filter((d) => d.date === selectedDate);
-  }, [dates, selectedDate]);
+    return dateData.available.filter((d) => d.date === selectedDate);
+  }, [dateData, selectedDate]);
 
   // When user clicks a date on the calendar
   function handleDateClick(date: Date | undefined) {
     if (!date) return;
     const dateStr = toDateStr(date);
-    if (!availableDateSet.has(dateStr)) return;
+    const status = allStatusDates.get(dateStr);
+    if (!status || status !== "available") return;
 
     setSelectedDate(dateStr);
     setSelectedSlot(null);
@@ -76,7 +115,7 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
     setError(null);
 
     // If only one slot, auto-select it
-    const slots = dates.filter((d) => d.date === dateStr);
+    const slots = dateData.available.filter((d) => d.date === dateStr);
     if (slots.length === 1) {
       setSelectedSlot(slots[0]);
     }
@@ -131,20 +170,28 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
 
   const currencySymbol = tour.currency === "JPY" ? "¥" : tour.currency + " ";
   const pricePerGuest = tour.price ?? 0;
-
-  // Convert available dates to Date objects for the calendar modifier
-  const availableDateObjects = useMemo(
-    () => dates.map((d) => parseDateStr(d.date)),
-    [dates]
-  );
+  const displayName = companyName || "TourSync";
 
   return (
     <div className="min-h-screen bg-muted/20">
       {/* Minimal header */}
       <header className="border-b bg-card/50">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-          <Link href="/" className="font-bold text-lg">TourSync</Link>
-          <Link href="/login" className="text-sm text-muted-foreground underline">Tour Operators</Link>
+          <Link href="/" className="flex items-center gap-2 font-bold text-lg">
+            {logoUrl ? (
+              <Image
+                src={logoUrl}
+                alt={displayName}
+                width={32}
+                height={32}
+                className="rounded"
+              />
+            ) : null}
+            {displayName}
+          </Link>
+          {!companyName && (
+            <Link href="/login" className="text-sm text-muted-foreground underline">Tour Operators</Link>
+          )}
         </div>
       </header>
 
@@ -172,7 +219,7 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
               <p className="text-sm text-muted-foreground">Loading available dates...</p>
             </CardContent>
           </Card>
-        ) : dates.length === 0 ? (
+        ) : dateData.available.length === 0 && dateData.blocked.length === 0 && dateData.full.length === 0 ? (
           <Card>
             <CardContent className="pt-6">
               <p className="text-sm text-muted-foreground">
@@ -193,15 +240,37 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
                     mode="single"
                     selected={selectedDate ? parseDateStr(selectedDate) : undefined}
                     onSelect={handleDateClick}
-                    disabled={(date) => !availableDateSet.has(toDateStr(date))}
+                    disabled={(date) => {
+                      const status = allStatusDates.get(toDateStr(date));
+                      return !status || status !== "available";
+                    }}
                     modifiers={{
                       available: availableDateObjects,
+                      blocked: blockedDateObjects,
+                      full: fullDateObjects,
                     }}
                     modifiersClassNames={{
                       available: "bg-primary/10 text-primary font-semibold hover:bg-primary/20",
+                      blocked: "bg-red-100 text-red-400 line-through dark:bg-red-950/30 dark:text-red-500",
+                      full: "bg-orange-100 text-orange-600 dark:bg-orange-950/30 dark:text-orange-400",
                     }}
                     showOutsideDays={false}
                   />
+                </div>
+                {/* Legend */}
+                <div className="flex flex-wrap gap-3 mt-4 justify-center text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <span className="w-3 h-3 rounded bg-primary/20 border border-primary/30" />
+                    Available
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="w-3 h-3 rounded bg-red-100 border border-red-200 dark:bg-red-950/30 dark:border-red-800" />
+                    Blocked
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="w-3 h-3 rounded bg-orange-100 border border-orange-200 dark:bg-orange-950/30 dark:border-orange-800" />
+                    Full
+                  </span>
                 </div>
               </CardContent>
             </Card>

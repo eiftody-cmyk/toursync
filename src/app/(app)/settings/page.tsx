@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TourCalendarsCard } from "@/components/settings/TourCalendarsCard";
+import { CompanyBrandingCard } from "@/components/settings/CompanyBrandingCard";
 
 export default async function SettingsPage({
   searchParams,
@@ -72,6 +73,11 @@ export default async function SettingsPage({
           </form>
         </CardContent>
       </Card>
+
+      <CompanyBrandingCard
+        initialCompanyName={profile?.company_name ?? null}
+        initialLogoUrl={profile?.logo_url ?? null}
+      />
 
       <Card>
         <CardHeader>

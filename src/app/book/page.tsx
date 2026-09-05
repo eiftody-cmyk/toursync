@@ -21,7 +21,6 @@ export default async function BookingPage({
   let tour = null;
 
   if (isUuid(tourParam)) {
-    // Lookup by UUID
     const { data } = await supabase
       .from("tours")
       .select("*")
@@ -29,7 +28,6 @@ export default async function BookingPage({
       .single();
     tour = data;
   } else {
-    // Lookup by name (URL-decoded)
     const decodedName = decodeURIComponent(tourParam);
     const { data } = await supabase
       .from("tours")
@@ -42,5 +40,18 @@ export default async function BookingPage({
 
   if (!tour) notFound();
 
-  return <BookingPageClient tour={tour as Tour} />;
+  // Fetch tour owner's profile for white-label branding
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("company_name, logo_url")
+    .eq("id", tour.user_id)
+    .single();
+
+  return (
+    <BookingPageClient
+      tour={tour as Tour}
+      companyName={profile?.company_name ?? null}
+      logoUrl={profile?.logo_url ?? null}
+    />
+  );
 }
