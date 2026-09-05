@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Calendar } from "@/components/ui/calendar";
 import type { Tour } from "@/types";
-import { DAY_NAMES } from "@/types";
 
 interface AvailableDate {
   date: string;
@@ -19,7 +19,8 @@ interface AvailableDate {
 export function BookingPageClient({ tour }: { tour: Tour }) {
   const [dates, setDates] = useState<AvailableDate[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState<AvailableDate | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<AvailableDate | null>(null);
   const [guestCount, setGuestCount] = useState("2");
   const [booking, setBooking] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,8 +33,42 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
       .finally(() => setLoading(false));
   }, [tour.id]);
 
+  // Build a set of available date strings for quick lookup
+  const availableDateSet = useMemo(() => new Set(dates.map((d) => d.date)), [dates]);
+
+  // Get time slots for a given date
+  const slotsForDate = useMemo(() => {
+    if (!selectedDate) return [];
+    return dates.filter((d) => d.date === selectedDate);
+  }, [dates, selectedDate]);
+
+  // When user clicks a date on the calendar
+  function handleDateClick(date: Date | undefined) {
+    if (!date) return;
+    const dateStr = date.toISOString().split("T")[0];
+    if (!availableDateSet.has(dateStr)) return;
+
+    setSelectedDate(dateStr);
+    setSelectedSlot(null);
+    setGuestCount("2");
+    setError(null);
+
+    // If only one slot, auto-select it
+    const slots = dates.filter((d) => d.date === dateStr);
+    if (slots.length === 1) {
+      setSelectedSlot(slots[0]);
+    }
+  }
+
+  // When user clicks a time slot button
+  function handleSlotClick(slot: AvailableDate) {
+    setSelectedSlot(slot);
+    setGuestCount("2");
+    setError(null);
+  }
+
   async function handleBook() {
-    if (!selected) return;
+    if (!selectedSlot) return;
     const guests = parseInt(guestCount, 10);
     if (!guests || guests < 1) {
       setError("Please enter a valid guest count");
@@ -49,8 +84,8 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           tour_id: tour.id,
-          date: selected.date,
-          start_time: selected.start_time,
+          date: selectedSlot.date,
+          start_time: selectedSlot.start_time,
           guest_count: guests,
         }),
       });
@@ -63,7 +98,6 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
         return;
       }
 
-      // Redirect to PayPal
       if (data.approveUrl) {
         window.location.href = data.approveUrl;
       }
@@ -73,16 +107,14 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
     }
   }
 
-  // Group dates by month
-  const datesByMonth: Record<string, AvailableDate[]> = {};
-  for (const d of dates) {
-    const monthKey = d.date.slice(0, 7); // YYYY-MM
-    if (!datesByMonth[monthKey]) datesByMonth[monthKey] = [];
-    datesByMonth[monthKey].push(d);
-  }
-
   const currencySymbol = tour.currency === "JPY" ? "¥" : tour.currency + " ";
   const pricePerGuest = tour.price ?? 0;
+
+  // Convert available dates to Date objects for the calendar modifier
+  const availableDateObjects = useMemo(
+    () => dates.map((d) => new Date(d.date + "T00:00:00")),
+    [dates]
+  );
 
   return (
     <div className="min-h-screen bg-muted/20">
@@ -111,7 +143,7 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
           </div>
         </div>
 
-        {/* Date selection */}
+        {/* Calendar */}
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Select a Date</CardTitle>
@@ -124,57 +156,67 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
                 No available dates at this time. Check back later or contact the tour operator.
               </p>
             ) : (
-              <div className="space-y-6">
-                {Object.entries(datesByMonth).map(([monthKey, monthDates]) => {
-                  const [year, month] = monthKey.split("-");
-                  const monthName = new Date(parseInt(year), parseInt(month) - 1).toLocaleString("default", { month: "long", year: "numeric" });
-                  return (
-                    <div key={monthKey}>
-                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
-                        {monthName}
-                      </p>
-                      <div className="grid grid-cols-1 gap-2">
-                        {monthDates.map((d) => {
-                          const dateObj = new Date(d.date + "T00:00:00");
-                          const dayName = DAY_NAMES[dateObj.getDay()];
-                          const isSelected = selected?.date === d.date && selected?.start_time === d.start_time;
-                          return (
-                            <button
-                              key={`${d.date}_${d.start_time}`}
-                              onClick={() => setSelected(d)}
-                              className={`flex items-center justify-between p-3 rounded-lg border text-left transition-colors ${
-                                isSelected
-                                  ? "border-primary bg-primary/5"
-                                  : "hover:bg-muted/50"
-                              }`}
-                            >
-                              <div>
-                                <span className="font-medium">
-                                  {dayName}, {dateObj.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                                </span>
-                                {d.start_time && (
-                                  <span className="ml-2 text-muted-foreground text-sm">
-                                    {d.start_time}
-                                  </span>
-                                )}
-                              </div>
-                              <span className={`text-sm ${d.remaining <= 2 ? "text-orange-600 font-medium" : "text-muted-foreground"}`}>
-                                {d.remaining} spot{d.remaining === 1 ? "" : "s"} left
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className="flex justify-center">
+                <Calendar
+                  mode="single"
+                  selected={selectedDate ? new Date(selectedDate + "T00:00:00") : undefined}
+                  onSelect={handleDateClick}
+                  disabled={(date) => !availableDateSet.has(date.toISOString().split("T")[0])}
+                  modifiers={{
+                    available: availableDateObjects,
+                  }}
+                  modifiersClassNames={{
+                    available: "bg-primary/10 text-primary font-semibold hover:bg-primary/20",
+                  }}
+                  showOutsideDays={false}
+                />
               </div>
             )}
           </CardContent>
         </Card>
 
-        {/* Guest count + book */}
-        {selected && (
+        {/* Time slot selection */}
+        {selectedDate && slotsForDate.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">
+                {new Date(selectedDate + "T00:00:00").toLocaleDateString("en-US", {
+                  weekday: "long",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-xs text-muted-foreground mb-3">Select a time:</p>
+              <div className="flex flex-wrap gap-2">
+                {slotsForDate.map((slot) => {
+                  const isSelected =
+                    selectedSlot?.date === slot.date && selectedSlot?.start_time === slot.start_time;
+                  return (
+                    <button
+                      key={`${slot.date}_${slot.start_time}`}
+                      onClick={() => handleSlotClick(slot)}
+                      className={`px-4 py-2 rounded-lg border text-sm transition-colors ${
+                        isSelected
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "hover:bg-muted/50"
+                      }`}
+                    >
+                      {slot.start_time}
+                      <span className={`ml-2 text-xs ${slot.remaining <= 2 ? "opacity-80" : "opacity-60"}`}>
+                        {slot.remaining} spot{slot.remaining === 1 ? "" : "s"}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Book Now */}
+        {selectedSlot && (
           <Card>
             <CardHeader>
               <CardTitle className="text-base">Book Now</CardTitle>
@@ -185,13 +227,13 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
                   <strong>{tour.name}</strong>
                 </p>
                 <p className="text-muted-foreground">
-                  {new Date(selected.date + "T00:00:00").toLocaleDateString("en-US", {
+                  {new Date(selectedSlot.date + "T00:00:00").toLocaleDateString("en-US", {
                     weekday: "long",
                     month: "long",
                     day: "numeric",
                     year: "numeric",
                   })}
-                  {selected.start_time && ` at ${selected.start_time}`}
+                  {selectedSlot.start_time && ` at ${selectedSlot.start_time}`}
                 </p>
               </div>
 
@@ -200,7 +242,7 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
                 <Input
                   type="number"
                   min={1}
-                  max={selected.remaining}
+                  max={selectedSlot.remaining}
                   value={guestCount}
                   onChange={(e) => setGuestCount(e.target.value)}
                 />
@@ -219,7 +261,7 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
 
               <Button
                 onClick={handleBook}
-                disabled={booking || selected.remaining <= 0}
+                disabled={booking || selectedSlot.remaining <= 0}
                 className="w-full"
                 size="lg"
               >

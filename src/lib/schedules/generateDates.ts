@@ -26,7 +26,7 @@ function normalizeTime(t: string | null): string {
 export async function generateAvailableDates(
   supabase: SupabaseClient,
   tourId: string,
-  monthsAhead: number = 3
+  monthsAhead: number = 6
 ): Promise<AvailableDate[]> {
   // 1. Fetch active schedules
   const { data: schedules } = await supabase
