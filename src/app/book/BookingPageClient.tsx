@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,6 +16,20 @@ interface AvailableDate {
   remaining: number;
 }
 
+// Extract local date as YYYY-MM-DD (avoids UTC shift from toISOString)
+function toDateStr(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+// Parse YYYY-MM-DD string to a local Date (avoids UTC shift from new Date("YYYY-MM-DD"))
+function parseDateStr(dateStr: string): Date {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+
 export function BookingPageClient({ tour }: { tour: Tour }) {
   const [dates, setDates] = useState<AvailableDate[]>([]);
   const [loading, setLoading] = useState(true);
@@ -24,6 +38,7 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
   const [guestCount, setGuestCount] = useState("2");
   const [booking, setBooking] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const bookNowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch(`/api/book/available-dates?tour_id=${tour.id}`)
@@ -32,6 +47,13 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
       .catch(() => setDates([]))
       .finally(() => setLoading(false));
   }, [tour.id]);
+
+  // Auto-scroll to Book Now when a slot is selected
+  useEffect(() => {
+    if (selectedSlot && bookNowRef.current) {
+      bookNowRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [selectedSlot]);
 
   // Build a set of available date strings for quick lookup
   const availableDateSet = useMemo(() => new Set(dates.map((d) => d.date)), [dates]);
@@ -45,7 +67,7 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
   // When user clicks a date on the calendar
   function handleDateClick(date: Date | undefined) {
     if (!date) return;
-    const dateStr = date.toISOString().split("T")[0];
+    const dateStr = toDateStr(date);
     if (!availableDateSet.has(dateStr)) return;
 
     setSelectedDate(dateStr);
@@ -112,7 +134,7 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
 
   // Convert available dates to Date objects for the calendar modifier
   const availableDateObjects = useMemo(
-    () => dates.map((d) => new Date(d.date + "T00:00:00")),
+    () => dates.map((d) => parseDateStr(d.date)),
     [dates]
   );
 
@@ -120,13 +142,13 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
     <div className="min-h-screen bg-muted/20">
       {/* Minimal header */}
       <header className="border-b bg-card/50">
-        <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/" className="font-bold text-lg">TourSync</Link>
           <Link href="/login" className="text-sm text-muted-foreground underline">Tour Operators</Link>
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 py-8 space-y-6">
+      <main className="max-w-4xl mx-auto px-4 py-8 space-y-6">
         {/* Tour details */}
         <div>
           <h1 className="text-2xl font-bold">{tour.name}</h1>
@@ -143,132 +165,152 @@ export function BookingPageClient({ tour }: { tour: Tour }) {
           </div>
         </div>
 
-        {/* Calendar */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Select a Date</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
+        {/* Calendar + Time slots side by side on desktop */}
+        {loading ? (
+          <Card>
+            <CardContent className="pt-6">
               <p className="text-sm text-muted-foreground">Loading available dates...</p>
-            ) : dates.length === 0 ? (
+            </CardContent>
+          </Card>
+        ) : dates.length === 0 ? (
+          <Card>
+            <CardContent className="pt-6">
               <p className="text-sm text-muted-foreground">
                 No available dates at this time. Check back later or contact the tour operator.
               </p>
-            ) : (
-              <div className="flex justify-center">
-                <Calendar
-                  mode="single"
-                  selected={selectedDate ? new Date(selectedDate + "T00:00:00") : undefined}
-                  onSelect={handleDateClick}
-                  disabled={(date) => !availableDateSet.has(date.toISOString().split("T")[0])}
-                  modifiers={{
-                    available: availableDateObjects,
-                  }}
-                  modifiersClassNames={{
-                    available: "bg-primary/10 text-primary font-semibold hover:bg-primary/20",
-                  }}
-                  showOutsideDays={false}
-                />
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Time slot selection */}
-        {selectedDate && slotsForDate.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">
-                {new Date(selectedDate + "T00:00:00").toLocaleDateString("en-US", {
-                  weekday: "long",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-xs text-muted-foreground mb-3">Select a time:</p>
-              <div className="flex flex-wrap gap-2">
-                {slotsForDate.map((slot) => {
-                  const isSelected =
-                    selectedSlot?.date === slot.date && selectedSlot?.start_time === slot.start_time;
-                  return (
-                    <button
-                      key={`${slot.date}_${slot.start_time}`}
-                      onClick={() => handleSlotClick(slot)}
-                      className={`px-4 py-2 rounded-lg border text-sm transition-colors ${
-                        isSelected
-                          ? "border-primary bg-primary text-primary-foreground"
-                          : "hover:bg-muted/50"
-                      }`}
-                    >
-                      {slot.start_time}
-                      <span className={`ml-2 text-xs ${slot.remaining <= 2 ? "opacity-80" : "opacity-60"}`}>
-                        {slot.remaining} spot{slot.remaining === 1 ? "" : "s"}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
             </CardContent>
           </Card>
+        ) : (
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Calendar */}
+            <Card className="flex-1">
+              <CardHeader>
+                <CardTitle className="text-base">Select a Date</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-center">
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate ? parseDateStr(selectedDate) : undefined}
+                    onSelect={handleDateClick}
+                    disabled={(date) => !availableDateSet.has(toDateStr(date))}
+                    modifiers={{
+                      available: availableDateObjects,
+                    }}
+                    modifiersClassNames={{
+                      available: "bg-primary/10 text-primary font-semibold hover:bg-primary/20",
+                    }}
+                    showOutsideDays={false}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Time slots */}
+            <Card className="flex-1">
+              <CardHeader>
+                <CardTitle className="text-base">
+                  {selectedDate
+                    ? parseDateStr(selectedDate).toLocaleDateString("en-US", {
+                        weekday: "long",
+                        month: "long",
+                        day: "numeric",
+                      })
+                    : "Select a Time"}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {!selectedDate ? (
+                  <p className="text-sm text-muted-foreground">
+                    Click a highlighted date on the calendar to see available times.
+                  </p>
+                ) : slotsForDate.length > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {slotsForDate.map((slot) => {
+                      const isSelected =
+                        selectedSlot?.date === slot.date && selectedSlot?.start_time === slot.start_time;
+                      return (
+                        <button
+                          key={`${slot.date}_${slot.start_time}`}
+                          onClick={() => handleSlotClick(slot)}
+                          className={`px-4 py-2 rounded-lg border text-sm transition-colors ${
+                            isSelected
+                              ? "border-primary bg-primary text-primary-foreground"
+                              : "hover:bg-muted/50"
+                          }`}
+                        >
+                          {slot.start_time}
+                          <span className={`ml-2 text-xs ${slot.remaining <= 2 ? "opacity-80" : "opacity-60"}`}>
+                            {slot.remaining} spot{slot.remaining === 1 ? "" : "s"}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">No times available for this date.</p>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         )}
 
         {/* Book Now */}
         {selectedSlot && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">Book Now</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="rounded-lg bg-muted p-3 text-sm">
-                <p>
-                  <strong>{tour.name}</strong>
-                </p>
-                <p className="text-muted-foreground">
-                  {new Date(selectedSlot.date + "T00:00:00").toLocaleDateString("en-US", {
-                    weekday: "long",
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                  {selectedSlot.start_time && ` at ${selectedSlot.start_time}`}
-                </p>
-              </div>
+          <div ref={bookNowRef}>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Book Now</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="rounded-lg bg-muted p-3 text-sm">
+                  <p>
+                    <strong>{tour.name}</strong>
+                  </p>
+                  <p className="text-muted-foreground">
+                    {parseDateStr(selectedSlot.date).toLocaleDateString("en-US", {
+                      weekday: "long",
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                    {selectedSlot.start_time && ` at ${selectedSlot.start_time}`}
+                  </p>
+                </div>
 
-              <div>
-                <Label>Number of Guests</Label>
-                <Input
-                  type="number"
-                  min={1}
-                  max={selectedSlot.remaining}
-                  value={guestCount}
-                  onChange={(e) => setGuestCount(e.target.value)}
-                />
-              </div>
+                <div>
+                  <Label>Number of Guests</Label>
+                  <Input
+                    type="number"
+                    min={1}
+                    max={selectedSlot.remaining}
+                    value={guestCount}
+                    onChange={(e) => setGuestCount(e.target.value)}
+                  />
+                </div>
 
-              {pricePerGuest > 0 && (
-                <p className="text-sm text-muted-foreground">
-                  Total: {currencySymbol}
-                  {(pricePerGuest * parseInt(guestCount || "0", 10)).toLocaleString()}
-                </p>
-              )}
+                {pricePerGuest > 0 && (
+                  <p className="text-sm text-muted-foreground">
+                    Total: {currencySymbol}
+                    {(pricePerGuest * parseInt(guestCount || "0", 10)).toLocaleString()}
+                  </p>
+                )}
 
-              {error && (
-                <p className="text-sm text-destructive">{error}</p>
-              )}
+                {error && (
+                  <p className="text-sm text-destructive">{error}</p>
+                )}
 
-              <Button
-                onClick={handleBook}
-                disabled={booking || selectedSlot.remaining <= 0}
-                className="w-full"
-                size="lg"
-              >
-                {booking ? "Redirecting to PayPal..." : "Pay with PayPal"}
-              </Button>
-            </CardContent>
-          </Card>
+                <Button
+                  onClick={handleBook}
+                  disabled={booking || selectedSlot.remaining <= 0}
+                  className="w-full"
+                  size="lg"
+                >
+                  {booking ? "Redirecting to PayPal..." : "Pay with PayPal"}
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         )}
       </main>
     </div>
