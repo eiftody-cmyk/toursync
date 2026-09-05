@@ -450,6 +450,11 @@ export function ToursClient({
                     <Button variant="outline" size="sm" onClick={() => startEdit(t)}>
                       Edit Tour
                     </Button>
+                    <Button variant="outline" size="sm" asChild>
+                      <a href={`/book?tour=${t.id}`} target="_blank" rel="noopener noreferrer">
+                        Booking Page
+                      </a>
+                    </Button>
                     <Button variant="destructive" size="sm" onClick={() => remove(t.id)}>
                       Delete
                     </Button>
