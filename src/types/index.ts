@@ -18,6 +18,8 @@ export type Booking = {
   guest_count: number;
   source: string | null;
   customer_name: string | null;
+  customer_email: string | null;
+  status: string;
   start_time: string | null; // HH:MM (JST)
   end_time: string | null; // HH:MM (JST)
   notes: string | null;
@@ -124,3 +126,14 @@ export const BOOKING_SOURCES = [
 ] as const;
 
 export type BookingSource = (typeof BOOKING_SOURCES)[number];
+
+export type Notification = {
+  id: string;
+  user_id: string;
+  type: string;
+  title: string;
+  message: string;
+  link: string | null;
+  read: boolean;
+  created_at: string;
+};

@@ -132,6 +132,7 @@ export async function generateAvailableDates(
     .from("bookings")
     .select("date, start_time, guest_count")
     .eq("tour_id", tourId)
+    .eq("status", "confirmed")
     .gte("date", earliestDate)
     .lte("date", latestDate);
 

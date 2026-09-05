@@ -31,7 +31,8 @@ export async function POST(req: NextRequest) {
     .select("guest_count")
     .eq("tour_id", tour_id)
     .eq("date", date)
-    .eq("start_time", start_time ?? null);
+    .eq("start_time", start_time ?? null)
+    .eq("status", "confirmed");
 
   const { data: blocked } = await supabase
     .from("blocked_dates")

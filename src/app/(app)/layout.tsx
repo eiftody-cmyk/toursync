@@ -1,4 +1,5 @@
 import { Sidebar, MobileNav } from "@/components/layout/Sidebar";
+import { NotificationBell } from "@/components/dashboard/NotificationBell";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -25,14 +26,17 @@ export default async function AppLayout({
           <p className="text-sm text-muted-foreground truncate">
             {user.email}
           </p>
-          <form action="/auth/signout" method="post">
-            <button
-              type="submit"
-              className="text-sm underline text-muted-foreground"
-            >
-              Sign out
-            </button>
-          </form>
+          <div className="flex items-center gap-2">
+            <NotificationBell />
+            <form action="/auth/signout" method="post">
+              <button
+                type="submit"
+                className="text-sm underline text-muted-foreground"
+              >
+                Sign out
+              </button>
+            </form>
+          </div>
         </header>
         <main className="flex-1 p-4 md:p-6 bg-muted/20">{children}</main>
       </div>
