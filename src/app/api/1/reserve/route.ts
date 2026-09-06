@@ -29,9 +29,15 @@ export async function POST(req: NextRequest) {
     );
   }
   const data = (body as Record<string, unknown>) as { data?: Record<string, unknown> } | undefined;
-  const requestData = data?.data;
+  const requestData = (data?.data ?? {}) as {
+    productId?: string;
+    dateTime?: string;
+    bookingItems?: Array<{ category: string; count: number; groupSize?: number; retailPrice?: number }>;
+    gygBookingReference?: string;
+    gygActivityReference?: string;
+  };
 
-  if (!requestData?.productId || !requestData?.dateTime || !requestData?.bookingItems || !requestData?.gygBookingReference) {
+  if (!requestData.productId || !requestData.dateTime || !requestData.bookingItems || !requestData.gygBookingReference) {
     return NextResponse.json(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Missing required fields: productId, dateTime, bookingItems, gygBookingReference" },
       { status: 200 }

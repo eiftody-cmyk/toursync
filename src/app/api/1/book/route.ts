@@ -32,10 +32,22 @@ export async function POST(req: NextRequest) {
     );
   }
   const data = (body as Record<string, unknown>) as { data?: Record<string, unknown> } | undefined;
-  const requestData = data?.data;
+  const requestData = (data?.data ?? {}) as {
+    productId?: string;
+    reservationReference?: string;
+    gygBookingReference?: string;
+    gygActivityReference?: string;
+    currency?: string;
+    dateTime?: string;
+    bookingItems?: Array<{ category: string; count: number; retailPrice: number; groupSize?: number }>;
+    travelers?: Array<{ firstName: string; lastName: string; email: string; phoneNumber: string }>;
+    comment?: string;
+    language?: string;
+    travelerHotel?: string;
+  };
 
-  if (!requestData?.productId || !requestData?.reservationReference || !requestData?.gygBookingReference ||
-      !requestData?.dateTime || !requestData?.bookingItems || !requestData?.travelers) {
+  if (!requestData.productId || !requestData.reservationReference || !requestData.gygBookingReference ||
+      !requestData.dateTime || !requestData.bookingItems || !requestData.travelers) {
     return NextResponse.json(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Missing required fields" },
       { status: 200 }
