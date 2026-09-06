@@ -35,14 +35,14 @@ export async function GET(req: NextRequest) {
     .eq("is_active", true)
     .single();
 
-  if (!listing?.tours || !Array.isArray(listing.tours) || listing.tours.length === 0) {
+  if (!listing?.tours) {
     return NextResponse.json(
       { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${productId}` },
       { status: 200 }
     );
   }
 
-  const tour = listing.tours[0] as {
+  const tour = (Array.isArray(listing.tours) ? listing.tours[0] : listing.tours) as {
     id: string;
     capacity: number;
     price: number | null;
