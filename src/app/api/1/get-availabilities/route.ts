@@ -61,8 +61,8 @@ export async function GET(req: NextRequest) {
   // Parse date range
   const fromDate = new Date(fromDateTime);
   const toDate = new Date(toDateTime);
-  const fromDateStr = fromDate.toISOString().split("T")[0];
-  const toDateStr = toDate.toISOString().split("T")[0];
+  const fromDateStr = fromDateTime.split("T")[0];
+  const toDateStr = toDateTime.split("T")[0];
 
   // Fetch schedules for this tour
   const { data: schedules } = await supabase
