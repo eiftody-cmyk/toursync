@@ -30,11 +30,11 @@ export function verifyGygAuth(
   const username = colonIndex >= 0 ? decoded.substring(0, colonIndex) : decoded;
   const password = colonIndex >= 0 ? decoded.substring(colonIndex + 1) : "";
 
-  const expectedUser = process.env.GYG_USERNAME;
-  const expectedPass = process.env.GYG_PASSWORD;
+  const expectedUser = process.env.GYG_INBOUND_USERNAME;
+  const expectedPass = process.env.GYG_INBOUND_PASSWORD;
 
   if (!expectedUser || !expectedPass) {
-    console.error("[GYG auth] GYG_USERNAME or GYG_PASSWORD env var not set");
+    console.error("[GYG auth] GYG_INBOUND_USERNAME or GYG_INBOUND_PASSWORD env var not set");
     const error: GygErrorResponse = {
       errorCode: "INTERNAL_SYSTEM_FAILURE",
       errorMessage: "Server configuration error",

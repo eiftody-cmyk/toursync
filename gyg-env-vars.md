@@ -6,9 +6,11 @@ Set these in your Vercel project settings → Environment Variables.
 
 | Variable | Value | Notes |
 |----------|-------|-------|
-| `GYG_USERNAME` | `OsakaCastleWalkswithEdward` | From GYG Integrator Portal |
-| `GYG_PASSWORD` | *(your password from GYG)* | From GYG Integrator Portal |
-| `GYG_NOTIFY_URL` | *(from Integrator Portal)* | GYG's notify availability endpoint URL |
+| `GYG_USERNAME` | `OsakaCastleWalkswithEdward` | For calling GYG's notify endpoint (outbound) |
+| `GYG_PASSWORD` | *(your password from GYG)* | For calling GYG's notify endpoint (outbound) |
+| `GYG_NOTIFY_URL` | `https://supplier-api.getyourguide.com/sandbox/1/notify-availability-update` | Sandbox for testing. Change to production URL when live |
+| `GYG_INBOUND_USERNAME` | `ExperienceRelay` | GYG uses this to authenticate when calling YOUR endpoints |
+| `GYG_INBOUND_PASSWORD` | `P421105x#` | GYG uses this to authenticate when calling YOUR endpoints |
 
 ## How to Set
 
