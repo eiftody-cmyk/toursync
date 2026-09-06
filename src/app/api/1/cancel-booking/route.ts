@@ -1,16 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
+import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import type { GygEmptySuccessResponse, GygErrorResponse } from "@/lib/gyg/types";
 
 export async function POST(req: NextRequest) {
+  const reqStart = Date.now();
+  const ctx = createGygLogger("cancel-booking", req);
+
   const authError = verifyGygAuth(req);
-  if (authError) return authError;
+  if (authError) {
+    logResponse(ctx, 200, { errorCode: "AUTHORIZATION_FAILURE" }, reqStart);
+    return authError;
+  }
 
-  const body = await req.json();
-  const data = body?.data;
+  let body: unknown;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json(
+      { errorCode: "VALIDATION_FAILURE", errorMessage: "Invalid JSON body" },
+      { status: 200 }
+    );
+  }
+  const data = (body as Record<string, unknown>) as { data?: Record<string, unknown> } | undefined;
+  const requestData = data?.data;
 
-  if (!data?.bookingReference || !data?.gygBookingReference || !data?.productId) {
+  if (!requestData?.bookingReference || !requestData?.gygBookingReference || !requestData?.productId) {
     return NextResponse.json(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Missing required fields: bookingReference, gygBookingReference, productId" },
       { status: 200 }
@@ -23,14 +39,14 @@ export async function POST(req: NextRequest) {
   const { data: listing } = await supabase
     .from("tour_channel_listings")
     .select("tour_id")
-    .eq("external_product_code", data.productId)
+    .eq("external_product_code", requestData.productId)
     .eq("channel", "gyg")
     .eq("is_active", true)
     .single();
 
   if (!listing) {
     return NextResponse.json(
-      { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${data.productId}` },
+      { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${requestData.productId}` },
       { status: 200 }
     );
   }
@@ -39,7 +55,7 @@ export async function POST(req: NextRequest) {
   const { data: booking } = await supabase
     .from("bookings")
     .select("id, tour_id, date, start_time, status, guest_count")
-    .eq("id", data.bookingReference)
+    .eq("id", requestData.bookingReference)
     .eq("tour_id", listing.tour_id)
     .maybeSingle();
 
@@ -58,12 +74,13 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Check if booking is in the past
+  // Check if booking is in the past (JST-aware)
   const [y, m, d] = booking.date.split("-").map(Number);
   const startTime = booking.start_time || "00:00";
   const [h, min] = startTime.split(":").map(Number);
-  const tourStart = new Date(y, m - 1, d, h, min);
-  if (tourStart < new Date()) {
+  const nowInJST = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
+  const tourStartInJST = new Date(y, m - 1, d, h, min);
+  if (tourStartInJST < nowInJST) {
     return NextResponse.json(
       { errorCode: "BOOKING_IN_PAST", errorMessage: "Cannot cancel a booking for a tour that has already taken place" },
       { status: 200 }
@@ -135,8 +152,9 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  console.log(`[GYG cancel-booking] Booking cancelled: ${booking.id} (${data.gygBookingReference})`);
+  console.log(`[GYG cancel-booking] Booking cancelled: ${booking.id} (${requestData.gygBookingReference})`);
 
   const response: GygEmptySuccessResponse = { data: {} };
+  logResponse(ctx, 200, response, reqStart);
   return NextResponse.json(response, { status: 200 });
 }

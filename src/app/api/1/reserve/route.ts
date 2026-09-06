@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
+import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import type { GygReservationResponse, GygErrorResponse } from "@/lib/gyg/types";
 
 function normalizeTime(t: string | null): string {
@@ -9,13 +10,28 @@ function normalizeTime(t: string | null): string {
 }
 
 export async function POST(req: NextRequest) {
+  const startTime = Date.now();
+  const ctx = createGygLogger("reserve", req);
+
   const authError = verifyGygAuth(req);
-  if (authError) return authError;
+  if (authError) {
+    logResponse(ctx, 200, { errorCode: "AUTHORIZATION_FAILURE" }, startTime);
+    return authError;
+  }
 
-  const body = await req.json();
-  const data = body?.data;
+  let body: unknown;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json(
+      { errorCode: "VALIDATION_FAILURE", errorMessage: "Invalid JSON body" },
+      { status: 200 }
+    );
+  }
+  const data = (body as Record<string, unknown>) as { data?: Record<string, unknown> } | undefined;
+  const requestData = data?.data;
 
-  if (!data?.productId || !data?.dateTime || !data?.bookingItems || !data?.gygBookingReference) {
+  if (!requestData?.productId || !requestData?.dateTime || !requestData?.bookingItems || !requestData?.gygBookingReference) {
     return NextResponse.json(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Missing required fields: productId, dateTime, bookingItems, gygBookingReference" },
       { status: 200 }
@@ -28,14 +44,14 @@ export async function POST(req: NextRequest) {
   const { data: listing } = await supabase
     .from("tour_channel_listings")
     .select("tour_id, tours(*)")
-    .eq("external_product_code", data.productId)
+    .eq("external_product_code", requestData.productId)
     .eq("channel", "gyg")
     .eq("is_active", true)
     .single();
 
   if (!listing?.tours) {
     return NextResponse.json(
-      { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${data.productId}` },
+      { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${requestData.productId}` },
       { status: 200 }
     );
   }
@@ -61,7 +77,7 @@ export async function POST(req: NextRequest) {
   const supportedCategories = (pricingCategories ?? []).map((c: { category: string }) => c.category);
 
   if (supportedCategories.length > 0) {
-    for (const item of data.bookingItems) {
+    for (const item of requestData.bookingItems) {
       if (!supportedCategories.includes(item.category)) {
         return NextResponse.json(
           {
@@ -76,10 +92,10 @@ export async function POST(req: NextRequest) {
   }
 
   // Parse dateTime — extract date and time directly from ISO string (avoid UTC conversion)
-  const dateStr = data.dateTime.split("T")[0];
-  const timePart = data.dateTime.split("T")[1]?.split("+")[0]?.split("-")[0] ?? "00:00:00";
+  const dateStr = requestData.dateTime.split("T")[0];
+  const timePart = requestData.dateTime.split("T")[1]?.split("+")[0]?.split("-")[0] ?? "00:00:00";
   const [h, m] = timePart.split(":");
-  const startTime = tour.product_type === "time_period" ? null : `${h}:${m}`;
+  const tourStartTime = tour.product_type === "time_period" ? null : `${h}:${m}`;
 
   // Calculate total guests from bookingItems
   // For GROUP: each bookingItem with category "GROUP" has count=1 and groupSize=N
@@ -87,7 +103,7 @@ export async function POST(req: NextRequest) {
   let totalGuests = 0;
   let totalGroups = 0;
 
-  for (const item of data.bookingItems) {
+  for (const item of requestData.bookingItems) {
     if (item.category === "GROUP") {
       totalGroups += item.count || 0;
       totalGuests += (item.groupSize || 0) * (item.count || 0);
@@ -105,7 +121,7 @@ export async function POST(req: NextRequest) {
 
   // Validate group sizes
   if (isGroup) {
-    for (const item of data.bookingItems) {
+    for (const item of requestData.bookingItems) {
       if (item.category === "GROUP" && item.groupSize) {
         if (item.groupSize < tour.group_size_min) {
           return NextResponse.json(
@@ -133,19 +149,40 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Check capacity
+  // Check capacity (confirmed bookings + active reservations)
   const { data: existingBookings } = await supabase
     .from("bookings")
     .select("guest_count")
     .eq("tour_id", tour.id)
     .eq("date", dateStr)
-    .eq("start_time", startTime)
+    .eq("start_time", tourStartTime)
     .eq("status", "confirmed");
 
-  const totalBooked = (existingBookings ?? []).reduce(
+  const { data: existingReservations } = await supabase
+    .from("gyg_reservations")
+    .select("booking_items")
+    .eq("tour_id", tour.id)
+    .eq("date", dateStr)
+    .eq("start_time", tourStartTime)
+    .gt("expires_at", new Date().toISOString());
+
+  let totalBooked = (existingBookings ?? []).reduce(
     (sum, b) => sum + (b.guest_count ?? 0),
     0
   );
+
+  for (const r of existingReservations ?? []) {
+    const items = r.booking_items as Array<{ category: string; count: number; groupSize?: number }> | null;
+    if (Array.isArray(items)) {
+      for (const item of items) {
+        if (item.category === "GROUP") {
+          totalBooked += (item.groupSize || 0) * (item.count || 0);
+        } else {
+          totalBooked += item.count || 0;
+        }
+      }
+    }
+  }
 
   if (totalBooked + totalGuests > tour.capacity) {
     return NextResponse.json(
@@ -158,7 +195,7 @@ export async function POST(req: NextRequest) {
   const { data: existingRes } = await supabase
     .from("gyg_reservations")
     .select("id, reservation_reference")
-    .eq("gyg_booking_reference", data.gygBookingReference)
+    .eq("gyg_booking_reference", requestData.gygBookingReference)
     .gt("expires_at", new Date().toISOString())
     .maybeSingle();
 
@@ -178,12 +215,12 @@ export async function POST(req: NextRequest) {
     .from("gyg_reservations")
     .insert({
       reservation_reference: reservationReference,
-      gyg_booking_reference: data.gygBookingReference,
+      gyg_booking_reference: requestData.gygBookingReference,
       tour_id: tour.id,
       date: dateStr,
-      start_time: startTime,
-      product_id: data.productId,
-      booking_items: data.bookingItems,
+      start_time: tourStartTime,
+      product_id: requestData.productId,
+      booking_items: requestData.bookingItems,
       expires_at: reservationExpiration.toISOString(),
     });
 
@@ -202,5 +239,6 @@ export async function POST(req: NextRequest) {
     },
   };
 
+  logResponse(ctx, 200, response, startTime);
   return NextResponse.json(response, { status: 200 });
 }

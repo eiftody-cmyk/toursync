@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
+import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import type { GygAvailabilityResponse, GygAvailability } from "@/lib/gyg/types";
 
 function normalizeTime(t: string | null): string {
@@ -9,8 +10,14 @@ function normalizeTime(t: string | null): string {
 }
 
 export async function GET(req: NextRequest) {
+  const startTime = Date.now();
+  const ctx = createGygLogger("get-availabilities", req);
+
   const authError = verifyGygAuth(req);
-  if (authError) return authError;
+  if (authError) {
+    logResponse(ctx, 200, { errorCode: "AUTHORIZATION_FAILURE" }, startTime);
+    return authError;
+  }
 
   const { searchParams } = new URL(req.url);
   const productId = searchParams.get("productId");
@@ -163,8 +170,13 @@ export async function GET(req: NextRequest) {
       }
 
       // Check if the entire day is blocked
-      const dayFullyBlocked = [...blockedTimeSet].every((k) => k.startsWith(dateStr + "_"));
-      if (dayFullyBlocked && blockedTimeSet.size > 0) {
+      // For time_period: a null start_time in blocked_dates means the whole day is blocked
+      const dayBlockedEntries = [...blockedTimeSet].filter((k) => k.startsWith(dateStr + "_"));
+      const dayFullyBlocked = dayBlockedEntries.some((k) => {
+        const time = k.split("_")[1];
+        return time === "null" || time === "00:00" || time === undefined;
+      });
+      if (dayFullyBlocked) {
         current.setDate(current.getDate() + 1);
         continue;
       }
@@ -265,5 +277,6 @@ export async function GET(req: NextRequest) {
     data: { availabilities },
   };
 
+  logResponse(ctx, 200, response, startTime);
   return NextResponse.json(response, { status: 200 });
 }

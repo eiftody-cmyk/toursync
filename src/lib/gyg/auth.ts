@@ -50,6 +50,7 @@ export function verifyGygAuth(
   const passMatch = timingSafeEqual(password, expectedPass);
 
   if (!userMatch || !passMatch) {
+    console.error("[GYG auth] Invalid credentials — user_match=%s pass_match=%s", userMatch, passMatch);
     const error: GygErrorResponse = {
       errorCode: "AUTHORIZATION_FAILURE",
       errorMessage: "Invalid credentials",
