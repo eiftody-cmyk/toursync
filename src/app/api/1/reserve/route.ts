@@ -75,12 +75,11 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Parse dateTime to extract date and start_time
-  const dt = new Date(data.dateTime);
-  const dateStr = dt.toISOString().split("T")[0];
-  const hours = String(dt.getUTCHours() + 9).padStart(2, "0"); // JST offset
-  const minutes = String(dt.getUTCMinutes()).padStart(2, "0");
-  const startTime = tour.product_type === "time_period" ? null : `${hours}:${minutes}`;
+  // Parse dateTime — extract date and time directly from ISO string (avoid UTC conversion)
+  const dateStr = data.dateTime.split("T")[0];
+  const timePart = data.dateTime.split("T")[1]?.split("+")[0]?.split("-")[0] ?? "00:00:00";
+  const [h, m] = timePart.split(":");
+  const startTime = tour.product_type === "time_period" ? null : `${h}:${m}`;
 
   // Calculate total guests from bookingItems
   // For GROUP: each bookingItem with category "GROUP" has count=1 and groupSize=N

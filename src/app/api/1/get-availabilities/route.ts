@@ -106,6 +106,31 @@ export async function GET(req: NextRequest) {
     bookedMap[key] = (bookedMap[key] ?? 0) + (b.guest_count ?? 0);
   }
 
+  // Also count active (non-expired) reservations
+  const { data: activeReservations } = await supabase
+    .from("gyg_reservations")
+    .select("date, start_time, booking_items, expires_at")
+    .eq("tour_id", tour.id)
+    .gt("expires_at", new Date().toISOString())
+    .gte("date", fromDateStr)
+    .lte("date", toDateStr);
+
+  for (const r of activeReservations ?? []) {
+    const key = `${r.date}_${normalizeTime(r.start_time)}`;
+    let resGuests = 0;
+    const items = r.booking_items as Array<{ category: string; count: number; groupSize?: number }> | null;
+    if (Array.isArray(items)) {
+      for (const item of items) {
+        if (item.category === "GROUP") {
+          resGuests += (item.groupSize || 0) * (item.count || 0);
+        } else {
+          resGuests += item.count || 0;
+        }
+      }
+    }
+    bookedMap[key] = (bookedMap[key] ?? 0) + resGuests;
+  }
+
   // Fetch pricing categories
   const { data: pricingCategories } = await supabase
     .from("tour_pricing_categories")
@@ -120,13 +145,16 @@ export async function GET(req: NextRequest) {
 
   if (isTimePeriod) {
     // ── Time Period: one entry per day with openingTimes ──
-    const current = new Date(fromDateStr + "T00:00:00");
-    const end = new Date(toDateStr + "T23:59:59");
+    // Iterate dates as strings to avoid timezone conversion issues
+    const [startYear, startMonth, startDay] = fromDateStr.split("-").map(Number);
+    const [endYear, endMonth, endDay] = toDateStr.split("-").map(Number);
+    const current = new Date(startYear, startMonth - 1, startDay);
+    const end = new Date(endYear, endMonth - 1, endDay);
     const openingFrom = tour.opening_hours?.fromTime ?? "09:00";
     const openingTo = tour.opening_hours?.toTime ?? "18:00";
 
     while (current <= end) {
-      const dateStr = current.toISOString().split("T")[0];
+      const dateStr = `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, "0")}-${String(current.getDate()).padStart(2, "0")}`;
 
       // Skip exceptions
       if (exceptionDates.has(dateStr)) {
@@ -179,11 +207,14 @@ export async function GET(req: NextRequest) {
     }
   } else {
     // ── Time Point: one entry per schedule slot ──
-    const current = new Date(fromDateStr + "T00:00:00");
-    const end = new Date(toDateStr + "T23:59:59");
+    // Iterate dates as strings to avoid timezone conversion issues
+    const [startYear, startMonth, startDay] = fromDateStr.split("-").map(Number);
+    const [endYear, endMonth, endDay] = toDateStr.split("-").map(Number);
+    const current = new Date(startYear, startMonth - 1, startDay);
+    const end = new Date(endYear, endMonth - 1, endDay);
 
     while (current <= end) {
-      const dateStr = current.toISOString().split("T")[0];
+      const dateStr = `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, "0")}-${String(current.getDate()).padStart(2, "0")}`;
       const dayOfWeek = current.getDay();
 
       const daySchedules = schedules?.filter((s) => s.day_of_week === dayOfWeek) ?? [];
