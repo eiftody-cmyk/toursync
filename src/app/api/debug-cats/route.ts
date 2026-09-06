@@ -5,7 +5,7 @@ export async function GET() {
   const supabase = createServiceClient();
   const { data: listings } = await supabase
     .from("tour_channel_listings")
-    .select("tour_id, external_product_code, tours(name)")
+    .select("tour_id, external_product_code, tours(name, price, currency)")
     .eq("channel", "gyg")
     .eq("is_active", true);
 
@@ -18,6 +18,8 @@ export async function GET() {
     results.push({
       product: l.external_product_code,
       tour: (l.tours as any)?.name,
+      tourPrice: (l.tours as any)?.price,
+      tourCurrency: (l.tours as any)?.currency,
       categories: cats,
     });
   }

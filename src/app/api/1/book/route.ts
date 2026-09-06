@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
 
   const isGroup = tour.ticket_type === "group";
 
-  // Validate ticket categories
+  // Validate ticket categories (only if categories are configured for this tour)
   const { data: pricingCategories } = await supabase
     .from("tour_pricing_categories")
     .select("category")
@@ -66,16 +66,18 @@ export async function POST(req: NextRequest) {
 
   const supportedCategories = (pricingCategories ?? []).map((c: { category: string }) => c.category);
 
-  for (const item of data.bookingItems) {
-    if (!supportedCategories.includes(item.category)) {
-      return NextResponse.json(
-        {
-          errorCode: "INVALID_TICKET_CATEGORY",
-          errorMessage: `The ticket category ${item.category} is not sellable.`,
-          ticketCategory: item.category,
-        },
-        { status: 200 }
-      );
+  if (supportedCategories.length > 0) {
+    for (const item of data.bookingItems) {
+      if (!supportedCategories.includes(item.category)) {
+        return NextResponse.json(
+          {
+            errorCode: "INVALID_TICKET_CATEGORY",
+            errorMessage: `The ticket category ${item.category} is not sellable.`,
+            ticketCategory: item.category,
+          },
+          { status: 200 }
+        );
+      }
     }
   }
 
