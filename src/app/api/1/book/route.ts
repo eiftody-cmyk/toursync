@@ -58,6 +58,27 @@ export async function POST(req: NextRequest) {
 
   const isGroup = tour.ticket_type === "group";
 
+  // Validate ticket categories
+  const { data: pricingCategories } = await supabase
+    .from("tour_pricing_categories")
+    .select("category")
+    .eq("tour_id", tour.id);
+
+  const supportedCategories = (pricingCategories ?? []).map((c: { category: string }) => c.category);
+
+  for (const item of data.bookingItems) {
+    if (!supportedCategories.includes(item.category)) {
+      return NextResponse.json(
+        {
+          errorCode: "INVALID_TICKET_CATEGORY",
+          errorMessage: `The ticket category ${item.category} is not sellable.`,
+          ticketCategory: item.category,
+        },
+        { status: 200 }
+      );
+    }
+  }
+
   // Check idempotency
   const { data: existingBooking } = await supabase
     .from("bookings")

@@ -18,7 +18,10 @@ export const metadata: Metadata = {
   description:
     "For small tour operators who sell on multiple platforms. Block a date and it sync to Airbnb automatically. Track capacity and never oversell.",
   icons: {
-    icon: "/favicon.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
     apple: "/apple-touch-icon.png",
   },
 };
