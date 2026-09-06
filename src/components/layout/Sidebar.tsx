@@ -20,7 +20,7 @@ export function Sidebar() {
     <aside className="w-64 border-r bg-card flex flex-col hidden md:flex">
       <div className="p-6">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <span className="font-bold text-lg">TourSync</span>
+          <span className="font-bold text-lg">ExperienceRelay</span>
           <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">
             MVP
           </span>

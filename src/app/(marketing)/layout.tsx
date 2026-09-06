@@ -11,7 +11,7 @@ export default function MarketingLayout({
       <header className="border-b">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="font-bold text-xl">
-            TourSync
+            ExperienceRelay
           </Link>
           <nav className="flex items-center gap-3">
             <Button variant="ghost" asChild>
@@ -25,7 +25,7 @@ export default function MarketingLayout({
       </header>
       <main className="flex-1">{children}</main>
       <footer className="border-t py-8 text-center text-sm text-muted-foreground">
-        <p>TourSync MVP — Built for small tour operators in Osaka & beyond.</p>
+        <p>ExperienceRelay MVP — Built for small tour operators in Osaka & beyond.</p>
         <p className="mt-1">
           <Link href="/login" className="underline">
             Dashboard

@@ -9,7 +9,7 @@ function getResend(): Resend {
   return resend;
 }
 
-const FROM_EMAIL = "TourSync <noreply@toursync1.vercel.app>";
+const FROM_EMAIL = "ExperienceRelay <noreply@toursync1.vercel.app>";
 
 interface SendEmailParams {
   to: string;

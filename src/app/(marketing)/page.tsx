@@ -43,7 +43,7 @@ export default function LandingPage() {
                 <CardTitle className="text-base">Connect Google Calendar</CardTitle>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
-                One OAuth click. TourSync creates &quot;busy&quot; events on your
+                One OAuth click. ExperienceRelay creates &quot;busy&quot; events on your
                 Google Calendar. Google pushes them to Airbnb — usually immediate,
                 allow a minute for propagation.
               </CardContent>
@@ -69,7 +69,7 @@ export default function LandingPage() {
                 <CardTitle className="text-base">Auto-block when full</CardTitle>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
-                Capacity 6 and you have 4+2 guests? TourSync auto-creates a busy
+                Capacity 6 and you have 4+2 guests? ExperienceRelay auto-creates a busy
                 block. Airbnb shows unavailable. No mental math, no overselling.
               </CardContent>
             </Card>

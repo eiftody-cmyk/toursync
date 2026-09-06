@@ -10,7 +10,7 @@ export async function createCalendarForTour(
   const calendar = getCalendarClient(accessToken);
   const res = await calendar.calendars.insert({
     requestBody: {
-      summary: `TourSync — ${tourName}`,
+      summary: `ExperienceRelay — ${tourName}`,
       timeZone: "Asia/Tokyo",
     },
   });

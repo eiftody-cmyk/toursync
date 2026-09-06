@@ -170,7 +170,7 @@ export function BookingPageClient({ tour, companyName, logoUrl }: BookingPageCli
 
   const currencySymbol = tour.currency === "JPY" ? "¥" : tour.currency + " ";
   const pricePerGuest = tour.price ?? 0;
-  const displayName = companyName || "TourSync";
+  const displayName = companyName || "ExperienceRelay";
 
   return (
     <div className="min-h-screen bg-muted/20">

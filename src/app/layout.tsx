@@ -14,11 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TourSync - Block dates once. Sync everywhere.",
+  title: "ExperienceRelay - Block dates once. Sync everywhere.",
   description:
     "For small tour operators who sell on multiple platforms. Block a date and it sync to Airbnb automatically. Track capacity and never oversell.",
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.png",
     apple: "/apple-touch-icon.png",
   },
 };

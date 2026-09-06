@@ -79,7 +79,7 @@ export function ConfirmPageClient({ orderId }: { orderId: string }) {
     <div className="min-h-screen bg-muted/20">
       <header className="border-b bg-card/50">
         <div className="max-w-4xl mx-auto px-4 py-3">
-          <Link href="/" className="font-bold text-lg">TourSync</Link>
+          <Link href="/" className="font-bold text-lg">ExperienceRelay</Link>
         </div>
       </header>
 

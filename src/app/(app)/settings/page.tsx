@@ -93,7 +93,7 @@ export default async function SettingsPage({
                 <p className="text-muted-foreground">Token expires: {new Date(token.token_expiry).toLocaleString()}</p>
               )}
               <p className="text-muted-foreground">
-                This connects TourSync to your Google account so it can create calendars and manage events.
+                This connects ExperienceRelay to your Google account so it can create calendars and manage events.
               </p>
               <div className="flex gap-2">
                 <Button asChild size="sm" variant="outline">
@@ -109,7 +109,7 @@ export default async function SettingsPage({
           ) : (
             <>
               <p className="text-muted-foreground">
-                Connect your Google account to give TourSync access to create and manage calendars.
+                Connect your Google account to give ExperienceRelay access to create and manage calendars.
               </p>
               <Button asChild size="sm">
                 <a href="/api/auth/google">Connect Google Calendar</a>
@@ -131,10 +131,10 @@ export default async function SettingsPage({
             <li>Go to your listing on Airbnb.</li>
             <li>Click <strong>Availability</strong>.</li>
             <li>Scroll to the bottom and click <strong>Connect your Google Calendar</strong>.</li>
-            <li>Select the calendar with the matching tour name from TourSync.</li>
+            <li>Select the calendar with the matching tour name from ExperienceRelay.</li>
           </ol>
           <p className="pt-1">
-            Repeat for each tour. Once connected, blocking a date in TourSync will automatically mark it as
+            Repeat for each tour. Once connected, blocking a date in ExperienceRelay will automatically mark it as
             unavailable on Airbnb.
           </p>
         </CardContent>

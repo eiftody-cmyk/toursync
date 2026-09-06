@@ -25,7 +25,7 @@ export default async function ToursPage() {
         <h1 className="text-2xl font-bold">Tours</h1>
         <p className="text-sm text-muted-foreground">
           Create and manage your tours. Each tour has a capacity limit — when bookings reach that limit,
-          TourSync automatically blocks the date on Airbnb.
+          ExperienceRelay automatically blocks the date on Airbnb.
         </p>
       </div>
 

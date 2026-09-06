@@ -32,7 +32,7 @@ export default function LoginPage() {
   return (
     <Card>
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Welcome to TourSync</CardTitle>
+        <CardTitle className="text-2xl">Welcome to ExperienceRelay</CardTitle>
         <CardDescription>Sign in with Google to manage your tours and calendar</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -43,7 +43,7 @@ export default function LoginPage() {
           {loading ? "Redirecting..." : "Sign in with Google"}
         </Button>
         <p className="text-xs text-muted-foreground text-center">
-          By signing in you agree to allow TourSync to manage calendar events (busy blocks) on your
+          By signing in you agree to allow ExperienceRelay to manage calendar events (busy blocks) on your
           Google Calendar.
         </p>
         <div className="text-center text-sm">

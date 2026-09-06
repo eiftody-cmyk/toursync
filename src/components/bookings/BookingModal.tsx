@@ -161,7 +161,7 @@ export function BookingModal({
             This does NOT connect to booking platforms.
           </p>
           <p>
-            Adjust guest count as needed. When capacity is reached, TourSync auto-blocks the date on Airbnb
+            Adjust guest count as needed. When capacity is reached, ExperienceRelay auto-blocks the date on Airbnb
             (prevents new bookings, does NOT cancel existing ones).
           </p>
         </div>

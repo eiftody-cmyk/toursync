@@ -152,7 +152,7 @@ export function CompanyBrandingCard({
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            Shown as the header on your booking page. Leave blank to show &quot;TourSync&quot;.
+            Shown as the header on your booking page. Leave blank to show &quot;ExperienceRelay&quot;.
           </p>
         </div>
 
@@ -203,7 +203,7 @@ export function CompanyBrandingCard({
               {logoUrl ? (
                 <Image src={logoUrl} alt="" width={28} height={28} className="rounded" />
               ) : null}
-              {companyName || "TourSync"}
+              {companyName || "ExperienceRelay"}
             </div>
           </div>
         )}
