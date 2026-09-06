@@ -12,9 +12,12 @@ import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import type { Tour, TourChannelListing, Channel } from "@/types";
+import type { Tour, TourChannelListing, TourPricingCategory, Channel } from "@/types";
 import { CHANNEL_LABELS, CHANNELS } from "@/types";
 import { ScheduleEditor } from "@/components/tours/ScheduleEditor";
+
+const GYG_CATEGORIES = ["ADULT", "CHILD", "YOUTH", "INFANT", "SENIOR", "STUDENT"] as const;
+const GYG_GROUP_CATEGORIES = ["GROUP"] as const;
 
 type ListingsByTour = Record<string, TourChannelListing[]>;
 
@@ -51,13 +54,30 @@ export function ToursClient({
     capacity: string;
     price: string;
     currency: string;
+    cutoff_minutes: string;
+    product_type: "time_point" | "time_period";
+    ticket_type: "individual" | "group";
+    group_size_min: string;
+    group_size_max: string;
+    opening_from: string;
+    opening_to: string;
   }>({
     name: "",
     description: "",
     capacity: "6",
     price: "9500",
     currency: "JPY",
+    cutoff_minutes: "60",
+    product_type: "time_point",
+    ticket_type: "individual",
+    group_size_min: "1",
+    group_size_max: "10",
+    opening_from: "09:00",
+    opening_to: "18:00",
   });
+  const [pricingCategories, setPricingCategories] = useState<
+    Array<{ category: string; price: string }>
+  >([]);
   const [loading, setLoading] = useState(false);
 
   // Channel listing form state
@@ -84,20 +104,50 @@ export function ToursClient({
 
   function startCreate() {
     setEditing(null);
-    setForm({ name: "", description: "", capacity: "6", price: "9500", currency: "JPY" });
+    setForm({
+      name: "", description: "", capacity: "6", price: "9500", currency: "JPY", cutoff_minutes: "60",
+      product_type: "time_point", ticket_type: "individual",
+      group_size_min: "1", group_size_max: "10",
+      opening_from: "09:00", opening_to: "18:00",
+    });
+    setPricingCategories([{ category: "ADULT", price: "9500" }]);
     setOpen(true);
   }
 
   function startEdit(t: Tour) {
     setEditing(t);
+    const oh = t.opening_hours as { fromTime?: string; toTime?: string } | null;
     setForm({
       name: t.name,
       description: t.description ?? "",
       capacity: String(t.capacity),
       price: t.price != null ? String(t.price) : "",
       currency: t.currency || "JPY",
+      cutoff_minutes: String(t.cutoff_minutes ?? 60),
+      product_type: t.product_type ?? "time_point",
+      ticket_type: t.ticket_type ?? "individual",
+      group_size_min: String(t.group_size_min ?? 1),
+      group_size_max: String(t.group_size_max ?? 10),
+      opening_from: oh?.fromTime ?? "09:00",
+      opening_to: oh?.toTime ?? "18:00",
     });
+    loadPricingCategories(t.id);
     setOpen(true);
+  }
+
+  async function loadPricingCategories(tourId: string) {
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("tour_pricing_categories")
+      .select("category, price")
+      .eq("tour_id", tourId)
+      .order("category");
+    if (data?.length) {
+      setPricingCategories(data.map((pc) => ({ category: pc.category, price: String(pc.price) })));
+    } else {
+      // Default to ADULT with tour price
+      setPricingCategories([{ category: "ADULT", price: form.price || "0" }]);
+    }
   }
 
   async function submit() {
@@ -123,6 +173,14 @@ export function ToursClient({
       capacity: parseInt(form.capacity, 10) || 6,
       price: form.price ? parseFloat(form.price) : null,
       currency: form.currency.trim() || "JPY",
+      cutoff_minutes: parseInt(form.cutoff_minutes, 10) || 60,
+      product_type: form.product_type,
+      ticket_type: form.ticket_type,
+      group_size_min: parseInt(form.group_size_min, 10) || 1,
+      group_size_max: parseInt(form.group_size_max, 10) || 10,
+      opening_hours: form.product_type === "time_period"
+        ? { fromTime: form.opening_from, toTime: form.opening_to }
+        : null,
     };
 
     let error;
@@ -136,25 +194,46 @@ export function ToursClient({
       newTourId = res.data?.id ?? null;
     }
 
-    setLoading(false);
     if (error) {
+      setLoading(false);
       toast.error(error.message);
-    } else {
-      toast.success(editing ? "Tour updated" : "Tour created");
-      setOpen(false);
-      refresh();
-      if (newTourId) {
-        fetch("/api/calendar/create-tour-calendar", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ tour_id: newTourId }),
-        })
-          .then((r) => r.json())
-          .then((j) => {
-            if (j.calendar_id) toast.success(`Calendar created: ${j.summary}`);
-          })
-          .catch(() => {});
+      return;
+    }
+
+    // Save pricing categories
+    const tourId = editing?.id ?? newTourId;
+    if (tourId) {
+      // Delete existing categories
+      await supabase.from("tour_pricing_categories").delete().eq("tour_id", tourId);
+
+      // Insert new categories (only non-empty prices)
+      const validCategories = pricingCategories.filter((pc) => pc.price && pc.category);
+      if (validCategories.length > 0) {
+        const catPayload = validCategories.map((pc) => ({
+          tour_id: tourId,
+          category: pc.category,
+          price: parseInt(pc.price, 10) || 0,
+          currency: form.currency.trim() || "JPY",
+        }));
+        await supabase.from("tour_pricing_categories").insert(catPayload);
       }
+    }
+
+    setLoading(false);
+    toast.success(editing ? "Tour updated" : "Tour created");
+    setOpen(false);
+    refresh();
+    if (newTourId) {
+      fetch("/api/calendar/create-tour-calendar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tour_id: newTourId }),
+      })
+        .then((r) => r.json())
+        .then((j) => {
+          if (j.calendar_id) toast.success(`Calendar created: ${j.summary}`);
+        })
+        .catch(() => {});
     }
   }
 
@@ -282,7 +361,7 @@ export function ToursClient({
                   />
                 </div>
                 <div>
-                  <Label htmlFor="price">Price</Label>
+                  <Label htmlFor="price">Base Price</Label>
                   <Input
                     id="price"
                     type="number"
@@ -306,6 +385,164 @@ export function ToursClient({
                     </SelectContent>
                   </Select>
                 </div>
+              </div>
+              <div>
+                <Label htmlFor="cutoff">Booking Cutoff (minutes before start)</Label>
+                <Input
+                  id="cutoff"
+                  type="number"
+                  min={0}
+                  value={form.cutoff_minutes}
+                  onChange={(e) => setForm({ ...form, cutoff_minutes: e.target.value })}
+                />
+                <p className="text-xs text-muted-foreground mt-1">Default: 60 minutes. Set to 0 for no cutoff.</p>
+              </div>
+
+              {/* Product Type & Ticket Type */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label htmlFor="product_type">Product Type</Label>
+                  <Select value={form.product_type} onValueChange={(v: string | null) => {
+                    if (v) setForm({ ...form, product_type: v as "time_point" | "time_period" });
+                  }}>
+                    <SelectTrigger id="product_type">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="time_point">Time Point (specific start times)</SelectItem>
+                      <SelectItem value="time_period">Time Period (opening hours)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="ticket_type">Ticket Type</Label>
+                  <Select value={form.ticket_type} onValueChange={(v: string | null) => {
+                    if (v) setForm({ ...form, ticket_type: v as "individual" | "group" });
+                  }}>
+                    <SelectTrigger id="ticket_type">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="individual">Individual (per-person tickets)</SelectItem>
+                      <SelectItem value="group">Group (collective tickets)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {/* Opening Hours (Time Period only) */}
+              {form.product_type === "time_period" && (
+                <div className="grid grid-cols-2 gap-3 border rounded-md p-3 bg-muted/20">
+                  <div>
+                    <Label htmlFor="open_from">Opening Time</Label>
+                    <Input
+                      id="open_from"
+                      type="time"
+                      value={form.opening_from}
+                      onChange={(e) => setForm({ ...form, opening_from: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="open_to">Closing Time</Label>
+                    <Input
+                      id="open_to"
+                      type="time"
+                      value={form.opening_to}
+                      onChange={(e) => setForm({ ...form, opening_to: e.target.value })}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Group Size (Group only) */}
+              {form.ticket_type === "group" && (
+                <div className="grid grid-cols-2 gap-3 border rounded-md p-3 bg-muted/20">
+                  <div>
+                    <Label htmlFor="gs_min">Min Group Size</Label>
+                    <Input
+                      id="gs_min"
+                      type="number"
+                      min={1}
+                      value={form.group_size_min}
+                      onChange={(e) => setForm({ ...form, group_size_min: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="gs_max">Max Group Size</Label>
+                    <Input
+                      id="gs_max"
+                      type="number"
+                      min={1}
+                      value={form.group_size_max}
+                      onChange={(e) => setForm({ ...form, group_size_max: e.target.value })}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Pricing Categories */}
+              <div className="space-y-2">
+                <Label>Pricing Categories</Label>
+                <p className="text-xs text-muted-foreground">Set prices per ticket type. For Group products, use GROUP category.</p>
+                {pricingCategories.map((pc, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <Select
+                      value={pc.category}
+                      onValueChange={(v) => {
+                        const updated = [...pricingCategories];
+                        updated[idx] = { ...updated[idx], category: v ?? pc.category };
+                        setPricingCategories(updated);
+                      }}
+                    >
+                      <SelectTrigger className="w-32 h-8 text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {(form.ticket_type === "group" ? [...GYG_CATEGORIES, ...GYG_GROUP_CATEGORIES] : GYG_CATEGORIES).map((c) => (
+                          <SelectItem key={c} value={c}>{c}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Input
+                      type="number"
+                      min={0}
+                      className="h-8 text-xs flex-1"
+                      placeholder="Price"
+                      value={pc.price}
+                      onChange={(e) => {
+                        const updated = [...pricingCategories];
+                        updated[idx] = { ...updated[idx], price: e.target.value };
+                        setPricingCategories(updated);
+                      }}
+                    />
+                    {pricingCategories.length > 1 && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                        onClick={() => setPricingCategories(pricingCategories.filter((_, i) => i !== idx))}
+                      >
+                        ×
+                      </Button>
+                    )}
+                  </div>
+                ))}
+                {pricingCategories.length < GYG_CATEGORIES.length && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 text-xs"
+                    onClick={() => {
+                      const used = new Set(pricingCategories.map((pc) => pc.category));
+                      const next = GYG_CATEGORIES.find((c) => !used.has(c));
+                      if (next) {
+                        setPricingCategories([...pricingCategories, { category: next, price: "" }]);
+                      }
+                    }}
+                  >
+                    + Add Category
+                  </Button>
+                )}
               </div>
               <Button onClick={submit} disabled={loading} className="w-full">
                 {loading ? "Saving..." : editing ? "Save Changes" : "Create Tour"}
@@ -331,7 +568,7 @@ export function ToursClient({
                   <CardTitle className="text-base flex items-center justify-between">
                     <span>{t.name}</span>
                     <Badge variant="secondary">
-                      {t.capacity} guests · {t.price ? `${t.price} ${t.currency}` : "no price"}
+                      {t.capacity} guests · {t.price ? `${t.price} ${t.currency}` : "no price"} · {t.cutoff_minutes ?? 60}min cutoff · {t.product_type === "time_period" ? "Time Period" : "Time Point"} · {t.ticket_type === "group" ? "Group" : "Individual"}
                     </Badge>
                   </CardTitle>
                   {t.description && <p className="text-sm text-muted-foreground">{t.description}</p>}

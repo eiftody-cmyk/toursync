@@ -15,11 +15,12 @@ export interface PushResult {
 export async function notifyGygAvailabilityChange(
   params: GygNotifyParams
 ): Promise<PushResult> {
-  const apiKey = process.env.GYG_API_KEY;
+  const username = process.env.GYG_USERNAME;
+  const password = process.env.GYG_PASSWORD;
   const notifyUrl = process.env.GYG_NOTIFY_URL;
 
-  if (!apiKey || !notifyUrl) {
-    return { ok: false, error: "GYG_API_KEY or GYG_NOTIFY_URL not set" };
+  if (!username || !password || !notifyUrl) {
+    return { ok: false, error: "GYG_USERNAME, GYG_PASSWORD, or GYG_NOTIFY_URL not set" };
   }
 
   const body = {
@@ -28,12 +29,14 @@ export async function notifyGygAvailabilityChange(
     dateTo: params.date,
   };
 
+  const auth = Buffer.from(`${username}:${password}`).toString("base64");
+
   try {
     const res = await fetch(notifyUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Basic ${auth}`,
       },
       body: JSON.stringify(body),
     });

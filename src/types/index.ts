@@ -7,6 +7,21 @@ export type Tour = {
   price: number | null;
   currency: string;
   google_calendar_id: string | null;
+  cutoff_minutes: number;
+  product_type: "time_point" | "time_period";
+  ticket_type: "individual" | "group";
+  group_size_min: number;
+  group_size_max: number;
+  opening_hours: { fromTime: string; toTime: string } | null;
+  created_at: string;
+};
+
+export type TourPricingCategory = {
+  id: string;
+  tour_id: string;
+  category: string;
+  price: number;
+  currency: string;
   created_at: string;
 };
 
