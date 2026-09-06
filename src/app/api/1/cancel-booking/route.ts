@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
 import type { GygEmptySuccessResponse, GygErrorResponse } from "@/lib/gyg/types";
 
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const supabase = await createClient();
+  const supabase = createServiceClient();
 
   // Look up tour
   const { data: listing } = await supabase
