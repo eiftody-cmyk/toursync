@@ -115,7 +115,12 @@ export function ScheduleEditor({ tourId }: { tourId: string }) {
       }
       const supabase = createClient();
       for (const slot of slots) {
-        await supabase.from("tour_schedules").delete().eq("id", slot.id);
+        const { error } = await supabase.from("tour_schedules").delete().eq("id", slot.id);
+        if (error) {
+          toast.error(`Failed to remove ${DAY_FULL[dayOfWeek]}: ${error.message}`);
+          fetchSchedules();
+          return;
+        }
       }
       toast.success(`${DAY_FULL[dayOfWeek]} removed`);
       fetchSchedules();
@@ -166,13 +171,17 @@ export function ScheduleEditor({ tourId }: { tourId: string }) {
 
   async function updateStartDate(newDate: string) {
     setStartDate(newDate);
-    // Update all schedules' start_date
     const supabase = createClient();
     for (const s of schedules) {
-      await supabase
+      const { error } = await supabase
         .from("tour_schedules")
         .update({ start_date: newDate })
         .eq("id", s.id);
+      if (error) {
+        toast.error(`Failed to update start date: ${error.message}`);
+        fetchSchedules();
+        return;
+      }
     }
     fetchSchedules();
   }
