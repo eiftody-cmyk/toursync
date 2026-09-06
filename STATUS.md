@@ -70,10 +70,13 @@ Build and refine ExperienceRelay, a tour management platform for small operators
 - **GYG_NOTIFY_URL**: Set to sandbox in Vercel: `https://supplier-api.getyourguide.com/sandbox/1/notify-availability-update`
 
 ### Active
-- **GYG_NOTIFY_URL** set in Vercel (sandbox)
+- **GYG endpoints live** — `/1/*` routes rewritten from `/api/1/*` via next.config.ts rewrite
+- **GYG inbound auth working** — `ExperienceRelay` / `P421105x#` authenticates correctly
 - **GYG channel codes added** to all 5 tours in ExperienceRelay
-- User needs to give GYG their testing URL: `https://toursync1.vercel.app/1/`
-- User needs to test GYG endpoints using Integrator Portal testing tool
+- **GYG_NOTIFY_URL** set in Vercel (sandbox)
+- **GYG PUSH_AVAILABILITY sandbox test PASSED** — ExperienceRelay sent payload to sandbox
+- User needs to give GYG testing URL: `https://toursync1.vercel.app/1/`
+- GYG needs to test supplier endpoints (get-availabilities, reserve, book, cancel)
 
 ### Blocked
 - **RESEND_API_KEY**: needs to be added to Vercel env vars after signing up at resend.com
