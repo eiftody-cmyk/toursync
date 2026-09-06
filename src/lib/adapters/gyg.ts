@@ -1,9 +1,18 @@
+export interface GygAvailability {
+  dateTime: string;
+  vacancies: number;
+  currency?: string;
+  pricesByCategory?: {
+    retailPrices: {
+      category: string;
+      price: number;
+    }[];
+  };
+}
+
 export interface GygNotifyParams {
-  tour_id: string;
-  date: string;
-  start_time?: string;
-  remaining_capacity: number;
-  external_product_code: string;
+  productId: string;
+  availabilities: GygAvailability[];
 }
 
 export interface PushResult {
@@ -24,9 +33,10 @@ export async function notifyGygAvailabilityChange(
   }
 
   const body = {
-    productId: params.external_product_code,
-    dateFrom: params.date,
-    dateTo: params.date,
+    data: {
+      productId: params.productId,
+      availabilities: params.availabilities,
+    },
   };
 
   const auth = Buffer.from(`${username}:${password}`).toString("base64");
@@ -41,8 +51,18 @@ export async function notifyGygAvailabilityChange(
       body: JSON.stringify(body),
     });
 
+    const text = await res.text();
+    let json: Record<string, unknown> | null = null;
+    try {
+      json = JSON.parse(text) as Record<string, unknown>;
+    } catch {}
+
     if (res.ok) return { ok: true };
-    return { ok: false, error: `HTTP ${res.status}`, status: res.status };
+    const errorMsg =
+      json && typeof json === "object" && "errorMessage" in json
+        ? String((json as { errorMessage: string }).errorMessage)
+        : `HTTP ${res.status}`;
+    return { ok: false, error: errorMsg, status: res.status };
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     return { ok: false, error: msg };

@@ -42,8 +42,13 @@ export async function pushAvailability(
         results.push({ channel: "viator", ok: r.ok, error: r.error });
       } else if (listing.channel === "gyg") {
         const r = await notifyGygAvailabilityChange({
-          ...params,
-          external_product_code: listing.external_product_code,
+          productId: listing.external_product_code,
+          availabilities: [
+            {
+              dateTime: `${params.date}T${params.start_time || "00:00"}:00+09:00`,
+              vacancies: params.remaining_capacity,
+            },
+          ],
         });
         results.push({ channel: "gyg", ok: r.ok, error: r.error });
       }
