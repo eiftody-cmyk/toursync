@@ -18,6 +18,10 @@ export interface TourLookupResult {
   tourId: string;
 }
 
+// In-memory cache: productId -> result | null (cached for 5 min)
+const tourCache = new Map<string, { result: TourLookupResult | null; ts: number }>();
+const CACHE_TTL = 5 * 60 * 1000;
+
 /**
  * Look up a tour by GYG productId.
  * Tries the exact value first (e.g. "T-1221780"), then falls back
@@ -25,6 +29,11 @@ export interface TourLookupResult {
  * sends the Product ID without the "T-" prefix.
  */
 export async function lookupTourByProductId(productId: string): Promise<TourLookupResult | null> {
+  const cached = tourCache.get(productId);
+  if (cached && Date.now() - cached.ts < CACHE_TTL) {
+    return cached.result;
+  }
+
   const supabase = createServiceClient();
 
   // Try exact match first
@@ -48,8 +57,13 @@ export async function lookupTourByProductId(productId: string): Promise<TourLook
       .single());
   }
 
-  if (!listing?.tours) return null;
+  if (!listing?.tours) {
+    tourCache.set(productId, { result: null, ts: Date.now() });
+    return null;
+  }
 
   const tour = (Array.isArray(listing.tours) ? listing.tours[0] : listing.tours) as TourLookupResult["tour"];
-  return { tour, tourId: listing.tour_id };
+  const result = { tour, tourId: listing.tour_id };
+  tourCache.set(productId, { result, ts: Date.now() });
+  return result;
 }

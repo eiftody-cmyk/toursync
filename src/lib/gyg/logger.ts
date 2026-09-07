@@ -6,59 +6,19 @@ interface LogContext {
   requestId: string;
 }
 
-interface RequestLog {
-  timestamp: string;
-  endpoint: string;
-  method: string;
-  requestId: string;
-  url: string;
-  authPresent: boolean;
-  userAgent?: string;
-  queryParams?: Record<string, string>;
-  bodyPreview?: string;
-}
-
 interface ResponseLog {
-  timestamp: string;
   endpoint: string;
-  method: string;
   requestId: string;
   status: number;
-  responseBody: unknown;
   durationMs: number;
 }
 
-const requestLog: RequestLog[] = [];
 const responseLog: ResponseLog[] = [];
 
-const MAX_LOG_ENTRIES = 100;
+const MAX_LOG_ENTRIES = 50;
 
 export function createGygLogger(endpoint: string, req: NextRequest): LogContext {
   const requestId = `req_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
-  const authHeader = req.headers.get("authorization");
-  const userAgent = req.headers.get("user-agent") || undefined;
-
-  // Extract query params
-  const url = new URL(req.url);
-  const queryParams: Record<string, string> = {};
-  url.searchParams.forEach((v, k) => { queryParams[k] = v; });
-
-  const log: RequestLog = {
-    timestamp: new Date().toISOString(),
-    endpoint,
-    method: req.method,
-    requestId,
-    url: req.url,
-    authPresent: !!authHeader,
-    userAgent,
-    queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined,
-  };
-
-  requestLog.push(log);
-  if (requestLog.length > MAX_LOG_ENTRIES) requestLog.shift();
-
-  console.log(`[GYG ${endpoint}] ${req.method} ${requestId} — auth=${!!authHeader} ua=${userAgent || "none"} params=${JSON.stringify(queryParams)}`);
-
   return { endpoint, method: req.method, requestId };
 }
 
@@ -70,27 +30,12 @@ export function logResponse(
 ): void {
   const durationMs = Date.now() - startTime;
 
-  const log: ResponseLog = {
-    timestamp: new Date().toISOString(),
-    endpoint: ctx.endpoint,
-    method: ctx.method,
-    requestId: ctx.requestId,
-    status,
-    responseBody: body,
-    durationMs,
-  };
-
-  responseLog.push(log);
+  responseLog.push({ endpoint: ctx.endpoint, requestId: ctx.requestId, status, durationMs });
   if (responseLog.length > MAX_LOG_ENTRIES) responseLog.shift();
 
-  const bodyStr = JSON.stringify(body);
-  const truncated = bodyStr.length > 200 ? bodyStr.substring(0, 200) + "..." : bodyStr;
-
-  console.log(
-    `[GYG ${ctx.endpoint}] ${ctx.method} ${ctx.requestId} → ${status} (${durationMs}ms) body=${truncated}`
-  );
+  console.log(`[GYG ${ctx.endpoint}] ${ctx.method} ${ctx.requestId} → ${status} (${durationMs}ms)`);
 }
 
-export function getLogs(): { requests: RequestLog[]; responses: ResponseLog[] } {
-  return { requests: [...requestLog], responses: [...responseLog] };
+export function getLogs(): { responses: ResponseLog[] } {
+  return { responses: [...responseLog] };
 }

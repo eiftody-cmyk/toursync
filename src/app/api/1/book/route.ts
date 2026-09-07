@@ -278,37 +278,25 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     }).catch((e) => console.error("[GYG book] Operator notification email failed:", e));
   }
 
-  // Insert in-app notification + check auto-block capacity in parallel
+  // Insert in-app notification (non-blocking)
   const guestWord = totalGuests === 1 ? "guest" : "guests";
-  const [, allBookingsForSlotResult] = await Promise.all([
-    supabase
-      .from("notifications")
-      .insert({
-        user_id: tour.user_id,
-        type: "new_booking",
-        title: `New Booking — ${tour.name}`,
-        message: isGroup
-          ? `${totalGuests} ${guestWord} (${requestData.bookingItems.filter((i: { category: string }) => i.category === "GROUP").reduce((s: number, i: { count: number }) => s + i.count, 0)} groups) on ${dateStr}${startTime ? ` at ${startTime}` : ""} (via GetYourGuide)`
-          : `${totalGuests} ${guestWord} on ${dateStr}${startTime ? ` at ${startTime}` : ""} (via GetYourGuide)`,
-        link: "/dashboard",
-      })
-      .then(({ error: notifError }) => {
-        if (notifError) console.error("[GYG book] Notification insert failed:", notifError.message);
-      }),
-    supabase
-      .from("bookings")
-      .select("guest_count")
-      .eq("tour_id", tour.id)
-      .eq("date", dateStr)
-      .is("start_time", startTime)
-      .eq("status", "confirmed"),
-  ]);
+  supabase
+    .from("notifications")
+    .insert({
+      user_id: tour.user_id,
+      type: "new_booking",
+      title: `New Booking — ${tour.name}`,
+      message: isGroup
+        ? `${totalGuests} ${guestWord} (${requestData.bookingItems.filter((i: { category: string }) => i.category === "GROUP").reduce((s: number, i: { count: number }) => s + i.count, 0)} groups) on ${dateStr}${startTime ? ` at ${startTime}` : ""} (via GetYourGuide)`
+        : `${totalGuests} ${guestWord} on ${dateStr}${startTime ? ` at ${startTime}` : ""} (via GetYourGuide)`,
+      link: "/dashboard",
+    })
+    .then(({ error: notifError }) => {
+      if (notifError) console.error("[GYG book] Notification insert failed:", notifError.message);
+    });
 
-  const totalForSlot = (allBookingsForSlotResult.data ?? []).reduce(
-    (sum, b) => sum + (b.guest_count ?? 0),
-    0
-  );
-
+  // Auto-block if slot is now full (totalBooked already includes pre-existing bookings)
+  const totalForSlot = totalBooked + totalGuests;
   if (totalForSlot >= tour.capacity) {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://toursync1.vercel.app";
     try {
