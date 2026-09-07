@@ -178,22 +178,24 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
     }
   } else {
     // Validate individual participant count against min/max
-    if (totalGuests < tour.group_size_min) {
+    const minParticipants = tour.group_size_min ?? 1;
+    const maxParticipants = tour.group_size_max ?? tour.capacity;
+    if (totalGuests < minParticipants) {
       return gygJson(
         {
           errorCode: "INVALID_PARTICIPANTS_CONFIGURATION",
-          errorMessage: `The activity requires a minimum of ${tour.group_size_min} participants`,
-          participantsConfiguration: { min: tour.group_size_min, max: tour.group_size_max },
+          errorMessage: `The activity requires a minimum of ${minParticipants} participants`,
+          participantsConfiguration: { min: minParticipants, max: maxParticipants },
         },
         { status: 200 }
       );
     }
-    if (tour.group_size_max && totalGuests > tour.group_size_max) {
+    if (totalGuests > maxParticipants) {
       return gygJson(
         {
           errorCode: "INVALID_PARTICIPANTS_CONFIGURATION",
-          errorMessage: `The activity cannot be reserved for more than ${tour.group_size_max} participants`,
-          participantsConfiguration: { min: tour.group_size_min, max: tour.group_size_max },
+          errorMessage: `The activity cannot be reserved for more than ${maxParticipants} participants`,
+          participantsConfiguration: { min: minParticipants, max: maxParticipants },
         },
         { status: 200 }
       );
