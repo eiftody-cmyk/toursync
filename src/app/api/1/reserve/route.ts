@@ -102,6 +102,30 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
   const [h, m] = timePart.split(":");
   const tourStartTime = tour.product_type === "time_period" ? null : `${h}:${m}`;
 
+  // For time_point: validate that the requested dateTime matches an actual schedule slot
+  if (tour.product_type === "time_point") {
+    const requestDate = new Date(dateStr + "T12:00:00+09:00");
+    const dayOfWeek = requestDate.getDay();
+
+    const { data: daySchedules } = await supabase
+      .from("tour_schedules")
+      .select("start_time")
+      .eq("tour_id", tour.id)
+      .eq("day_of_week", dayOfWeek)
+      .eq("is_active", true);
+
+    const hasSchedule = (daySchedules ?? []).some(
+      (s) => normalizeTime(s.start_time) === tourStartTime
+    );
+
+    if (!hasSchedule) {
+      return gygJson(
+        { errorCode: "NO_AVAILABILITY", errorMessage: `No schedule for ${dateStr} at ${tourStartTime}` },
+        { status: 200 }
+      );
+    }
+  }
+
   // Calculate total guests from bookingItems
   // For GROUP: each bookingItem with category "GROUP" has count=1 and groupSize=N
   // For Individual: sum of all count values
