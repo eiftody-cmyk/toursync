@@ -73,13 +73,23 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
 
   const isGroup = tour.ticket_type === "group";
 
-  // Validate ticket categories (only if categories are configured for this tour)
-  const { data: pricingCategories } = await supabase
-    .from("tour_pricing_categories")
-    .select("category")
-    .eq("tour_id", tour.id);
+  // Parse dateTime — extract date and time directly from ISO string (avoid UTC conversion)
+  const dateStr = requestData.dateTime.split("T")[0];
+  const timePart = requestData.dateTime.split("T")[1]?.split("+")[0]?.split("-")[0] ?? "00:00:00";
+  const [h, m] = timePart.split(":");
+  const tourStartTime = tour.product_type === "time_period" ? null : `${h}:${m}`;
 
-  const supportedCategories = (pricingCategories ?? []).map((c: { category: string }) => c.category);
+  // Parallelize pricing categories, schedule check, and capacity queries
+  const dayOfWeek = new Date(dateStr + "T12:00:00+09:00").getDay();
+  const now = new Date().toISOString();
+  const [pricingResult, scheduleResult] = await Promise.all([
+    supabase.from("tour_pricing_categories").select("category").eq("tour_id", tour.id),
+    tour.product_type === "time_point"
+      ? supabase.from("tour_schedules").select("start_time").eq("tour_id", tour.id).eq("day_of_week", dayOfWeek).eq("is_active", true)
+      : Promise.resolve({ data: null }),
+  ]);
+
+  const supportedCategories = (pricingResult.data ?? []).map((c: { category: string }) => c.category);
 
   if (supportedCategories.length > 0) {
     for (const item of requestData.bookingItems) {
@@ -96,28 +106,12 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
     }
   }
 
-  // Parse dateTime — extract date and time directly from ISO string (avoid UTC conversion)
-  const dateStr = requestData.dateTime.split("T")[0];
-  const timePart = requestData.dateTime.split("T")[1]?.split("+")[0]?.split("-")[0] ?? "00:00:00";
-  const [h, m] = timePart.split(":");
-  const tourStartTime = tour.product_type === "time_period" ? null : `${h}:${m}`;
-
-  // For time_point: validate that the requested dateTime matches an actual schedule slot
+  // Validate schedule for time_point products
+  const daySchedules = scheduleResult.data;
   if (tour.product_type === "time_point") {
-    const requestDate = new Date(dateStr + "T12:00:00+09:00");
-    const dayOfWeek = requestDate.getDay();
-
-    const { data: daySchedules } = await supabase
-      .from("tour_schedules")
-      .select("start_time")
-      .eq("tour_id", tour.id)
-      .eq("day_of_week", dayOfWeek)
-      .eq("is_active", true);
-
     const hasSchedule = (daySchedules ?? []).some(
       (s) => normalizeTime(s.start_time) === tourStartTime
     );
-
     if (!hasSchedule) {
       return gygJson(
         { errorCode: "NO_AVAILABILITY", errorMessage: `No schedule for ${dateStr} at ${tourStartTime}` },
@@ -202,22 +196,16 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
     }
   }
 
-  // Check capacity (confirmed bookings + active reservations)
-  const { data: existingBookings } = await supabase
-    .from("bookings")
-    .select("guest_count")
-    .eq("tour_id", tour.id)
-    .eq("date", dateStr)
-    .is("start_time", tourStartTime)
-    .eq("status", "confirmed");
+  // Parallelize capacity check and idempotency check
+  const [bookingsResult, reservationsResult, existingResResult] = await Promise.all([
+    supabase.from("bookings").select("guest_count").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", tourStartTime).eq("status", "confirmed"),
+    supabase.from("gyg_reservations").select("booking_items").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", tourStartTime).gt("expires_at", new Date().toISOString()),
+    supabase.from("gyg_reservations").select("id, reservation_reference").eq("gyg_booking_reference", requestData.gygBookingReference).gt("expires_at", new Date().toISOString()).maybeSingle(),
+  ]);
 
-  const { data: existingReservations } = await supabase
-    .from("gyg_reservations")
-    .select("booking_items")
-    .eq("tour_id", tour.id)
-    .eq("date", dateStr)
-    .is("start_time", tourStartTime)
-    .gt("expires_at", new Date().toISOString());
+  const existingBookings = bookingsResult.data;
+  const existingReservations = reservationsResult.data;
+  const existingRes = existingResResult.data;
 
   let totalBooked = (existingBookings ?? []).reduce(
     (sum, b) => sum + (b.guest_count ?? 0),
@@ -243,14 +231,6 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
       { status: 200 }
     );
   }
-
-  // Check for existing active reservation for this GYG booking reference
-  const { data: existingRes } = await supabase
-    .from("gyg_reservations")
-    .select("id, reservation_reference")
-    .eq("gyg_booking_reference", requestData.gygBookingReference)
-    .gt("expires_at", new Date().toISOString())
-    .maybeSingle();
 
   if (existingRes) {
     const reservationExpiration = new Date(Date.now() + (tour.cutoff_minutes ?? 60) * 60 * 1000).toISOString().replace(/\.\d{3}Z$/, "+00:00");

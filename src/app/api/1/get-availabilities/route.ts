@@ -70,56 +70,37 @@ async function GET_inner(req: NextRequest, startTime: number, ctx: ReturnType<ty
   const fromDateStr = fromDateTime.split("T")[0];
   const toDateStr = toDateTime.split("T")[0];
 
-  // Fetch schedules for this tour
-  const { data: schedules } = await supabase
-    .from("tour_schedules")
-    .select("*")
-    .eq("tour_id", tour.id)
-    .eq("is_active", true);
+  // Parallelize all independent Supabase queries
+  const [schedulesResult, exceptionsResult, blockedResult, bookingsResult, reservationsResult, pricingResult] = await Promise.all([
+    supabase.from("tour_schedules").select("*").eq("tour_id", tour.id).eq("is_active", true),
+    supabase.from("schedule_exceptions").select("date").eq("tour_id", tour.id),
+    supabase.from("blocked_dates").select("date, start_time").eq("tour_id", tour.id),
+    supabase.from("bookings").select("date, start_time, guest_count").eq("tour_id", tour.id).eq("status", "confirmed").gte("date", fromDateStr).lte("date", toDateStr),
+    supabase.from("gyg_reservations").select("date, start_time, booking_items, expires_at").eq("tour_id", tour.id).gt("expires_at", new Date().toISOString()).gte("date", fromDateStr).lte("date", toDateStr),
+    supabase.from("tour_pricing_categories").select("category, price, currency").eq("tour_id", tour.id),
+  ]);
+
+  const schedules = schedulesResult.data;
+  const exceptions = exceptionsResult.data;
+  const blocked = blockedResult.data;
+  const allBookings = bookingsResult.data;
+  const activeReservations = reservationsResult.data;
+  const pricingCategories = pricingResult.data;
 
   if (!schedules?.length && !isTimePeriod) {
     return gygJson({ data: { availabilities: [] } }, { status: 200 });
   }
 
-  // Fetch exceptions
-  const { data: exceptions } = await supabase
-    .from("schedule_exceptions")
-    .select("date")
-    .eq("tour_id", tour.id);
   const exceptionDates = new Set((exceptions ?? []).map((e) => e.date));
-
-  // Fetch blocked dates
-  const { data: blocked } = await supabase
-    .from("blocked_dates")
-    .select("date, start_time")
-    .eq("tour_id", tour.id);
   const blockedTimeSet = new Set(
     (blocked ?? []).map((b) => `${b.date}_${normalizeTime(b.start_time)}`)
   );
-
-  // Fetch bookings in range (confirmed only)
-  const { data: allBookings } = await supabase
-    .from("bookings")
-    .select("date, start_time, guest_count")
-    .eq("tour_id", tour.id)
-    .eq("status", "confirmed")
-    .gte("date", fromDateStr)
-    .lte("date", toDateStr);
 
   const bookedMap: Record<string, number> = {};
   for (const b of allBookings ?? []) {
     const key = `${b.date}_${normalizeTime(b.start_time)}`;
     bookedMap[key] = (bookedMap[key] ?? 0) + (b.guest_count ?? 0);
   }
-
-  // Also count active (non-expired) reservations
-  const { data: activeReservations } = await supabase
-    .from("gyg_reservations")
-    .select("date, start_time, booking_items, expires_at")
-    .eq("tour_id", tour.id)
-    .gt("expires_at", new Date().toISOString())
-    .gte("date", fromDateStr)
-    .lte("date", toDateStr);
 
   for (const r of activeReservations ?? []) {
     const key = `${r.date}_${normalizeTime(r.start_time)}`;
@@ -136,12 +117,6 @@ async function GET_inner(req: NextRequest, startTime: number, ctx: ReturnType<ty
     }
     bookedMap[key] = (bookedMap[key] ?? 0) + resGuests;
   }
-
-  // Fetch pricing categories
-  const { data: pricingCategories } = await supabase
-    .from("tour_pricing_categories")
-    .select("category, price, currency")
-    .eq("tour_id", tour.id);
 
   // Build availability for each date in range
   const availabilities: GygAvailability[] = [];
@@ -359,51 +334,37 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
   const fromDateStr = requestData.fromDateTime.split("T")[0];
   const toDateStr = requestData.toDateTime.split("T")[0];
 
-  const { data: schedules } = await supabase
-    .from("tour_schedules")
-    .select("*")
-    .eq("tour_id", tour.id)
-    .eq("is_active", true);
+  // Parallelize all independent Supabase queries
+  const [schedulesResult, exceptionsResult, blockedResult, bookingsResult, reservationsResult, pricingResult] = await Promise.all([
+    supabase.from("tour_schedules").select("*").eq("tour_id", tour.id).eq("is_active", true),
+    supabase.from("schedule_exceptions").select("date").eq("tour_id", tour.id),
+    supabase.from("blocked_dates").select("date, start_time").eq("tour_id", tour.id),
+    supabase.from("bookings").select("date, start_time, guest_count").eq("tour_id", tour.id).eq("status", "confirmed").gte("date", fromDateStr).lte("date", toDateStr),
+    supabase.from("gyg_reservations").select("date, start_time, booking_items, expires_at").eq("tour_id", tour.id).gt("expires_at", new Date().toISOString()).gte("date", fromDateStr).lte("date", toDateStr),
+    supabase.from("tour_pricing_categories").select("category, price, currency").eq("tour_id", tour.id),
+  ]);
+
+  const schedules = schedulesResult.data;
+  const exceptions = exceptionsResult.data;
+  const blocked = blockedResult.data;
+  const allBookings = bookingsResult.data;
+  const activeReservations = reservationsResult.data;
+  const pricingCategories = pricingResult.data;
 
   if (!schedules?.length && !isTimePeriod) {
     return gygJson({ data: { availabilities: [] } }, { status: 200 });
   }
 
-  const { data: exceptions } = await supabase
-    .from("schedule_exceptions")
-    .select("date")
-    .eq("tour_id", tour.id);
   const exceptionDates = new Set((exceptions ?? []).map((e) => e.date));
-
-  const { data: blocked } = await supabase
-    .from("blocked_dates")
-    .select("date, start_time")
-    .eq("tour_id", tour.id);
   const blockedTimeSet = new Set(
     (blocked ?? []).map((b) => `${b.date}_${normalizeTime(b.start_time)}`)
   );
-
-  const { data: allBookings } = await supabase
-    .from("bookings")
-    .select("date, start_time, guest_count")
-    .eq("tour_id", tour.id)
-    .eq("status", "confirmed")
-    .gte("date", fromDateStr)
-    .lte("date", toDateStr);
 
   const bookedMap: Record<string, number> = {};
   for (const b of allBookings ?? []) {
     const key = `${b.date}_${normalizeTime(b.start_time)}`;
     bookedMap[key] = (bookedMap[key] ?? 0) + (b.guest_count ?? 0);
   }
-
-  const { data: activeReservations } = await supabase
-    .from("gyg_reservations")
-    .select("date, start_time, booking_items, expires_at")
-    .eq("tour_id", tour.id)
-    .gt("expires_at", new Date().toISOString())
-    .gte("date", fromDateStr)
-    .lte("date", toDateStr);
 
   for (const r of activeReservations ?? []) {
     const key = `${r.date}_${normalizeTime(r.start_time)}`;
@@ -420,11 +381,6 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
     }
     bookedMap[key] = (bookedMap[key] ?? 0) + resGuests;
   }
-
-  const { data: pricingCategories } = await supabase
-    .from("tour_pricing_categories")
-    .select("category, price, currency")
-    .eq("tour_id", tour.id);
 
   const availabilities: GygAvailability[] = [];
   const cutoffSeconds = (tour.cutoff_minutes ?? 60) * 60;
