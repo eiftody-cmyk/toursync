@@ -27,8 +27,10 @@ export async function GET(req: NextRequest) {
 }
 
 async function GET_inner(req: NextRequest, startTime: number, ctx: ReturnType<typeof createGygLogger>) {
+  console.log(`[GYG get-availabilities] ${req.method} ${req.url}`);
   const authError = verifyGygAuth(req);
   if (authError) {
+    console.log(`[GYG get-availabilities] AUTH FAILED`);
     logResponse(ctx, 200, { errorCode: "AUTHORIZATION_FAILURE" }, startTime);
     return authError;
   }
@@ -37,6 +39,7 @@ async function GET_inner(req: NextRequest, startTime: number, ctx: ReturnType<ty
   const productId = searchParams.get("productId");
   const fromDateTime = searchParams.get("fromDateTime");
   const toDateTime = searchParams.get("toDateTime");
+  console.log(`[GYG get-availabilities] productId=${productId} from=${fromDateTime} to=${toDateTime}`);
 
   if (!productId || !fromDateTime || !toDateTime) {
     return gygJson(

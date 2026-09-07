@@ -16,6 +16,11 @@ export async function middleware(request: NextRequest) {
     return new NextResponse(null, { status: 204, headers: GYG_CORS_HEADERS });
   }
 
+  // Skip Supabase session for GYG Supplier API routes — they use Basic Auth, not cookies
+  if (pathname.startsWith("/1/")) {
+    return NextResponse.next();
+  }
+
   const { supabaseResponse, user } = await updateSession(request);
 
   const isAuthRoute =
