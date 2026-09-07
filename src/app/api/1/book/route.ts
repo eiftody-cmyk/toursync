@@ -83,13 +83,42 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
 
   const isGroup = tour.ticket_type === "group";
 
-  // Validate ticket categories (only if categories are configured for this tour)
-  const { data: pricingCategories } = await supabase
-    .from("tour_pricing_categories")
-    .select("category")
-    .eq("tour_id", tour.id);
+  // Parse dateTime early so we can parallelize
+  const dateStr = requestData.dateTime.split("T")[0];
+  const timePart = requestData.dateTime.split("T")[1]?.split("+")[0]?.split("-")[0] ?? "00:00:00";
+  const [h, m] = timePart.split(":");
+  const startTime = tour.product_type === "time_period" ? null : `${h}:${m}`;
 
-  const supportedCategories = (pricingCategories ?? []).map((c: { category: string }) => c.category);
+  // Calculate total guests
+  let totalGuests = 0;
+  for (const item of requestData.bookingItems) {
+    if (item.category === "GROUP") {
+      totalGuests += (item.groupSize || 0) * (item.count || 0);
+    } else {
+      totalGuests += item.count || 0;
+    }
+  }
+
+  // Parallelize: pricing categories, idempotency check, reservation lookup
+  const [pricingResult, existingBookingResult, reservationResult] = await Promise.all([
+    supabase.from("tour_pricing_categories").select("category").eq("tour_id", tour.id),
+    supabase
+      .from("bookings")
+      .select("id, notes")
+      .eq("tour_id", tour.id)
+      .eq("source", "gyg")
+      .eq("gyg_booking_reference", requestData.gygBookingReference)
+      .eq("reservation_reference", requestData.reservationReference)
+      .eq("status", "confirmed")
+      .maybeSingle(),
+    supabase
+      .from("gyg_reservations")
+      .select("id, expires_at")
+      .eq("reservation_reference", requestData.reservationReference)
+      .maybeSingle(),
+  ]);
+
+  const supportedCategories = (pricingResult.data ?? []).map((c: { category: string }) => c.category);
 
   if (supportedCategories.length > 0) {
     for (const item of requestData.bookingItems) {
@@ -106,33 +135,15 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     }
   }
 
-  // Check idempotency — match on both gygBookingReference AND reservationReference
-  // so that booking changes (same reference, new slot) create a new booking
-  const { data: existingBooking } = await supabase
-    .from("bookings")
-    .select("id, notes")
-    .eq("tour_id", tour.id)
-    .eq("source", "gyg")
-    .like("notes", `%${requestData.gygBookingReference}%`)
-    .like("notes", `%${requestData.reservationReference}%`)
-    .eq("status", "confirmed")
-    .maybeSingle();
-
-  if (existingBooking) {
-    const tickets = generateTickets(existingBooking.id, requestData.bookingItems, isGroup);
+  if (existingBookingResult.data) {
+    const tickets = generateTickets(existingBookingResult.data.id, requestData.bookingItems, isGroup);
     return gygJson(
-      { data: { bookingReference: existingBooking.id, tickets } },
+      { data: { bookingReference: existingBookingResult.data.id, tickets } },
       { status: 200 }
     );
   }
 
-  // Verify reservation exists and hasn't expired
-  const { data: reservation } = await supabase
-    .from("gyg_reservations")
-    .select("id, expires_at")
-    .eq("reservation_reference", requestData.reservationReference)
-    .maybeSingle();
-
+  const reservation = reservationResult.data;
   if (!reservation) {
     return gygJson(
       { errorCode: "INVALID_RESERVATION", errorMessage: "Reservation not found" },
@@ -147,45 +158,18 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     );
   }
 
-  // Parse dateTime — extract date and time directly from ISO string (avoid UTC conversion)
-  const dateStr = requestData.dateTime.split("T")[0];
-  const timePart = requestData.dateTime.split("T")[1]?.split("+")[0]?.split("-")[0] ?? "00:00:00";
-  const [h, m] = timePart.split(":");
-  const startTime = tour.product_type === "time_period" ? null : `${h}:${m}`;
+  // Parallelize: capacity check (bookings + active reservations)
+  const [bookingsResult, reservationsResult] = await Promise.all([
+    supabase.from("bookings").select("guest_count").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", startTime).eq("status", "confirmed"),
+    supabase.from("gyg_reservations").select("booking_items").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", startTime).gt("expires_at", new Date().toISOString()),
+  ]);
 
-  // Calculate total guests
-  let totalGuests = 0;
-  for (const item of requestData.bookingItems) {
-    if (item.category === "GROUP") {
-      totalGuests += (item.groupSize || 0) * (item.count || 0);
-    } else {
-      totalGuests += item.count || 0;
-    }
-  }
-
-  // Check capacity (confirmed bookings + active reservations)
-  const { data: existingBookings } = await supabase
-    .from("bookings")
-    .select("guest_count")
-    .eq("tour_id", tour.id)
-    .eq("date", dateStr)
-    .is("start_time", startTime)
-    .eq("status", "confirmed");
-
-  const { data: existingReservations } = await supabase
-    .from("gyg_reservations")
-    .select("booking_items")
-    .eq("tour_id", tour.id)
-    .eq("date", dateStr)
-    .is("start_time", startTime)
-    .gt("expires_at", new Date().toISOString());
-
-  let totalBooked = (existingBookings ?? []).reduce(
+  let totalBooked = (bookingsResult.data ?? []).reduce(
     (sum, b) => sum + (b.guest_count ?? 0),
     0
   );
 
-  for (const r of existingReservations ?? []) {
+  for (const r of reservationsResult.data ?? []) {
     const items = r.booking_items as Array<{ category: string; count: number; groupSize?: number }> | null;
     if (Array.isArray(items)) {
       for (const item of items) {
@@ -236,6 +220,8 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
       customer_email: customerEmail,
       status: "confirmed",
       notes,
+      gyg_booking_reference: requestData.gygBookingReference,
+      reservation_reference: requestData.reservationReference,
     })
     .select("id")
     .single();
@@ -248,13 +234,13 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     );
   }
 
-  // Delete reservation hold
-  await supabase
-    .from("gyg_reservations")
-    .delete()
-    .eq("id", reservation.id);
+  // Delete reservation + fetch operator profile in parallel
+  const [, operatorProfileResult] = await Promise.all([
+    supabase.from("gyg_reservations").delete().eq("id", reservation.id),
+    supabase.from("profiles").select("email").eq("id", tour.user_id).single(),
+  ]);
 
-  // Send confirmation email to lead traveler
+  // Send confirmation email to lead traveler (non-blocking)
   if (customerEmail && tour.price) {
     const confirmationEmail = bookingConfirmationEmail({
       tourName: tour.name,
@@ -274,12 +260,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
   }
 
   // Send notification email to operator
-  const { data: operatorProfile } = await supabase
-    .from("profiles")
-    .select("email")
-    .eq("id", tour.user_id)
-    .single();
-
+  const operatorProfile = operatorProfileResult.data;
   if (operatorProfile?.email) {
     const notificationEmail = operatorNotificationEmail({
       operatorEmail: operatorProfile.email,
@@ -297,33 +278,33 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     }).catch((e) => console.error("[GYG book] Operator notification email failed:", e));
   }
 
-  // Insert in-app notification
+  // Insert in-app notification + check auto-block capacity in parallel
   const guestWord = totalGuests === 1 ? "guest" : "guests";
-  supabase
-    .from("notifications")
-    .insert({
-      user_id: tour.user_id,
-      type: "new_booking",
-      title: `New Booking — ${tour.name}`,
-      message: isGroup
-        ? `${totalGuests} ${guestWord} (${requestData.bookingItems.filter((i: { category: string }) => i.category === "GROUP").reduce((s: number, i: { count: number }) => s + i.count, 0)} groups) on ${dateStr}${startTime ? ` at ${startTime}` : ""} (via GetYourGuide)`
-        : `${totalGuests} ${guestWord} on ${dateStr}${startTime ? ` at ${startTime}` : ""} (via GetYourGuide)`,
-      link: "/dashboard",
-    })
-    .then(({ error: notifError }) => {
-      if (notifError) console.error("[GYG book] Notification insert failed:", notifError.message);
-    });
+  const [, allBookingsForSlotResult] = await Promise.all([
+    supabase
+      .from("notifications")
+      .insert({
+        user_id: tour.user_id,
+        type: "new_booking",
+        title: `New Booking — ${tour.name}`,
+        message: isGroup
+          ? `${totalGuests} ${guestWord} (${requestData.bookingItems.filter((i: { category: string }) => i.category === "GROUP").reduce((s: number, i: { count: number }) => s + i.count, 0)} groups) on ${dateStr}${startTime ? ` at ${startTime}` : ""} (via GetYourGuide)`
+          : `${totalGuests} ${guestWord} on ${dateStr}${startTime ? ` at ${startTime}` : ""} (via GetYourGuide)`,
+        link: "/dashboard",
+      })
+      .then(({ error: notifError }) => {
+        if (notifError) console.error("[GYG book] Notification insert failed:", notifError.message);
+      }),
+    supabase
+      .from("bookings")
+      .select("guest_count")
+      .eq("tour_id", tour.id)
+      .eq("date", dateStr)
+      .is("start_time", startTime)
+      .eq("status", "confirmed"),
+  ]);
 
-  // Check auto-block
-  const { data: allBookingsForSlot } = await supabase
-    .from("bookings")
-    .select("guest_count")
-    .eq("tour_id", tour.id)
-    .eq("date", dateStr)
-    .is("start_time", startTime)
-    .eq("status", "confirmed");
-
-  const totalForSlot = (allBookingsForSlot ?? []).reduce(
+  const totalForSlot = (allBookingsForSlotResult.data ?? []).reduce(
     (sum, b) => sum + (b.guest_count ?? 0),
     0
   );

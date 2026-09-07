@@ -112,50 +112,29 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     );
   }
 
-  // Check if we should un-auto-block
-  const { data: tour } = await supabase
-    .from("tours")
-    .select("capacity")
-    .eq("id", booking.tour_id)
-    .single();
+  // Parallelize: tour capacity + remaining bookings + auto-block check
+  const [tourResult, remainingBookingsResult, autoBlockResult] = await Promise.all([
+    supabase.from("tours").select("capacity").eq("id", booking.tour_id).single(),
+    (() => {
+      const q = supabase.from("bookings").select("guest_count").eq("tour_id", booking.tour_id).eq("date", booking.date).eq("status", "confirmed");
+      if (booking.start_time) { q.eq("start_time", booking.start_time); } else { q.is("start_time", null); }
+      return q;
+    })(),
+    (() => {
+      const q = supabase.from("blocked_dates").select("id, google_calendar_event_id, calendar_id").eq("tour_id", booking.tour_id).eq("date", booking.date).eq("is_auto_blocked", true);
+      if (booking.start_time) { q.eq("start_time", booking.start_time); } else { q.is("start_time", null); }
+      return q.maybeSingle();
+    })(),
+  ]);
 
-  // Use .is() for NULL comparison instead of .eq() which doesn't match SQL NULLs
-  const remainingBookingsQuery = supabase
-    .from("bookings")
-    .select("guest_count")
-    .eq("tour_id", booking.tour_id)
-    .eq("date", booking.date)
-    .eq("status", "confirmed");
-
-  if (booking.start_time) {
-    remainingBookingsQuery.eq("start_time", booking.start_time);
-  } else {
-    remainingBookingsQuery.is("start_time", null);
-  }
-
-  const { data: remainingBookings } = await remainingBookingsQuery;
-
-  const totalBooked = (remainingBookings ?? []).reduce(
+  const tour = tourResult.data;
+  const totalBooked = (remainingBookingsResult.data ?? []).reduce(
     (sum, b) => sum + (b.guest_count ?? 0),
     0
   );
 
   if (tour && totalBooked < tour.capacity) {
-    // Find and remove the auto-block if it exists
-    const autoBlockQuery = supabase
-      .from("blocked_dates")
-      .select("id, google_calendar_event_id, calendar_id")
-      .eq("tour_id", booking.tour_id)
-      .eq("date", booking.date)
-      .eq("is_auto_blocked", true);
-
-    if (booking.start_time) {
-      autoBlockQuery.eq("start_time", booking.start_time);
-    } else {
-      autoBlockQuery.is("start_time", null);
-    }
-
-    const { data: autoBlock } = await autoBlockQuery.maybeSingle();
+    const autoBlock = autoBlockResult.data;
 
     if (autoBlock) {
       if (autoBlock.google_calendar_event_id && autoBlock.calendar_id) {
