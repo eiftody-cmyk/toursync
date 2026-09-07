@@ -9,7 +9,7 @@ function getResend(): Resend {
   return resend;
 }
 
-const FROM_EMAIL = "ExperienceRelay <noreply@toursync1.vercel.app>";
+const FROM_EMAIL = `ExperienceRelay <noreply@${process.env.NEXT_PUBLIC_BASE_URL?.replace(/^https?:\/\//, "") || "osakacastletours.com"}>`;
 
 interface SendEmailParams {
   to: string;

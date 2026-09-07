@@ -10,7 +10,7 @@ async function getAccessToken(): Promise<string> {
   const res = await fetch(`${PAYPAL_BASE}/v1/oauth2/token`, {
     method: "POST",
     headers: {
-      Authorization: `Basic ${Buffer.from(`${clientId}:${secret}`).toString("base64")}`,
+      Authorization: `Basic ${btoa(`${clientId}:${secret}`)}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: "grant_type=client_credentials",

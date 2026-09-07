@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://toursync1.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
 
   // Send confirmation email to customer
   if (payerEmail && tour.price) {

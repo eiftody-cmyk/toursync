@@ -74,35 +74,56 @@ export async function refreshAccessToken(refreshToken: string) {
   };
 }
 
-// Simple token encryption using Web Crypto via Node's crypto
-import crypto from "crypto";
+// Token encryption using Web Crypto API (AES-256-GCM)
+// Output format: {iv_hex}:{tag_hex}:{ciphertext_hex} — same as before
 
-const ALGO = "aes-256-gcm";
-
-export function encryptToken(token: string): string {
-  const keyHex = process.env.GOOGLE_TOKEN_ENCRYPTION_KEY;
-  if (!keyHex) throw new Error("GOOGLE_TOKEN_ENCRYPTION_KEY not set");
-  if (keyHex.length !== 64) throw new Error("GOOGLE_TOKEN_ENCRYPTION_KEY must be 64 hex chars (32 bytes)");
-  const key = Buffer.from(keyHex, "hex");
-  const iv = crypto.randomBytes(12);
-  const cipher = crypto.createCipheriv(ALGO, key, iv);
-  const encrypted = Buffer.concat([cipher.update(token, "utf8"), cipher.final()]);
-  const tag = cipher.getAuthTag();
-  return `${iv.toString("hex")}:${tag.toString("hex")}:${encrypted.toString("hex")}`;
+function hexToBytes(hex: string): Uint8Array {
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < hex.length; i += 2) {
+    bytes[i / 2] = parseInt(hex.substring(i, i + 2), 16);
+  }
+  return bytes;
 }
 
-export function decryptToken(encrypted: string): string {
+function bytesToHex(bytes: Uint8Array): string {
+  return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function getKey(): Promise<CryptoKey> {
   const keyHex = process.env.GOOGLE_TOKEN_ENCRYPTION_KEY;
   if (!keyHex) throw new Error("GOOGLE_TOKEN_ENCRYPTION_KEY not set");
   if (keyHex.length !== 64) throw new Error("GOOGLE_TOKEN_ENCRYPTION_KEY must be 64 hex chars (32 bytes)");
-  const key = Buffer.from(keyHex, "hex");
+  const keyBytes = hexToBytes(keyHex);
+  return crypto.subtle.importKey("raw", keyBytes.buffer as ArrayBuffer, "AES-GCM", false, ["encrypt", "decrypt"]);
+}
+
+export async function encryptToken(token: string): Promise<string> {
+  const key = await getKey();
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const plaintext = new TextEncoder().encode(token);
+  const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv.buffer as ArrayBuffer }, key, plaintext);
+  // encrypted = ciphertext + 16-byte auth tag (appended by Web Crypto)
+  const encryptedBytes = new Uint8Array(encrypted);
+  const ciphertext = encryptedBytes.slice(0, encryptedBytes.length - 16);
+  const tag = encryptedBytes.slice(encryptedBytes.length - 16);
+  return `${bytesToHex(iv)}:${bytesToHex(tag)}:${bytesToHex(ciphertext)}`;
+}
+
+export async function decryptToken(encrypted: string): Promise<string> {
+  const key = await getKey();
   const [ivHex, tagHex, dataHex] = encrypted.split(":");
   if (!ivHex || !tagHex || !dataHex) throw new Error("Invalid encrypted token format");
-  const iv = Buffer.from(ivHex, "hex");
-  const tag = Buffer.from(tagHex, "hex");
-  const data = Buffer.from(dataHex, "hex");
-  const decipher = crypto.createDecipheriv(ALGO, key, iv);
-  decipher.setAuthTag(tag);
-  const decrypted = Buffer.concat([decipher.update(data), decipher.final()]);
-  return decrypted.toString("utf8");
+  const iv = hexToBytes(ivHex);
+  const tag = hexToBytes(tagHex);
+  const data = hexToBytes(dataHex);
+  // Web Crypto expects ciphertext + tag concatenated
+  const combined = new Uint8Array(data.length + tag.length);
+  combined.set(data, 0);
+  combined.set(tag, data.length);
+  const decrypted = await crypto.subtle.decrypt(
+    { name: "AES-GCM", iv: iv.buffer as ArrayBuffer },
+    key,
+    combined
+  );
+  return new TextDecoder().decode(decrypted);
 }

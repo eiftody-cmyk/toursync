@@ -34,8 +34,8 @@ export async function GET(request: NextRequest) {
     const tokens = await exchangeCodeForTokens(code);
     const expiry = new Date(Date.now() + tokens.expires_in * 1000).toISOString();
 
-    const accessTokenEnc = encryptToken(tokens.access_token);
-    const refreshTokenEnc = tokens.refresh_token ? encryptToken(tokens.refresh_token) : null;
+    const accessTokenEnc = await encryptToken(tokens.access_token);
+    const refreshTokenEnc = tokens.refresh_token ? await encryptToken(tokens.refresh_token) : null;
 
     // Upsert: keep existing refresh_token if Google doesn't return a new one
     const { data: existing } = await supabase

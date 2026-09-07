@@ -6,7 +6,7 @@ function getAuth(): string {
   const username = process.env.GYG_USERNAME;
   const password = process.env.GYG_PASSWORD;
   if (!username || !password) throw new Error("Missing GYG_USERNAME or GYG_PASSWORD");
-  return Buffer.from(`${username}:${password}`).toString("base64");
+  return btoa(`${username}:${password}`);
 }
 
 async function gzgFetch(path: string, init?: RequestInit) {

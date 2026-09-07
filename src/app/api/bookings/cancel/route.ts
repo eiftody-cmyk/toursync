@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
       // Delete from Google Calendar if connected
       if (autoBlock.google_calendar_event_id && autoBlock.calendar_id) {
         try {
-          const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://toursync1.vercel.app";
+          const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
           await fetch(`${baseUrl}/api/calendar/unblock`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

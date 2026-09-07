@@ -250,7 +250,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
       currency: tour.currency || "JPY",
       pricePerGuest: tour.price,
       bookingId: booking.id,
-      baseUrl: process.env.NEXT_PUBLIC_BASE_URL || "https://toursync1.vercel.app",
+      baseUrl: process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com",
     });
     sendEmail({
       to: customerEmail,
@@ -269,7 +269,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
       startTime: startTime ?? "",
       guestCount: totalGuests,
       customerEmail,
-      baseUrl: process.env.NEXT_PUBLIC_BASE_URL || "https://toursync1.vercel.app",
+      baseUrl: process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com",
     });
     sendEmail({
       to: notificationEmail.to,
@@ -298,7 +298,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
   // Auto-block if slot is now full (totalBooked already includes pre-existing bookings)
   const totalForSlot = totalBooked + totalGuests;
   if (totalForSlot >= tour.capacity) {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://toursync1.vercel.app";
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
     try {
       await fetch(`${baseUrl}/api/calendar/block`, {
         method: "POST",

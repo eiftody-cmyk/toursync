@@ -23,7 +23,7 @@ export function verifyGygAuth(
     });
   }
 
-  const decoded = Buffer.from(authHeader.split(" ")[1], "base64").toString();
+  const decoded = atob(authHeader.split(" ")[1]);
   const colonIndex = decoded.indexOf(":");
   const username = colonIndex >= 0 ? decoded.substring(0, colonIndex) : decoded;
   const password = colonIndex >= 0 ? decoded.substring(colonIndex + 1) : "";

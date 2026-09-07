@@ -25,7 +25,7 @@ export async function POST() {
     },
   };
 
-  const auth = Buffer.from(`${username}:${password}`).toString("base64");
+  const auth = btoa(`${username}:${password}`);
 
   try {
     const res = await fetch(

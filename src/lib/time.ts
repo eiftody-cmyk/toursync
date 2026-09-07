@@ -1,17 +1,26 @@
-const JST = "Asia/Tokyo";
+const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
+
+function toJSTDate(date: Date): Date {
+  return new Date(date.getTime() + JST_OFFSET_MS);
+}
+
+function pad2(n: number): string {
+  return String(n).padStart(2, "0");
+}
+
+function formatYMD(d: Date): string {
+  return `${d.getUTCFullYear()}-${pad2(d.getUTCMonth() + 1)}-${pad2(d.getUTCDate())}`;
+}
 
 export function todayJST(): string {
-  // Returns YYYY-MM-DD in JST
-  return new Date().toLocaleDateString("en-CA", { timeZone: JST });
+  return formatYMD(toJSTDate(new Date()));
 }
 
 export function formatJSTDate(date: Date): string {
-  return date.toLocaleDateString("en-CA", { timeZone: JST });
+  return formatYMD(toJSTDate(date));
 }
 
 export function toJSTStartOfDay(dateStr: string): Date {
-  // Creates a Date at 00:00:00 JST, returns as UTC-equivalent Date
-  // that react-big-calendar can use
   return new Date(`${dateStr}T00:00:00+09:00`);
 }
 

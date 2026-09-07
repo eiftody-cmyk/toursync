@@ -1,20 +1,37 @@
-import { google } from "googleapis";
 import { decryptToken } from "./auth";
 import { nextDay } from "@/lib/time";
+
+const CALENDAR_API = "https://www.googleapis.com/calendar/v3";
+
+async function gcalFetch(path: string, accessToken: string, init?: RequestInit) {
+  const res = await fetch(`${CALENDAR_API}${path}`, {
+    ...init,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+      ...init?.headers,
+    },
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Google Calendar API error ${res.status}: ${err}`);
+  }
+  return res.json();
+}
 
 /** Create a new Google Calendar for a specific tour */
 export async function createCalendarForTour(
   accessToken: string,
   tourName: string
 ): Promise<{ id: string; summary: string }> {
-  const calendar = getCalendarClient(accessToken);
-  const res = await calendar.calendars.insert({
-    requestBody: {
+  const data = await gcalFetch("/calendars", accessToken, {
+    method: "POST",
+    body: JSON.stringify({
       summary: `ExperienceRelay — ${tourName}`,
       timeZone: "Asia/Tokyo",
-    },
+    }),
   });
-  return { id: res.data.id!, summary: res.data.summary ?? tourName };
+  return { id: data.id, summary: data.summary ?? tourName };
 }
 
 /** Delete a Google Calendar (not primary) */
@@ -22,8 +39,9 @@ export async function deleteCalendarFromGoogle(
   accessToken: string,
   calendarId: string
 ) {
-  const calendar = getCalendarClient(accessToken);
-  await calendar.calendars.delete({ calendarId });
+  await gcalFetch(`/calendars/${encodeURIComponent(calendarId)}`, accessToken, {
+    method: "DELETE",
+  });
 }
 
 /** Get the Google calendar_id for a specific tour — falls back to primary calendar */
@@ -52,12 +70,6 @@ export async function getCalendarIdForTour(
   return tokens?.calendar_id ?? "primary";
 }
 
-export function getCalendarClient(accessToken: string) {
-  const auth = new google.auth.OAuth2();
-  auth.setCredentials({ access_token: accessToken });
-  return google.calendar({ version: "v3", auth });
-}
-
 export async function createBusyEvent(params: {
   accessToken: string;
   calendarId?: string;
@@ -67,7 +79,6 @@ export async function createBusyEvent(params: {
   startTime?: string; // HH:mm
   endTime?: string; // HH:mm
 }) {
-  const calendar = getCalendarClient(params.accessToken);
   const calendarId = params.calendarId;
   if (!calendarId) throw new Error("calendarId required — tour has no per-tour calendar");
 
@@ -79,31 +90,32 @@ export async function createBusyEvent(params: {
     start = { dateTime: `${params.date}T${params.startTime}:00`, timeZone };
     end = { dateTime: `${params.date}T${params.endTime}:00`, timeZone };
   } else if (params.startTime) {
-    // If only start, block 8 hours (typical tour day)
     start = { dateTime: `${params.date}T${params.startTime}:00`, timeZone };
     end = { dateTime: `${params.date}T23:59:00`, timeZone };
   } else {
-    // All-day busy event
-    // Google all-day uses date (no time) and end is exclusive
     const nextDayStr = nextDay(params.date);
     start = { date: params.date };
     end = { date: nextDayStr };
   }
 
-  const res = await calendar.events.insert({
-    calendarId,
-    requestBody: {
-      summary: params.summary,
-      description: params.description,
-      start,
-      end,
-      transparency: "opaque", // marks as "busy" — Google pushes this to Airbnb immediately
-      visibility: "private",
-      status: "confirmed",
-    },
-  });
+  const data = await gcalFetch(
+    `/calendars/${encodeURIComponent(calendarId)}/events`,
+    params.accessToken,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        summary: params.summary,
+        description: params.description,
+        start,
+        end,
+        transparency: "opaque",
+        visibility: "private",
+        status: "confirmed",
+      }),
+    }
+  );
 
-  return res.data;
+  return data;
 }
 
 export async function deleteCalendarEvent(params: {
@@ -111,14 +123,14 @@ export async function deleteCalendarEvent(params: {
   calendarId?: string;
   eventId: string;
 }) {
-  const calendar = getCalendarClient(params.accessToken);
   const calendarId = params.calendarId;
   if (!calendarId) throw new Error("calendarId required — cannot delete event without calendar");
 
-  await calendar.events.delete({
-    calendarId,
-    eventId: params.eventId,
-  });
+  await gcalFetch(
+    `/calendars/${encodeURIComponent(calendarId)}/events/${encodeURIComponent(params.eventId)}`,
+    params.accessToken,
+    { method: "DELETE" }
+  );
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -126,9 +138,6 @@ export async function getValidAccessToken(_userId: string): Promise<{
   accessToken: string;
   calendarId: string;
 }> {
-  // This is called from server routes — we fetch from Supabase
-  // Decrypt and refresh if needed. The caller passes Supabase client.
-  // Keeping logic here for reuse.
   throw new Error("Use getValidAccessTokenWithClient — see api route");
 }
 
@@ -146,15 +155,14 @@ export async function getValidAccessTokenWithClient(
   if (error || !data) throw new Error("Google Calendar not connected");
 
   let accessToken = data.access_token
-    ? decryptToken(data.access_token)
+    ? await decryptToken(data.access_token)
     : null;
 
-  // Check expiry (refresh 5 min early)
   const expiry = data.token_expiry ? new Date(data.token_expiry) : null;
   const needsRefresh = !expiry || expiry.getTime() - Date.now() < 5 * 60 * 1000;
 
   if (needsRefresh && data.refresh_token) {
-    const refreshToken = decryptToken(data.refresh_token);
+    const refreshToken = await decryptToken(data.refresh_token);
     const { refreshAccessToken } = await import("./auth");
     const tokens = await refreshAccessToken(refreshToken);
     accessToken = tokens.access_token;
@@ -165,7 +173,7 @@ export async function getValidAccessTokenWithClient(
     await supabase
       .from("google_tokens")
       .update({
-        access_token: encryptToken(tokens.access_token),
+        access_token: await encryptToken(tokens.access_token),
         token_expiry: newExpiry,
       })
       .eq("user_id", userId);

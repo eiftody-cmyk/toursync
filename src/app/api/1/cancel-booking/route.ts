@@ -87,8 +87,10 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
   const startTime = booking.start_time || "00:00";
   const [h, min] = startTime.split(":").map(Number);
 
-  // Format both as JST strings for lexicographic comparison
-  const nowStr = new Date().toLocaleString("sv-SE", { timeZone: "Asia/Tokyo" });
+  // JST-aware string comparison (bypasses toLocaleString for Cloudflare compat)
+  const nowUtc = Date.now();
+  const nowJst = new Date(nowUtc + 9 * 60 * 60 * 1000);
+  const nowStr = `${nowJst.getUTCFullYear()}-${String(nowJst.getUTCMonth() + 1).padStart(2, "0")}-${String(nowJst.getUTCDate()).padStart(2, "0")}T${String(nowJst.getUTCHours()).padStart(2, "0")}:${String(nowJst.getUTCMinutes()).padStart(2, "0")}:${String(nowJst.getUTCSeconds()).padStart(2, "0")}`;
   const tourStartStr = `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}T${String(h).padStart(2, "0")}:${String(min).padStart(2, "0")}:00`;
 
   if (tourStartStr < nowStr) {
@@ -139,7 +141,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     if (autoBlock) {
       if (autoBlock.google_calendar_event_id && autoBlock.calendar_id) {
         try {
-          const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://toursync1.vercel.app";
+          const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
           await fetch(`${baseUrl}/api/calendar/unblock`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

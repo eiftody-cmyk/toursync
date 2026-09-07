@@ -21,7 +21,7 @@ export async function POST(request: Request) {
   // Best-effort revoke Google grant
   if (tokenRow?.refresh_token) {
     try {
-      const refreshToken = decryptToken(tokenRow.refresh_token);
+      const refreshToken = await decryptToken(tokenRow.refresh_token);
       await fetch("https://oauth2.googleapis.com/revoke", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },

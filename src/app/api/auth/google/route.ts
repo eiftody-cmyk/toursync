@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getGoogleAuthUrl } from "@/lib/google/auth";
-import crypto from "crypto";
 
 export async function GET() {
   const supabase = await createClient();
@@ -13,8 +12,8 @@ export async function GET() {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
   }
 
-  const state = crypto.randomBytes(16).toString("hex");
-  // store state in a short-lived cookie for CSRF check
+  const stateBytes = crypto.getRandomValues(new Uint8Array(16));
+  const state = Array.from(stateBytes).map((b) => b.toString(16).padStart(2, "0")).join("");
   const url = getGoogleAuthUrl(state);
 
   const res = NextResponse.redirect(url);
