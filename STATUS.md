@@ -74,8 +74,11 @@ Build and refine ExperienceRelay, a tour management platform for small operators
 - **GYG inbound auth working** — `ExperienceRelay` / `P421105x#` authenticates correctly
 - **GYG channel codes added** to all 5 tours in ExperienceRelay
 - **GYG_NOTIFY_URL** set in Vercel (sandbox)
-- **GYG PUSH_AVAILABILITY sandbox test PASSED** — ExperienceRelay sent payload to sandbox
-- User needs to give GYG testing URL: `https://toursync1.vercel.app/1/`
+- **All 6 GYG sandbox tests PASSED** (2026-09-07):
+  - PUSH_AVAILABILITY, PUSH_AVAILABILITY_WITH_PRICE
+  - DEALS_OVER_API_CREATE, DEALS_OVER_API_LIST, DEALS_OVER_API_DELETE
+  - SUPPLIER_REGISTRATION_OVER_API
+- GYG testing URL given: `https://toursync1.vercel.app/1/`
 - GYG needs to test supplier endpoints (get-availabilities, reserve, book, cancel)
 
 ### Blocked
@@ -84,10 +87,10 @@ Build and refine ExperienceRelay, a tour management platform for small operators
 - **Travelio**: no direct API — only Bokun integration exists
 
 ## Next Move
-1. Give GYG testing URL: `https://toursync1.vercel.app/1/`
-2. GYG tests the supplier endpoints (availability, reserve, book, cancel)
-6. Register `experiencerelay.com` domain
-7. Set up Zoho Mail for SMTP sending from `edward@osakacastletours.com`
+1. GYG tests the supplier endpoints (get-availabilities, reserve, book, cancel)
+2. Enable GYG endpoints in Manage Features once supplier endpoint tests pass
+3. Register `experiencerelay.com` domain
+4. Set up Zoho Mail for SMTP sending from `edward@osakacastletours.com`
 
 ## Relevant Files
 - `src/lib/gyg/types.ts`: GYG API TypeScript types matching OpenAPI spec
@@ -98,12 +101,17 @@ Build and refine ExperienceRelay, a tour management platform for small operators
 - `src/app/api/1/cancel-reservation/route.ts`: GYG cancel reservation endpoint
 - `src/app/api/1/book/route.ts`: GYG booking confirmation endpoint
 - `src/app/api/1/cancel-booking/route.ts`: GYG booking cancellation endpoint
+- `src/app/api/tours/route.ts`: Server-validated tour create/update API
+- `src/app/api/1/test-notify/route.ts`: Push availability with price sandbox test
+- `src/app/api/1/test-deals/route.ts`: Deals over API sandbox test
+- `src/app/api/1/test-supplier-register/route.ts`: Supplier registration sandbox test
 - `src/types/index.ts`: Updated Tour type with GYG fields, TourPricingCategory type
 - `src/app/(app)/tours/ToursClient.tsx`: Tour edit UI with pricing categories, cutoff, product type, ticket type, opening hours, group size
 - `supabase/migrations/010_gyg_reservations.sql`: GYG reservation holds table
 - `supabase/migrations/011_tour_pricing_categories.sql`: Per-category pricing
 - `supabase/migrations/012_tour_cutoff.sql`: cutoff_minutes column
 - `supabase/migrations/013_product_types.sql`: product_type, ticket_type, group_size, opening_hours columns
+- `supabase/migrations/014_tour_extra_columns.sql`: Idempotent migration for extra columns + CHECK constraints
 - `supabase/migrations/005_tour_channel_listings.sql`: tour_channel_listings table for OTA product codes (needs GRANT fix)
 - `supabase/migrations/008_add_booking_management.sql`: customer_email + status columns
 - `supabase/migrations/009_notifications.sql`: notifications table with RLS
