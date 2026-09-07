@@ -70,8 +70,8 @@ export function ToursClient({
     cutoff_minutes: "60",
     product_type: "time_point",
     ticket_type: "individual",
-    group_size_min: "1",
-    group_size_max: "10",
+    group_size_min: "",
+    group_size_max: "",
     opening_from: "09:00",
     opening_to: "18:00",
   });
@@ -107,7 +107,7 @@ export function ToursClient({
     setForm({
       name: "", description: "", capacity: "6", price: "9500", currency: "JPY", cutoff_minutes: "60",
       product_type: "time_point", ticket_type: "individual",
-      group_size_min: "1", group_size_max: "10",
+      group_size_min: "", group_size_max: "",
       opening_from: "09:00", opening_to: "18:00",
     });
     setPricingCategories([{ category: "ADULT", price: "9500" }]);
@@ -126,8 +126,8 @@ export function ToursClient({
       cutoff_minutes: String(t.cutoff_minutes ?? 60),
       product_type: t.product_type ?? "time_point",
       ticket_type: t.ticket_type ?? "individual",
-      group_size_min: String(t.group_size_min ?? 1),
-      group_size_max: String(t.group_size_max ?? 10),
+      group_size_min: t.group_size_min != null ? String(t.group_size_min) : "",
+      group_size_max: t.group_size_max != null ? String(t.group_size_max) : "",
       opening_from: oh?.fromTime ?? "09:00",
       opening_to: oh?.toTime ?? "18:00",
     });
@@ -155,19 +155,26 @@ export function ToursClient({
       toast.error("Name is required");
       return;
     }
-    setLoading(true);
-    const supabase = createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) {
-      toast.error("Not authenticated");
-      setLoading(false);
-      return;
+
+    const groupSizeMin = form.ticket_type === "group" ? parseInt(form.group_size_min, 10) || null : null;
+    const groupSizeMax = form.ticket_type === "group" ? parseInt(form.group_size_max, 10) || null : null;
+
+    if (form.ticket_type === "group") {
+      if (!groupSizeMin || !groupSizeMax) {
+        toast.error("Group tours require min and max group size");
+        setLoading(false);
+        return;
+      }
+      if (groupSizeMin > groupSizeMax) {
+        toast.error("Min group size must be <= max group size");
+        setLoading(false);
+        return;
+      }
     }
 
+    setLoading(true);
+
     const payload = {
-      user_id: user.id,
       name: form.name.trim(),
       description: form.description.trim() || null,
       capacity: parseInt(form.capacity, 10) || 6,
@@ -176,37 +183,42 @@ export function ToursClient({
       cutoff_minutes: parseInt(form.cutoff_minutes, 10) || 60,
       product_type: form.product_type,
       ticket_type: form.ticket_type,
-      group_size_min: parseInt(form.group_size_min, 10) || 1,
-      group_size_max: parseInt(form.group_size_max, 10) || 10,
+      group_size_min: groupSizeMin,
+      group_size_max: groupSizeMax,
       opening_hours: form.product_type === "time_period"
         ? { fromTime: form.opening_from, toTime: form.opening_to }
         : null,
     };
 
-    let error;
-    let newTourId: string | null = null;
+    let res;
     if (editing) {
-      const res = await supabase.from("tours").update(payload).eq("id", editing.id);
-      error = res.error;
+      res = await fetch("/api/tours", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...payload, id: editing.id }),
+      });
     } else {
-      const res = await supabase.from("tours").insert(payload).select("id").single();
-      error = res.error;
-      newTourId = res.data?.id ?? null;
+      res = await fetch("/api/tours", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
     }
 
-    if (error) {
+    const json = await res.json();
+    if (!res.ok) {
       setLoading(false);
-      toast.error(error.message);
+      toast.error(json.error ?? "Failed to save tour");
       return;
     }
 
+    const tourId = editing?.id ?? json.id;
+
     // Save pricing categories
-    const tourId = editing?.id ?? newTourId;
     if (tourId) {
-      // Delete existing categories
+      const supabase = createClient();
       await supabase.from("tour_pricing_categories").delete().eq("tour_id", tourId);
 
-      // Insert new categories (only non-empty prices)
       const validCategories = pricingCategories.filter((pc) => pc.price && pc.category);
       if (validCategories.length > 0) {
         const catPayload = validCategories.map((pc) => ({
@@ -223,11 +235,11 @@ export function ToursClient({
     toast.success(editing ? "Tour updated" : "Tour created");
     setOpen(false);
     refresh();
-    if (newTourId) {
+    if (!editing && tourId) {
       fetch("/api/calendar/create-tour-calendar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tour_id: newTourId }),
+        body: JSON.stringify({ tour_id: tourId }),
       })
         .then((r) => r.json())
         .then((j) => {
@@ -463,6 +475,7 @@ export function ToursClient({
                       id="gs_min"
                       type="number"
                       min={1}
+                      placeholder="e.g. 2"
                       value={form.group_size_min}
                       onChange={(e) => setForm({ ...form, group_size_min: e.target.value })}
                     />
@@ -473,6 +486,7 @@ export function ToursClient({
                       id="gs_max"
                       type="number"
                       min={1}
+                      placeholder="e.g. 4"
                       value={form.group_size_max}
                       onChange={(e) => setForm({ ...form, group_size_max: e.target.value })}
                     />
