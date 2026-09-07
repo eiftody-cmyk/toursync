@@ -13,6 +13,8 @@ interface RequestLog {
   requestId: string;
   url: string;
   authPresent: boolean;
+  userAgent?: string;
+  queryParams?: Record<string, string>;
   bodyPreview?: string;
 }
 
@@ -34,6 +36,12 @@ const MAX_LOG_ENTRIES = 100;
 export function createGygLogger(endpoint: string, req: NextRequest): LogContext {
   const requestId = `req_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
   const authHeader = req.headers.get("authorization");
+  const userAgent = req.headers.get("user-agent") || undefined;
+
+  // Extract query params
+  const url = new URL(req.url);
+  const queryParams: Record<string, string> = {};
+  url.searchParams.forEach((v, k) => { queryParams[k] = v; });
 
   const log: RequestLog = {
     timestamp: new Date().toISOString(),
@@ -42,12 +50,14 @@ export function createGygLogger(endpoint: string, req: NextRequest): LogContext 
     requestId,
     url: req.url,
     authPresent: !!authHeader,
+    userAgent,
+    queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined,
   };
 
   requestLog.push(log);
   if (requestLog.length > MAX_LOG_ENTRIES) requestLog.shift();
 
-  console.log(`[GYG ${endpoint}] ${req.method} ${requestId} — auth=${!!authHeader}`);
+  console.log(`[GYG ${endpoint}] ${req.method} ${requestId} — auth=${!!authHeader} ua=${userAgent || "none"} params=${JSON.stringify(queryParams)}`);
 
   return { endpoint, method: req.method, requestId };
 }
