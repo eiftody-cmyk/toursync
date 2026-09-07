@@ -176,6 +176,28 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
         }
       }
     }
+  } else {
+    // Validate individual participant count against min/max
+    if (totalGuests < tour.group_size_min) {
+      return gygJson(
+        {
+          errorCode: "INVALID_PARTICIPANTS_CONFIGURATION",
+          errorMessage: `The activity requires a minimum of ${tour.group_size_min} participants`,
+          participantsConfiguration: { min: tour.group_size_min, max: tour.group_size_max },
+        },
+        { status: 200 }
+      );
+    }
+    if (tour.group_size_max && totalGuests > tour.group_size_max) {
+      return gygJson(
+        {
+          errorCode: "INVALID_PARTICIPANTS_CONFIGURATION",
+          errorMessage: `The activity cannot be reserved for more than ${tour.group_size_max} participants`,
+          participantsConfiguration: { min: tour.group_size_min, max: tour.group_size_max },
+        },
+        { status: 200 }
+      );
+    }
   }
 
   // Check capacity (confirmed bookings + active reservations)
