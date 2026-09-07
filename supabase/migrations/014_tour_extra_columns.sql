@@ -8,13 +8,16 @@ alter table public.tours add column if not exists group_size_max int;
 alter table public.tours add column if not exists opening_hours jsonb;
 
 -- Enforce valid enum values
+alter table public.tours drop constraint if exists tours_product_type_check;
 alter table public.tours add constraint tours_product_type_check
   check (product_type in ('time_point', 'time_period'));
 
+alter table public.tours drop constraint if exists tours_ticket_type_check;
 alter table public.tours add constraint tours_ticket_type_check
   check (ticket_type in ('individual', 'group'));
 
 -- Enforce group_size consistency
+alter table public.tours drop constraint if exists tours_group_size_check;
 alter table public.tours add constraint tours_group_size_check
   check (
     (group_size_min is null and group_size_max is null)
