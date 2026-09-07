@@ -19,6 +19,22 @@ export async function POST() {
         {
           dateTime: "2026-09-10T10:00:00+09:00",
           vacancies: 5,
+          currency: "JPY",
+          pricesByCategory: {
+            retailPrices: [
+              { category: "ADULT", price: 9500 },
+            ],
+          },
+        },
+        {
+          dateTime: "2026-09-11T10:00:00+09:00",
+          vacancies: 5,
+          currency: "JPY",
+          pricesByCategory: {
+            retailPrices: [
+              { category: "ADULT", price: 9500 },
+            ],
+          },
         },
       ],
     },
