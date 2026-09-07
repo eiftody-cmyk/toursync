@@ -14,6 +14,18 @@ export async function GET(req: NextRequest) {
   const startTime = Date.now();
   const ctx = createGygLogger("get-availabilities", req);
 
+  try {
+    return await GET_inner(req, startTime, ctx);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    console.error("[GYG get-availabilities] Unhandled error:", msg);
+    const err = { errorCode: "INTERNAL_SYSTEM_FAILURE" as const, errorMessage: "Internal system failure" };
+    logResponse(ctx, 200, err, startTime);
+    return gygJson(err, { status: 200 });
+  }
+}
+
+async function GET_inner(req: NextRequest, startTime: number, ctx: ReturnType<typeof createGygLogger>) {
   const authError = verifyGygAuth(req);
   if (authError) {
     logResponse(ctx, 200, { errorCode: "AUTHORIZATION_FAILURE" }, startTime);
@@ -192,9 +204,25 @@ export async function GET(req: NextRequest) {
         continue;
       }
 
-      // For time period, total booked = sum of all bookings for this date
+      // For time period, total booked = sum of all bookings + active reservations for this date
       const dateBookings = allBookings?.filter((b) => b.date === dateStr) ?? [];
-      const totalBooked = dateBookings.reduce((sum, b) => sum + (b.guest_count ?? 0), 0);
+      let totalBooked = dateBookings.reduce((sum, b) => sum + (b.guest_count ?? 0), 0);
+
+      // Also count active reservations for this date
+      const dateReservations = activeReservations?.filter((r) => r.date === dateStr) ?? [];
+      for (const r of dateReservations) {
+        const items = r.booking_items as Array<{ category: string; count: number; groupSize?: number }> | null;
+        if (Array.isArray(items)) {
+          for (const item of items) {
+            if (item.category === "GROUP") {
+              totalBooked += (item.groupSize || 0) * (item.count || 0);
+            } else {
+              totalBooked += item.count || 0;
+            }
+          }
+        }
+      }
+
       const remaining = Math.max(0, tour.capacity - totalBooked);
 
       const retailPrices = (pricingCategories ?? []).map((pc) => ({

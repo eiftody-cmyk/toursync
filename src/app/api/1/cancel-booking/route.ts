@@ -9,6 +9,18 @@ export async function POST(req: NextRequest) {
   const reqStart = Date.now();
   const ctx = createGygLogger("cancel-booking", req);
 
+  try {
+    return await POST_inner(req, reqStart, ctx);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    console.error("[GYG cancel-booking] Unhandled error:", msg);
+    const err = { errorCode: "INTERNAL_SYSTEM_FAILURE" as const, errorMessage: "Internal system failure" };
+    logResponse(ctx, 200, err, reqStart);
+    return gygJson(err, { status: 200 });
+  }
+}
+
+async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<typeof createGygLogger>) {
   const authError = verifyGygAuth(req);
   if (authError) {
     logResponse(ctx, 200, { errorCode: "AUTHORIZATION_FAILURE" }, reqStart);
@@ -76,12 +88,16 @@ export async function POST(req: NextRequest) {
   }
 
   // Check if booking is in the past (JST-aware)
+  // Parse date directly from ISO string to avoid timezone conversion issues
   const [y, m, d] = booking.date.split("-").map(Number);
   const startTime = booking.start_time || "00:00";
   const [h, min] = startTime.split(":").map(Number);
-  const nowInJST = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
-  const tourStartInJST = new Date(y, m - 1, d, h, min);
-  if (tourStartInJST < nowInJST) {
+
+  // Format both as JST strings for lexicographic comparison
+  const nowStr = new Date().toLocaleString("sv-SE", { timeZone: "Asia/Tokyo" });
+  const tourStartStr = `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}T${String(h).padStart(2, "0")}:${String(min).padStart(2, "0")}:00`;
+
+  if (tourStartStr < nowStr) {
     return gygJson(
       { errorCode: "BOOKING_IN_PAST", errorMessage: "Cannot cancel a booking for a tour that has already taken place" },
       { status: 200 }
@@ -109,13 +125,21 @@ export async function POST(req: NextRequest) {
     .eq("id", booking.tour_id)
     .single();
 
-  const { data: remainingBookings } = await supabase
+  // Use .is() for NULL comparison instead of .eq() which doesn't match SQL NULLs
+  const remainingBookingsQuery = supabase
     .from("bookings")
     .select("guest_count")
     .eq("tour_id", booking.tour_id)
     .eq("date", booking.date)
-    .eq("start_time", booking.start_time || null)
     .eq("status", "confirmed");
+
+  if (booking.start_time) {
+    remainingBookingsQuery.eq("start_time", booking.start_time);
+  } else {
+    remainingBookingsQuery.is("start_time", null);
+  }
+
+  const { data: remainingBookings } = await remainingBookingsQuery;
 
   const totalBooked = (remainingBookings ?? []).reduce(
     (sum, b) => sum + (b.guest_count ?? 0),
@@ -124,14 +148,20 @@ export async function POST(req: NextRequest) {
 
   if (tour && totalBooked < tour.capacity) {
     // Find and remove the auto-block if it exists
-    const { data: autoBlock } = await supabase
+    const autoBlockQuery = supabase
       .from("blocked_dates")
       .select("id, google_calendar_event_id, calendar_id")
       .eq("tour_id", booking.tour_id)
       .eq("date", booking.date)
-      .eq("start_time", booking.start_time || null)
-      .eq("is_auto_blocked", true)
-      .maybeSingle();
+      .eq("is_auto_blocked", true);
+
+    if (booking.start_time) {
+      autoBlockQuery.eq("start_time", booking.start_time);
+    } else {
+      autoBlockQuery.is("start_time", null);
+    }
+
+    const { data: autoBlock } = await autoBlockQuery.maybeSingle();
 
     if (autoBlock) {
       if (autoBlock.google_calendar_event_id && autoBlock.calendar_id) {

@@ -9,6 +9,18 @@ export async function POST(req: NextRequest) {
   const startTime = Date.now();
   const ctx = createGygLogger("cancel-reservation", req);
 
+  try {
+    return await POST_inner(req, startTime, ctx);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    console.error("[GYG cancel-reservation] Unhandled error:", msg);
+    const err = { errorCode: "INTERNAL_SYSTEM_FAILURE" as const, errorMessage: "Internal system failure" };
+    logResponse(ctx, 200, err, startTime);
+    return gygJson(err, { status: 200 });
+  }
+}
+
+async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<typeof createGygLogger>) {
   const authError = verifyGygAuth(req);
   if (authError) {
     logResponse(ctx, 200, { errorCode: "AUTHORIZATION_FAILURE" }, startTime);

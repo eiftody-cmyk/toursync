@@ -17,6 +17,18 @@ export async function POST(req: NextRequest) {
   const reqStart = Date.now();
   const ctx = createGygLogger("book", req);
 
+  try {
+    return await POST_inner(req, reqStart, ctx);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    console.error("[GYG book] Unhandled error:", msg);
+    const err = { errorCode: "INTERNAL_SYSTEM_FAILURE" as const, errorMessage: "Internal system failure" };
+    logResponse(ctx, 200, err, reqStart);
+    return gygJson(err, { status: 200 });
+  }
+}
+
+async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<typeof createGygLogger>) {
   const authError = verifyGygAuth(req);
   if (authError) {
     logResponse(ctx, 200, { errorCode: "AUTHORIZATION_FAILURE" }, reqStart);
