@@ -28,7 +28,6 @@ export type GygProductType = "TIME_POINT" | "TIME_PERIOD";
 
 export interface GygAvailability {
   productId: string;
-  productType: GygProductType;
   dateTime: string; // ISO 8601
   cutoffSeconds?: number;
   vacancies?: number;

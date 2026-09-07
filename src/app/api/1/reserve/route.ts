@@ -162,7 +162,7 @@ export async function POST(req: NextRequest) {
     .select("guest_count")
     .eq("tour_id", tour.id)
     .eq("date", dateStr)
-    .eq("start_time", tourStartTime)
+    .is("start_time", tourStartTime)
     .eq("status", "confirmed");
 
   const { data: existingReservations } = await supabase
@@ -170,7 +170,7 @@ export async function POST(req: NextRequest) {
     .select("booking_items")
     .eq("tour_id", tour.id)
     .eq("date", dateStr)
-    .eq("start_time", tourStartTime)
+    .is("start_time", tourStartTime)
     .gt("expires_at", new Date().toISOString());
 
   let totalBooked = (existingBookings ?? []).reduce(
