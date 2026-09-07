@@ -5,11 +5,6 @@ import { sendEmail } from "@/lib/email/client";
 import { bookingConfirmationEmail } from "@/lib/email/booking-confirmation";
 import { operatorNotificationEmail } from "@/lib/email/operator-notification";
 
-// Disable body parsing — we need the raw body for webhook verification
-export const config = {
-  api: { bodyParser: false },
-};
-
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const eventType = body?.event_type;
