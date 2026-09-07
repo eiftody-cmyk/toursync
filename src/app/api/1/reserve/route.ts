@@ -206,7 +206,7 @@ export async function POST(req: NextRequest) {
     .maybeSingle();
 
   if (existingRes) {
-    const reservationExpiration = new Date(Date.now() + (tour.cutoff_minutes ?? 60) * 60 * 1000).toISOString();
+    const reservationExpiration = new Date(Date.now() + (tour.cutoff_minutes ?? 60) * 60 * 1000).toISOString().replace("Z", "+00:00");
     return NextResponse.json(
       { data: { reservationReference: existingRes.reservation_reference, reservationExpiration } },
       { status: 200 }
@@ -227,7 +227,7 @@ export async function POST(req: NextRequest) {
       start_time: tourStartTime,
       product_id: requestData.productId,
       booking_items: requestData.bookingItems,
-      expires_at: reservationExpiration.toISOString(),
+      expires_at: reservationExpiration.toISOString().replace("Z", "+00:00"),
     });
 
   if (insertError) {
@@ -241,7 +241,7 @@ export async function POST(req: NextRequest) {
   const response: GygReservationResponse = {
     data: {
       reservationReference,
-      reservationExpiration: reservationExpiration.toISOString(),
+      reservationExpiration: reservationExpiration.toISOString().replace("Z", "+00:00"),
     },
   };
 
