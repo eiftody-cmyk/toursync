@@ -18,13 +18,6 @@ export async function proxy(request: NextRequest) {
 
   const { supabaseResponse, user } = await updateSession(request);
 
-  // Add CORS headers to GYG Supplier API responses
-  if (pathname.startsWith("/1/")) {
-    for (const [key, value] of Object.entries(GYG_CORS_HEADERS)) {
-      supabaseResponse.headers.set(key, value);
-    }
-  }
-
   const isAuthRoute =
     pathname.startsWith("/login") ||
     pathname.startsWith("/auth") ||

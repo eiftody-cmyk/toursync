@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 
-const RATE_LIMIT_HEADERS: Record<string, string> = {
+const GYG_HEADERS: Record<string, string> = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
   "X-RateLimit-Limit": "1000",
   "X-RateLimit-Remaining": "999",
 };
@@ -8,6 +11,6 @@ const RATE_LIMIT_HEADERS: Record<string, string> = {
 export function gygJson(body: unknown, init?: ResponseInit): NextResponse {
   return NextResponse.json(body, {
     ...init,
-    headers: { ...RATE_LIMIT_HEADERS, ...init?.headers },
+    headers: { ...GYG_HEADERS, ...init?.headers },
   });
 }
