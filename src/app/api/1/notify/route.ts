@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { verifyGygAuth } from "@/lib/gyg/auth";
+import { gygJson } from "@/lib/gyg/response";
 
 export async function POST(req: NextRequest) {
   const authError = verifyGygAuth(req);
@@ -9,7 +10,7 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Invalid JSON body" },
       { status: 200 }
     );
@@ -17,5 +18,5 @@ export async function POST(req: NextRequest) {
 
   console.log("[GYG notify] Received notification:", JSON.stringify(body).substring(0, 500));
 
-  return NextResponse.json({ data: {} }, { status: 200 });
+  return gygJson({ data: {} }, { status: 200 });
 }

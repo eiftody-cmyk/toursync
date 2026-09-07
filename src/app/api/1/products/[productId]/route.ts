@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
+import { gygJson } from "@/lib/gyg/response";
 
 export async function GET(
   req: NextRequest,
@@ -21,7 +22,7 @@ export async function GET(
     .single();
 
   if (!listing?.tours) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${productId}` },
       { status: 200 }
     );
@@ -35,14 +36,16 @@ export async function GET(
     group_size_min: number;
     group_size_max: number;
     ticket_type: string;
+    product_type: string;
   };
 
-  return NextResponse.json(
+  return gygJson(
     {
       data: {
         supplierId: "ExperienceRelay",
         productTitle: tour.name,
         productDescription: tour.description || tour.name,
+        productType: tour.product_type === "time_period" ? "TIME_PERIOD" : "TIME_POINT",
         destinationLocation: {
           city: "Osaka",
           country: "JPN",

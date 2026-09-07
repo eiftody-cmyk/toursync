@@ -24,8 +24,11 @@ export interface GygOpeningTime {
   toTime: string;   // "HH:MM"
 }
 
+export type GygProductType = "TIME_POINT" | "TIME_PERIOD";
+
 export interface GygAvailability {
   productId: string;
+  productType: GygProductType;
   dateTime: string; // ISO 8601
   cutoffSeconds?: number;
   vacancies?: number;
@@ -146,6 +149,7 @@ export type GygErrorCode =
 export interface GygErrorResponse {
   errorCode: GygErrorCode;
   errorMessage: string;
+  ticketCategory?: string;
   participantsConfiguration?: {
     min: number;
     max: number | null;

@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
 import { createGygLogger, logResponse } from "@/lib/gyg/logger";
+import { gygJson } from "@/lib/gyg/response";
 import type { GygEmptySuccessResponse, GygErrorResponse } from "@/lib/gyg/types";
 
 export async function POST(req: NextRequest) {
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Invalid JSON body" },
       { status: 200 }
     );
@@ -27,7 +28,7 @@ export async function POST(req: NextRequest) {
   const requestData = data?.data;
 
   if (!requestData?.bookingReference || !requestData?.gygBookingReference || !requestData?.productId) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Missing required fields: bookingReference, gygBookingReference, productId" },
       { status: 200 }
     );
@@ -45,7 +46,7 @@ export async function POST(req: NextRequest) {
     .single();
 
   if (!listing) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${requestData.productId}` },
       { status: 200 }
     );
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest) {
     .maybeSingle();
 
   if (!booking) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INVALID_BOOKING", errorMessage: "Booking not found" },
       { status: 200 }
     );
@@ -68,7 +69,7 @@ export async function POST(req: NextRequest) {
 
   // Check if already cancelled
   if (booking.status === "cancelled") {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "BOOKING_ALREADY_CANCELED", errorMessage: "Booking has already been cancelled" },
       { status: 200 }
     );
@@ -81,7 +82,7 @@ export async function POST(req: NextRequest) {
   const nowInJST = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
   const tourStartInJST = new Date(y, m - 1, d, h, min);
   if (tourStartInJST < nowInJST) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "BOOKING_IN_PAST", errorMessage: "Cannot cancel a booking for a tour that has already taken place" },
       { status: 200 }
     );
@@ -95,7 +96,7 @@ export async function POST(req: NextRequest) {
 
   if (cancelError) {
     console.error("[GYG cancel-booking] Cancel failed:", cancelError.message);
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INTERNAL_SYSTEM_FAILURE", errorMessage: "Failed to cancel booking" },
       { status: 200 }
     );
@@ -156,5 +157,5 @@ export async function POST(req: NextRequest) {
 
   const response: GygEmptySuccessResponse = { data: {} };
   logResponse(ctx, 200, response, reqStart);
-  return NextResponse.json(response, { status: 200 });
+  return gygJson(response, { status: 200 });
 }

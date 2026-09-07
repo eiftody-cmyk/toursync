@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
 import { createGygLogger, logResponse } from "@/lib/gyg/logger";
+import { gygJson } from "@/lib/gyg/response";
 import type { GygEmptySuccessResponse, GygErrorResponse } from "@/lib/gyg/types";
 
 export async function POST(req: NextRequest) {
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Invalid JSON body" },
       { status: 200 }
     );
@@ -27,7 +28,7 @@ export async function POST(req: NextRequest) {
   const requestData = data?.data;
 
   if (!requestData?.reservationReference || !requestData?.gygBookingReference) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Missing required fields: reservationReference, gygBookingReference" },
       { status: 200 }
     );
@@ -43,7 +44,7 @@ export async function POST(req: NextRequest) {
 
   if (error) {
     console.error("[GYG cancel-reservation] Delete failed:", error.message);
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INTERNAL_SYSTEM_FAILURE", errorMessage: "Failed to cancel reservation" },
       { status: 200 }
     );
@@ -51,5 +52,5 @@ export async function POST(req: NextRequest) {
 
   const response: GygEmptySuccessResponse = { data: {} };
   logResponse(ctx, 200, response, startTime);
-  return NextResponse.json(response, { status: 200 });
+  return gygJson(response, { status: 200 });
 }

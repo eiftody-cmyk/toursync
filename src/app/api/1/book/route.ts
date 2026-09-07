@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
 import { sendEmail } from "@/lib/email/client";
 import { bookingConfirmationEmail } from "@/lib/email/booking-confirmation";
 import { operatorNotificationEmail } from "@/lib/email/operator-notification";
 import { createGygLogger, logResponse } from "@/lib/gyg/logger";
+import { gygJson } from "@/lib/gyg/response";
 import type { GygBookingResponse, GygErrorResponse, GygTicket } from "@/lib/gyg/types";
 
 function normalizeTime(t: string | null): string {
@@ -26,7 +27,7 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Invalid JSON body" },
       { status: 200 }
     );
@@ -48,7 +49,7 @@ export async function POST(req: NextRequest) {
 
   if (!requestData.productId || !requestData.reservationReference || !requestData.gygBookingReference ||
       !requestData.dateTime || !requestData.bookingItems || !requestData.travelers) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Missing required fields" },
       { status: 200 }
     );
@@ -66,7 +67,7 @@ export async function POST(req: NextRequest) {
     .single();
 
   if (!listing?.tours) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${requestData.productId}` },
       { status: 200 }
     );
@@ -97,7 +98,7 @@ export async function POST(req: NextRequest) {
   if (supportedCategories.length > 0) {
     for (const item of requestData.bookingItems) {
       if (!supportedCategories.includes(item.category)) {
-        return NextResponse.json(
+        return gygJson(
           {
             errorCode: "INVALID_TICKET_CATEGORY",
             errorMessage: `The ticket category ${item.category} is not sellable.`,
@@ -121,7 +122,7 @@ export async function POST(req: NextRequest) {
 
   if (existingBooking) {
     const tickets = generateTickets(existingBooking.id, requestData.bookingItems, isGroup);
-    return NextResponse.json(
+    return gygJson(
       { data: { bookingReference: existingBooking.id, tickets } },
       { status: 200 }
     );
@@ -135,14 +136,14 @@ export async function POST(req: NextRequest) {
     .maybeSingle();
 
   if (!reservation) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INVALID_RESERVATION", errorMessage: "Reservation not found" },
       { status: 200 }
     );
   }
 
   if (new Date(reservation.expires_at) < new Date()) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INVALID_RESERVATION", errorMessage: "Reservation has expired" },
       { status: 200 }
     );
@@ -200,7 +201,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (totalBooked + totalGuests > tour.capacity) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "NO_AVAILABILITY", errorMessage: "Insufficient availability at time of booking" },
       { status: 200 }
     );
@@ -243,7 +244,7 @@ export async function POST(req: NextRequest) {
 
   if (insertError || !booking) {
     console.error("[GYG book] Insert failed:", insertError?.message);
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INTERNAL_SYSTEM_FAILURE", errorMessage: "Failed to create booking" },
       { status: 200 }
     );
@@ -354,7 +355,7 @@ export async function POST(req: NextRequest) {
   console.log(`[GYG book] Booking confirmed: ${booking.id} for ${requestData.gygBookingReference}`);
 
   logResponse(ctx, 200, responseData, reqStart);
-  return NextResponse.json(responseData, { status: 200 });
+  return gygJson(responseData, { status: 200 });
 }
 
 function generateTickets(

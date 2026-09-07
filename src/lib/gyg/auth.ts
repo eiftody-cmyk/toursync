@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import type { GygErrorResponse } from "./types";
+import { gygJson } from "./response";
 
 /**
  * Verify GYG Basic Auth credentials.
@@ -16,12 +17,9 @@ export function verifyGygAuth(
       errorCode: "AUTHORIZATION_FAILURE",
       errorMessage: "Missing or invalid Authorization header",
     };
-    return new Response(JSON.stringify(error), {
+    return gygJson(error, {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "WWW-Authenticate": "Basic realm='GYG Supplier API'",
-      },
+      headers: { "WWW-Authenticate": "Basic realm='GYG Supplier API'" },
     });
   }
 
@@ -39,10 +37,7 @@ export function verifyGygAuth(
       errorCode: "INTERNAL_SYSTEM_FAILURE",
       errorMessage: "Server configuration error",
     };
-    return new Response(JSON.stringify(error), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return gygJson(error, { status: 200 });
   }
 
   // Constant-time comparison to prevent timing attacks
@@ -55,10 +50,7 @@ export function verifyGygAuth(
       errorCode: "AUTHORIZATION_FAILURE",
       errorMessage: "Invalid credentials",
     };
-    return new Response(JSON.stringify(error), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return gygJson(error, { status: 200 });
   }
 
   return null; // valid

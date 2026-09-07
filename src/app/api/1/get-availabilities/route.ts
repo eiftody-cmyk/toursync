@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
 import { createGygLogger, logResponse } from "@/lib/gyg/logger";
-import type { GygAvailabilityResponse, GygAvailability } from "@/lib/gyg/types";
+import { gygJson } from "@/lib/gyg/response";
+import type { GygAvailabilityResponse, GygAvailability, GygProductType } from "@/lib/gyg/types";
 
 function normalizeTime(t: string | null): string {
   if (!t) return "00:00";
@@ -25,7 +26,7 @@ export async function GET(req: NextRequest) {
   const toDateTime = searchParams.get("toDateTime");
 
   if (!productId || !fromDateTime || !toDateTime) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Missing required query parameters: productId, fromDateTime, toDateTime" },
       { status: 200 }
     );
@@ -43,7 +44,7 @@ export async function GET(req: NextRequest) {
     .single();
 
   if (!listing?.tours) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${productId}` },
       { status: 200 }
     );
@@ -64,6 +65,7 @@ export async function GET(req: NextRequest) {
 
   const isTimePeriod = tour.product_type === "time_period";
   const isGroup = tour.ticket_type === "group";
+  const gygProductType: GygProductType = isTimePeriod ? "TIME_PERIOD" : "TIME_POINT";
 
   // Parse date range
   const fromDate = new Date(fromDateTime);
@@ -79,7 +81,7 @@ export async function GET(req: NextRequest) {
     .eq("is_active", true);
 
   if (!schedules?.length && !isTimePeriod) {
-    return NextResponse.json({ data: { availabilities: [] } }, { status: 200 });
+    return gygJson({ data: { availabilities: [] } }, { status: 200 });
   }
 
   // Fetch exceptions
@@ -203,6 +205,7 @@ export async function GET(req: NextRequest) {
 
       const avail: GygAvailability = {
         productId,
+        productType: gygProductType,
         dateTime,
         cutoffSeconds,
         vacancies: isGroup ? Math.floor(remaining / (tour.group_size_max || 1)) : remaining,
@@ -256,6 +259,7 @@ export async function GET(req: NextRequest) {
 
         const avail: GygAvailability = {
           productId,
+          productType: gygProductType,
           dateTime,
           cutoffSeconds,
           vacancies: isGroup ? Math.floor(remaining / (tour.group_size_max || 1)) : remaining,
@@ -278,5 +282,5 @@ export async function GET(req: NextRequest) {
   };
 
   logResponse(ctx, 200, response, startTime);
-  return NextResponse.json(response, { status: 200 });
+  return gygJson(response, { status: 200 });
 }

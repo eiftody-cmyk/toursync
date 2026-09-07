@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
+import { gygJson } from "@/lib/gyg/response";
 
 export async function GET(
   req: NextRequest,
@@ -21,13 +22,13 @@ export async function GET(
     .single();
 
   if (!listing) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${productId}` },
       { status: 200 }
     );
   }
 
-  return NextResponse.json(
+  return gygJson(
     { data: { addons: [] } },
     { status: 200 }
   );

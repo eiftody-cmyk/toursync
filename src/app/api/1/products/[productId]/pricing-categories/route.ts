@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
+import { gygJson } from "@/lib/gyg/response";
 
 export async function GET(
   req: NextRequest,
@@ -21,7 +22,7 @@ export async function GET(
     .single();
 
   if (!listing?.tours) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${productId}` },
       { status: 200 }
     );
@@ -58,7 +59,7 @@ export async function GET(
     ],
   }));
 
-  return NextResponse.json(
+  return gygJson(
     { data: { pricingCategories } },
     { status: 200 }
   );

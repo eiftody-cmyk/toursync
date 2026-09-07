@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
 import { createGygLogger, logResponse } from "@/lib/gyg/logger";
+import { gygJson } from "@/lib/gyg/response";
 import type { GygReservationResponse, GygErrorResponse } from "@/lib/gyg/types";
 
 function normalizeTime(t: string | null): string {
@@ -23,7 +24,7 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Invalid JSON body" },
       { status: 200 }
     );
@@ -38,7 +39,7 @@ export async function POST(req: NextRequest) {
   };
 
   if (!requestData.productId || !requestData.dateTime || !requestData.bookingItems || !requestData.gygBookingReference) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Missing required fields: productId, dateTime, bookingItems, gygBookingReference" },
       { status: 200 }
     );
@@ -56,7 +57,7 @@ export async function POST(req: NextRequest) {
     .single();
 
   if (!listing?.tours) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${requestData.productId}` },
       { status: 200 }
     );
@@ -85,7 +86,7 @@ export async function POST(req: NextRequest) {
   if (supportedCategories.length > 0) {
     for (const item of requestData.bookingItems) {
       if (!supportedCategories.includes(item.category)) {
-        return NextResponse.json(
+        return gygJson(
           {
             errorCode: "INVALID_TICKET_CATEGORY",
             errorMessage: `The ticket category ${item.category} is not sellable.`,
@@ -119,7 +120,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (totalGuests <= 0 && totalGroups <= 0) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "VALIDATION_FAILURE", errorMessage: "Total guest/group count must be greater than 0" },
       { status: 200 }
     );
@@ -130,7 +131,7 @@ export async function POST(req: NextRequest) {
     for (const item of requestData.bookingItems) {
       if (item.category === "GROUP" && item.groupSize) {
         if (item.groupSize < tour.group_size_min) {
-          return NextResponse.json(
+          return gygJson(
             {
               errorCode: "INVALID_PARTICIPANTS_CONFIGURATION",
               errorMessage: `Group size ${item.groupSize} is below minimum ${tour.group_size_min}`,
@@ -141,7 +142,7 @@ export async function POST(req: NextRequest) {
           );
         }
         if (item.groupSize > tour.group_size_max) {
-          return NextResponse.json(
+          return gygJson(
             {
               errorCode: "INVALID_PARTICIPANTS_CONFIGURATION",
               errorMessage: `Group size ${item.groupSize} exceeds maximum ${tour.group_size_max}`,
@@ -191,7 +192,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (totalBooked + totalGuests > tour.capacity) {
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "NO_AVAILABILITY", errorMessage: `Insufficient availability. Requested: ${totalGuests}, Available: ${Math.max(0, tour.capacity - totalBooked)}` },
       { status: 200 }
     );
@@ -206,8 +207,8 @@ export async function POST(req: NextRequest) {
     .maybeSingle();
 
   if (existingRes) {
-    const reservationExpiration = new Date(Date.now() + (tour.cutoff_minutes ?? 60) * 60 * 1000).toISOString().replace("Z", "+00:00");
-    return NextResponse.json(
+    const reservationExpiration = new Date(Date.now() + (tour.cutoff_minutes ?? 60) * 60 * 1000).toISOString().replace(/\.\d{3}Z$/, "+00:00");
+    return gygJson(
       { data: { reservationReference: existingRes.reservation_reference, reservationExpiration } },
       { status: 200 }
     );
@@ -227,12 +228,12 @@ export async function POST(req: NextRequest) {
       start_time: tourStartTime,
       product_id: requestData.productId,
       booking_items: requestData.bookingItems,
-      expires_at: reservationExpiration.toISOString().replace("Z", "+00:00"),
+      expires_at: reservationExpiration.toISOString().replace(/\.\d{3}Z$/, "+00:00"),
     });
 
   if (insertError) {
     console.error("[GYG reserve] Insert failed:", insertError.message);
-    return NextResponse.json(
+    return gygJson(
       { errorCode: "INTERNAL_SYSTEM_FAILURE", errorMessage: "Failed to create reservation" },
       { status: 200 }
     );
@@ -241,10 +242,10 @@ export async function POST(req: NextRequest) {
   const response: GygReservationResponse = {
     data: {
       reservationReference,
-      reservationExpiration: reservationExpiration.toISOString().replace("Z", "+00:00"),
+      reservationExpiration: reservationExpiration.toISOString().replace(/\.\d{3}Z$/, "+00:00"),
     },
   };
 
   logResponse(ctx, 200, response, startTime);
-  return NextResponse.json(response, { status: 200 });
+  return gygJson(response, { status: 200 });
 }
