@@ -1,10 +1,29 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
+const GYG_CORS_HEADERS: Record<string, string> = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  "Access-Control-Max-Age": "86400",
+};
+
 export async function proxy(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+
+  // CORS preflight for GYG Supplier API endpoints
+  if (pathname.startsWith("/1/") && request.method === "OPTIONS") {
+    return new NextResponse(null, { status: 204, headers: GYG_CORS_HEADERS });
+  }
+
   const { supabaseResponse, user } = await updateSession(request);
 
-  const pathname = request.nextUrl.pathname;
+  // Add CORS headers to GYG Supplier API responses
+  if (pathname.startsWith("/1/")) {
+    for (const [key, value] of Object.entries(GYG_CORS_HEADERS)) {
+      supabaseResponse.headers.set(key, value);
+    }
+  }
 
   const isAuthRoute =
     pathname.startsWith("/login") ||

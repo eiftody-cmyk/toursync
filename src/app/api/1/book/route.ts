@@ -6,6 +6,7 @@ import { bookingConfirmationEmail } from "@/lib/email/booking-confirmation";
 import { operatorNotificationEmail } from "@/lib/email/operator-notification";
 import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import { gygJson } from "@/lib/gyg/response";
+import { lookupTourByProductId } from "@/lib/gyg/lookup";
 import type { GygBookingResponse, GygErrorResponse, GygTicket } from "@/lib/gyg/types";
 
 function normalizeTime(t: string | null): string {
@@ -69,33 +70,16 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
 
   const supabase = createServiceClient();
 
-  // Look up tour
-  const { data: listing } = await supabase
-    .from("tour_channel_listings")
-    .select("tour_id, tours(*)")
-    .eq("external_product_code", requestData.productId)
-    .eq("channel", "gyg")
-    .eq("is_active", true)
-    .single();
-
-  if (!listing?.tours) {
+  // Look up tour (handles T-1221780 and 1221780)
+  const result = await lookupTourByProductId(requestData.productId!);
+  if (!result) {
     return gygJson(
       { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${requestData.productId}` },
       { status: 200 }
     );
   }
 
-  const tour = (Array.isArray(listing.tours) ? listing.tours[0] : listing.tours) as {
-    id: string;
-    user_id: string;
-    name: string;
-    capacity: number;
-    price: number | null;
-    currency: string;
-    cutoff_minutes: number;
-    product_type: "time_point" | "time_period";
-    ticket_type: "individual" | "group";
-  };
+  const tour = result.tour;
 
   const isGroup = tour.ticket_type === "group";
 
@@ -122,13 +106,15 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     }
   }
 
-  // Check idempotency
+  // Check idempotency — match on both gygBookingReference AND reservationReference
+  // so that booking changes (same reference, new slot) create a new booking
   const { data: existingBooking } = await supabase
     .from("bookings")
     .select("id, notes")
     .eq("tour_id", tour.id)
     .eq("source", "gyg")
     .like("notes", `%${requestData.gygBookingReference}%`)
+    .like("notes", `%${requestData.reservationReference}%`)
     .eq("status", "confirmed")
     .maybeSingle();
 

@@ -3,6 +3,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
 import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import { gygJson } from "@/lib/gyg/response";
+import { lookupTourByProductId } from "@/lib/gyg/lookup";
 import type { GygReservationResponse, GygErrorResponse } from "@/lib/gyg/types";
 
 function normalizeTime(t: string | null): string {
@@ -59,31 +60,16 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
 
   const supabase = createServiceClient();
 
-  // Look up tour
-  const { data: listing } = await supabase
-    .from("tour_channel_listings")
-    .select("tour_id, tours(*)")
-    .eq("external_product_code", requestData.productId)
-    .eq("channel", "gyg")
-    .eq("is_active", true)
-    .single();
-
-  if (!listing?.tours) {
+  // Look up tour (handles T-1221780 and 1221780)
+  const result = await lookupTourByProductId(requestData.productId!);
+  if (!result) {
     return gygJson(
       { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${requestData.productId}` },
       { status: 200 }
     );
   }
 
-  const tour = (Array.isArray(listing.tours) ? listing.tours[0] : listing.tours) as {
-    id: string;
-    capacity: number;
-    cutoff_minutes: number;
-    product_type: "time_point" | "time_period";
-    ticket_type: "individual" | "group";
-    group_size_min: number;
-    group_size_max: number;
-  };
+  const tour = result.tour;
 
   const isGroup = tour.ticket_type === "group";
 

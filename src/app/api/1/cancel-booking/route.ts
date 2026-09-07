@@ -3,6 +3,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
 import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import { gygJson } from "@/lib/gyg/response";
+import { lookupTourByProductId } from "@/lib/gyg/lookup";
 import type { GygEmptySuccessResponse, GygErrorResponse } from "@/lib/gyg/types";
 
 export async function POST(req: NextRequest) {
@@ -48,16 +49,9 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
 
   const supabase = createServiceClient();
 
-  // Look up tour
-  const { data: listing } = await supabase
-    .from("tour_channel_listings")
-    .select("tour_id")
-    .eq("external_product_code", requestData.productId)
-    .eq("channel", "gyg")
-    .eq("is_active", true)
-    .single();
-
-  if (!listing) {
+  // Look up tour (handles T-1221780 and 1221780)
+  const result = await lookupTourByProductId(requestData.productId as string);
+  if (!result) {
     return gygJson(
       { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${requestData.productId}` },
       { status: 200 }
@@ -69,7 +63,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     .from("bookings")
     .select("id, tour_id, date, start_time, status, guest_count")
     .eq("id", requestData.bookingReference)
-    .eq("tour_id", listing.tour_id)
+    .eq("tour_id", result.tourId)
     .maybeSingle();
 
   if (!booking) {
