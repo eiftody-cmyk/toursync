@@ -4,6 +4,7 @@ import { captureOrder } from "@/lib/paypal/client";
 import { sendEmail } from "@/lib/email/client";
 import { bookingConfirmationEmail } from "@/lib/email/booking-confirmation";
 import { operatorNotificationEmail } from "@/lib/email/operator-notification";
+import { customTimeNotificationEmail } from "@/lib/email/custom-time-notification";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -19,7 +20,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, skipped: true });
   }
 
-  // Parse custom_id: tour_id|date|start_time|guest_count
+  // Parse custom_id: tour_id|date|start_time|guest_count[|custom=true|name|email|phone]
   const customId = resource?.custom_id;
   if (!customId) {
     console.error("[PayPal webhook] No custom_id in resource");
@@ -32,8 +33,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, skipped: true });
   }
 
-  const [tourId, date, startTime, guestCountStr] = parts;
+  const [tourId, date, startTime, guestCountStr, customFlag] = parts;
   const guestCount = parseInt(guestCountStr, 10);
+  const isCustomTime = customFlag === "custom=true";
+
+  // Decode customer info for custom time bookings
+  const customerName = isCustomTime && parts[5] ? decodeURIComponent(parts[5]) : null;
+  const customerEmail = isCustomTime && parts[6] ? decodeURIComponent(parts[6]) : null;
+  const customerPhone = isCustomTime && parts[7] ? decodeURIComponent(parts[7]) : null;
 
   if (!tourId || !date || !guestCount || guestCount < 1) {
     console.error("[PayPal webhook] Invalid booking data:", customId);
@@ -61,11 +68,13 @@ export async function POST(req: NextRequest) {
     .eq("id", tour.user_id)
     .single();
 
-  // Extract payer info
-  const payerEmail = resource?.payer?.email_address ?? null;
-  const payerName = resource?.payer?.name?.given_name
-    ? `${resource.payer.name.given_name} ${resource.payer.name.surname ?? ""}`.trim()
-    : null;
+  // Extract payer info (from PayPal for instant bookings, from custom_id for custom time)
+  const payerEmail = isCustomTime ? customerEmail : (resource?.payer?.email_address ?? null);
+  const payerName = isCustomTime
+    ? customerName
+    : resource?.payer?.name?.given_name
+      ? `${resource.payer.name.given_name} ${resource.payer.name.surname ?? ""}`.trim()
+      : null;
 
   // Create the booking
   const { data: booking, error } = await supabase
@@ -76,10 +85,16 @@ export async function POST(req: NextRequest) {
       date,
       start_time: startTime || null,
       guest_count: guestCount,
-      source: "direct",
+      source: isCustomTime ? "direct-custom" : "direct",
       customer_name: payerName ?? payerEmail,
       customer_email: payerEmail,
-      notes: `PayPal order: ${body?.resource?.id ?? "unknown"}`,
+      notes: isCustomTime
+        ? JSON.stringify({
+            custom_time: true,
+            customer_phone: customerPhone,
+            paypal_order: body?.resource?.id ?? "unknown",
+          })
+        : `PayPal order: ${body?.resource?.id ?? "unknown"}`,
     })
     .select("id")
     .single();
@@ -91,43 +106,65 @@ export async function POST(req: NextRequest) {
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
 
-  // Send confirmation email to customer
-  if (payerEmail && tour.price) {
-    const confirmationEmail = bookingConfirmationEmail({
-      tourName: tour.name,
-      date,
-      startTime,
-      guestCount,
-      currency: tour.currency || "JPY",
-      pricePerGuest: tour.price,
-      bookingId: booking.id,
-      baseUrl,
-    });
+  if (isCustomTime) {
+    // Custom time: send notification to Edward (not confirmation to customer)
+    if (operatorProfile?.email) {
+      const notificationEmail = customTimeNotificationEmail({
+        tourName: tour.name,
+        date,
+        startTime: startTime || "TBD",
+        guestCount,
+        customerName: payerName ?? "Unknown",
+        customerEmail: payerEmail ?? "unknown",
+        customerPhone,
+        baseUrl,
+      });
 
-    sendEmail({
-      to: payerEmail,
-      subject: confirmationEmail.subject,
-      html: confirmationEmail.html,
-    }).catch((e) => console.error("[PayPal webhook] Confirmation email failed:", e));
-  }
+      sendEmail({
+        to: operatorProfile.email,
+        subject: notificationEmail.subject,
+        html: notificationEmail.html,
+      }).catch((e) => console.error("[PayPal webhook] Custom time notification email failed:", e));
+    }
+  } else {
+    // Instant book: send confirmation to customer
+    if (payerEmail && tour.price) {
+      const confirmationEmail = bookingConfirmationEmail({
+        tourName: tour.name,
+        date,
+        startTime,
+        guestCount,
+        currency: tour.currency || "JPY",
+        pricePerGuest: tour.price,
+        bookingId: booking.id,
+        baseUrl,
+      });
 
-  // Send notification email to operator
-  if (operatorProfile?.email) {
-    const notificationEmail = operatorNotificationEmail({
-      operatorEmail: operatorProfile.email,
-      tourName: tour.name,
-      date,
-      startTime,
-      guestCount,
-      customerEmail: payerEmail,
-      baseUrl,
-    });
+      sendEmail({
+        to: payerEmail,
+        subject: confirmationEmail.subject,
+        html: confirmationEmail.html,
+      }).catch((e) => console.error("[PayPal webhook] Confirmation email failed:", e));
+    }
 
-    sendEmail({
-      to: notificationEmail.to,
-      subject: notificationEmail.subject,
-      html: notificationEmail.html,
-    }).catch((e) => console.error("[PayPal webhook] Operator notification email failed:", e));
+    // Send notification email to operator
+    if (operatorProfile?.email) {
+      const notificationEmail = operatorNotificationEmail({
+        operatorEmail: operatorProfile.email,
+        tourName: tour.name,
+        date,
+        startTime,
+        guestCount,
+        customerEmail: payerEmail,
+        baseUrl,
+      });
+
+      sendEmail({
+        to: notificationEmail.to,
+        subject: notificationEmail.subject,
+        html: notificationEmail.html,
+      }).catch((e) => console.error("[PayPal webhook] Operator notification email failed:", e));
+    }
   }
 
   // Insert in-app notification for operator
@@ -145,41 +182,43 @@ export async function POST(req: NextRequest) {
       if (notifError) console.error("[PayPal webhook] Notification insert failed:", notifError.message);
     });
 
-  // Check auto-block
-  const { data: tourCap } = await supabase
-    .from("tours")
-    .select("capacity")
-    .eq("id", tourId)
-    .single();
+  // Check auto-block (skip for custom time — Edward confirms manually)
+  if (!isCustomTime) {
+    const { data: tourCap } = await supabase
+      .from("tours")
+      .select("capacity")
+      .eq("id", tourId)
+      .single();
 
-  const { data: allBookings } = await supabase
-    .from("bookings")
-    .select("guest_count")
-    .eq("tour_id", tourId)
-    .eq("date", date)
-    .eq("start_time", startTime || null)
-    .eq("status", "confirmed");
+    const { data: allBookings } = await supabase
+      .from("bookings")
+      .select("guest_count")
+      .eq("tour_id", tourId)
+      .eq("date", date)
+      .eq("start_time", startTime || null)
+      .eq("status", "confirmed");
 
-  const totalBooked = (allBookings ?? []).reduce((sum, b) => sum + (b.guest_count ?? 0), 0);
+    const totalBooked = (allBookings ?? []).reduce((sum, b) => sum + (b.guest_count ?? 0), 0);
 
-  if (tourCap && totalBooked >= tourCap.capacity) {
-    // Auto-block on Google Calendar if connected
-    try {
-      await fetch(`${baseUrl}/api/calendar/block`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          tour_id: tourId,
-          date,
-          start_time: startTime || null,
-          reason: "Full — via PayPal booking",
-        }),
-      });
-    } catch (e) {
-      console.error("[PayPal webhook] Auto-block failed:", e);
+    if (tourCap && totalBooked >= tourCap.capacity) {
+      // Auto-block on Google Calendar if connected
+      try {
+        await fetch(`${baseUrl}/api/calendar/block`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            tour_id: tourId,
+            date,
+            start_time: startTime || null,
+            reason: "Full — via PayPal booking",
+          }),
+        });
+      } catch (e) {
+        console.error("[PayPal webhook] Auto-block failed:", e);
+      }
     }
   }
 
-  console.log(`[PayPal webhook] Booking created: ${tourId} on ${date} for ${guestCount} guests`);
+  console.log(`[PayPal webhook] Booking created: ${tourId} on ${date} for ${guestCount} guests${isCustomTime ? " (custom time)" : ""}`);
   return NextResponse.json({ ok: true });
 }
