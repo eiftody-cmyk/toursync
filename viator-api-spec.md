@@ -206,6 +206,68 @@ Viator's Supply API v2.0 is REST-based, POST-only, with JSON payloads. We build 
 }
 ```
 
+#### 15-Minute Reservation Hold Explained
+
+The 15-minute reservation hold is Viator's way of preventing double-bookings during checkout.
+
+**Why Viator requires this:**
+- Tour operators have limited capacity
+- Viator needs to guarantee availability to customers
+- Double-bookings cause cancellations, refunds, and bad reviews
+
+**Flow comparison:**
+
+| Approach | GYG (No Hold) | Viator (15-Min Hold) |
+|----------|---------------|----------------------|
+| Step 1 | Check availability | Reserve (locks inventory) |
+| Step 2 | Check again at booking | Customer fills form (inventory locked) |
+| Step 3 | Create booking | Create booking (with reservation_id) |
+| Double-booking risk | Higher (no lock) | Lower (locked inventory) |
+| Complexity | Simpler | More complex (expiration logic) |
+
+**Customer flow:**
+1. `POST /v2/reserve` → gets reservation_id + expiry_time (15 min)
+2. Customer fills form (name, email, phone)
+3. `POST /booking` → uses reservation_id to create booking
+
+**Expiration logic:**
+- If customer doesn't book within 15 minutes → inventory auto-releases
+- We need a cleanup job that runs every minute
+- Expired reservations → status = "EXPIRED" → inventory available again
+
+**Database table: `viator_reservations`**
+```sql
+CREATE TABLE viator_reservations (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  reservation_id VARCHAR(255) NOT NULL UNIQUE,
+  tour_id UUID NOT NULL REFERENCES tours(id),
+  travel_date DATE NOT NULL,
+  travel_time VARCHAR(50) NOT NULL,
+  ticket_requests JSONB NOT NULL,
+  total_price INTEGER NOT NULL,
+  currency VARCHAR(3) NOT NULL DEFAULT 'JPY',
+  expires_at TIMESTAMPTZ NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE', -- ACTIVE, EXPIRED, CONVERTED
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+```
+
+**Expiration cron job (run every minute):**
+```sql
+UPDATE viator_reservations 
+SET status = 'EXPIRED' 
+WHERE status = 'ACTIVE' 
+AND expires_at < now();
+```
+
+**Edge cases to handle:**
+1. Customer abandons checkout → reservation expires → inventory releases
+2. Customer books at 14:59 → reservation still valid → booking succeeds
+3. Two customers reserve same slot → second one fails (no vacancies)
+4. System crashes during reservation → reservation expires → inventory releases
+5. Customer tries to use expired reservation → booking fails → must reserve again
+
 ### 5. Booking (Create Booking)
 - **Endpoint:** `POST /booking`
 - **Version:** v1.0
