@@ -779,3 +779,322 @@ The full OpenAPI 3.0 spec is available in the chat history from 2026-09-08. Key 
 - **Security:** `X-Api-Key` header (v2.0+) or body `ApiKey` (v1.0)
 - **Content-Type:** `application/json` only (XML deprecated)
 - **Error Responses:** Consistent error codes across all APIs
+
+---
+
+## Mitigation Plan: Protecting GYG During Refactoring
+
+### Strategy 1: Staged Rollout (Not Big Bang)
+
+Don't refactor GYG immediately. Build the core services and Viator adapter first. Only refactor GYG after we have confidence in the new architecture.
+
+```
+Phase 1: Build core services (no GYG changes)
+Phase 2: Build Viator adapter (uses core services)
+Phase 3: Test Viator adapter thoroughly
+Phase 4: THEN refactor GYG to use core services
+Phase 5: Remove old code after verification
+```
+
+**Why this works:**
+- GYG stays untouched while we build and test the new architecture
+- We can validate core services with Viator (new code, no legacy risk)
+- Only after Viator is working do we touch GYG
+- If something breaks, we can revert GYG changes without affecting Viator
+
+### Strategy 2: Database Migration Safety
+
+**Use non-destructive migrations:**
+
+```sql
+-- 1. Add new table (doesn't affect existing tables)
+CREATE TABLE IF NOT EXISTS reservations (...);
+
+-- 2. Add new columns (doesn't affect existing data)
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS channel TEXT NOT NULL DEFAULT 'direct';
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS channel_booking_reference TEXT;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS reservation_id UUID REFERENCES reservations(id);
+
+-- 3. DON'T drop gyg_reservations yet
+-- Keep it until we've verified the new system works
+```
+
+**Migration verification checklist:**
+- [ ] Row count before migration = row count after migration
+- [ ] All existing GYG bookings still have `source = 'gyg'`
+- [ ] All existing `gyg_booking_reference` values preserved
+- [ ] All existing `reservation_reference` values preserved
+- [ ] New columns have sensible defaults (`channel = 'direct'`)
+
+**Data migration script (run after Phase 4):**
+```sql
+-- 1. Verify counts first
+SELECT COUNT(*) FROM gyg_reservations;
+-- 2. Migrate data
+INSERT INTO reservations (channel, channel_reservation_id, tour_id, date, start_time, booking_items, total_guests, total_price, currency, status, expires_at, created_at)
+SELECT
+  'gyg' as channel,
+  reservation_reference as channel_reservation_id,
+  tour_id,
+  date,
+  start_time,
+  booking_items,
+  -- Calculate total_guests from booking_items
+  (SELECT SUM(CASE WHEN item->>'category' = 'GROUP'
+    THEN (item->>'groupSize')::int * (item->>'count')::int
+    ELSE (item->>'count')::int END)
+   FROM jsonb_array_elements(booking_items) AS item) as total_guests,
+  0 as total_price, -- Will need to calculate or set to 0
+  'JPY' as currency,
+  CASE WHEN expires_at > now() THEN 'active' ELSE 'expired' END as status,
+  expires_at,
+  created_at
+FROM gyg_reservations;
+-- 3. Verify counts match
+SELECT COUNT(*) FROM reservations WHERE channel = 'gyg';
+-- 4. Only then drop old table
+-- DROP TABLE gyg_reservations;
+```
+
+### Strategy 3: Feature Flags
+
+**Use environment variables to toggle between old and new code paths:**
+
+```typescript
+// src/lib/config.ts
+export const USE_CORE_SERVICES = process.env.USE_CORE_SERVICES === 'true';
+export const USE_GYG_ADAPTER = process.env.USE_GYG_ADAPTER === 'true';
+```
+
+**In GYG routes:**
+```typescript
+// src/app/api/1/reserve/route.ts
+import { USE_CORE_SERVICES } from '@/lib/config';
+import { createReservation } from '@/lib/core/reservations';
+import { createGygReservationLegacy } from '@/lib/gyg/legacy';
+
+export async function POST(req: NextRequest) {
+  if (USE_CORE_SERVICES) {
+    // New code path
+    return createReservation(req);
+  } else {
+    // Old code path (unchanged)
+    return createGygReservationLegacy(req);
+  }
+}
+```
+
+**Deployment strategy:**
+1. Deploy with `USE_CORE_SERVICES=false` (default)
+2. Test new code path in staging
+3. Set `USE_CORE_SERVICES=true` in production
+4. Monitor for errors
+5. If errors, set `USE_CORE_SERVICES=false` to revert
+
+### Strategy 4: Shadow Mode
+
+**Run new code in parallel with old code, compare results:**
+
+```typescript
+// src/app/api/1/reserve/route.ts
+export async function POST(req: NextRequest) {
+  // Clone request for shadow testing
+  const shadowReq = req.clone();
+
+  // Run old code path (production)
+  const oldResult = await createGygReservationLegacy(req);
+
+  // Run new code path (shadow, don't return)
+  if (process.env.SHADOW_MODE === 'true') {
+    createReservation(shadowReq)
+      .then(newResult => {
+        // Log differences
+        if (JSON.stringify(oldResult) !== JSON.stringify(newResult)) {
+          console.error('SHADOW MISMATCH', { oldResult, newResult });
+        }
+      })
+      .catch(err => {
+        console.error('SHADOW ERROR', err);
+      });
+  }
+
+  return oldResult;
+}
+```
+
+**Benefits:**
+- Production uses old code (safe)
+- New code runs in background, results compared
+- No risk to production
+- Can validate new code before switching
+
+### Strategy 5: Comprehensive Testing
+
+**Before refactoring GYG, ensure:**
+
+1. **Unit tests for core services:**
+   - `checkCapacity()` — various scenarios
+   - `createReservation()` — with capacity checks
+   - `convertReservation()` — and expiration
+   - `createBooking()` — with and without reservation
+
+2. **Integration tests for GYG flows:**
+   - Reserve → Book flow
+   - Cancel reservation
+   - Cancel booking
+   - Idempotency
+   - Expiration
+   - Capacity edge cases
+
+3. **Contract testing with GYG:**
+   - Use GYG's self-testing tool
+   - Run all 47 tests that passed before
+   - Ensure responses are identical
+
+4. **Comparison testing:**
+   - Run old code and new code with same inputs
+   - Compare responses field-by-field
+   - Log any differences
+
+### Strategy 6: Rollback Plan
+
+**If something breaks during GYG refactoring:**
+
+1. **Immediate rollback (< 5 minutes):**
+   ```bash
+   # Set feature flag to use old code
+   wrangler secret put USE_CORE_SERVICES
+   # Enter: false
+   ```
+
+2. **Database rollback (if needed):**
+   ```sql
+   -- Remove new columns (data preserved in old columns)
+   ALTER TABLE bookings DROP COLUMN IF EXISTS channel;
+   ALTER TABLE bookings DROP COLUMN IF EXISTS channel_booking_reference;
+   ALTER TABLE bookings DROP COLUMN IF EXISTS reservation_id;
+
+   -- Drop new table (old table still exists)
+   DROP TABLE IF EXISTS reservations;
+   ```
+
+3. **Code rollback:**
+   ```bash
+   git revert <commit-hash>
+   git push origin main
+   # Redeploy
+   ```
+
+### Strategy 7: Monitoring & Alerting
+
+**Track key metrics before/during/after refactoring:**
+
+| Metric | Baseline | Alert Threshold |
+|--------|----------|-----------------|
+| GYG API error rate | < 1% | > 2% |
+| GYG API response time | < 1s | > 3s |
+| GYG reservation success rate | > 99% | < 98% |
+| GYG booking success rate | > 99% | < 98% |
+| Capacity check accuracy | 100% | Any mismatch |
+
+**Monitoring setup:**
+```typescript
+// src/lib/core/availability.ts
+export async function checkCapacity(...) {
+  const start = Date.now();
+
+  try {
+    // ... existing logic
+  } catch (error) {
+    // Track errors
+    metrics.increment('capacity_check.error');
+    throw error;
+  } finally {
+    // Track response time
+    metrics.histogram('capacity_check.duration', Date.now() - start);
+  }
+}
+```
+
+### Strategy 8: Documentation
+
+**Document everything for safe rollback:**
+
+1. **Migration steps:**
+   - Step 1: Run migration 017_add_reservations_table.sql
+   - Step 2: Verify row counts
+   - Step 3: Run migration 018_add_channel_to_bookings.sql
+   - Step 4: Verify columns added
+
+2. **Rollback steps:**
+   - Step 1: Set USE_CORE_SERVICES=false
+   - Step 2: Redeploy
+   - Step 3: If database changes needed, run rollback migrations
+
+3. **Verification checklist:**
+   - [ ] All GYG endpoints return same responses
+   - [ ] All GYG tests pass
+   - [ ] No increase in error rates
+   - [ ] No increase in response times
+
+### Strategy 9: Branch-Based Development
+
+**Use git branches for safe development:**
+
+```
+main (production)
+  └── feature/core-services (build core, no GYG changes)
+       └── feature/viator-adapter (build Viator, no GYG changes)
+            └── feature/gyg-refactor (refactor GYG to use core)
+                 └── feature/gyg-cleanup (remove old code)
+```
+
+**Each branch:**
+- Builds on previous branch
+- Has its own tests
+- Requires PR review
+- Can be reverted independently
+
+### Strategy 10: Go-Live Checklist
+
+**Before switching GYG to new code:**
+
+- [ ] All unit tests pass
+- [ ] All integration tests pass
+- [ ] GYG contract tests pass (47/47)
+- [ ] Shadow mode shows no mismatches
+- [ ] Staging environment tested
+- [ ] Rollback plan documented
+- [ ] Monitoring alerts configured
+- [ ] Team notified of change window
+- [ ] Feature flag ready to toggle
+
+**During go-live:**
+- [ ] Toggle feature flag
+- [ ] Monitor error rates for 15 minutes
+- [ ] Monitor response times for 15 minutes
+- [ ] Check GYG dashboard for any issues
+- [ ] Verify bookings are being created correctly
+
+**After go-live (1 week):**
+- [ ] No increase in error rates
+- [ ] No increase in response times
+- [ ] All GYG tests still passing
+- [ ] Ready to remove old code
+
+### Summary
+
+| Strategy | Purpose | Risk Level |
+|----------|---------|------------|
+| Staged rollout | Don't touch GYG until confident | Low |
+| Non-destructive migrations | Preserve existing data | Low |
+| Feature flags | Easy rollback | Low |
+| Shadow mode | Validate without risk | Low |
+| Comprehensive testing | Catch issues early | Low |
+| Rollback plan | Quick recovery | Low |
+| Monitoring | Detect issues fast | Low |
+| Documentation | Safe execution | Low |
+| Branch-based development | Isolate changes | Low |
+| Go-live checklist | Verify before switching | Low |
+
+**Bottom line:** We won't touch the existing GYG code or database until we're confident the new architecture works. The safest approach is to build Viator first, test it thoroughly, and only then refactor GYG.
