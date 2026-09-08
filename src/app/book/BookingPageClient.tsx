@@ -340,7 +340,9 @@ export function BookingPageClient({ tour, companyName, paypalClientId }: Booking
       </main>
 
       <footer className="booking-footer">
-        <Link href="/">← Back to Osaka Castle Walks with Edward</Link>
+        <strong>Osaka Castle Walks with Edward</strong><br />
+        2-3-6 Tanimachi, Chuo-ku, Osaka<br />
+        <a href="mailto:edward@osakacastletours.com">edward@osakacastletours.com</a>
       </footer>
     </div>
   );
