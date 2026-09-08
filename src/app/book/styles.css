@@ -511,3 +511,22 @@ input[type="time"] {
 .calendar-day.full .day-spots {
   opacity: 0.5;
 }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .booking-header {
+    padding: 0.5rem 1rem;
+  }
+
+  .logo-link img {
+    height: 80px;
+  }
+
+  .logo-text {
+    font-size: 0.75rem;
+  }
+
+  .tagline {
+    display: none;
+  }
+}
