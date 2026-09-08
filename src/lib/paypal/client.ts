@@ -56,7 +56,7 @@ export async function createPaypalOrder(params: CreateOrderParams): Promise<PayP
         },
       ],
       application_context: {
-        brand_name: "ExperienceRelay",
+        brand_name: "Osaka Castle Walks with Edward",
         landing_page: "BILLING",
         user_action: "PAY_NOW",
         return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/book/confirm`,

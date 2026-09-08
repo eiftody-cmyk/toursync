@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, skipped: true });
   }
 
-  // Parse custom_id: tour_id|date|start_time|guest_count[|custom=true|name|email|phone]
+  // Parse custom_id: tour_id|date|start_time|guest_count[|custom=true|customer_phone]
   const customId = resource?.custom_id;
   if (!customId) {
     console.error("[PayPal webhook] No custom_id in resource");
@@ -37,10 +37,8 @@ export async function POST(req: NextRequest) {
   const guestCount = parseInt(guestCountStr, 10);
   const isCustomTime = customFlag === "custom=true";
 
-  // Decode customer info for custom time bookings
-  const customerName = isCustomTime && parts[5] ? decodeURIComponent(parts[5]) : null;
-  const customerEmail = isCustomTime && parts[6] ? decodeURIComponent(parts[6]) : null;
-  const customerPhone = isCustomTime && parts[7] ? decodeURIComponent(parts[7]) : null;
+  // Phone is at parts[5] (optional)
+  const customerPhone = isCustomTime && parts[5] ? decodeURIComponent(parts[5]) : null;
 
   if (!tourId || !date || !guestCount || guestCount < 1) {
     console.error("[PayPal webhook] Invalid booking data:", customId);
@@ -68,13 +66,11 @@ export async function POST(req: NextRequest) {
     .eq("id", tour.user_id)
     .single();
 
-  // Extract payer info (from PayPal for instant bookings, from custom_id for custom time)
-  const payerEmail = isCustomTime ? customerEmail : (resource?.payer?.email_address ?? null);
-  const payerName = isCustomTime
-    ? customerName
-    : resource?.payer?.name?.given_name
-      ? `${resource.payer.name.given_name} ${resource.payer.name.surname ?? ""}`.trim()
-      : null;
+  // Extract payer info — always from PayPal, not from custom_id
+  const payerEmail = resource?.payer?.email_address ?? null;
+  const payerName = resource?.payer?.name?.given_name
+    ? `${resource.payer.name.given_name} ${resource.payer.name.surname ?? ""}`.trim()
+    : null;
 
   // Create the booking
   const { data: booking, error } = await supabase

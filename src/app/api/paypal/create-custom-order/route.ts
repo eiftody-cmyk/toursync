@@ -4,11 +4,11 @@ import { createPaypalOrder } from "@/lib/paypal/client";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { tour_id, date, start_time, guest_count, customer_name, customer_email, customer_phone } = body;
+  const { tour_id, date, start_time, guest_count, customer_phone } = body;
 
-  if (!tour_id || !date || !start_time || !guest_count || !customer_name || !customer_email) {
+  if (!tour_id || !date || !start_time || !guest_count) {
     return NextResponse.json(
-      { error: "Missing required fields: tour_id, date, start_time, guest_count, customer_name, customer_email" },
+      { error: "Missing required fields: tour_id, date, start_time, guest_count" },
       { status: 400 }
     );
   }
@@ -37,16 +37,14 @@ export async function POST(req: NextRequest) {
 
   // No capacity check for custom time — Edward confirms manually
 
-  // Encode custom_id with customer info and custom flag
-  // Format: tour_id|date|start_time|guest_count|custom=true|customer_name|customer_email|customer_phone
+  // Encode custom_id: tour_id|date|start_time|guest_count|custom=true|customer_phone
+  // Name/email come from PayPal payer object — no need to encode
   const customId = [
     tour_id,
     date,
     start_time,
     String(guests),
     "custom=true",
-    encodeURIComponent(customer_name),
-    encodeURIComponent(customer_email),
     encodeURIComponent(customer_phone || ""),
   ].join("|");
 

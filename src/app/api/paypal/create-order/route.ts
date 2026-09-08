@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   const supabase = await createClient();
   const { data: tour } = await supabase
     .from("tours")
-    .select("name, price, currency")
+    .select("name, price, currency, cutoff_minutes")
     .eq("id", tour_id)
     .single();
 
@@ -23,6 +23,19 @@ export async function POST(req: NextRequest) {
 
   if (!tour.price) {
     return NextResponse.json({ error: "Tour has no price set" }, { status: 400 });
+  }
+
+  // Cutoff validation — reject if start_time + cutoff has passed
+  const cutoffMinutes = tour.cutoff_minutes ?? 60;
+  const now = new Date();
+  const todayStr = now.toISOString().split("T")[0];
+  if (date === todayStr && start_time) {
+    const nowMinutes = now.getHours() * 60 + now.getMinutes();
+    const [h, m] = start_time.split(":").map(Number);
+    const slotMinutes = h * 60 + m;
+    if (nowMinutes >= slotMinutes + cutoffMinutes) {
+      return NextResponse.json({ error: "This tour time has already passed the booking cutoff" }, { status: 400 });
+    }
   }
 
   // Check remaining capacity

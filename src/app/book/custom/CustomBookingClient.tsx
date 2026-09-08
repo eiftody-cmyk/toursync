@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { PayPalPayment } from "@/components/PayPalPayment";
 import type { Tour } from "@/types";
 import "../styles.css";
 
 interface CustomBookingClientProps {
   tour: Tour;
   companyName: string | null;
+  paypalClientId: string;
 }
 
 function tomorrow(): string {
@@ -28,84 +31,67 @@ function threeMonthsOut(): string {
   return `${y}-${m}-${day}`;
 }
 
-function formatDate(dateStr: string): string {
-  const [y, m, d] = dateStr.split("-").map(Number);
-  return new Date(y, m - 1, d).toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+// Generate 15-minute interval options from 09:00 to 15:00
+function generateTimeOptions(): string[] {
+  const options: string[] = [];
+  for (let h = 9; h <= 15; h++) {
+    for (let m = 0; m < 60; m += 15) {
+      if (h === 15 && m > 0) break; // stop at 15:00
+      options.push(`${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`);
+    }
+  }
+  return options;
 }
 
-export function CustomBookingClient({ tour, companyName }: CustomBookingClientProps) {
+const TIME_OPTIONS = generateTimeOptions();
+
+export function CustomBookingClient({ tour, companyName, paypalClientId }: CustomBookingClientProps) {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [guestCount, setGuestCount] = useState("2");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [booking, setBooking] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   const currencySymbol = tour.currency === "JPY" ? "¥" : tour.currency + " ";
   const pricePerGuest = tour.price ?? 0;
-  const displayName = companyName || "ExperienceRelay";
-  const totalPrice = pricePerGuest * parseInt(guestCount || "0", 10);
+  const guests = parseInt(guestCount || "2", 10);
+  const totalPrice = pricePerGuest * guests;
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
-
-    if (!date || !time || !name || !email) {
-      setError("Please fill in all required fields.");
-      return;
-    }
-
-    const guests = parseInt(guestCount, 10);
-    if (!guests || guests < 1) {
-      setError("Please enter a valid guest count.");
-      return;
-    }
-
-    setBooking(true);
-
-    try {
-      const res = await fetch("/api/paypal/create-custom-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          tour_id: tour.id,
-          date,
-          start_time: time,
-          guest_count: guests,
-          customer_name: name,
-          customer_email: email,
-          customer_phone: phone || null,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Failed to create order.");
-        setBooking(false);
-        return;
-      }
-
-      if (data.approveUrl) {
-        window.location.href = data.approveUrl;
-      }
-    } catch {
-      setError("Something went wrong. Please try again.");
-      setBooking(false);
-    }
+  if (paymentSuccess) {
+    return (
+      <div className="booking-page">
+        <header className="booking-header">
+          <span className="logo-text">Osaka Castle Walks with Edward</span>
+          <Link href="/" className="logo-link">
+            <Image src="/logo.webp" alt="Osaka Castle Walks with Edward" width={240} height={240} />
+          </Link>
+          <span className="tagline">History Beyond the Postcard</span>
+        </header>
+        <main className="booking-container">
+          <div className="booking-success">
+            <h2>Request Received</h2>
+            <p>
+              Payment received. Your requested tour time will be confirmed by email.
+              Check your inbox for details.
+            </p>
+            <Link href="/" className="cta-btn" style={{ display: "inline-block", marginTop: "1.5rem" }}>
+              Back to Tours
+            </Link>
+          </div>
+        </main>
+      </div>
+    );
   }
 
   return (
-    <div>
+    <div className="booking-page">
       <header className="booking-header">
-        <Link href="/" className="logo">{displayName}</Link>
+        <span className="logo-text">Osaka Castle Walks with Edward</span>
+        <Link href="/" className="logo-link">
+          <Image src="/logo.webp" alt="Osaka Castle Walks with Edward" width={240} height={240} />
+        </Link>
+        <span className="tagline">History Beyond the Postcard</span>
       </header>
 
       <main className="booking-container">
@@ -120,7 +106,7 @@ export function CustomBookingClient({ tour, companyName }: CustomBookingClientPr
           )}
         </div>
 
-        <form className="booking-form" onSubmit={handleSubmit}>
+        <div className="booking-form">
           <div className="form-group">
             <label>Tour</label>
             <div className="tour-name-display">{tour.name}</div>
@@ -141,13 +127,17 @@ export function CustomBookingClient({ tour, companyName }: CustomBookingClientPr
 
           <div className="form-group">
             <label htmlFor="time">Preferred Time *</label>
-            <input
-              type="time"
+            <select
               id="time"
               value={time}
               onChange={(e) => setTime(e.target.value)}
               required
-            />
+            >
+              <option value="">Select a time</option>
+              {TIME_OPTIONS.map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
           </div>
 
           <div className="form-group">
@@ -159,30 +149,6 @@ export function CustomBookingClient({ tour, companyName }: CustomBookingClientPr
               max={tour.capacity}
               value={guestCount}
               onChange={(e) => setGuestCount(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="name">Your Name *</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Full name"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="email">Email Address *</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
               required
             />
           </div>
@@ -210,19 +176,31 @@ export function CustomBookingClient({ tour, companyName }: CustomBookingClientPr
 
           {error && <div className="booking-error">{error}</div>}
 
-          <button
-            type="submit"
-            className="cta-btn"
-            disabled={booking}
-            style={{ width: "100%" }}
-          >
-            {booking ? "Redirecting to PayPal..." : "Pay & Request Time"}
-          </button>
-        </form>
+          {date && time && guests >= 1 ? (
+            <PayPalPayment
+              paypalClientId={paypalClientId}
+              tourId={tour.id}
+              tourName={tour.name}
+              date={date}
+              startTime={time}
+              guestCount={guests}
+              amount={totalPrice}
+              currency={tour.currency || "JPY"}
+              custom
+              customerPhone={phone}
+              onSuccess={() => setPaymentSuccess(true)}
+              onError={setError}
+            />
+          ) : (
+            <p style={{ color: "var(--parchment-dim)", fontSize: "0.85rem", fontStyle: "italic" }}>
+              Select a date and time to see payment options.
+            </p>
+          )}
+        </div>
       </main>
 
       <footer className="booking-footer">
-        <Link href="/">← Back to {displayName}</Link>
+        <Link href="/">← Back to Osaka Castle Walks with Edward</Link>
       </footer>
     </div>
   );

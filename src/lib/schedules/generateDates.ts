@@ -55,26 +55,28 @@ export async function generateAvailableDates(
   const blockedTimeSet = new Set(
     (blocked ?? []).map((b) => `${b.date}_${normalizeTime(b.start_time)}`)
   );
-  const blockedDateSet = new Set<string>();
-  for (const b of blocked ?? []) {
-    // A date is "blocked" on the calendar if ALL its time slots are blocked
-    // For now, track individual blocked slots
-    blockedDateSet.add(b.date);
-  }
+  // All-day blocks (start_time IS NULL) block every slot on that date
+  const allDayBlockedDates = new Set(
+    (blocked ?? []).filter((b) => b.start_time === null).map((b) => b.date)
+  );
 
-  // 4. Fetch tour capacity
+  // 4. Fetch tour capacity and cutoff
   const { data: tour } = await supabase
     .from("tours")
-    .select("capacity")
+    .select("capacity, cutoff_minutes")
     .eq("id", tourId)
     .single();
 
   const capacity = tour?.capacity ?? 10;
+  const cutoffMinutes = tour?.cutoff_minutes ?? 60;
 
   // 5. Generate all candidate dates
   const now = new Date();
-  const cutoff = new Date();
-  cutoff.setMonth(cutoff.getMonth() + monthsAhead);
+  const rangeEnd = new Date();
+  rangeEnd.setMonth(rangeEnd.getMonth() + monthsAhead);
+
+  const todayStr = now.toISOString().split("T")[0];
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
   // Track all dates that have a schedule (for blocked detection)
   const allScheduledDates = new Set<string>();
@@ -84,10 +86,10 @@ export async function generateAvailableDates(
     const startDate = new Date(schedule.start_date);
     const endDate = schedule.end_date
       ? new Date(schedule.end_date)
-      : cutoff;
+      : rangeEnd;
 
     const effectiveStart = startDate > now ? startDate : new Date(now);
-    const effectiveEnd = endDate < cutoff ? endDate : cutoff;
+    const effectiveEnd = endDate < rangeEnd ? endDate : rangeEnd;
 
     const current = new Date(effectiveStart);
     while (current.getDay() !== schedule.day_of_week && current <= effectiveEnd) {
@@ -104,12 +106,21 @@ export async function generateAvailableDates(
         continue;
       }
 
-      // Skip blocked time slots
+      // Skip blocked time slots (time-specific or all-day)
       const blockKey = `${dateStr}_${normalizeTime(schedule.start_time)}`;
-      if (blockedTimeSet.has(blockKey)) {
-        // This slot is blocked — if ALL slots for this date are blocked, mark as fully blocked
+      if (blockedTimeSet.has(blockKey) || allDayBlockedDates.has(dateStr)) {
         current.setDate(current.getDate() + 7);
         continue;
+      }
+
+      // Skip past-cutoff slots for today
+      if (dateStr === todayStr) {
+        const [h, m] = normalizeTime(schedule.start_time).split(":").map(Number);
+        const slotMinutes = h * 60 + m;
+        if (nowMinutes >= slotMinutes + cutoffMinutes) {
+          current.setDate(current.getDate() + 7);
+          continue;
+        }
       }
 
       candidateDates.push({ date: dateStr, schedule });
@@ -157,7 +168,7 @@ export async function generateAvailableDates(
 
     const allSlotsBlocked = slotsForDate.every((s) => {
       const key = `${dateStr}_${normalizeTime(s.start_time)}`;
-      return blockedTimeSet.has(key) || exceptionDates.has(dateStr);
+      return blockedTimeSet.has(key) || allDayBlockedDates.has(dateStr) || exceptionDates.has(dateStr);
     });
 
     if (allSlotsBlocked && slotsForDate.length > 0) {
