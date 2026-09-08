@@ -45,8 +45,9 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
       { status: 200 }
     );
   }
-  const data = (body as Record<string, unknown>) as { data?: Record<string, unknown> } | undefined;
-  const requestData = (data?.data ?? {}) as {
+  const bodyObj = (body ?? {}) as Record<string, unknown>;
+  const data = bodyObj.data && typeof bodyObj.data === "object" ? bodyObj.data as Record<string, unknown> : bodyObj;
+  const requestData = data as {
     productId?: string;
     reservationReference?: string;
     gygBookingReference?: string;
@@ -161,7 +162,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
   // Parallelize: capacity check (bookings + active reservations)
   const [bookingsResult, reservationsResult] = await Promise.all([
     supabase.from("bookings").select("guest_count").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", startTime).eq("status", "confirmed"),
-    supabase.from("gyg_reservations").select("booking_items").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", startTime).gt("expires_at", new Date().toISOString()),
+    supabase.from("gyg_reservations").select("booking_items").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", startTime).gt("expires_at", new Date().toISOString()).neq("reservation_reference", requestData.reservationReference),
   ]);
 
   let totalBooked = (bookingsResult.data ?? []).reduce(
@@ -299,20 +300,18 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
   const totalForSlot = totalBooked + totalGuests;
   if (totalForSlot >= tour.capacity) {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
-    try {
-      await fetch(`${baseUrl}/api/calendar/block`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          tour_id: tour.id,
-          date: dateStr,
-          start_time: startTime,
-          reason: "Full — via GYG booking",
-        }),
-      });
-    } catch (e) {
+    fetch(`${baseUrl}/api/calendar/block`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        tour_id: tour.id,
+        date: dateStr,
+        start_time: startTime,
+        reason: "Full — via GYG booking",
+      }),
+    }).catch((e) => {
       console.error("[GYG book] Auto-block failed:", e);
-    }
+    });
   }
 
   // Generate tickets

@@ -42,8 +42,9 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
       { status: 200 }
     );
   }
-  const data = (body as Record<string, unknown>) as { data?: Record<string, unknown> } | undefined;
-  const requestData = (data?.data ?? {}) as {
+  const bodyObj = (body ?? {}) as Record<string, unknown>;
+  const data = bodyObj.data && typeof bodyObj.data === "object" ? bodyObj.data as Record<string, unknown> : bodyObj;
+  const requestData = data as {
     productId?: string;
     dateTime?: string;
     bookingItems?: Array<{ category: string; count: number; groupSize?: number; retailPrice?: number }>;
@@ -79,13 +80,16 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
   const [h, m] = timePart.split(":");
   const tourStartTime = tour.product_type === "time_period" ? null : `${h}:${m}`;
 
-  // Parallelize pricing categories, schedule check, and capacity queries
+  // Parallelize pricing categories, schedule check, and blocked-date check
   const dayOfWeek = new Date(dateStr + "T12:00:00+09:00").getDay();
   const now = new Date().toISOString();
-  const [pricingResult, scheduleResult] = await Promise.all([
+  const [pricingResult, scheduleResult, blockedDateResult] = await Promise.all([
     supabase.from("tour_pricing_categories").select("category").eq("tour_id", tour.id),
     tour.product_type === "time_point"
       ? supabase.from("tour_schedules").select("start_time").eq("tour_id", tour.id).eq("day_of_week", dayOfWeek).eq("is_active", true)
+      : Promise.resolve({ data: null }),
+    tour.product_type === "time_period"
+      ? supabase.from("blocked_dates").select("id").eq("tour_id", tour.id).eq("date", dateStr).maybeSingle()
       : Promise.resolve({ data: null }),
   ]);
 
@@ -118,6 +122,14 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
         { status: 200 }
       );
     }
+  }
+
+  // Validate blocked dates for time_period products (result from parallel query above)
+  if (tour.product_type === "time_period" && blockedDateResult.data) {
+    return gygJson(
+      { errorCode: "NO_AVAILABILITY", errorMessage: `No availability for ${dateStr}` },
+      { status: 200 }
+    );
   }
 
   // Calculate total guests from bookingItems

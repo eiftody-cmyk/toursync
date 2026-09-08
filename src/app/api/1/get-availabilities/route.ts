@@ -299,8 +299,9 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
       { status: 200 }
     );
   }
-  const data = (body as Record<string, unknown>) as { data?: Record<string, unknown> } | undefined;
-  const requestData = (data?.data ?? {}) as {
+  const bodyObj = (body ?? {}) as Record<string, unknown>;
+  const data = bodyObj.data && typeof bodyObj.data === "object" ? bodyObj.data as Record<string, unknown> : bodyObj;
+  const requestData = data as {
     productId?: string;
     fromDateTime?: string;
     toDateTime?: string;

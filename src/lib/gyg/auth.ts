@@ -28,11 +28,13 @@ export function verifyGygAuth(
   const username = colonIndex >= 0 ? decoded.substring(0, colonIndex) : decoded;
   const password = colonIndex >= 0 ? decoded.substring(colonIndex + 1) : "";
 
-  const expectedUser = process.env.GYG_INBOUND_USERNAME;
-  const expectedPass = process.env.GYG_INBOUND_PASSWORD;
+  const testUser = process.env.GYG_INBOUND_USERNAME || "";
+  const testPass = process.env.GYG_INBOUND_PASSWORD || "";
+  const prodUser = process.env.GYG_PROD_USERNAME || "";
+  const prodPass = process.env.GYG_PROD_PASSWORD || "";
 
-  if (!expectedUser || !expectedPass) {
-    console.error("[GYG auth] GYG_INBOUND_USERNAME or GYG_INBOUND_PASSWORD env var not set");
+  if ((!testUser && !prodUser) || (!testPass && !prodPass)) {
+    console.error("[GYG auth] No GYG credentials configured");
     const error: GygErrorResponse = {
       errorCode: "INTERNAL_SYSTEM_FAILURE",
       errorMessage: "Server configuration error",
@@ -40,12 +42,12 @@ export function verifyGygAuth(
     return gygJson(error, { status: 200 });
   }
 
-  // Constant-time comparison to prevent timing attacks
-  const userMatch = timingSafeEqual(username, expectedUser);
-  const passMatch = timingSafeEqual(password, expectedPass);
+  // Accept test OR production credentials
+  const testMatch = testUser && testPass && timingSafeEqual(username, testUser) && timingSafeEqual(password, testPass);
+  const prodMatch = prodUser && prodPass && timingSafeEqual(username, prodUser) && timingSafeEqual(password, prodPass);
 
-  if (!userMatch || !passMatch) {
-    console.error("[GYG auth] Invalid credentials — user_match=%s pass_match=%s", userMatch, passMatch);
+  if (!testMatch && !prodMatch) {
+    console.error("[GYG auth] Invalid credentials");
     const error: GygErrorResponse = {
       errorCode: "AUTHORIZATION_FAILURE",
       errorMessage: "Invalid credentials",

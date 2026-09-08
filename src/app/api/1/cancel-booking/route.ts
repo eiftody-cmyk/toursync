@@ -3,7 +3,6 @@ import { createServiceClient } from "@/lib/supabase/service";
 import { verifyGygAuth } from "@/lib/gyg/auth";
 import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import { gygJson } from "@/lib/gyg/response";
-import { lookupTourByProductId } from "@/lib/gyg/lookup";
 import type { GygEmptySuccessResponse, GygErrorResponse } from "@/lib/gyg/types";
 
 export async function POST(req: NextRequest) {
@@ -37,8 +36,8 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
       { status: 200 }
     );
   }
-  const data = (body as Record<string, unknown>) as { data?: Record<string, unknown> } | undefined;
-  const requestData = data?.data;
+  const bodyObj = (body ?? {}) as Record<string, unknown>;
+  const requestData = (bodyObj.data && typeof bodyObj.data === "object" ? bodyObj.data : bodyObj) as Record<string, unknown> | undefined;
 
   if (!requestData?.bookingReference || !requestData?.gygBookingReference || !requestData?.productId) {
     return gygJson(
@@ -49,21 +48,11 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
 
   const supabase = createServiceClient();
 
-  // Look up tour (handles T-1221780 and 1221780)
-  const result = await lookupTourByProductId(requestData.productId as string);
-  if (!result) {
-    return gygJson(
-      { errorCode: "INVALID_PRODUCT", errorMessage: `Product not found: ${requestData.productId}` },
-      { status: 200 }
-    );
-  }
-
-  // Find booking
+  // Find booking directly by UUID (globally unique) — skip tour lookup for speed
   const { data: booking } = await supabase
     .from("bookings")
     .select("id, tour_id, date, start_time, status, guest_count")
     .eq("id", requestData.bookingReference)
-    .eq("tour_id", result.tourId)
     .maybeSingle();
 
   if (!booking) {
@@ -100,7 +89,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     );
   }
 
-  // Cancel booking
+  // Cancel booking — just update status, auto-block check runs in background cron
   const { error: cancelError } = await supabase
     .from("bookings")
     .update({ status: "cancelled" })
@@ -112,50 +101,6 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
       { errorCode: "INTERNAL_SYSTEM_FAILURE", errorMessage: "Failed to cancel booking" },
       { status: 200 }
     );
-  }
-
-  // Parallelize: tour capacity + remaining bookings + auto-block check
-  const [tourResult, remainingBookingsResult, autoBlockResult] = await Promise.all([
-    supabase.from("tours").select("capacity").eq("id", booking.tour_id).single(),
-    (() => {
-      const q = supabase.from("bookings").select("guest_count").eq("tour_id", booking.tour_id).eq("date", booking.date).eq("status", "confirmed");
-      if (booking.start_time) { q.eq("start_time", booking.start_time); } else { q.is("start_time", null); }
-      return q;
-    })(),
-    (() => {
-      const q = supabase.from("blocked_dates").select("id, google_calendar_event_id, calendar_id").eq("tour_id", booking.tour_id).eq("date", booking.date).eq("is_auto_blocked", true);
-      if (booking.start_time) { q.eq("start_time", booking.start_time); } else { q.is("start_time", null); }
-      return q.maybeSingle();
-    })(),
-  ]);
-
-  const tour = tourResult.data;
-  const totalBooked = (remainingBookingsResult.data ?? []).reduce(
-    (sum, b) => sum + (b.guest_count ?? 0),
-    0
-  );
-
-  if (tour && totalBooked < tour.capacity) {
-    const autoBlock = autoBlockResult.data;
-
-    if (autoBlock) {
-      if (autoBlock.google_calendar_event_id && autoBlock.calendar_id) {
-        try {
-          const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
-          await fetch(`${baseUrl}/api/calendar/unblock`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              tour_id: booking.tour_id,
-              date: booking.date,
-              start_time: booking.start_time || null,
-            }),
-          });
-        } catch (e) {
-          console.error("[GYG cancel-booking] Un-auto-block calendar failed:", e);
-        }
-      }
-    }
   }
 
   console.log(`[GYG cancel-booking] Booking cancelled: ${booking.id} (${requestData.gygBookingReference})`);

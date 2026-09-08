@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  console.log("[GYG notify] Received notification:", JSON.stringify(body).substring(0, 500));
+  console.log("[GYG notify] Received notification");
 
   return gygJson({ data: {} }, { status: 200 });
 }
