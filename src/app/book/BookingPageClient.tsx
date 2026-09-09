@@ -24,7 +24,6 @@ interface BookingPageClientProps {
   tour: Tour;
   companyName: string | null;
   paypalClientId: string;
-  paypalMode: string;
 }
 
 function toDateStr(date: Date): string {
@@ -55,7 +54,7 @@ function getMonthDays(year: number, month: number): Date[] {
   return days;
 }
 
-export function BookingPageClient({ tour, companyName, paypalClientId, paypalMode }: BookingPageClientProps) {
+export function BookingPageClient({ tour, companyName, paypalClientId }: BookingPageClientProps) {
   const [dateData, setDateData] = useState<DateData>({ available: [], blocked: [], full: [] });
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -326,7 +325,6 @@ export function BookingPageClient({ tour, companyName, paypalClientId, paypalMod
 
             <PayPalPayment
               paypalClientId={paypalClientId}
-              paypalMode={paypalMode}
               tourId={tour.id}
               tourName={tour.name}
               date={selectedSlot.date}

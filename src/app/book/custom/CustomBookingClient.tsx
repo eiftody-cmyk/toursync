@@ -11,7 +11,6 @@ interface CustomBookingClientProps {
   tour: Tour;
   companyName: string | null;
   paypalClientId: string;
-  paypalMode: string;
 }
 
 function tomorrow(): string {
@@ -46,7 +45,7 @@ function generateTimeOptions(): string[] {
 
 const TIME_OPTIONS = generateTimeOptions();
 
-export function CustomBookingClient({ tour, companyName, paypalClientId, paypalMode }: CustomBookingClientProps) {
+export function CustomBookingClient({ tour, companyName, paypalClientId }: CustomBookingClientProps) {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [guestCount, setGuestCount] = useState("2");
@@ -180,7 +179,6 @@ export function CustomBookingClient({ tour, companyName, paypalClientId, paypalM
           {date && time && guests >= 1 ? (
             <PayPalPayment
               paypalClientId={paypalClientId}
-              paypalMode={paypalMode}
               tourId={tour.id}
               tourName={tour.name}
               date={date}

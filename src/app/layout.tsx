@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -36,8 +35,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         {children}
         <Toaster />
-        <Script src="https://applepay.cdn-apple.com/jsapi/v1/apple-pay-sdk.js" strategy="lazyOnload" />
-        <Script src="https://pay.google.com/gp/p/js/pay.js" strategy="lazyOnload" />
       </body>
     </html>
   );
