@@ -110,7 +110,7 @@ export function PayPalPayment({
         clientId: paypalClientId,
         currency,
         intent: "capture",
-        "enable-funding": "venmo,paylater,applepay,googlepay",
+        "enable-funding": "venmo,paylater",
       }}
     >
       <div style={{ opacity: processing ? 0.6 : 1, pointerEvents: processing ? "none" : "auto" }}>
