@@ -14,8 +14,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "orderId, tour_id, date, guest_count required" }, { status: 400 });
   }
 
+  let captureResult;
   try {
-    const captureResult = await captureOrder(orderId);
+    captureResult = await captureOrder(orderId);
 
     if (captureResult.status !== "COMPLETED") {
       return NextResponse.json({ error: "Payment not completed" }, { status: 400 });
@@ -47,9 +48,15 @@ export async function POST(req: NextRequest) {
   const isCustomTime = custom === true || custom === "true";
   const guestCount = parseInt(String(guest_count), 10);
 
-  // Always use PayPal payer info — name and email come from PayPal checkout
-  const payerEmail = body.payerEmail ?? null;
-  const payerName = body.payerName ?? null;
+  // Server-side payer info is authoritative — extracted from PayPal capture response
+  const serverPayerEmail = captureResult.payer?.email_address ?? null;
+  const serverPayerName = captureResult.payer?.name
+    ? `${captureResult.payer.name.given_name ?? ""} ${captureResult.payer.name.surname ?? ""}`.trim() || null
+    : null;
+
+  // Use server-side data; fall back to client-provided data only if server data missing
+  const payerEmail = serverPayerEmail ?? body.payerEmail ?? null;
+  const payerName = serverPayerName ?? body.payerName ?? null;
 
   const { data: booking, error } = await supabase
     .from("bookings")
