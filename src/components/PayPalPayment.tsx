@@ -12,6 +12,7 @@ import {
 
 interface PayPalPaymentProps {
   paypalClientId: string;
+  paypalMode: string;
   tourId: string;
   tourName: string;
   date: string;
@@ -27,6 +28,7 @@ interface PayPalPaymentProps {
 
 function PaymentButtons({
   paypalClientId,
+  paypalMode,
   currency,
   amount,
   tourId,
@@ -38,7 +40,7 @@ function PaymentButtons({
   customerPhone,
   onSuccess,
   onError,
-}: Omit<PayPalPaymentProps, "paypalClientId"> & { paypalClientId: string; currency: string; amount: number }) {
+}: Omit<PayPalPaymentProps, "paypalClientId"> & { paypalClientId: string; paypalMode: string; currency: string; amount: number }) {
   const [processing, setProcessing] = useState(false);
   const { eligiblePaymentMethods, isLoading } = useEligibleMethods({
     payload: { currencyCode: currency },
@@ -182,6 +184,7 @@ function PaymentButtons({
 
 export function PayPalPayment({
   paypalClientId,
+  paypalMode,
   tourId,
   tourName,
   date,
@@ -197,12 +200,13 @@ export function PayPalPayment({
   return (
     <PayPalProvider
       clientId={paypalClientId}
-      environment="production"
+      environment={paypalMode === "live" ? "production" : "sandbox"}
       components={["paypal-payments", "venmo-payments", "paypal-guest-payments", "applepay-payments", "googlepay-payments"]}
       pageType="checkout"
     >
       <PaymentButtons
         paypalClientId={paypalClientId}
+        paypalMode={paypalMode}
         tourId={tourId}
         tourName={tourName}
         date={date}
