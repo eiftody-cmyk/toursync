@@ -2,6 +2,15 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { BookingPageClient } from "./BookingPageClient";
 import type { Tour } from "@/types";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Book a Tour — Osaka Castle Walks with Edward",
+  icons: {
+    icon: "/favicon-castle.png",
+    apple: "/apple-touch-icon-castle.png",
+  },
+};
 
 function isUuid(str: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
