@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PayPalProvider, PayPalOneTimePaymentButton, GooglePayOneTimePaymentButton, useEligibleMethods } from "@paypal/react-paypal-js/sdk-v6";
+import { PayPalProvider, PayPalOneTimePaymentButton, GooglePayOneTimePaymentButton, ApplePayOneTimePaymentButton, useEligibleMethods } from "@paypal/react-paypal-js/sdk-v6";
 
 interface PayPalPaymentV6Props {
   paypalClientId: string;
@@ -42,6 +42,9 @@ function PaymentButtons({
 
   const googlePayDetails = eligiblePaymentMethods?.getDetails?.("googlepay");
   const isGooglePayEligible = eligiblePaymentMethods?.isEligible?.("googlepay") ?? false;
+
+  const applePayDetails = eligiblePaymentMethods?.getDetails?.("applepay");
+  const isApplePayEligible = eligiblePaymentMethods?.isEligible?.("applepay") ?? false;
 
   const createOrder = async (): Promise<{ orderId: string }> => {
     const endpoint = custom ? "/api/paypal/create-custom-order" : "/api/paypal/create-order";
@@ -117,6 +120,17 @@ function PaymentButtons({
     }
   };
 
+  const onApplePayApprove = async (data: { approveApplePayPayment: { id: string } }) => {
+    setProcessing(true);
+    try {
+      await captureOrder(data.approveApplePayPayment.id);
+    } catch {
+      onError?.("Something went wrong after payment. Please contact us.");
+    } finally {
+      setProcessing(false);
+    }
+  };
+
   if (isLoading) {
     return <p style={{ color: "var(--parchment-dim)" }}>Loading payment options...</p>;
   }
@@ -127,6 +141,26 @@ function PaymentButtons({
 
   return (
     <div style={{ opacity: processing ? 0.6 : 1, pointerEvents: processing ? "none" : "auto" }}>
+      {/* Apple Pay button - shown if eligible */}
+      {isApplePayEligible && applePayDetails?.config && (
+        <div style={{ marginBottom: "0.75rem" }}>
+          <ApplePayOneTimePaymentButton
+            applePayConfig={applePayDetails.config}
+            paymentRequest={{
+              countryCode: "JP",
+              currencyCode: currency,
+              total: { label: tourName, amount: String(amount), type: "final" },
+            }}
+            applePaySessionVersion={4}
+            createOrder={createOrder}
+            onApprove={onApplePayApprove}
+            onError={() => onError?.("Apple Pay payment failed. Please try again.")}
+            buttonstyle="black"
+            type="buy"
+          />
+        </div>
+      )}
+
       {/* Google Pay button - shown if eligible */}
       {isGooglePayEligible && googlePayDetails?.config && (
         <div style={{ marginBottom: "0.75rem" }}>
@@ -186,7 +220,7 @@ export function PayPalPaymentV6({
     <PayPalProvider
       clientId={paypalClientId}
       environment={environment}
-      components={["paypal-payments", "googlepay-payments"]}
+      components={["paypal-payments", "googlepay-payments", "applepay-payments"]}
       pageType="checkout"
     >
       <PaymentButtons
