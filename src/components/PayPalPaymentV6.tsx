@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PayPalProvider, PayPalOneTimePaymentButton } from "@paypal/react-paypal-js/sdk-v6";
+import { PayPalProvider, PayPalOneTimePaymentButton, GooglePayOneTimePaymentButton, useEligibleMethods } from "@paypal/react-paypal-js/sdk-v6";
 
 interface PayPalPaymentV6Props {
   paypalClientId: string;
@@ -19,9 +19,7 @@ interface PayPalPaymentV6Props {
   onError?: (msg: string) => void;
 }
 
-export function PayPalPaymentV6({
-  paypalClientId,
-  paypalMode,
+function PaymentButtons({
   tourId,
   tourName,
   date,
@@ -33,10 +31,17 @@ export function PayPalPaymentV6({
   customerPhone,
   onSuccess,
   onError,
-}: PayPalPaymentV6Props) {
+}: Omit<PayPalPaymentV6Props, "paypalClientId" | "paypalMode">) {
   const [processing, setProcessing] = useState(false);
+  const { eligiblePaymentMethods, isLoading, error: eligibleError } = useEligibleMethods({
+    payload: {
+      currencyCode: currency,
+      amount: String(amount),
+    },
+  });
 
-  const environment = paypalMode === "live" ? "production" : "sandbox";
+  const googlePayDetails = eligiblePaymentMethods?.getDetails?.("googlepay");
+  const isGooglePayEligible = eligiblePaymentMethods?.isEligible?.("googlepay") ?? false;
 
   const createOrder = async (): Promise<{ orderId: string }> => {
     const endpoint = custom ? "/api/paypal/create-custom-order" : "/api/paypal/create-order";
@@ -62,36 +67,38 @@ export function PayPalPaymentV6({
       throw new Error(data.error);
     }
 
-    // v6 requires returning { orderId } object, not just the string
     return { orderId: data.orderId };
   };
 
-  const onApprove = async (data: { orderId: string }) => {
+  const captureOrder = async (orderId: string) => {
+    const res = await fetch("/api/paypal/capture-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId,
+        tour_id: tourId,
+        date,
+        start_time: startTime,
+        guest_count: guestCount,
+        custom: custom ? "true" : undefined,
+        customer_phone: customerPhone,
+      }),
+    });
+
+    const result = await res.json();
+    if (!res.ok) {
+      onError?.(result.error || "Payment processing failed");
+      return false;
+    }
+
+    onSuccess?.();
+    return true;
+  };
+
+  const onPayPalApprove = async (data: { orderId: string }) => {
     setProcessing(true);
     try {
-      // Server-side capture is authoritative for payer data
-      const res = await fetch("/api/paypal/capture-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderId: data.orderId,
-          tour_id: tourId,
-          date,
-          start_time: startTime,
-          guest_count: guestCount,
-          custom: custom ? "true" : undefined,
-          customer_phone: customerPhone,
-          // Client-side payer info as fallback (server-side is authoritative)
-        }),
-      });
-
-      const result = await res.json();
-      if (!res.ok) {
-        onError?.(result.error || "Payment processing failed");
-        return;
-      }
-
-      onSuccess?.();
+      await captureOrder(data.orderId);
     } catch {
       onError?.("Something went wrong after payment. Please contact us.");
     } finally {
@@ -99,26 +106,102 @@ export function PayPalPaymentV6({
     }
   };
 
+  const onGooglePayApprove = async (data: { id: string }) => {
+    setProcessing(true);
+    try {
+      await captureOrder(data.id);
+    } catch {
+      onError?.("Something went wrong after payment. Please contact us.");
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  if (isLoading) {
+    return <p style={{ color: "var(--parchment-dim)" }}>Loading payment options...</p>;
+  }
+
+  if (eligibleError) {
+    console.warn("Eligibility check error:", eligibleError);
+  }
+
+  return (
+    <div style={{ opacity: processing ? 0.6 : 1, pointerEvents: processing ? "none" : "auto" }}>
+      {/* Google Pay button - shown if eligible */}
+      {isGooglePayEligible && googlePayDetails?.config && (
+        <div style={{ marginBottom: "0.75rem" }}>
+          <GooglePayOneTimePaymentButton
+            googlePayConfig={googlePayDetails.config}
+            transactionInfo={{
+              countryCode: "JP",
+              currencyCode: currency,
+              totalPriceStatus: "FINAL",
+              totalPrice: String(amount),
+            }}
+            environment="PRODUCTION"
+            createOrder={createOrder}
+            onApprove={onGooglePayApprove}
+            onError={() => onError?.("Google Pay payment failed. Please try again.")}
+            buttonColor="black"
+            buttonType="pay"
+          />
+        </div>
+      )}
+
+      {/* PayPal button */}
+      <PayPalOneTimePaymentButton
+        createOrder={createOrder}
+        onApprove={onPayPalApprove}
+        onError={() => onError?.("Payment failed. Please try again.")}
+        presentationMode="auto"
+      />
+
+      {processing && (
+        <p style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--parchment-dim)", marginTop: "0.5rem" }}>
+          Processing your booking...
+        </p>
+      )}
+    </div>
+  );
+}
+
+export function PayPalPaymentV6({
+  paypalClientId,
+  paypalMode,
+  tourId,
+  tourName,
+  date,
+  startTime,
+  guestCount,
+  amount,
+  currency,
+  custom,
+  customerPhone,
+  onSuccess,
+  onError,
+}: PayPalPaymentV6Props) {
+  const environment = paypalMode === "live" ? "production" : "sandbox";
+
   return (
     <PayPalProvider
       clientId={paypalClientId}
       environment={environment}
-      components={["paypal-payments"]}
+      components={["paypal-payments", "googlepay-payments"]}
       pageType="checkout"
     >
-      <div style={{ opacity: processing ? 0.6 : 1, pointerEvents: processing ? "none" : "auto" }}>
-        <PayPalOneTimePaymentButton
-          createOrder={createOrder}
-          onApprove={onApprove}
-          onError={() => onError?.("Payment failed. Please try again.")}
-          presentationMode="auto"
-        />
-        {processing && (
-          <p style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--parchment-dim)", marginTop: "0.5rem" }}>
-            Processing your booking...
-          </p>
-        )}
-      </div>
+      <PaymentButtons
+        tourId={tourId}
+        tourName={tourName}
+        date={date}
+        startTime={startTime}
+        guestCount={guestCount}
+        amount={amount}
+        currency={currency}
+        custom={custom}
+        customerPhone={customerPhone}
+        onSuccess={onSuccess}
+        onError={onError}
+      />
     </PayPalProvider>
   );
 }
