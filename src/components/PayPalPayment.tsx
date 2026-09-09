@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import {
-  PayPalScriptProvider,
-  PayPalButtons,
-  type PayPalButtonsComponentProps,
-} from "@paypal/react-paypal-js";
+  PayPalProvider,
+  PayPalOneTimePaymentButton,
+  PayPalGuestPaymentButton,
+  ApplePayOneTimePaymentButton,
+  GooglePayOneTimePaymentButton,
+  useEligibleMethods,
+} from "@paypal/react-paypal-js/sdk-v6";
 
 interface PayPalPaymentProps {
   paypalClientId: string;
@@ -22,23 +25,26 @@ interface PayPalPaymentProps {
   onError?: (msg: string) => void;
 }
 
-export function PayPalPayment({
+function PaymentButtons({
   paypalClientId,
+  currency,
+  amount,
   tourId,
   tourName,
   date,
   startTime,
   guestCount,
-  amount,
-  currency,
   custom,
   customerPhone,
   onSuccess,
   onError,
-}: PayPalPaymentProps) {
+}: Omit<PayPalPaymentProps, "paypalClientId"> & { paypalClientId: string; currency: string; amount: number }) {
   const [processing, setProcessing] = useState(false);
+  const { eligiblePaymentMethods, isLoading } = useEligibleMethods({
+    payload: { currencyCode: currency },
+  });
 
-  const createOrder: PayPalButtonsComponentProps["createOrder"] = async () => {
+  const createOrder = useCallback(async () => {
     const endpoint = custom ? "/api/paypal/create-custom-order" : "/api/paypal/create-order";
     const body: Record<string, unknown> = {
       tour_id: tourId,
@@ -62,31 +68,23 @@ export function PayPalPayment({
       throw new Error(data.error);
     }
 
-    return data.orderId;
-  };
+    return { orderId: data.orderId };
+  }, [custom, tourId, date, startTime, guestCount, customerPhone, onError]);
 
-  const onApprove: PayPalButtonsComponentProps["onApprove"] = async (data, actions) => {
+  const handleCapture = useCallback(async (orderId: string) => {
     setProcessing(true);
     try {
-      // Get full order details from PayPal (name + email come from here)
-      const orderDetails = actions?.order ? await actions.order.get() : null;
-      const payer = orderDetails?.payer;
-
       const res = await fetch("/api/paypal/capture-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          orderId: data.orderID,
+          orderId,
           tour_id: tourId,
           date,
           start_time: startTime,
           guest_count: guestCount,
           custom: custom ? "true" : undefined,
           customer_phone: customerPhone,
-          payerEmail: payer?.email_address,
-          payerName: payer?.name
-            ? `${payer.name.given_name} ${payer.name.surname}`.trim()
-            : undefined,
         }),
       });
 
@@ -102,36 +100,121 @@ export function PayPalPayment({
     } finally {
       setProcessing(false);
     }
-  };
+  }, [tourId, date, startTime, guestCount, custom, customerPhone, onError, onSuccess]);
+
+  const handleError = useCallback(() => {
+    onError?.("Payment failed. Please try again.");
+  }, [onError]);
+
+  if (isLoading) {
+    return <p style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--parchment-dim)" }}>Loading payment options...</p>;
+  }
+
+  const isPaypalEligible = eligiblePaymentMethods?.isEligible("paypal");
+  const isCardEligible = eligiblePaymentMethods?.isEligible("card");
+  const isApplePayEligible = eligiblePaymentMethods?.isEligible("applepay");
+  const isGooglePayEligible = eligiblePaymentMethods?.isEligible("googlepay");
+
+  const applePayConfig = isApplePayEligible ? eligiblePaymentMethods?.getDetails("applepay")?.config : undefined;
+  const googlePayConfig = isGooglePayEligible ? eligiblePaymentMethods?.getDetails("googlepay")?.config : undefined;
 
   return (
-    <PayPalScriptProvider
-      options={{
-        clientId: paypalClientId,
-        currency,
-        intent: "capture",
-        "enable-funding": "venmo,paylater",
-      }}
-    >
-      <div style={{ opacity: processing ? 0.6 : 1, pointerEvents: processing ? "none" : "auto" }}>
-        <PayPalButtons
-          style={{
-            layout: "vertical",
-            color: "gold",
-            shape: "rect",
-            label: "pay",
-            height: 50,
-          }}
-          createOrder={createOrder}
-          onApprove={onApprove}
-          onError={() => onError?.("Payment failed. Please try again.")}
-        />
-        {processing && (
-          <p style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--parchment-dim)", marginTop: "0.5rem" }}>
-            Processing your booking...
-          </p>
+    <div style={{ opacity: processing ? 0.6 : 1, pointerEvents: processing ? "none" : "auto" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        {isPaypalEligible && (
+          <PayPalOneTimePaymentButton
+            createOrder={createOrder}
+            onApprove={(data) => handleCapture(data.orderId)}
+            onError={handleError}
+            presentationMode="auto"
+          />
+        )}
+        {isCardEligible && (
+          <PayPalGuestPaymentButton
+            createOrder={createOrder}
+            onApprove={(data) => handleCapture(data.orderId)}
+            onError={handleError}
+          />
+        )}
+        {isApplePayEligible && applePayConfig && (
+          <ApplePayOneTimePaymentButton
+            createOrder={createOrder}
+            onApprove={(data) => handleCapture(data.approveApplePayPayment.id)}
+            onError={handleError}
+            applePayConfig={applePayConfig}
+            paymentRequest={{
+              countryCode: "JP",
+              currencyCode: currency,
+              total: { label: tourName, amount: String(amount), type: "final" },
+            }}
+            applePaySessionVersion={4}
+            buttonstyle="black"
+            type="buy"
+          />
+        )}
+        {isGooglePayEligible && googlePayConfig && (
+          <GooglePayOneTimePaymentButton
+            createOrder={createOrder}
+            onApprove={(data) => {
+              const orderId = (data as Record<string, unknown>).orderId || (data as Record<string, unknown>).paymentMethodData;
+              handleCapture(typeof orderId === "string" ? orderId : "");
+            }}
+            onError={handleError}
+            googlePayConfig={googlePayConfig}
+            transactionInfo={{
+              countryCode: "JP",
+              currencyCode: currency,
+              totalPriceStatus: "FINAL",
+              totalPrice: String(amount),
+            }}
+            environment="PRODUCTION"
+          />
         )}
       </div>
-    </PayPalScriptProvider>
+      {processing && (
+        <p style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--parchment-dim)", marginTop: "0.5rem" }}>
+          Processing your booking...
+        </p>
+      )}
+    </div>
+  );
+}
+
+export function PayPalPayment({
+  paypalClientId,
+  tourId,
+  tourName,
+  date,
+  startTime,
+  guestCount,
+  amount,
+  currency,
+  custom,
+  customerPhone,
+  onSuccess,
+  onError,
+}: PayPalPaymentProps) {
+  return (
+    <PayPalProvider
+      clientId={paypalClientId}
+      environment="production"
+      components={["paypal-payments", "venmo-payments", "paypal-guest-payments", "applepay-payments", "googlepay-payments"]}
+      pageType="checkout"
+    >
+      <PaymentButtons
+        paypalClientId={paypalClientId}
+        tourId={tourId}
+        tourName={tourName}
+        date={date}
+        startTime={startTime}
+        guestCount={guestCount}
+        amount={amount}
+        currency={currency}
+        custom={custom}
+        customerPhone={customerPhone}
+        onSuccess={onSuccess}
+        onError={onError}
+      />
+    </PayPalProvider>
   );
 }
