@@ -154,6 +154,9 @@ export function BookingPageClient({ tour, companyName, paypalClientId }: Booking
           <div className="booking-success">
             <h2>Booking Confirmed</h2>
             <p>Your tour has been booked. Check your email for confirmation details.</p>
+            <p style={{ fontSize: "0.85rem", color: "#666", marginTop: "0.5rem" }}>
+              Didn&apos;t see it? Check your <strong>spam or junk folder</strong>.
+            </p>
             <Link href="https://osakacastletours.com/" className="cta-btn" style={{ display: "inline-block", marginTop: "1.5rem" }}>
               Back to Tours
             </Link>

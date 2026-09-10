@@ -75,6 +75,9 @@ export function CustomBookingClient({ tour, companyName, paypalClientId }: Custo
               Payment received. Your requested tour time will be confirmed by email.
               Check your inbox for details.
             </p>
+            <p style={{ fontSize: "0.85rem", color: "#666", marginTop: "0.5rem" }}>
+              Didn&apos;t see it? Check your <strong>spam or junk folder</strong>.
+            </p>
             <Link href="https://osakacastletours.com/" className="cta-btn" style={{ display: "inline-block", marginTop: "1.5rem" }}>
               Back to Tours
             </Link>

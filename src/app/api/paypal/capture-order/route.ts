@@ -87,6 +87,8 @@ export async function POST(req: NextRequest) {
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
 
+  const emailResults: string[] = [];
+
   if (isCustomTime) {
     if (operatorProfile?.email) {
       const notificationEmail = customTimeNotificationEmail({
@@ -100,11 +102,12 @@ export async function POST(req: NextRequest) {
         baseUrl,
       });
 
-      sendEmail({
+      const result = await sendEmail({
         to: operatorProfile.email,
         subject: notificationEmail.subject,
         html: notificationEmail.html,
-      }).catch((e) => console.error("[PayPal capture] Custom time notification email failed:", e));
+      });
+      emailResults.push(`operator: ${result.ok ? "sent" : result.error}`);
     }
   } else {
     if (payerEmail && tour.price) {
@@ -119,11 +122,14 @@ export async function POST(req: NextRequest) {
         baseUrl,
       });
 
-      sendEmail({
+      const result = await sendEmail({
         to: payerEmail,
         subject: confirmationEmail.subject,
         html: confirmationEmail.html,
-      }).catch((e) => console.error("[PayPal capture] Confirmation email failed:", e));
+      });
+      emailResults.push(`customer: ${result.ok ? "sent" : result.error}`);
+    } else {
+      emailResults.push(`customer: skipped (email=${payerEmail}, price=${tour.price})`);
     }
 
     if (operatorProfile?.email) {
@@ -137,11 +143,14 @@ export async function POST(req: NextRequest) {
         baseUrl,
       });
 
-      sendEmail({
+      const result = await sendEmail({
         to: notificationEmail.to,
         subject: notificationEmail.subject,
         html: notificationEmail.html,
-      }).catch((e) => console.error("[PayPal capture] Operator notification email failed:", e));
+      });
+      emailResults.push(`operator: ${result.ok ? "sent" : result.error}`);
+    } else {
+      emailResults.push("operator: skipped (no email in profile)");
     }
   }
 
@@ -194,6 +203,6 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  console.log(`[PayPal capture] Booking created: ${tour_id} on ${date} for ${guestCount} guests${isCustomTime ? " (custom time)" : ""}`);
-  return NextResponse.json({ ok: true, bookingId: booking.id });
+  console.log(`[PayPal capture] Booking created: ${tour_id} on ${date} for ${guestCount} guests | emails: ${emailResults.join(", ")}`);
+  return NextResponse.json({ ok: true, bookingId: booking.id, emails: emailResults });
 }

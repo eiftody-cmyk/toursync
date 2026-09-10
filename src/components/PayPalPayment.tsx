@@ -128,7 +128,7 @@ export function PayPalPayment({
         <PayPalButtons
           style={{
             layout: "vertical",
-            color: "black",
+            color: "blue",
             shape: "rect",
             label: "pay",
             height: 50,
