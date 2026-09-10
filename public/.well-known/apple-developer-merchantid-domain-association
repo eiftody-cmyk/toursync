@@ -1,0 +1,14 @@
+REPLACE THIS FILE WITH THE DOMAIN ASSOCIATION FILE FROM PAYPAL DEVELOPER DASHBOARD
+
+Instructions:
+1. Go to PayPal Developer Dashboard → https://developer.paypal.com
+2. Select your app → Features → Accept payments → Apple Pay → Manage
+3. Click "Download Domain Association File"
+4. Replace this file's contents with the downloaded file
+5. Ensure the file is served at: https://osakacastletours.com/.well-known/apple-developer-merchantid-domain-association
+
+Requirements:
+- HTTPS required
+- No authentication
+- No redirects
+- Content-Type: application/octet-stream

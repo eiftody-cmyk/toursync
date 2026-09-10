@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { PayPalPayment } from "@/components/PayPalPayment";
+import { PayPalPaymentV6 } from "@/components/PayPalPaymentV6";
 import type { Tour } from "@/types";
 import "../styles.css";
 
@@ -11,6 +11,7 @@ interface CustomBookingClientProps {
   tour: Tour;
   companyName: string | null;
   paypalClientId: string;
+  paypalMode: string;
 }
 
 function tomorrow(): string {
@@ -45,7 +46,7 @@ function generateTimeOptions(): string[] {
 
 const TIME_OPTIONS = generateTimeOptions();
 
-export function CustomBookingClient({ tour, companyName, paypalClientId }: CustomBookingClientProps) {
+export function CustomBookingClient({ tour, companyName, paypalClientId, paypalMode }: CustomBookingClientProps) {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [guestCount, setGuestCount] = useState("2");
@@ -177,8 +178,9 @@ export function CustomBookingClient({ tour, companyName, paypalClientId }: Custo
           {error && <div className="booking-error">{error}</div>}
 
           {date && time && guests >= 1 ? (
-            <PayPalPayment
+            <PayPalPaymentV6
               paypalClientId={paypalClientId}
+              paypalMode={paypalMode}
               tourId={tour.id}
               tourName={tour.name}
               date={date}

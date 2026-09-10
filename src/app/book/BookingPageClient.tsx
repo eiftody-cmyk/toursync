@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { PayPalPayment } from "@/components/PayPalPayment";
+import { PayPalPaymentV6 } from "@/components/PayPalPaymentV6";
 import type { Tour } from "@/types";
 import "./styles.css";
 
@@ -24,6 +24,7 @@ interface BookingPageClientProps {
   tour: Tour;
   companyName: string | null;
   paypalClientId: string;
+  paypalMode: string;
 }
 
 function toDateStr(date: Date): string {
@@ -54,7 +55,7 @@ function getMonthDays(year: number, month: number): Date[] {
   return days;
 }
 
-export function BookingPageClient({ tour, companyName, paypalClientId }: BookingPageClientProps) {
+export function BookingPageClient({ tour, companyName, paypalClientId, paypalMode }: BookingPageClientProps) {
   const [dateData, setDateData] = useState<DateData>({ available: [], blocked: [], full: [] });
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -323,8 +324,9 @@ export function BookingPageClient({ tour, companyName, paypalClientId }: Booking
 
             {error && <div className="booking-error">{error}</div>}
 
-            <PayPalPayment
+            <PayPalPaymentV6
               paypalClientId={paypalClientId}
+              paypalMode={paypalMode}
               tourId={tour.id}
               tourName={tour.name}
               date={selectedSlot.date}
