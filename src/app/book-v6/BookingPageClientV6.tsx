@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import { PayPalPaymentV6 } from "@/components/PayPalPaymentV6";
 import type { Tour } from "@/types";
 import "../book/styles.css";
@@ -164,6 +165,7 @@ export function BookingPageClientV6({ tour, companyName, paypalClientId, paypalM
 
   return (
     <div className="booking-page">
+      <Script src="https://pay.google.com/gp/p/js/pay.js" strategy="beforeInteractive" />
       <header className="booking-header">
         <span className="logo-text">Osaka Castle Walks with Edward</span>
         <div className="logo-link">
