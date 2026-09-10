@@ -269,6 +269,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
       date: dateStr,
       startTime: startTime ?? "",
       guestCount: totalGuests,
+      customerName,
       customerEmail,
       baseUrl: process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com",
     });

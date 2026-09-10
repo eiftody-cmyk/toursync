@@ -4,6 +4,7 @@ interface OperatorNotificationEmailParams {
   date: string;
   startTime: string | null;
   guestCount: number;
+  customerName: string | null;
   customerEmail: string | null;
   baseUrl: string;
 }
@@ -29,6 +30,7 @@ export function operatorNotificationEmail(params: OperatorNotificationEmailParam
     date,
     startTime,
     guestCount,
+    customerName,
     customerEmail,
     baseUrl,
   } = params;
@@ -51,7 +53,8 @@ export function operatorNotificationEmail(params: OperatorNotificationEmailParam
     <p style="margin: 0 0 4px 0;">Date: ${formatDate(date)}</p>
     ${startTime ? `<p style="margin: 0 0 4px 0;">Time: ${startTime}</p>` : ""}
     <p style="margin: 0 0 4px 0;">Guests: ${guestCount}</p>
-    ${customerEmail ? `<p style="margin: 0;">Customer: ${customerEmail}</p>` : ""}
+    ${customerName ? `<p style="margin: 0 0 4px 0;"><strong>Name:</strong> ${customerName}</p>` : ""}
+    ${customerEmail ? `<p style="margin: 0;"><strong>Email:</strong> ${customerEmail}</p>` : ""}
   </div>
 
   <a href="${baseUrl}/dashboard" style="display: inline-block; background: #000; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 500;">View in Dashboard</a>

@@ -139,6 +139,7 @@ export async function POST(req: NextRequest) {
         date,
         startTime: start_time,
         guestCount,
+        customerName: payerName,
         customerEmail: payerEmail,
         baseUrl,
       });
