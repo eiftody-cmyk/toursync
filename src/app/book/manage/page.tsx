@@ -4,17 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-interface ManageBooking {
-  id: string;
-  tour_name: string;
-  date: string;
-  start_time: string | null;
-  guest_count: number;
-  status: string;
-  currency: string;
-  price: number | null;
-}
-
 function formatDate(dateStr: string): string {
   const [y, m, d] = dateStr.split("-").map(Number);
   return new Date(y, m - 1, d).toLocaleDateString("en-US", {
@@ -28,7 +17,7 @@ function formatDate(dateStr: string): string {
 export default async function BookingManagePage({
   searchParams,
 }: {
-  searchParams: Promise<{ id?: string; email?: string; action?: string }>;
+  searchParams: Promise<{ id?: string; email?: string; action?: string; cancelled?: string; error?: string }>;
 }) {
   const params = await searchParams;
   const supabase = await createClient();
@@ -37,7 +26,7 @@ export default async function BookingManagePage({
   if (params.id) {
     const { data: booking } = await supabase
       .from("bookings")
-      .select("*, tours(name, price, currency)")
+      .select("*")
       .eq("id", params.id)
       .single();
 
@@ -56,7 +45,12 @@ export default async function BookingManagePage({
       );
     }
 
-    const tour = booking.tours;
+    const { data: tour } = await supabase
+      .from("tours")
+      .select("name, price, currency")
+      .eq("id", booking.tour_id)
+      .single();
+
     const canCancel =
       booking.status === "confirmed" &&
       (() => {
@@ -120,6 +114,19 @@ export default async function BookingManagePage({
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
+                {params.cancelled === "true" && (
+                  <div className="rounded-lg bg-green-50 border border-green-200 p-3 text-sm text-green-800">
+                    Your booking has been cancelled. A confirmation email has been sent to {booking.customer_email}.
+                  </div>
+                )}
+                {params.error && (
+                  <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-800">
+                    {params.error === "too_late" && "This booking cannot be cancelled (less than 24 hours until tour start)."}
+                    {params.error === "already_cancelled" && "This booking is already cancelled."}
+                    {params.error === "cancel_failed" && "Failed to cancel booking. Please try again."}
+                    {params.error === "not_found" && "Booking not found."}
+                  </div>
+                )}
                 <div className="rounded-lg bg-muted p-3 text-sm space-y-1">
                   <p><strong>{tour?.name}</strong></p>
                   <p className="text-muted-foreground">
@@ -166,9 +173,16 @@ export default async function BookingManagePage({
   if (params.email) {
     const { data: bookings } = await supabase
       .from("bookings")
-      .select("*, tours(name, price, currency)")
+      .select("*")
       .eq("customer_email", params.email)
       .order("date", { ascending: true });
+
+    // Fetch tour names for each booking
+    const tourIds = [...new Set((bookings ?? []).map((b) => b.tour_id))];
+    const { data: tours } = tourIds.length > 0
+      ? await supabase.from("tours").select("id, name, price, currency").in("id", tourIds)
+      : { data: [] };
+    const tourMap = new Map((tours ?? []).map((t) => [t.id, t]));
 
     return (
       <div className="min-h-screen bg-muted/20">
@@ -192,13 +206,13 @@ export default async function BookingManagePage({
           ) : (
             <div className="space-y-3">
               {bookings.map((b) => {
-                const tour = b.tours;
+                const tour = tourMap.get(b.tour_id);
                 return (
                   <Card key={b.id}>
                     <CardContent className="pt-4">
                       <div className="flex items-start justify-between">
                         <div>
-                          <p className="font-medium">{tour?.name}</p>
+                          <p className="font-medium">{tour?.name ?? "Tour"}</p>
                           <p className="text-sm text-muted-foreground">
                             {formatDate(b.date)}
                             {b.start_time && ` at ${b.start_time}`}

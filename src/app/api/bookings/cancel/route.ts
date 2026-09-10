@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
+import { sendEmail } from "@/lib/email/client";
+import { cancellationConfirmationEmail } from "@/lib/email/cancellation-confirmation";
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
@@ -11,10 +14,10 @@ export async function POST(req: NextRequest) {
 
   const supabase = await createClient();
 
-  // Get the booking
+  // Get the booking (no join — avoid RLS issues on tours)
   const { data: booking } = await supabase
     .from("bookings")
-    .select("*, tours(capacity, google_calendar_id)")
+    .select("*")
     .eq("id", bookingId)
     .single();
 
@@ -50,14 +53,33 @@ export async function POST(req: NextRequest) {
     return NextResponse.redirect(new URL(`/book/manage?id=${bookingId}&error=cancel_failed`, req.url));
   }
 
-  // Check if we should un-auto-block
-  // If the date/time is now below capacity, remove the auto-block
-  const { data: tour } = await supabase
+  // Fetch tour details separately
+  const serviceClient = createServiceClient();
+  const { data: tour } = await serviceClient
     .from("tours")
-    .select("capacity")
+    .select("capacity, name")
     .eq("id", booking.tour_id)
     .single();
 
+  // Send cancellation confirmation email to customer
+  if (booking.customer_email && tour?.name) {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
+    const email = cancellationConfirmationEmail({
+      tourName: tour.name,
+      date: booking.date,
+      startTime: booking.start_time,
+      guestCount: booking.guest_count,
+      baseUrl,
+    });
+    sendEmail({
+      to: booking.customer_email,
+      subject: email.subject,
+      html: email.html,
+    }).catch((e) => console.error("[Booking cancel] Confirmation email failed:", e));
+  }
+
+  // Check if we should un-auto-block
+  // If the date/time is now below capacity, remove the auto-block
   const { data: remainingBookings } = await supabase
     .from("bookings")
     .select("guest_count")
@@ -73,7 +95,7 @@ export async function POST(req: NextRequest) {
 
   if (tour && totalBooked < tour.capacity) {
     // Find and remove the auto-block if it exists
-    const { data: autoBlock } = await supabase
+    const { data: autoBlock } = await serviceClient
       .from("blocked_dates")
       .select("id, google_calendar_event_id, calendar_id")
       .eq("tour_id", booking.tour_id)
