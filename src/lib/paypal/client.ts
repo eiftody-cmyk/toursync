@@ -59,6 +59,7 @@ export async function createPaypalOrder(params: CreateOrderParams): Promise<PayP
         brand_name: "Osaka Castle Walks with Edward",
         landing_page: "BILLING",
         user_action: "PAY_NOW",
+        shipping_preference: "NO_SHIPPING",
         return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/book/confirm`,
         cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/book`,
       },
