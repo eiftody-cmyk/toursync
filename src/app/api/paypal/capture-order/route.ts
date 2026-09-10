@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
 import { captureOrder } from "@/lib/paypal/client";
 import { sendEmail } from "@/lib/email/client";
 import { bookingConfirmationEmail } from "@/lib/email/booking-confirmation";
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Payment capture failed" }, { status: 500 });
   }
 
-  const supabase = await createClient();
+  const supabase = createServiceClient();
 
   const { data: tour } = await supabase
     .from("tours")

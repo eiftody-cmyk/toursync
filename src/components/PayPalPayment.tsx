@@ -37,8 +37,10 @@ export function PayPalPayment({
   onError,
 }: PayPalPaymentProps) {
   const [processing, setProcessing] = useState(false);
+  const [statusMsg, setStatusMsg] = useState<string | null>(null);
 
   const createOrder: PayPalButtonsComponentProps["createOrder"] = async () => {
+    setStatusMsg(null);
     const endpoint = custom ? "/api/paypal/create-custom-order" : "/api/paypal/create-order";
     const body: Record<string, unknown> = {
       tour_id: tourId,
@@ -58,8 +60,10 @@ export function PayPalPayment({
 
     const data = await res.json();
     if (!res.ok) {
-      onError?.(data.error || "Failed to create order");
-      throw new Error(data.error);
+      const msg = data.error || "Failed to create order";
+      setStatusMsg(`Error: ${msg}`);
+      onError?.(msg);
+      throw new Error(msg);
     }
 
     return data.orderId;
@@ -67,11 +71,13 @@ export function PayPalPayment({
 
   const onApprove: PayPalButtonsComponentProps["onApprove"] = async (data, actions) => {
     setProcessing(true);
+    setStatusMsg("Confirming payment with PayPal...");
     try {
       // Get full order details from PayPal (name + email come from here)
       const orderDetails = actions?.order ? await actions.order.get() : null;
       const payer = orderDetails?.payer;
 
+      setStatusMsg("Creating your booking...");
       const res = await fetch("/api/paypal/capture-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -92,13 +98,18 @@ export function PayPalPayment({
 
       const result = await res.json();
       if (!res.ok) {
-        onError?.(result.error || "Payment processing failed");
+        const msg = result.error || "Payment processing failed";
+        setStatusMsg(`Error: ${msg}`);
+        onError?.(msg);
         return;
       }
 
+      setStatusMsg("Booking confirmed!");
       onSuccess?.();
     } catch {
-      onError?.("Something went wrong after payment. Please contact us.");
+      const msg = "Something went wrong after payment. Please contact us.";
+      setStatusMsg(`Error: ${msg}`);
+      onError?.(msg);
     } finally {
       setProcessing(false);
     }
@@ -124,11 +135,23 @@ export function PayPalPayment({
           }}
           createOrder={createOrder}
           onApprove={onApprove}
-          onError={() => onError?.("Payment failed. Please try again.")}
+          onError={() => {
+            const msg = "Payment failed. Please try again.";
+            setStatusMsg(`Error: ${msg}`);
+            onError?.(msg);
+          }}
         />
-        {processing && (
-          <p style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--parchment-dim)", marginTop: "0.5rem" }}>
-            Processing your booking...
+        {statusMsg && (
+          <p style={{
+            textAlign: "center",
+            fontSize: "0.85rem",
+            marginTop: "0.75rem",
+            padding: "0.5rem 0.75rem",
+            borderRadius: "6px",
+            color: statusMsg.startsWith("Error:") ? "#dc3545" : "var(--parchment-dim)",
+            backgroundColor: statusMsg.startsWith("Error:") ? "#f8d7da" : "transparent",
+          }}>
+            {statusMsg}
           </p>
         )}
       </div>
