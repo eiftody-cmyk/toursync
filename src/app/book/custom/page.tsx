@@ -58,14 +58,11 @@ export default async function CustomBookingPage({
   const paypalClientId = process.env.PAYPAL_CLIENT_ID;
   if (!paypalClientId) throw new Error("PAYPAL_CLIENT_ID not configured");
 
-  const paypalMode = process.env.PAYPAL_MODE || "sandbox";
-
   return (
     <CustomBookingClient
       tour={tour as Tour}
       companyName={profile?.company_name ?? null}
       paypalClientId={paypalClientId}
-      paypalMode={paypalMode}
     />
   );
 }
