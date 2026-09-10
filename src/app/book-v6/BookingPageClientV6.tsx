@@ -166,9 +166,9 @@ export function BookingPageClientV6({ tour, companyName, paypalClientId, paypalM
     <div className="booking-page">
       <header className="booking-header">
         <span className="logo-text">Osaka Castle Walks with Edward</span>
-        <Link href="/" className="logo-link">
+        <div className="logo-link">
           <Image src="/logo.webp" alt="Osaka Castle Walks with Edward" width={240} height={240} />
-        </Link>
+        </div>
         <span className="tagline">History Beyond the Postcard</span>
       </header>
 
