@@ -20,6 +20,7 @@ interface PayPalPaymentV6Props {
 }
 
 function PaymentButtons({
+  paypalMode,
   tourId,
   tourName,
   date,
@@ -31,7 +32,7 @@ function PaymentButtons({
   customerPhone,
   onSuccess,
   onError,
-}: Omit<PayPalPaymentV6Props, "paypalClientId" | "paypalMode">) {
+}: Omit<PayPalPaymentV6Props, "paypalClientId">) {
   const [processing, setProcessing] = useState(false);
   const { eligiblePaymentMethods, isLoading, error: eligibleError } = useEligibleMethods({
     payload: {
@@ -154,7 +155,10 @@ function PaymentButtons({
             applePaySessionVersion={4}
             createOrder={createOrder}
             onApprove={onApplePayApprove}
-            onError={() => onError?.("Apple Pay payment failed. Please try again.")}
+            onError={(err) => {
+              console.error("[Apple Pay] SDK error:", err);
+              onError?.("Apple Pay payment failed. Please try again.");
+            }}
             buttonstyle="black"
             type="buy"
           />
@@ -172,10 +176,13 @@ function PaymentButtons({
               totalPriceStatus: "FINAL",
               totalPrice: String(amount),
             }}
-            environment="PRODUCTION"
+            environment={paypalMode === "live" ? "PRODUCTION" : "TEST"}
             createOrder={createOrder}
             onApprove={onGooglePayApprove}
-            onError={() => onError?.("Google Pay payment failed. Please try again.")}
+            onError={(err) => {
+              console.error("[Google Pay] SDK error:", err);
+              onError?.("Google Pay payment failed. Please try again.");
+            }}
             buttonColor="black"
             buttonType="pay"
           />
@@ -186,7 +193,10 @@ function PaymentButtons({
       <PayPalOneTimePaymentButton
         createOrder={createOrder}
         onApprove={onPayPalApprove}
-        onError={() => onError?.("Payment failed. Please try again.")}
+        onError={(err) => {
+          console.error("[PayPal] SDK error:", err);
+          onError?.("Payment failed. Please try again.");
+        }}
         presentationMode="auto"
       />
 
@@ -224,6 +234,7 @@ export function PayPalPaymentV6({
       pageType="checkout"
     >
       <PaymentButtons
+        paypalMode={paypalMode}
         tourId={tourId}
         tourName={tourName}
         date={date}
