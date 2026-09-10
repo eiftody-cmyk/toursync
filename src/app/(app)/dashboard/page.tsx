@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { todayJST } from "@/lib/time";
+import { RecentBookings } from "@/components/dashboard/RecentBookings";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -136,33 +137,7 @@ export default async function DashboardPage() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Recent Bookings</CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm">
-            {!bookings || bookings.length === 0 ? (
-              <p className="text-muted-foreground">No bookings yet. Add one from the calendar.</p>
-            ) : (
-              <div className="max-h-64 overflow-y-auto">
-                <ul className="space-y-2">
-                  {bookings.map((b) => {
-                    const tour = tours?.find((t) => t.id === b.tour_id);
-                    return (
-                      <li key={b.id} className="flex justify-between border-b pb-1 last:border-0">
-                        <span>
-                          {b.date} · {tour?.name ?? "Unknown tour"} · +{b.guest_count} guest{b.guest_count !== 1 && "s"}
-                          {b.source && ` (${b.source})`}
-                        </span>
-                        <span className="text-muted-foreground">{b.customer_name ?? ""}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        <RecentBookings bookings={bookings ?? []} tours={tours ?? []} />
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Blocked Dates</CardTitle>
