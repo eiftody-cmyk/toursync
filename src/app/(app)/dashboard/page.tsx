@@ -23,7 +23,7 @@ export default async function DashboardPage() {
   const today = todayJST();
   const yearStart = startOfYear(new Date()).toISOString().split("T")[0];
 
-  const [toursResult, bookingsResult, blockedResult, tokensResult] =
+  const [toursResult, bookingsResult, blockedResult, tokensResult, settingsResult] =
     await Promise.all([
       supabase.from("tours").select("*").eq("user_id", user.id).order("created_at"),
       supabase
@@ -35,12 +35,14 @@ export default async function DashboardPage() {
         .order("date", { ascending: true }),
       supabase.from("blocked_dates").select("*").eq("user_id", user.id).order("date", { ascending: true }),
       supabase.from("google_tokens").select("calendar_id, token_expiry").eq("user_id", user.id).maybeSingle(),
+      supabase.from("operator_settings").select("commission_rates").eq("user_id", user.id).maybeSingle(),
     ]);
 
   const tours = toursResult.data ?? [];
   const bookings = bookingsResult.data ?? [];
   const blocked = blockedResult.data ?? [];
   const tokens = tokensResult.data;
+  const commissionRates = (settingsResult.data?.commission_rates as Record<string, number>) ?? null;
 
   const todayBookings = bookings.filter((b) => b.date === today);
   const todayBlocked = blocked.filter((b) => b.date === today);
@@ -76,16 +78,17 @@ export default async function DashboardPage() {
         bookings={todayBookings}
         blocked={todayBlocked}
         tours={tours}
+        commissionRates={commissionRates}
       />
 
       <div className="grid md:grid-cols-2 gap-4">
-        <PerformanceSummary bookings={bookings} tours={tours} />
-        <EarningsByListing bookings={bookings} tours={tours} />
+        <PerformanceSummary bookings={bookings} tours={tours} commissionRates={commissionRates} />
+        <EarningsByListing bookings={bookings} tours={tours} commissionRates={commissionRates} />
       </div>
 
       <div>
         <h2 className="text-lg font-semibold mb-3">Your Tours</h2>
-        <TourCards bookings={bookings} tours={tours} />
+        <TourCards bookings={bookings} tours={tours} commissionRates={commissionRates} />
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">

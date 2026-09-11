@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TourCalendarsCard } from "@/components/settings/TourCalendarsCard";
 import { CompanyBrandingCard } from "@/components/settings/CompanyBrandingCard";
+import { CommissionSettingsCard } from "@/components/settings/CommissionSettingsCard";
 
 export default async function SettingsPage({
   searchParams,
@@ -17,13 +18,15 @@ export default async function SettingsPage({
   } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const [profileResult, tokenResult] = await Promise.all([
+  const [profileResult, tokenResult, settingsResult] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", user.id).maybeSingle(),
     supabase.from("google_tokens").select("*").eq("user_id", user.id).maybeSingle(),
+    supabase.from("operator_settings").select("commission_rates").eq("user_id", user.id).maybeSingle(),
   ]);
 
   const profile = profileResult.data;
   const token = tokenResult.data;
+  const commissionRates = (settingsResult.data?.commission_rates as Record<string, number>) ?? null;
 
   const success = params.google === "connected";
   const error = params.error;
@@ -120,6 +123,8 @@ export default async function SettingsPage({
       </Card>
 
       {token && <TourCalendarsCard />}
+
+      <CommissionSettingsCard initialRates={commissionRates} />
 
       <Card>
         <CardHeader>

@@ -6,13 +6,16 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import type { Booking, Tour } from "@/types";
+import { calcGross, calcNet } from "@/lib/revenue";
 
 export function TourCards({
   bookings,
   tours,
+  commissionRates,
 }: {
   bookings: Booking[];
   tours: Tour[];
+  commissionRates: Record<string, number> | null;
 }) {
   const confirmed = useMemo(
     () => bookings.filter((b) => b.status === "confirmed"),
@@ -23,13 +26,15 @@ export function TourCards({
     const now = new Date();
     const sevenDaysAgo = new Date(now);
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const ninetyDaysAgo = new Date(now);
-    ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
 
     return tours.map((tour) => {
       const tourBookings = confirmed.filter((b) => b.tour_id === tour.id);
-      const revenue = tourBookings.reduce(
-        (s, b) => s + (tour.price ?? 0) * b.guest_count,
+      const gross = tourBookings.reduce(
+        (s, b) => s + calcGross(tour.price ?? 0, b.guest_count),
+        0
+      );
+      const net = tourBookings.reduce(
+        (s, b) => s + calcNet(b.source ?? "direct", tour.price ?? 0, b.guest_count, commissionRates),
         0
       );
       const recentCount = tourBookings.filter(
@@ -56,14 +61,15 @@ export function TourCards({
       return {
         tour,
         totalBookings: tourBookings.length,
-        revenue,
+        gross,
+        net,
         recentCount,
         channelBreakdown,
         avgGroupSize,
         lastBooking,
       };
     });
-  }, [confirmed, tours]);
+  }, [confirmed, tours, commissionRates]);
 
   if (tours.length === 0) {
     return (
@@ -81,7 +87,7 @@ export function TourCards({
 
   return (
     <div className="grid md:grid-cols-2 gap-4">
-      {tourStats.map(({ tour, totalBookings, revenue, recentCount, channelBreakdown, avgGroupSize, lastBooking }) => (
+      {tourStats.map(({ tour, totalBookings, gross, net, recentCount, channelBreakdown, avgGroupSize, lastBooking }) => (
         <Card key={tour.id}>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center justify-between gap-2">
@@ -100,9 +106,9 @@ export function TourCards({
                 {totalBookings} booking{totalBookings !== 1 && "s"}
               </span>
             </div>
-            {revenue > 0 && (
+            {net > 0 && (
               <p className="text-xs text-muted-foreground">
-                ¥{revenue.toLocaleString()} revenue · avg {avgGroupSize.toFixed(1)} guests
+                ¥{net.toLocaleString()} net · ¥{gross.toLocaleString()} gross · avg {avgGroupSize.toFixed(1)} guests
               </p>
             )}
             {recentCount > 0 && (

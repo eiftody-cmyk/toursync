@@ -576,11 +576,28 @@ export function ToursClient({
           </CardContent>
         </Card>
       ) : (
+        <>
+        <div className="sticky top-0 z-10 bg-background border-b -mx-1 px-1 py-2 overflow-x-auto">
+          <div className="flex gap-2">
+            {tours.map((t) => (
+              <Button
+                key={t.id}
+                variant="ghost"
+                size="sm"
+                className="shrink-0 text-xs h-7"
+                onClick={() => document.getElementById(`tour-${t.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" })}
+              >
+                {t.name}
+              </Button>
+            ))}
+          </div>
+        </div>
+
         <div className="grid gap-3">
           {tours.map((t) => {
             const tourListings = listingsByTour[t.id] ?? [];
             return (
-              <Card key={t.id}>
+              <Card key={t.id} id={`tour-${t.id}`}>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base flex items-center justify-between">
                     <span>{t.name}</span>
@@ -735,6 +752,7 @@ export function ToursClient({
             );
           })}
         </div>
+        </>
       )}
     </div>
   );
