@@ -1,3 +1,8 @@
+# Migration 020: Operator Settings
+
+Run in Supabase Dashboard: https://supabase.com/dashboard/project/yxqhxmurckdjiulfdvpc/sql/new
+
+```sql
 -- Operator settings: per-platform commission rates
 create table if not exists public.operator_settings (
   user_id uuid primary key references public.profiles(id) on delete cascade,
@@ -32,3 +37,4 @@ create policy "Operators can update own settings"
 -- Grants for service_role and authenticated
 GRANT SELECT, INSERT, UPDATE ON public.operator_settings TO service_role;
 GRANT SELECT, INSERT, UPDATE ON public.operator_settings TO authenticated;
+```
