@@ -37,7 +37,7 @@ export function cancellationConfirmationEmail(params: CancellationConfirmationPa
   <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
     <p style="margin: 0 0 8px 0;"><strong>${tourName}</strong></p>
     <p style="margin: 0 0 4px 0;">Date: ${formatDate(date)}</p>
-    ${startTime ? `<p style="margin: 0 0 4px 0;">Time: ${startTime}</p>` : ""}
+    ${startTime ? `<p style="margin: 0 0 4px 0;">Time: ${startTime.slice(0, 5)}</p>` : ""}
     <p style="margin: 0 0 4px 0;">Guests: ${guestCount}</p>
   </div>
 

@@ -51,7 +51,7 @@ export function operatorNotificationEmail(params: OperatorNotificationEmailParam
   <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
     <p style="margin: 0 0 8px 0;"><strong>${tourName}</strong></p>
     <p style="margin: 0 0 4px 0;">Date: ${formatDate(date)}</p>
-    ${startTime ? `<p style="margin: 0 0 4px 0;">Time: ${startTime}</p>` : ""}
+    ${startTime ? `<p style="margin: 0 0 4px 0;">Time: ${startTime.slice(0, 5)}</p>` : ""}
     <p style="margin: 0 0 4px 0;">Guests: ${guestCount}</p>
     ${customerName ? `<p style="margin: 0 0 4px 0;"><strong>Name:</strong> ${customerName}</p>` : ""}
     ${customerEmail ? `<p style="margin: 0;"><strong>Email:</strong> ${customerEmail}</p>` : ""}

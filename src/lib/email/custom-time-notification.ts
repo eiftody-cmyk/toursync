@@ -52,7 +52,7 @@ export function customTimeNotificationEmail(params: CustomTimeNotificationParams
 
   <div style="background: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
     <p style="margin: 0 0 8px 0;"><strong>${tourName}</strong></p>
-    <p style="margin: 0 0 4px 0;">Requested: ${formatDate(date)} at ${startTime}</p>
+    <p style="margin: 0 0 4px 0;">Requested: ${formatDate(date)} at ${startTime.slice(0, 5)}</p>
     <p style="margin: 0 0 4px 0;">${guestCount} ${guestWord}</p>
   </div>
 
@@ -66,7 +66,7 @@ export function customTimeNotificationEmail(params: CustomTimeNotificationParams
   <div style="margin-bottom: 24px;">
     <p style="margin: 0 0 8px 0;"><strong>Next steps:</strong></p>
     <ol style="margin: 0; padding-left: 20px;">
-      <li>Check your calendar for ${formatDate(date)} at ${startTime}</li>
+      <li>Check your calendar for ${formatDate(date)} at ${startTime.slice(0, 5)}</li>
       <li>Reply to ${customerName} to confirm or suggest an alternative time</li>
       <li>Block the time slot on Google Calendar once confirmed</li>
     </ol>
