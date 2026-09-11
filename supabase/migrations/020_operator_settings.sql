@@ -4,7 +4,7 @@ create table if not exists public.operator_settings (
   commission_rates jsonb not null default '{
     "airbnb": 25,
     "viator": 20,
-    "gyg": 30,
+    "gyg": 25,
     "travelio": 20,
     "direct": 0,
     "walk_in": 0,

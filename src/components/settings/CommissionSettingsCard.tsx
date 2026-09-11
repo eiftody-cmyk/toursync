@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import { DEFAULT_COMMISSION_RATES, COMMISSION_LABELS } from "@/lib/revenue";
 
+
 type Rates = Record<string, number>;
 
 const RATE_KEYS = ["airbnb", "viator", "gyg", "travelio", "direct", "walk_in", "other"] as const;

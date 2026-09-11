@@ -44,9 +44,6 @@ export default async function DashboardPage() {
   const tokens = tokensResult.data;
   const commissionRates = (settingsResult.data?.commission_rates as Record<string, number>) ?? null;
 
-  const todayBookings = bookings.filter((b) => b.date === today);
-  const todayBlocked = blocked.filter((b) => b.date === today);
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -75,10 +72,11 @@ export default async function DashboardPage() {
       <InsightsBanner bookings={bookings} tours={tours} blocked={blocked} />
 
       <TodaySummary
-        bookings={todayBookings}
-        blocked={todayBlocked}
+        allBookings={bookings}
+        allBlocked={blocked}
         tours={tours}
         commissionRates={commissionRates}
+        today={today}
       />
 
       <div className="grid md:grid-cols-2 gap-4">

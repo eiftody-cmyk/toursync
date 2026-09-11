@@ -1,7 +1,7 @@
 export const DEFAULT_COMMISSION_RATES: Record<string, number> = {
   airbnb: 25,
   viator: 20,
-  gyg: 30,
+  gyg: 25,
   travelio: 20,
   direct: 0,
   walk_in: 0,
