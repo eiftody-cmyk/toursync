@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { sendEmail } from "@/lib/email/client";
 import { cancellationConfirmationEmail } from "@/lib/email/cancellation-confirmation";
@@ -12,10 +11,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "booking_id required" }, { status: 400 });
   }
 
-  const supabase = await createClient();
+  const serviceClient = createServiceClient();
 
   // Get the booking (no join — avoid RLS issues on tours)
-  const { data: booking } = await supabase
+  const { data: booking } = await serviceClient
     .from("bookings")
     .select("*")
     .eq("id", bookingId)
@@ -42,8 +41,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Cancel the booking
-  const { error } = await supabase
+  // Cancel the booking (use service client to bypass RLS)
+  const { error } = await serviceClient
     .from("bookings")
     .update({ status: "cancelled" })
     .eq("id", bookingId);
@@ -54,7 +53,6 @@ export async function POST(req: NextRequest) {
   }
 
   // Fetch tour details separately
-  const serviceClient = createServiceClient();
   const { data: tour } = await serviceClient
     .from("tours")
     .select("capacity, name")
@@ -80,7 +78,7 @@ export async function POST(req: NextRequest) {
 
   // Check if we should un-auto-block
   // If the date/time is now below capacity, remove the auto-block
-  const { data: remainingBookings } = await supabase
+  const { data: remainingBookings } = await serviceClient
     .from("bookings")
     .select("guest_count")
     .eq("tour_id", booking.tour_id)
