@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
   );
 
   if (tour && totalBooked < tour.capacity) {
-    // Find and remove the auto-block if it exists
+    // Find and remove the auto-block directly (service client bypasses auth + RLS)
     const { data: autoBlock } = await serviceClient
       .from("blocked_dates")
       .select("id, google_calendar_event_id, calendar_id")
@@ -103,22 +103,35 @@ export async function POST(req: NextRequest) {
       .maybeSingle();
 
     if (autoBlock) {
+      // Delete from blocked_dates table directly
+      await serviceClient.from("blocked_dates").delete().eq("id", autoBlock.id);
+
       // Delete from Google Calendar if connected
-      if (autoBlock.google_calendar_event_id && autoBlock.calendar_id) {
+      if (autoBlock.google_calendar_event_id && autoBlock.calendar_id && booking.user_id) {
         try {
-          const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
-          await fetch(`${baseUrl}/api/calendar/unblock`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              tour_id: booking.tour_id,
-              date: booking.date,
-              start_time: booking.start_time || null,
-            }),
+          const { getValidAccessTokenWithClient, deleteCalendarEvent } = await import("@/lib/google/calendar");
+          const { accessToken } = await getValidAccessTokenWithClient(serviceClient, booking.user_id);
+          await deleteCalendarEvent({
+            accessToken,
+            calendarId: autoBlock.calendar_id,
+            eventId: autoBlock.google_calendar_event_id,
           });
         } catch (e) {
-          console.error("[Booking cancel] Un-auto-block calendar failed:", e);
+          console.error("[Booking cancel] Delete Google Calendar event failed:", e);
         }
+      }
+
+      // Push availability to OTA channels (fire-and-forget — slot is available again)
+      try {
+        const { pushAvailability } = await import("@/lib/ota/pushAvailability");
+        pushAvailability(serviceClient, {
+          tour_id: booking.tour_id,
+          date: booking.date,
+          start_time: booking.start_time ?? undefined,
+          remaining_capacity: 1,
+        }).catch(() => {});
+      } catch (e) {
+        console.error("[Booking cancel] Push availability failed:", e);
       }
     }
   }
