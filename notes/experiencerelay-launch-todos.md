@@ -108,8 +108,9 @@ Before each operator goes live:
 - Operator notification emails
 - Manage/cancel bookings
 - Calendar sync (Google Calendar)
+- Calendar (cancelled bookings hidden)
 - Capacity management
-- GYG inbound webhooks
+- GYG inbound webhooks (testing passed, awaiting finalization)
 
 ❌ Not Working:
 - Per-operator PayPal (single account)

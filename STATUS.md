@@ -90,20 +90,22 @@
 - **Booking confirmation email** — Includes "Manage Booking" link to cancel up to 24h before tour
 - **Time format fixed** — No seconds in emails (10:00 not 10:00:00)
 - **Cancel API fixed** — Uses service client to bypass RLS, allows anonymous users to cancel their bookings
+- **Calendar excludes cancelled bookings** — Server + client queries filter `status=confirmed`; capacity calculation only counts confirmed bookings
+- **Auto-check excludes cancelled bookings** — Capacity check for auto-blocking only counts confirmed bookings
+- **Cancel API unblocks calendar** — Directly deletes `blocked_dates` row (was broken: called nonexistent API endpoint with wrong params)
 
 ### Active
 - (none)
 
 ### Blocked
-- **Viator API key** — Email sent to supplierapi@viator.com requesting API access and documentation
-- **GYG live testing** — Blocked on Project Manager reaching out
-- **GYG notify test confirmation** — Pending from GYG connectivity team
-- **4 tours in live testing config** — Must not be changed until live testing complete
+- **Viator API key** — Follow-up email sent (Sept 10). Waiting for Supply API credentials from supplierapi@viator.com
+- **GYG live testing** — Testing PASSED (47/47). Contacted customer service; technical team expected to reach out next week to finalize
+- **4 tours in live testing config** — Must not be changed until GYG live testing complete
 
 ## Next Move
-1. (none — user said "two more changes tonight" and both are done)
-2. When Viator provides API key → set secret → test endpoints
-3. Once GYG live testing complete → revert all 4 tours to original config
+1. GYG — Wait for technical team contact next week, finalize integration
+2. Viator — When API key arrives → set secret → test endpoints
+3. Calendar auto-check — verify auto-block/unblock works correctly with confirmed-only filter
 
 ## Relevant Files
 - `src/app/book/BookingPageClient.tsx`: Instant book page — restyled, PayPal SDK, calendar grid, logo, non-clickable logo
