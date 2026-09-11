@@ -41,17 +41,25 @@ export function CalendarClient({
   initialBookings,
   initialBlocked,
   initialFilterTour = "all",
+  initialDate,
 }: {
   tours: Tour[];
   initialBookings: Booking[];
   initialBlocked: BlockedDate[];
   initialFilterTour?: string;
+  initialDate?: string;
 }) {
   const [bookings, setBookings] = useState<Booking[]>(initialBookings);
   const [blocked, setBlocked] = useState<BlockedDate[]>(initialBlocked);
   const [filterTour, setFilterTour] = useState<string>(initialFilterTour);
   const [view, setView] = useState<View>("month");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(() => {
+    if (initialDate) {
+      const [y, m, d] = initialDate.split("-").map(Number);
+      if (y && m && d) return new Date(y, m - 1, d);
+    }
+    return new Date();
+  });
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [blockOpen, setBlockOpen] = useState(false);
   const [bookingOpen, setBookingOpen] = useState(false);

@@ -94,26 +94,32 @@ export function BookingTable({
                 {sorted.map((b) => {
                   const tour = tours.find((t) => t.id === b.tour_id);
                   return (
-                    <TableRow key={b.id}>
-                      <TableCell className="text-xs">{b.date}</TableCell>
-                      <TableCell className="text-xs truncate max-w-[150px]">
-                        {tour?.name ?? "Unknown"}
-                      </TableCell>
-                      <TableCell className="text-xs">+{b.guest_count}</TableCell>
-                      <TableCell>
-                        {b.source && (
-                          <Badge
-                            variant="secondary"
-                            className={`text-[10px] px-1.5 py-0 ${SOURCE_COLORS[b.source] ?? ""}`}
-                          >
-                            {b.source.toUpperCase()}
-                          </Badge>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-xs text-muted-foreground">
-                        {b.customer_name ?? ""}
-                      </TableCell>
-                    </TableRow>
+                    <Link
+                      key={b.id}
+                      href={`/calendar?tour=${b.tour_id}&date=${b.date}`}
+                      className="contents"
+                    >
+                      <TableRow className="cursor-pointer hover:bg-muted/50">
+                        <TableCell className="text-xs">{b.date}</TableCell>
+                        <TableCell className="text-xs truncate max-w-[150px]">
+                          {tour?.name ?? "Unknown"}
+                        </TableCell>
+                        <TableCell className="text-xs">+{b.guest_count}</TableCell>
+                        <TableCell>
+                          {b.source && (
+                            <Badge
+                              variant="secondary"
+                              className={`text-[10px] px-1.5 py-0 ${SOURCE_COLORS[b.source] ?? ""}`}
+                            >
+                              {b.source.toUpperCase()}
+                            </Badge>
+                          )}
+                        </TableCell>
+                        <TableCell className="text-xs text-muted-foreground">
+                          {b.customer_name ?? ""}
+                        </TableCell>
+                      </TableRow>
+                    </Link>
                   );
                 })}
               </TableBody>

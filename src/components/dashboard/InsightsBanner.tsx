@@ -69,18 +69,6 @@ export function InsightsBanner({
       }
     }
 
-    // Check for GYG test blocks
-    const gygBlocks = blocked.filter(
-      (bl) => bl.reason?.toLowerCase().includes("gyg") || bl.reason?.toLowerCase().includes("test")
-    );
-    if (gygBlocks.length > 2) {
-      result.push({
-        id: "gyg-test-blocks",
-        message: `${gygBlocks.length} GYG test blocks detected — check integration`,
-        type: "warning",
-      });
-    }
-
     // Tomorrow's tours
     const tomorrow = new Date(now);
     tomorrow.setDate(tomorrow.getDate() + 1);

@@ -4,9 +4,9 @@ import { CalendarClient } from "@/components/calendar/CalendarClient";
 export default async function CalendarPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tour?: string }>;
+  searchParams: Promise<{ tour?: string; date?: string }>;
 }) {
-  const { tour } = await searchParams;
+  const { tour, date: dateParam } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -39,6 +39,7 @@ export default async function CalendarPage({
         initialBookings={bookings ?? []}
         initialBlocked={blocked ?? []}
         initialFilterTour={initialFilterTour}
+        initialDate={dateParam}
       />
     </div>
   );
