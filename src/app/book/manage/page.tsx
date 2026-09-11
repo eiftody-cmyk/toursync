@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { formatTime } from "@/lib/time";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -83,7 +84,7 @@ export default async function BookingManagePage({
                   <p><strong>{tour?.name}</strong></p>
                   <p className="text-muted-foreground">
                     {formatDate(booking.date)}
-                    {booking.start_time && ` at ${booking.start_time}`}
+                    {booking.start_time && ` at ${formatTime(booking.start_time)}`}
                     {" · "}{booking.guest_count} guest{booking.guest_count !== 1 ? "s" : ""}
                   </p>
                 </div>
@@ -131,7 +132,7 @@ export default async function BookingManagePage({
                   <p><strong>{tour?.name}</strong></p>
                   <p className="text-muted-foreground">
                     {formatDate(booking.date)}
-                    {booking.start_time && ` at ${booking.start_time}`}
+                    {booking.start_time && ` at ${formatTime(booking.start_time)}`}
                   </p>
                   <p className="text-muted-foreground">
                     {booking.guest_count} guest{booking.guest_count !== 1 ? "s" : ""}
@@ -215,7 +216,7 @@ export default async function BookingManagePage({
                           <p className="font-medium">{tour?.name ?? "Tour"}</p>
                           <p className="text-sm text-muted-foreground">
                             {formatDate(b.date)}
-                            {b.start_time && ` at ${b.start_time}`}
+                            {b.start_time && ` at ${formatTime(b.start_time)}`}
                             {" · "}{b.guest_count} guest{b.guest_count !== 1 ? "s" : ""}
                           </p>
                         </div>

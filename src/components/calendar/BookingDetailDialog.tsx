@@ -3,6 +3,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { formatTime } from "@/lib/time";
 import type { Tour, Booking } from "@/types";
 
 export function BookingDetailDialog({
@@ -22,9 +23,9 @@ export function BookingDetailDialog({
 
   const tourName = tour?.name ?? "Unknown tour";
   const timeLabel = booking.start_time && booking.end_time
-    ? `${booking.start_time} – ${booking.end_time} JST`
+    ? `${formatTime(booking.start_time)} – ${formatTime(booking.end_time)} JST`
     : booking.start_time
-      ? `${booking.start_time} JST`
+      ? `${formatTime(booking.start_time)} JST`
       : "All day";
 
   return (

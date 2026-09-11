@@ -33,3 +33,8 @@ export function nextDay(dateStr: string): string {
   d.setDate(d.getDate() + 1);
   return formatJSTDate(d);
 }
+
+export function formatTime(time: string | null | undefined): string {
+  if (!time) return "";
+  return time.length > 5 ? time.slice(0, 5) : time;
+}

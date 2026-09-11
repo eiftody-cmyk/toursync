@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import { Calendar, dateFnsLocalizer, View } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { enUS } from "date-fns/locale/en-US";
@@ -18,7 +18,7 @@ import { BlockedList } from "./BlockedList";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { capacityColor } from "@/lib/capacity";
-import { toJSTStartOfDay } from "@/lib/time";
+import { toJSTStartOfDay, formatTime } from "@/lib/time";
 
 const locales = { "en-US": enUS };
 const localizer = dateFnsLocalizer({
@@ -66,7 +66,7 @@ export function CalendarClient({
   const [selectedBlocked, setSelectedBlocked] = useState<BlockedDate | null>(null);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
 
-  async function refresh() {
+  const refresh = useCallback(async () => {
     const supabase = createClient();
     const {
       data: { user },
@@ -78,7 +78,28 @@ export function CalendarClient({
     if (blErr) toast.error(blErr.message);
     if (b) setBookings(b as Booking[]);
     if (bl) setBlocked(bl as BlockedDate[]);
-  }
+  }, []);
+
+  useEffect(() => {
+    const supabase = createClient();
+    const channel = supabase
+      .channel("calendar-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "bookings" },
+        () => refresh()
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "blocked_dates" },
+        () => refresh()
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [refresh]);
 
   const events: CalEvent[] = useMemo(() => {
     const filteredBookings =
@@ -93,7 +114,7 @@ export function CalendarClient({
     for (const b of filteredBookings) {
       const d = toJSTStartOfDay(b.date);
       const tour = tours.find((t) => t.id === b.tour_id);
-      const timeLabel = b.start_time ? ` ${b.start_time}` : "";
+      const timeLabel = b.start_time ? ` ${formatTime(b.start_time)}` : "";
       evs.push({
         title: `+${b.guest_count} ${tour?.name ?? "Booking"}${timeLabel}${b.source ? ` (${b.source})` : ""}`,
         start: d,
@@ -306,7 +327,7 @@ export function CalendarClient({
                   new Set(
                     bookings
                       .filter((b) => b.status === "confirmed" && b.tour_id === t.id && b.date === selectedDate)
-                      .map((b) => (b.start_time ? String(b.start_time) : "all-day"))
+                      .map((b) => (b.start_time ? formatTime(String(b.start_time)) : "all-day"))
                   )
                 );
                 if (slots.length === 0) slots.push("all-day");
@@ -329,7 +350,7 @@ export function CalendarClient({
                   );
                   const status =
                     isBlocked ? "blocked" : remaining <= 0 ? "full" : remaining <= 2 ? "almost-full" : "available";
-                  const label = slot === "all-day" ? "All day" : `${slot}`;
+                  const label = slot === "all-day" ? "All day" : formatTime(slot);
                   return (
                     <span key={`${t.id}-${slot}`} className={`px-2 py-1 rounded text-xs ${capacityColor(status)}`}>
                       {t.name} {label}: {total}/{t.capacity} {status}

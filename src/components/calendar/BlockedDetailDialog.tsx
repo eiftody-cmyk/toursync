@@ -3,6 +3,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { formatTime } from "@/lib/time";
 import type { Tour, BlockedDate } from "@/types";
 
 export function BlockedDetailDialog({
@@ -22,9 +23,9 @@ export function BlockedDetailDialog({
 
   const tourName = tour?.name ?? "All tours";
   const timeLabel = blocked.start_time && blocked.end_time
-    ? `${blocked.start_time} – ${blocked.end_time} JST`
+    ? `${formatTime(blocked.start_time)} – ${formatTime(blocked.end_time)} JST`
     : blocked.start_time
-      ? `${blocked.start_time} JST onward`
+      ? `${formatTime(blocked.start_time)} JST onward`
       : "All day";
   const reason = blocked.reason || "No reason given";
 

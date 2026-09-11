@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { formatTime } from "@/lib/time";
 import type { Tour, BlockedDate } from "@/types";
 
 export function BlockedList({
@@ -45,9 +46,9 @@ export function BlockedList({
           {visible.map((bl) => {
             const tour = tours.find((t) => t.id === bl.tour_id);
             const timeLabel = bl.start_time && bl.end_time
-              ? `${bl.start_time}–${bl.end_time}`
+              ? `${formatTime(bl.start_time)}–${formatTime(bl.end_time)}`
               : bl.start_time
-                ? `${bl.start_time}+`
+                ? `${formatTime(bl.start_time)}+`
                 : "all day";
             return (
               <div key={bl.id} className="flex items-center justify-between gap-2 py-1 border-b last:border-0 text-sm">
