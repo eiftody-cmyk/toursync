@@ -31,7 +31,8 @@ export async function POST(request: Request) {
     .from("bookings")
     .select("guest_count")
     .eq("tour_id", tour_id)
-    .eq("date", date);
+    .eq("date", date)
+    .eq("status", "confirmed");
 
   if (normalizedStartTime) {
     bookingsQuery = bookingsQuery.eq("start_time", normalizedStartTime);

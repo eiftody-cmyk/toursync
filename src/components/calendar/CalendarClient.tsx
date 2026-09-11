@@ -64,7 +64,7 @@ export function CalendarClient({
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) return;
-    const { data: b, error: bErr } = await supabase.from("bookings").select("*").eq("user_id", user.id);
+    const { data: b, error: bErr } = await supabase.from("bookings").select("*").eq("user_id", user.id).eq("status", "confirmed");
     const { data: bl, error: blErr } = await supabase.from("blocked_dates").select("*").eq("user_id", user.id);
     if (bErr) toast.error(bErr.message);
     if (blErr) toast.error(blErr.message);
@@ -74,7 +74,9 @@ export function CalendarClient({
 
   const events: CalEvent[] = useMemo(() => {
     const filteredBookings =
-      filterTour === "all" ? bookings : bookings.filter((b) => b.tour_id === filterTour);
+      filterTour === "all"
+        ? bookings.filter((b) => b.status === "confirmed")
+        : bookings.filter((b) => b.tour_id === filterTour && b.status === "confirmed");
     const filteredBlocked =
       filterTour === "all" ? blocked : blocked.filter((bl) => !bl.tour_id || bl.tour_id === filterTour);
 
@@ -182,7 +184,7 @@ export function CalendarClient({
       const tour = tours.find((t) => t.id === b.tour_id);
       if (tour) {
         const totalForSlot = bookings
-          .filter((x) => x.tour_id === b.tour_id && x.date === b.date && (x.start_time || null) === (b.start_time || null))
+          .filter((x) => x.status === "confirmed" && x.tour_id === b.tour_id && x.date === b.date && (x.start_time || null) === (b.start_time || null))
           .reduce((s, x) => s + x.guest_count, 0);
         const remaining = tour.capacity - totalForSlot;
         const isFull = remaining <= 0;
@@ -295,7 +297,7 @@ export function CalendarClient({
                 const slots = Array.from(
                   new Set(
                     bookings
-                      .filter((b) => b.tour_id === t.id && b.date === selectedDate)
+                      .filter((b) => b.status === "confirmed" && b.tour_id === t.id && b.date === selectedDate)
                       .map((b) => (b.start_time ? String(b.start_time) : "all-day"))
                   )
                 );
@@ -304,6 +306,7 @@ export function CalendarClient({
                   const total = bookings
                     .filter(
                       (b) =>
+                        b.status === "confirmed" &&
                         b.tour_id === t.id &&
                         b.date === selectedDate &&
                         (slot === "all-day" ? !b.start_time : String(b.start_time) === slot)

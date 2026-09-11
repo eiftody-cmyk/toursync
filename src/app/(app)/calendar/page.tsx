@@ -15,7 +15,7 @@ export default async function CalendarPage({
 
   const [toursResult, bookingsResult, blockedResult] = await Promise.all([
     supabase.from("tours").select("*").eq("user_id", user.id).order("name"),
-    supabase.from("bookings").select("*").eq("user_id", user.id).order("date", { ascending: false }).limit(200),
+    supabase.from("bookings").select("*").eq("user_id", user.id).eq("status", "confirmed").order("date", { ascending: false }).limit(200),
     supabase.from("blocked_dates").select("*").eq("user_id", user.id).order("date", { ascending: false }).limit(200),
   ]);
 
