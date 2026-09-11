@@ -1,10 +1,16 @@
 import { createClient } from "@/lib/supabase/server";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { todayJST } from "@/lib/time";
-import { RecentBookings } from "@/components/dashboard/RecentBookings";
+import { startOfYear } from "date-fns";
+import { InsightsBanner } from "@/components/dashboard/InsightsBanner";
+import { TodaySummary } from "@/components/dashboard/TodaySummary";
+import { PerformanceSummary } from "@/components/dashboard/PerformanceSummary";
+import { EarningsByListing } from "@/components/dashboard/EarningsByListing";
+import { TourCards } from "@/components/dashboard/TourCards";
+import { BookingTable } from "@/components/dashboard/BookingTable";
+import { BlockedDatesGrouped } from "@/components/dashboard/BlockedDatesGrouped";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -14,20 +20,30 @@ export default async function DashboardPage() {
 
   if (!user) return null;
 
+  const today = todayJST();
+  const yearStart = startOfYear(new Date()).toISOString().split("T")[0];
+
   const [toursResult, bookingsResult, blockedResult, tokensResult] =
     await Promise.all([
       supabase.from("tours").select("*").eq("user_id", user.id).order("created_at"),
-      supabase.from("bookings").select("*").eq("user_id", user.id).order("date", { ascending: true }).limit(20),
-      supabase.from("blocked_dates").select("*").eq("user_id", user.id).order("date", { ascending: true }).limit(200),
+      supabase
+        .from("bookings")
+        .select("*, tours(name, price, currency)")
+        .eq("user_id", user.id)
+        .eq("status", "confirmed")
+        .gte("date", yearStart)
+        .order("date", { ascending: true }),
+      supabase.from("blocked_dates").select("*").eq("user_id", user.id).order("date", { ascending: true }),
       supabase.from("google_tokens").select("calendar_id, token_expiry").eq("user_id", user.id).maybeSingle(),
     ]);
 
-  const tours = toursResult.data;
-  const bookings = bookingsResult.data;
-  const blocked = blockedResult.data;
+  const tours = toursResult.data ?? [];
+  const bookings = bookingsResult.data ?? [];
+  const blocked = blockedResult.data ?? [];
   const tokens = tokensResult.data;
 
-  const today = todayJST();
+  const todayBookings = bookings.filter((b) => b.date === today);
+  const todayBlocked = blocked.filter((b) => b.date === today);
 
   return (
     <div className="space-y-6">
@@ -54,117 +70,27 @@ export default async function DashboardPage() {
         </Card>
       )}
 
-      <div className="grid md:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-muted-foreground">Tours</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{tours?.length ?? 0}</p>
-            <p className="text-xs text-muted-foreground">Active tours</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-muted-foreground">Bookings</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{bookings?.length ?? 0}</p>
-            <p className="text-xs text-muted-foreground">Recent bookings</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-muted-foreground">Blocked Dates</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{blocked?.length ?? 0}</p>
-            <p className="text-xs text-muted-foreground">Total blocks (incl. auto)</p>
-          </CardContent>
-        </Card>
+      <InsightsBanner bookings={bookings} tours={tours} blocked={blocked} />
+
+      <TodaySummary
+        bookings={todayBookings}
+        blocked={todayBlocked}
+        tours={tours}
+      />
+
+      <div className="grid md:grid-cols-2 gap-4">
+        <PerformanceSummary bookings={bookings} tours={tours} />
+        <EarningsByListing bookings={bookings} tours={tours} />
       </div>
 
       <div>
         <h2 className="text-lg font-semibold mb-3">Your Tours</h2>
-        {!tours || tours.length === 0 ? (
-          <Card>
-            <CardContent className="pt-6 text-sm text-muted-foreground">
-              No tours yet.{" "}
-              <Link href="/tours" className="underline text-primary">
-                Create your first tour
-              </Link>{" "}
-              (e.g. &quot;Warrior Monks, a Peasant, and a Shogun&quot; — capacity 6).
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid md:grid-cols-2 gap-4">
-            {tours.map((tour) => {
-              const tourBookings =
-                bookings?.filter((b) => b.tour_id === tour.id) ?? [];
-              // quick capacity for next date example
-              return (
-                <Card key={tour.id}>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-base flex items-center justify-between">
-                      {tour.name}
-                      <Badge variant="secondary">{tour.capacity} max</Badge>
-                    </CardTitle>
-                    {tour.description && (
-                      <p className="text-xs text-muted-foreground line-clamp-2">
-                        {tour.description}
-                      </p>
-                    )}
-                  </CardHeader>
-                  <CardContent className="text-sm space-y-2">
-                    <p className="text-muted-foreground">
-                      {tour.price ? `${tour.price} ${tour.currency}` : "Price not set"} ·{" "}
-                      {tourBookings.length} booking{tourBookings.length !== 1 && "s"} recorded
-                    </p>
-                    <div className="flex gap-2">
-                      <Button asChild variant="outline" size="sm">
-                        <Link href={`/calendar?tour=${tour.id}`}>View Calendar</Link>
-                      </Button>
-                      <Button asChild size="sm">
-                        <Link href="/tours">Edit</Link>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        )}
+        <TourCards bookings={bookings} tours={tours} />
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        <RecentBookings bookings={bookings ?? []} tours={tours ?? []} />
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Blocked Dates</CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm">
-            {!blocked || blocked.length === 0 ? (
-              <p className="text-muted-foreground">No blocks. Click a date on the calendar to block it.</p>
-            ) : (
-              <div className="max-h-64 overflow-y-auto">
-                <ul className="space-y-2">
-                  {blocked.map((bl) => {
-                    const tour = tours?.find((t) => t.id === bl.tour_id);
-                    return (
-                      <li key={bl.id} className="flex justify-between border-b pb-1 last:border-0">
-                        <Link href={`/calendar?tour=${bl.tour_id ?? ""}`} className="hover:underline">
-                          {bl.date} · {tour?.name ?? "All tours"}
-                          {bl.reason ? ` — ${bl.reason}` : ""}
-                        </Link>
-                        {bl.is_auto_blocked && <Badge variant="destructive">auto</Badge>}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        <BookingTable bookings={bookings} tours={tours} />
+        <BlockedDatesGrouped blocked={blocked} tours={tours} />
       </div>
 
       <p className="text-xs text-muted-foreground">
