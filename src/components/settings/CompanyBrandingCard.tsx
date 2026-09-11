@@ -51,7 +51,7 @@ export function CompanyBrandingCard({
 
     // Upload to Supabase Storage
     const fileExt = file.name.split(".").pop();
-    const filePath = `logos/${user.id}.${fileExt}`;
+    const filePath = `${user.id}.${fileExt}`;
 
     const { error: uploadError } = await supabase.storage
       .from("logos")
