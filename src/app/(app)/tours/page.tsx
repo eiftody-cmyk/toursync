@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ToursClient } from "./ToursClient";
-import type { TourChannelListing } from "@/types";
+import type { TourChannelListing, TourPricingCategory } from "@/types";
 
 export default async function ToursPage() {
   const supabase = await createClient();
@@ -18,6 +18,11 @@ export default async function ToursPage() {
 
   const tours = toursResult.data;
   const listings = listingsResult.data;
+
+  const tourIds = (tours ?? []).map((t) => t.id);
+  const { data: pricingCategories } = tourIds.length > 0
+    ? await supabase.from("tour_pricing_categories").select("*").in("tour_id", tourIds)
+    : { data: [] };
 
   return (
     <div className="space-y-6 max-w-3xl">
@@ -49,7 +54,11 @@ export default async function ToursPage() {
         </CardContent>
       </Card>
 
-      <ToursClient initialTours={tours ?? []} initialListings={(listings ?? []) as TourChannelListing[]} />
+      <ToursClient
+        initialTours={tours ?? []}
+        initialListings={(listings ?? []) as TourChannelListing[]}
+        initialPricingCategories={(pricingCategories ?? []) as TourPricingCategory[]}
+      />
     </div>
   );
 }

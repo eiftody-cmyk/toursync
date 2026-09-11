@@ -40,12 +40,15 @@ function validateCode(channel: Channel, code: string): string | null {
 export function ToursClient({
   initialTours,
   initialListings,
+  initialPricingCategories,
 }: {
   initialTours: Tour[];
   initialListings: TourChannelListing[];
+  initialPricingCategories: TourPricingCategory[];
 }) {
   const [tours, setTours] = useState<Tour[]>(initialTours);
   const [listings, setListings] = useState<TourChannelListing[]>(initialListings);
+  const allPricingCategories = initialPricingCategories;
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Tour | null>(null);
   const [form, setForm] = useState<{
@@ -586,6 +589,23 @@ export function ToursClient({
                     </Badge>
                   </CardTitle>
                   {t.description && <p className="text-sm text-muted-foreground">{t.description}</p>}
+                  {(() => {
+                    const tourCategories = allPricingCategories.filter((c) => c.tour_id === t.id);
+                    if (tourCategories.length === 0) return null;
+                    const sorted = [...tourCategories].sort((a, b) => {
+                      const order = ["ADULT", "CHILD", "YOUTH", "SENIOR", "STUDENT", "INFANT", "GROUP"];
+                      return order.indexOf(a.category) - order.indexOf(b.category);
+                    });
+                    return (
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {sorted.map((c) => (
+                          <Badge key={c.id} variant="outline" className="text-xs font-normal">
+                            {c.category}: {c.currency === "JPY" ? "¥" : c.currency + " "}{c.price.toLocaleString()}
+                          </Badge>
+                        ))}
+                      </div>
+                    );
+                  })()}
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {/* Channel listings */}
