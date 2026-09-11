@@ -86,7 +86,7 @@ export function PerformanceSummary({
               />
               <Bar
                 dataKey="gross"
-                fill="#94a3b8"
+                fill="#f59e0b"
                 radius={[4, 4, 0, 0]}
                 maxBarSize={40}
                 name="gross"
@@ -123,7 +123,7 @@ export function PerformanceSummary({
         </div>
         <div className="flex gap-4 text-xs text-muted-foreground border-t pt-3">
           <span className="flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full bg-slate-400 inline-block" /> Gross
+            <span className="w-2 h-2 rounded-full bg-amber-500 inline-block" /> Gross
           </span>
           <span className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" /> Net

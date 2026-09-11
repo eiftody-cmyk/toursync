@@ -9,7 +9,7 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="max-w-6xl mx-auto px-6 py-16 md:py-24 text-center">
         <Badge className="mb-4" variant="secondary">
-          Phase 1 MVP — Dashboard + Airbnb Calendar Sync
+          Dashboard + Airbnb Calendar Sync
         </Badge>
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight max-w-3xl mx-auto">
           Block dates on Airbnb once. <br />

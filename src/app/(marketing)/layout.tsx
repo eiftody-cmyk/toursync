@@ -25,7 +25,7 @@ export default function MarketingLayout({
       </header>
       <main className="flex-1">{children}</main>
       <footer className="border-t py-8 text-center text-sm text-muted-foreground">
-        <p>ExperienceRelay MVP — Built for small tour operators in Osaka & beyond.</p>
+        <p>ExperienceRelay — Built for small tour operators in Osaka & beyond.</p>
         <p className="mt-1">
           <Link href="/login" className="underline">
             Dashboard

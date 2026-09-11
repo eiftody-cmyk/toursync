@@ -21,9 +21,6 @@ export function Sidebar() {
       <div className="p-6">
         <Link href="/dashboard" className="flex items-center gap-2">
           <span className="font-bold text-lg">ExperienceRelay</span>
-          <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">
-            MVP
-          </span>
         </Link>
         <p className="text-xs text-muted-foreground mt-1">
           Block once. Sync everywhere.
