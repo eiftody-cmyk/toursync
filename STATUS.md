@@ -10,7 +10,8 @@
 - GitHub repo: `https://github.com/eiftody-cmyk/toursync.git`
 - Cloudflare Worker: `https://toursync.eiftody.workers.dev` (production)
 - Supabase project: `yxqhxmurckdjiulfdvpc`
-- Domain: `osakacastletours.com` — served from `osaka-timeline` repo on GitHub Pages
+- Domain: `osakacastletours.com` — marketing site on GitHub Pages, booking/app on Cloudflare Workers
+- Cloudflare routes: `/_next/*`, `/book/*`, `/api/*` → toursync Worker; `/` → GitHub Pages
 - Build: `npx opennextjs-cloudflare build && npx wrangler deploy`
 - User: Edward Alexander Iftody, sole proprietor registered with Osaka City as "Osaka Castle Walks with Edward"
 - User has ~5 Osaka castle walking tours, <10 bookings/month
@@ -21,7 +22,7 @@
 - GYG inbound (test): `GYG_INBOUND_USERNAME=ExperienceRelay`, `GYG_INBOUND_PASSWORD=P421105x`
 - GYG inbound (production): `GYG_PROD_USERNAME=ExperienceRelay1`, `GYG_PROD_PASSWORD=P421105x`
 - Auth middleware accepts both test and production GYG credential sets
-- `NEXT_PUBLIC_BASE_URL`: `https://toursync.eiftody.workers.dev`
+- `NEXT_PUBLIC_BASE_URL`: `https://osakacastletours.com`
 - Supabase anon key: in `wrangler.toml` `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - Supabase service role key: in `.env.local` `SUPABASE_SERVICE_ROLE_KEY`
 - osakacastletours.com theme: dark ink/gold/parchment, Cormorant Garamond + Cinzel fonts, CSS variables: `--gold: #c8a96e`, `--ink: #0e0c09`, `--parchment: #f5efe3`, `--stone: #1a1510`
@@ -43,6 +44,10 @@
 - Booking page header layout: left="Osaka Castle Walks with Edward" text, center=logo (240px desktop, 80px mobile), right="History Beyond the Postcard" tagline. Logo is not clickable.
 - Mobile breakpoint: `max-width: 768px` — tagline hidden, logo 80px, reduced padding
 - `@paypal/react-paypal-js` installed — renders PayPal + Credit/Debit Card + Pay Later + Venmo buttons directly on page
+- **PayPal mode: LIVE** — real money, deposits to linked bank account
+- **Resend email**: FROM `noreply@osakacastletours.com` (verified domain), API key in Cloudflare secrets
+- **Cancel policy**: 24 hours before tour start — customers can cancel via `/book/manage`
+- **Manage page**: `/book/manage?id={bookingId}` (single booking) or `/book/manage?email={email}` (all bookings)
 
 ## Work State
 ### Completed
@@ -58,6 +63,7 @@
 - **Migration 018** — `GRANT SELECT ON public.tours TO anon` + RLS policy — run manually
 - **Migration 019** — `GRANT SELECT` + RLS policies for `tour_schedules`, `schedule_exceptions`, `blocked_dates`, `bookings` — run manually
 - **PayPal JS SDK integration complete** — `@paypal/react-paypal-js` renders embedded payment buttons (PayPal + Card + Pay Later + Venmo) on booking pages, no redirect
+- **PayPal LIVE mode** — Real payments working (Visa/Mastercard/PayPal), deposits to linked bank account
 - **`/api/paypal/capture-order` route created** — captures payment, creates booking, sends emails, handles both instant and custom bookings
 - **Booking pages fully restyled** — Dark ink/gold/parchment theme, Cinzel/Cormorant Garamond fonts, "Osaka Castle Walks with Edward" branding
 - **Custom calendar grid built** — Full month view with colored dates (gold=available, red=blocked/full), spots remaining shown, visible on page load
@@ -76,6 +82,14 @@
 - **Tagline font size** — Updated to match logo text (1rem)
 - **Hero tagline** — Changed colon to em dash
 - **All repos committed and pushed** — toursync (`1b3bb6d`), osaka-timeline (`ab39a88`)
+- **Resend email integration** — Booking confirmation, cancellation confirmation, operator notification emails working
+- **Manage/cancel booking flow** — `/book/manage` page with cancel button, 24-hour policy, success/error messages
+- **Cloudflare routing** — `/_next/*` (CSS/JS), `/book/*` (booking pages), `/api/*` (API endpoints) route to Worker
+- **`NEXT_PUBLIC_BASE_URL` updated** — Changed from `toursync.eiftody.workers.dev` to `osakacastletours.com`
+- **Cancellation confirmation email** — Sent to customer when they cancel, includes rebook link
+- **Booking confirmation email** — Includes "Manage Booking" link to cancel up to 24h before tour
+- **Time format fixed** — No seconds in emails (10:00 not 10:00:00)
+- **Cancel API fixed** — Uses service client to bypass RLS, allows anonymous users to cancel their bookings
 
 ### Active
 - (none)
@@ -97,18 +111,26 @@
 - `src/app/book/styles.css`: Shared booking styles — calendar grid, header layout, mobile responsive, all theme styles
 - `src/app/book/page.tsx`: Instant book page (server) — passes `paypalClientId` to client
 - `src/app/book/custom/page.tsx`: Custom time page (server) — passes `paypalClientId` to client
+- `src/app/book/manage/page.tsx`: Manage/cancel booking page — queries bookings + tours separately (RLS fix), cancel button
 - `src/components/PayPalPayment.tsx`: PayPal SDK wrapper — renders buttons, handles createOrder + onApprove with payer info
 - `src/app/api/paypal/create-order/route.ts`: Instant book order creation — includes cutoff validation
 - `src/app/api/paypal/create-custom-order/route.ts`: Custom time order creation — simplified custom_id (no name/email)
 - `src/app/api/paypal/capture-order/route.ts`: Captures payment, creates booking, sends emails — uses PayPal payer info
 - `src/app/api/webhooks/paypal/route.ts`: PayPal webhook — handles both instant + custom, uses PayPal payer info
+- `src/app/api/bookings/cancel/route.ts`: Cancel API — service client bypasses RLS, 24h policy, sends cancellation email
 - `src/lib/schedules/generateDates.ts`: Generates available dates — all-day block support, cutoff filtering
 - `src/lib/paypal/client.ts`: PayPal API client — brand_name = "Osaka Castle Walks with Edward"
+- `src/lib/supabase/service.ts`: Supabase service role client (bypasses RLS) — used by cancel API
 - `public/logo.webp`: Osaka Castle logo (copied from osaka-timeline)
-- `src/lib/email/booking-confirmation.ts`: Booking confirmation email
-- `src/lib/email/operator-notification.ts`: Operator notification email
+- `src/lib/email/client.ts`: Resend email client — FROM `noreply@osakacastletours.com`, returns `{ ok, id, error }`
+- `src/lib/email/booking-confirmation.ts`: Booking confirmation email — includes "Manage Booking" link, no seconds in time
+- `src/lib/email/operator-notification.ts`: Operator notification email — includes customer name + email
+- `src/lib/email/cancellation-confirmation.ts`: Cancellation confirmation email — includes rebook link
 - `src/lib/email/custom-time-notification.ts`: Custom time email template for Edward
-- `wrangler.toml`: Cloudflare config — `[assets]` section, PayPal secrets
+- `wrangler.toml`: Cloudflare config — routes `/_next/*`, `/book/*`, `/api/*` to Worker
+- `notes/experiencerelay-launch-todos.md`: Pre-launch checklist for ExperienceRelay
+- `notes/personalized-from-address.md`: Option A per-operator Resend setup guide
+- `notes/apple-pay-google-pay-setup.md`: Future Apple Pay/Google Pay setup instructions
 - `osaka-timeline/index.html`: Landing page — hero tagline updated (colon to em dash)
 - `viator-api-spec.md`: Viator API specification and integration plan
 - `viator-api-request.md`: Draft email for Viator API access request
