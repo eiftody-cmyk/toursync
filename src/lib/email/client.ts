@@ -9,7 +9,7 @@ function getResend(): Resend {
   return resend;
 }
 
-const FROM_EMAIL = `Osaka Castle Walks with Edward <noreply@send.osakacastletours.com>`;
+const FROM_EMAIL = `Osaka Castle Walks with Edward <noreply@osakacastletours.com>`;
 
 interface SendEmailParams {
   to: string;
