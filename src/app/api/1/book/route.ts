@@ -136,12 +136,32 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     }
   }
 
+  // Exact match: same reservation reference → return existing tickets (idempotent)
   if (existingBookingResult.data) {
     const tickets = generateTickets(existingBookingResult.data.id, requestData.bookingItems, isGroup);
     return gygJson(
       { data: { bookingReference: existingBookingResult.data.id, tickets } },
       { status: 200 }
     );
+  }
+
+  // GYG modify flow: same gyg_booking_reference, different reservation_reference
+  // Find any existing confirmed booking for this GYG reference and cancel it
+  const { data: existingModifyBooking } = await supabase
+    .from("bookings")
+    .select("id")
+    .eq("tour_id", tour.id)
+    .eq("source", "gyg")
+    .eq("gyg_booking_reference", requestData.gygBookingReference)
+    .eq("status", "confirmed")
+    .maybeSingle();
+
+  if (existingModifyBooking) {
+    console.log(`[GYG book] Modify detected: cancelling old booking ${existingModifyBooking.id} for ${requestData.gygBookingReference}`);
+    await supabase
+      .from("bookings")
+      .update({ status: "cancelled" })
+      .eq("id", existingModifyBooking.id);
   }
 
   const reservation = reservationResult.data;
@@ -282,15 +302,16 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
 
   // Insert in-app notification (non-blocking)
   const guestWord = totalGuests === 1 ? "guest" : "guests";
+  const isModify = !!existingModifyBooking;
   supabase
     .from("notifications")
     .insert({
       user_id: tour.user_id,
-      type: "new_booking",
-      title: `New Booking — ${tour.name}`,
+      type: isModify ? "new_booking" : "new_booking",
+      title: isModify ? `Booking Modified — ${tour.name}` : `New Booking — ${tour.name}`,
       message: isGroup
-        ? `${totalGuests} ${guestWord} (${requestData.bookingItems.filter((i: { category: string }) => i.category === "GROUP").reduce((s: number, i: { count: number }) => s + i.count, 0)} groups) on ${dateStr}${startTime ? ` at ${startTime}` : ""} (via GetYourGuide)`
-        : `${totalGuests} ${guestWord} on ${dateStr}${startTime ? ` at ${startTime}` : ""} (via GetYourGuide)`,
+        ? `${totalGuests} ${guestWord} (${requestData.bookingItems.filter((i: { category: string }) => i.category === "GROUP").reduce((s: number, i: { count: number }) => s + i.count, 0)} groups) on ${dateStr}${startTime ? ` at ${startTime}` : ""} (via GetYourGuide${isModify ? " — modified" : ""})`
+        : `${totalGuests} ${guestWord} on ${dateStr}${startTime ? ` at ${startTime}` : ""} (via GetYourGuide${isModify ? " — modified" : ""})`,
       link: "/dashboard",
     })
     .then(({ error: notifError }) => {
