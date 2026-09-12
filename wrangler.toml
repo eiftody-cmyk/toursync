@@ -30,5 +30,7 @@ NEXT_PUBLIC_SUPABASE_URL = "https://yxqhxmurckdjiulfdvpc.supabase.co"
 NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl4cWh4bXVyY2tkaml1bGZkdnBjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNjM3MDksImV4cCI6MjEwMzgzOTcwOX0.JvwmYD9krQbnNnnrlfMpGxvA8HuhKLW_JwBp6YcvVts"
 NODE_ENV = "production"
 OTA_SYNC_ENABLED = "true"
-# Tours temporarily hidden from public booking pages during GYG live testing
-HIDDEN_TOUR_IDS = "1c2535d2-a946-4da6-ad35-5df42339323e,c97d74f3-c95a-451f-aa1a-e34452b3e592,fda04737-d6b8-49d5-a2d1-573628bba088"
+# Photography after dark hidden from public booking pages only.
+# GYG live testing covers Photography (1c2535d2) + Before Japan (6b3bc718);
+# its TimePeriodGroup config cannot be sold per-person on-site.
+HIDDEN_TOUR_IDS = "1c2535d2-a946-4da6-ad35-5df42339323e"
