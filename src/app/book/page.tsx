@@ -16,6 +16,11 @@ function isUuid(str: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
 }
 
+function isHiddenTour(tourId: string): boolean {
+  const hidden = process.env.HIDDEN_TOUR_IDS ?? "";
+  return hidden.split(",").map((s) => s.trim()).filter(Boolean).includes(tourId);
+}
+
 export default async function BookingPage({
   searchParams,
 }: {
@@ -48,6 +53,7 @@ export default async function BookingPage({
   }
 
   if (!tour) notFound();
+  if (isHiddenTour(tour.id)) notFound();
 
   // Fetch tour owner's profile for white-label branding
   const { data: profile } = await supabase

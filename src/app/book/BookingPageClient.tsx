@@ -227,9 +227,9 @@ export function BookingPageClient({ tour, companyName, paypalClientId }: Booking
                   let className = "calendar-day";
                   if (isPast) className += " past";
                   else if (isSelected) className += " selected";
-                  else if (isAvailable) className += " available";
                   else if (isBlocked) className += " blocked";
                   else if (isFull) className += " full";
+                  else if (isAvailable) className += " available";
 
                   return (
                     <div
@@ -238,7 +238,7 @@ export function BookingPageClient({ tour, companyName, paypalClientId }: Booking
                       onClick={() => !isPast && handleDayClick(date)}
                     >
                       <span className="day-number">{date.getDate()}</span>
-                      {isAvailable && availability && (
+                      {isAvailable && !isBlocked && availability && (
                         <span className="day-spots">{availability.totalRemaining} spots</span>
                       )}
                       {isBlocked && <span className="day-spots">blocked</span>}

@@ -14,6 +14,22 @@ function normalizeTime(t: string | null): string {
   return t.length > 5 ? t.slice(0, 5) : t;
 }
 
+// Normalize booking items to a canonical string (jsonb may reorder keys).
+function normalizeItems(items: unknown): string {
+  if (!Array.isArray(items)) return "";
+  return JSON.stringify(
+    items.map((it) => {
+      const o = it as Record<string, unknown>;
+      return {
+        category: o.category,
+        count: o.count,
+        groupSize: o.groupSize ?? null,
+        retailPrice: o.retailPrice ?? null,
+      };
+    })
+  );
+}
+
 export async function POST(req: NextRequest) {
   const reqStart = Date.now();
   const ctx = createGygLogger("book", req);
@@ -105,7 +121,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     supabase.from("tour_pricing_categories").select("category").eq("tour_id", tour.id),
     supabase
       .from("bookings")
-      .select("id, notes")
+      .select("id, date, start_time, guest_count, notes")
       .eq("tour_id", tour.id)
       .eq("source", "gyg")
       .eq("gyg_booking_reference", requestData.gygBookingReference)
@@ -136,13 +152,36 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     }
   }
 
-  // Exact match: same reservation reference → return existing tickets (idempotent)
+  // Exact match: same reservation reference AND same date/time/items →
+  // return existing tickets (idempotent retry). If the details differ, fall
+  // through to the modification branch instead of silently re-issuing old tickets.
   if (existingBookingResult.data) {
-    const tickets = generateTickets(existingBookingResult.data.id, requestData.bookingItems, isGroup);
-    return gygJson(
-      { data: { bookingReference: existingBookingResult.data.id, tickets } },
-      { status: 200 }
-    );
+    const existing = existingBookingResult.data;
+    let storedItems: Array<Record<string, unknown>> | null = null;
+    try {
+      const parsed = JSON.parse(existing.notes ?? "null");
+      storedItems = Array.isArray(parsed?.items) ? parsed.items : null;
+    } catch {
+      storedItems = null;
+    }
+
+    const sameSlot =
+      existing.date === dateStr &&
+      normalizeTime(existing.start_time) === normalizeTime(startTime) &&
+      (existing.guest_count ?? 0) === totalGuests;
+
+    const sameItems =
+      normalizeItems(storedItems) === normalizeItems(requestData.bookingItems);
+
+    if (sameSlot && sameItems) {
+      const tickets = generateTickets(existing.id, requestData.bookingItems, isGroup);
+      return gygJson(
+        { data: { bookingReference: existing.id, tickets } },
+        { status: 200 }
+      );
+    }
+
+    console.log(`[GYG book] Booking ${existing.id} exists but details differ (date/time/items) — treating as modification`);
   }
 
   // GYG modify flow: same gyg_booking_reference, different reservation_reference

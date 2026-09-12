@@ -57,6 +57,17 @@ export async function lookupTourByProductId(productId: string): Promise<TourLook
       .single());
   }
 
+  // Fallback: accept the tour UUID (as used in GYG's live-test emails)
+  if (!listing?.tours && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(productId)) {
+    ({ data: listing } = await supabase
+      .from("tour_channel_listings")
+      .select("tour_id, tours(*)")
+      .eq("tour_id", productId)
+      .eq("channel", "gyg")
+      .eq("is_active", true)
+      .single());
+  }
+
   if (!listing?.tours) {
     tourCache.set(productId, { result: null, ts: Date.now() });
     return null;

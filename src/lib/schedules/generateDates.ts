@@ -28,14 +28,20 @@ export async function generateAvailableDates(
   tourId: string,
   monthsAhead: number = 6
 ): Promise<DateAvailability> {
+  const now = new Date();
+  const rangeEnd = new Date();
+  rangeEnd.setMonth(rangeEnd.getMonth() + monthsAhead);
+
+  const todayStr = now.toISOString().split("T")[0];
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  const rangeEndStr = rangeEnd.toISOString().split("T")[0];
+
   // 1. Fetch active schedules
   const { data: schedules } = await supabase
     .from("tour_schedules")
     .select("*")
     .eq("tour_id", tourId)
     .eq("is_active", true);
-
-  if (!schedules?.length) return { available: [], blocked: [], full: [] };
 
   // 2. Fetch exceptions
   const { data: exceptions } = await supabase
@@ -59,6 +65,15 @@ export async function generateAvailableDates(
   const allDayBlockedDates = new Set(
     (blocked ?? []).filter((b) => b.start_time === null).map((b) => b.date)
   );
+  // Report all-day blocked dates on the calendar even when the weekday has no schedule
+  const allDayBlockedDatesInRange = [...allDayBlockedDates]
+    .filter((d) => d >= todayStr && d <= rangeEndStr)
+    .sort();
+
+  // No schedules — still show blocked days on the calendar
+  if (!schedules?.length) {
+    return { available: [], blocked: allDayBlockedDatesInRange, full: [] };
+  }
 
   // 4. Fetch tour capacity and cutoff
   const { data: tour } = await supabase
@@ -69,14 +84,6 @@ export async function generateAvailableDates(
 
   const capacity = tour?.capacity ?? 10;
   const cutoffMinutes = tour?.cutoff_minutes ?? 60;
-
-  // 5. Generate all candidate dates
-  const now = new Date();
-  const rangeEnd = new Date();
-  rangeEnd.setMonth(rangeEnd.getMonth() + monthsAhead);
-
-  const todayStr = now.toISOString().split("T")[0];
-  const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
   // Track all dates that have a schedule (for blocked detection)
   const allScheduledDates = new Set<string>();
@@ -129,12 +136,12 @@ export async function generateAvailableDates(
   }
 
   if (candidateDates.length === 0 && allScheduledDates.size === 0) {
-    return { available: [], blocked: [], full: [] };
+    return { available: [], blocked: allDayBlockedDatesInRange, full: [] };
   }
 
   // 6. Batch fetch ALL bookings for this tour in one query
   const allDates = [...allScheduledDates].sort();
-  if (allDates.length === 0) return { available: [], blocked: [], full: [] };
+  if (allDates.length === 0) return { available: [], blocked: allDayBlockedDatesInRange, full: [] };
 
   const earliestDate = allDates[0];
   const latestDate = allDates[allDates.length - 1];
@@ -191,6 +198,11 @@ export async function generateAvailableDates(
     } else {
       fullDates.push(date);
     }
+  }
+
+  // Merge all-day blocked dates (including weekdays without a schedule)
+  for (const dateStr of allDayBlockedDatesInRange) {
+    if (!blockedDates.includes(dateStr)) blockedDates.push(dateStr);
   }
 
   // Sort

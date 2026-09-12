@@ -11,6 +11,22 @@ function normalizeTime(t: string | null): string {
   return t.length > 5 ? t.slice(0, 5) : t;
 }
 
+// Normalize booking items to a canonical string (jsonb may reorder keys).
+function normalizeItems(items: unknown): string {
+  if (!Array.isArray(items)) return "";
+  return JSON.stringify(
+    items.map((it) => {
+      const o = it as Record<string, unknown>;
+      return {
+        category: o.category,
+        count: o.count,
+        groupSize: o.groupSize ?? null,
+        retailPrice: o.retailPrice ?? null,
+      };
+    })
+  );
+}
+
 export async function POST(req: NextRequest) {
   const startTime = Date.now();
   const ctx = createGygLogger("reserve", req);
@@ -208,16 +224,36 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
     }
   }
 
-  // Parallelize capacity check and idempotency check
-  const [bookingsResult, reservationsResult, existingResResult] = await Promise.all([
+  // Parallelize capacity check and idempotency/modification check.
+  // Fetch ALL active reservations for this gygBookingReference so we can
+  // distinguish a true idempotent retry (same date/time/items) from a
+  // modification (different date/time or items) and issue a fresh reference.
+  const [bookingsResult, reservationsResult, refReservationsResult] = await Promise.all([
     supabase.from("bookings").select("guest_count").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", tourStartTime).eq("status", "confirmed"),
-    supabase.from("gyg_reservations").select("booking_items").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", tourStartTime).gt("expires_at", new Date().toISOString()),
-    supabase.from("gyg_reservations").select("id, reservation_reference").eq("gyg_booking_reference", requestData.gygBookingReference).gt("expires_at", new Date().toISOString()).maybeSingle(),
+    supabase.from("gyg_reservations").select("booking_items, gyg_booking_reference").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", tourStartTime).gt("expires_at", new Date().toISOString()),
+    supabase.from("gyg_reservations").select("reservation_reference, date, start_time, booking_items").eq("gyg_booking_reference", requestData.gygBookingReference).gt("expires_at", new Date().toISOString()),
   ]);
 
   const existingBookings = bookingsResult.data;
   const existingReservations = reservationsResult.data;
-  const existingRes = existingResResult.data;
+  const refReservations = refReservationsResult.data ?? [];
+
+  // True idempotent retry: same gygBookingReference, same date, same start time,
+  // identical booking items → return the existing reservationReference.
+  const exactMatch = refReservations.find(
+    (r) =>
+      r.date === dateStr &&
+      normalizeTime(r.start_time) === normalizeTime(tourStartTime) &&
+      normalizeItems(r.booking_items) === normalizeItems(requestData.bookingItems)
+  );
+
+  if (exactMatch) {
+    const reservationExpiration = new Date(Date.now() + (tour.cutoff_minutes ?? 60) * 60 * 1000).toISOString().replace(/\.\d{3}Z$/, "+00:00");
+    return gygJson(
+      { data: { reservationReference: exactMatch.reservation_reference, reservationExpiration } },
+      { status: 200 }
+    );
+  }
 
   let totalBooked = (existingBookings ?? []).reduce(
     (sum, b) => sum + (b.guest_count ?? 0),
@@ -225,6 +261,9 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
   );
 
   for (const r of existingReservations ?? []) {
+    // Don't count this reference's own reservations (e.g. a modification
+    // within the same slot) — they will be replaced by this new reservation.
+    if (r.gyg_booking_reference === requestData.gygBookingReference) continue;
     const items = r.booking_items as Array<{ category: string; count: number; groupSize?: number }> | null;
     if (Array.isArray(items)) {
       for (const item of items) {
@@ -240,14 +279,6 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
   if (totalBooked + totalGuests > tour.capacity) {
     return gygJson(
       { errorCode: "NO_AVAILABILITY", errorMessage: `Insufficient availability. Requested: ${totalGuests}, Available: ${Math.max(0, tour.capacity - totalBooked)}` },
-      { status: 200 }
-    );
-  }
-
-  if (existingRes) {
-    const reservationExpiration = new Date(Date.now() + (tour.cutoff_minutes ?? 60) * 60 * 1000).toISOString().replace(/\.\d{3}Z$/, "+00:00");
-    return gygJson(
-      { data: { reservationReference: existingRes.reservation_reference, reservationExpiration } },
       { status: 200 }
     );
   }
