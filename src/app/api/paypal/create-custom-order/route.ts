@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createPaypalOrder } from "@/lib/paypal/client";
+import { rateLimit, clientIp } from "@/lib/security/rateLimit";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { tour_id, date, start_time, guest_count, customer_phone } = body;
+
+  const rl = rateLimit(`create-custom-order:${clientIp(req)}`, 20);
+  if (!rl.ok) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
 
   if (!tour_id || !date || !start_time || !guest_count) {
     return NextResponse.json(

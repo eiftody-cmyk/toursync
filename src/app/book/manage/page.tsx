@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
 import { formatTime } from "@/lib/time";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -30,7 +30,7 @@ export default async function BookingManagePage({
   searchParams: Promise<{ id?: string; email?: string; action?: string; cancelled?: string; error?: string }>;
 }) {
   const params = await searchParams;
-  const supabase = await createClient();
+  const supabase = createServiceClient();
 
   // Single booking view
   if (params.id) {

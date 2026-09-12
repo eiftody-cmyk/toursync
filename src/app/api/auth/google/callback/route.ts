@@ -1,8 +1,14 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { exchangeCodeForTokens, encryptToken } from "@/lib/google/auth";
+import { rateLimit, clientIp } from "@/lib/security/rateLimit";
 
 export async function GET(request: NextRequest) {
+  const rl = rateLimit(`auth-callback:${clientIp(request)}`, 20);
+  if (!rl.ok) {
+    return NextResponse.redirect(`${new URL(request.url).origin}/settings?error=rate_limited`);
+  }
+
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
   const state = searchParams.get("state");

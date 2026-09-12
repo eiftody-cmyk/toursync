@@ -1,14 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { captureOrder } from "@/lib/paypal/client";
+import { captureOrder, getPaypalOrder } from "@/lib/paypal/client";
 import { sendEmail } from "@/lib/email/client";
 import { bookingConfirmationEmail } from "@/lib/email/booking-confirmation";
 import { operatorNotificationEmail } from "@/lib/email/operator-notification";
 import { customTimeNotificationEmail } from "@/lib/email/custom-time-notification";
+import { rateLimit, clientIp } from "@/lib/security/rateLimit";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { orderId, tour_id, date, start_time, guest_count, custom, customer_name, customer_email, customer_phone } = body;
+  const { orderId, tour_id, date, start_time, guest_count, custom, customer_phone } = body;
+
+  const rl = rateLimit(`capture:${clientIp(req)}`, 15);
+  if (!rl.ok) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
 
   if (!orderId || !tour_id || !date || !guest_count) {
     return NextResponse.json({ error: "orderId, tour_id, date, guest_count required" }, { status: 400 });
@@ -39,14 +45,65 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Tour not found" }, { status: 404 });
   }
 
+  // Verify the captured order matches what this server would have priced.
+  const isCustomTime = custom === true || custom === "true";
+  const guestCountNum = parseInt(String(guest_count), 10);
+  const expectedCustomId = isCustomTime
+    ? [
+        tour_id,
+        date,
+        start_time ?? "",
+        String(guestCountNum),
+        "custom=true",
+        encodeURIComponent(customer_phone || ""),
+      ].join("|")
+    : [tour_id, date, start_time ?? "", String(guestCountNum)].join("|");
+
+  let orderDetails;
+  try {
+    orderDetails = await getPaypalOrder(orderId);
+  } catch {
+    return NextResponse.json({ error: "Order verification failed" }, { status: 500 });
+  }
+
+  if (orderDetails.custom_id !== expectedCustomId) {
+    console.warn("[PayPal capture] custom_id mismatch — rejecting", {
+      expected: expectedCustomId,
+      actual: orderDetails.custom_id,
+    });
+    return NextResponse.json({ error: "Booking details do not match the paid order" }, { status: 400 });
+  }
+
+  // PayPal reports non-JPY amounts in major units (USD dollars); JPY stays integer.
+  const rawTotal = Math.round(tour.price * guestCountNum);
+  const expectedPaid = tour.currency === "JPY" ? rawTotal : rawTotal / 100;
+  const paidValue = Number(orderDetails.amount?.value);
+  if (Number.isNaN(paidValue) || Math.abs(paidValue - expectedPaid) > 0.01) {
+    console.warn("[PayPal capture] amount mismatch — rejecting", {
+      expected: expectedPaid,
+      actual: paidValue,
+    });
+    return NextResponse.json({ error: "Amount does not match the paid order" }, { status: 400 });
+  }
+
+  // Dedup: if a booking already references this PayPal order, don't create a second one.
+  const { data: existing } = await supabase
+    .from("bookings")
+    .select("id")
+    .ilike("notes", `%${orderId}%`)
+    .limit(1);
+
+  if (existing && existing.length > 0) {
+    return NextResponse.json({ ok: true, bookingId: existing[0].id, duplicate: true });
+  }
+
   const { data: operatorProfile } = await supabase
     .from("profiles")
     .select("email")
     .eq("id", tour.user_id)
     .single();
 
-  const isCustomTime = custom === true || custom === "true";
-  const guestCount = parseInt(String(guest_count), 10);
+  const guestCount = guestCountNum;
 
   // Server-side payer info is authoritative — extracted from PayPal capture response
   const serverPayerEmail = captureResult.payer?.email_address ?? null;

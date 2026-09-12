@@ -1,16 +1,233 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
-import { captureOrder } from "@/lib/paypal/client";
+import { createServiceClient } from "@/lib/supabase/service";
 import { sendEmail } from "@/lib/email/client";
+import { rateLimit, clientIp } from "@/lib/security/rateLimit";
 import { bookingConfirmationEmail } from "@/lib/email/booking-confirmation";
 import { operatorNotificationEmail } from "@/lib/email/operator-notification";
 import { customTimeNotificationEmail } from "@/lib/email/custom-time-notification";
 
-export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const eventType = body?.event_type;
+// --- PayPal webhook signature verification (Web Crypto, Worker-safe) ---
+// PayPal signs webhook payloads with ES256 (ECDSA-P256-SHA256) and publishes the
+// public key in the PEGA certificate at PAYPAL-CERT-URL. We fetch the cert, extract
+// the SubjectPublicKeyInfo, and verify the JWS signature over the exact request body.
 
-  // Only handle successful payments
+const b64url = (s: string) => s.replace(/-/g, "+").replace(/_/g, "/");
+const pad = (s: string) => s + "=".repeat((4 - (s.length % 4)) % 4);
+
+function pemToDer(pem: string): Uint8Array {
+  const b64 = pem
+    .replace(/-----BEGIN CERTIFICATE-----/g, "")
+    .replace(/-----END CERTIFICATE-----/g, "")
+    .replace(/\s+/g, "");
+  const bin = atob(b64);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+
+function readTlv(bytes: Uint8Array, start: number): { tag: number; length: number; valueStart: number; next: number } {
+  const tag = bytes[start];
+  let p = start + 1;
+  const first = bytes[p];
+  p += 1;
+  let length: number;
+  if ((first & 0x80) === 0) {
+    length = first;
+  } else {
+    const numBytes = first & 0x7f;
+    length = 0;
+    for (let i = 0; i < numBytes; i++) length = (length << 8) | bytes[p + i];
+    p += numBytes;
+  }
+  return { tag, length, valueStart: p, next: p + length };
+}
+
+// Extract SubjectPublicKeyInfo (SPKI) DER from an X.509 certificate DER.
+// Certificate ::= SEQUENCE { tbsCertificate SEQUENCE { ..., subjectPublicKeyInfo SEQUENCE } }
+// Within tbsCertificate, the SPKI is the SEQUENCE whose value starts with an
+// AlgorithmIdentifier (SEQUENCE) followed by a BIT STRING.
+// Returns the raw DER of the SPKI SEQUENCE (including its tag+length prefix).
+function extractSpki(certDer: Uint8Array): Uint8Array {
+  const outer = readTlv(certDer, 0);
+  if (outer.tag !== 0x30) throw new Error("Invalid certificate: no outer SEQUENCE");
+
+  const tbs = readTlv(certDer, outer.valueStart);
+  if (tbs.tag !== 0x30) throw new Error("Invalid certificate: no tbsCertificate");
+
+  // Walk the top-level TLVs of tbsCertificate looking for the SPKI structure.
+  let p = tbs.valueStart;
+  const tbsEnd = tbs.next;
+  while (p < tbsEnd) {
+    const tlv = readTlv(certDer, p);
+    if (tlv.tag === 0x30) {
+      // Candidate SEQUENCE — is its value an AlgorithmIdentifier + BIT STRING?
+      const alg = readTlv(certDer, tlv.valueStart);
+      const bitStr = readTlv(certDer, alg.next);
+      if (alg.tag === 0x30 && bitStr.tag === 0x03 && bitStr.next === tlv.next) {
+        // SPKI confirmed; return the whole SEQUENCE DER including prefix
+        return certDer.slice(p, tlv.next);
+      }
+    }
+    p = tlv.next;
+  }
+  throw new Error("Invalid certificate: no SubjectPublicKeyInfo found");
+}
+
+// Convert a DER-encoded ECDSA signature (r,s INTEGERs) to raw r||s format,
+// which is what WebCrypto's ECDSA verify expects.
+function derEcdsaToRaw(der: Uint8Array, rawLen: number): Uint8Array {
+  let p = 0;
+  if (der[p++] !== 0x30) throw new Error("ECDSA sig: no SEQUENCE");
+  const seqLen = der[p++];
+  p += seqLen & 0x80 ? seqLen & 0x7f : 0;
+
+  const ints: Uint8Array[] = [];
+  for (let i = 0; i < 2; i++) {
+    if (der[p++] !== 0x02) throw new Error("ECDSA sig: no INTEGER");
+    let l = der[p++];
+    if (l & 0x80) {
+      const n = l & 0x7f;
+      l = 0;
+      for (let j = 0; j < n; j++) l = (l << 8) | der[p++];
+    }
+    let v = der.subarray(p, p + l);
+    p += l;
+    while (v.length > 1 && v[0] === 0) v = v.subarray(1);
+    ints.push(v);
+  }
+
+  const raw = new Uint8Array(rawLen);
+  ints.forEach((v, i) => raw.set(v, 32 - v.length + i * 32));
+  return raw;
+}
+
+async function verifyWebhookSignature(
+  bodyBytes: Uint8Array,
+  headers: Headers
+): Promise<{ ok: boolean; reason?: string }> {
+  const certUrl = headers.get("paypal-cert-url");
+  const signature = headers.get("paypal-transmission-sig");
+  const algorithm = headers.get("paypal-auth-algo") ?? "";
+  const transmissionId = headers.get("paypal-transmission-id");
+  const transmissionTime = headers.get("paypal-transmission-time");
+
+  if (!certUrl || !signature || !transmissionId || !transmissionTime) {
+    return { ok: false, reason: "missing transmission headers" };
+  }
+
+  // Reject stale transmissions (skew > 5 minutes)
+  const skewMs = Math.abs(Date.now() - Date.parse(transmissionTime));
+  if (Number.isNaN(skewMs) || skewMs > 5 * 60 * 1000) {
+    return { ok: false, reason: "stale transmission time" };
+  }
+
+  let certPem: string;
+  try {
+    const res = await fetch(certUrl, { cache: "no-store" });
+    if (!res.ok) return { ok: false, reason: "cert fetch failed" };
+    certPem = await res.text();
+  } catch {
+    return { ok: false, reason: "cert fetch threw" };
+  }
+
+  const isRsa =
+    algorithm.toLowerCase().includes("sha256withrsa") || algorithm.toLowerCase().includes("rs256");
+
+  try {
+    const spkiRaw = extractSpki(pemToDer(certPem));
+    const spki = spkiRaw.buffer.slice(spkiRaw.byteOffset, spkiRaw.byteOffset + spkiRaw.byteLength) as ArrayBuffer;
+
+    let key: CryptoKey;
+    let ok: boolean;
+    const sigDecoded = new Uint8Array(atob(pad(b64url(signature))).split("").map((c) => c.charCodeAt(0)));
+
+    // WebCrypto types require ArrayBuffer-backed buffers.
+    const bodyBuf = bodyBytes.buffer.slice(
+      bodyBytes.byteOffset,
+      bodyBytes.byteOffset + bodyBytes.byteLength
+    ) as ArrayBuffer;
+
+    if (isRsa) {
+      key = await crypto.subtle.importKey(
+        "spki",
+        spki,
+        { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+        false,
+        ["verify"]
+      );
+      ok = await crypto.subtle.verify(
+        { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+        key,
+        sigDecoded,
+        bodyBuf
+      );
+    } else {
+      key = await crypto.subtle.importKey(
+        "spki",
+        spki,
+        { name: "ECDSA", namedCurve: "P-256" },
+        false,
+        ["verify"]
+      );
+      // PayPal ECDSA signatures can be DER-encoded or raw r||s (JWS). Normalize both.
+      const rawSig =
+        sigDecoded.length === 64
+          ? sigDecoded
+          : derEcdsaToRaw(sigDecoded, 64);
+      const sigBuf = rawSig.buffer.slice(rawSig.byteOffset, rawSig.byteOffset + rawSig.byteLength) as ArrayBuffer;
+      ok = await crypto.subtle.verify(
+        { name: "ECDSA", hash: "SHA-256" },
+        key,
+        sigBuf,
+        bodyBuf
+      );
+    }
+
+    return ok ? { ok: true } : { ok: false, reason: "signature mismatch" };
+  } catch (e) {
+    return { ok: false, reason: e instanceof Error ? `verify threw: ${e.message}` : "verify threw" };
+  }
+}
+
+export async function POST(req: NextRequest) {
+  const rawBody = await req.text();
+
+  // PayPal itself rate-limits retries; cap per-IP flood attempts.
+  const ip = clientIp(req);
+  const rl = rateLimit(`webhook:${ip}`, 30);
+  if (!rl.ok) {
+    return NextResponse.json({ ok: true, skipped: "rate limited" }, { status: 201 });
+  }
+
+  let body: {
+    event_type?: string;
+    resource?: {
+      id?: string;
+      custom_id?: string;
+      payer?: {
+        email_address?: string;
+        name?: { given_name?: string; surname?: string };
+      };
+    } | null;
+  };
+  try {
+    body = JSON.parse(rawBody) as typeof body;
+  } catch {
+    return NextResponse.json({ ok: true, skipped: "invalid json" }, { status: 201 });
+  }
+
+  const signatureValid = await verifyWebhookSignature(
+    new TextEncoder().encode(rawBody),
+    req.headers
+  );
+
+  if (!signatureValid.ok) {
+    console.warn("[PayPal webhook] Signature verification failed:", signatureValid.reason);
+    // 201 halts PayPal's automatic retries for an invalid event
+    return NextResponse.json({ ok: true, skipped: "invalid signature" }, { status: 201 });
+  }
+
+  const eventType = body?.event_type;
   if (eventType !== "PAYMENT.CAPTURE.COMPLETED") {
     return NextResponse.json({ ok: true, skipped: true });
   }
@@ -37,7 +254,6 @@ export async function POST(req: NextRequest) {
   const guestCount = parseInt(guestCountStr, 10);
   const isCustomTime = customFlag === "custom=true";
 
-  // Phone is at parts[5] (optional)
   const customerPhone = isCustomTime && parts[5] ? decodeURIComponent(parts[5]) : null;
 
   if (!tourId || !date || !guestCount || guestCount < 1) {
@@ -45,9 +261,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, skipped: true });
   }
 
-  const supabase = await createClient();
+  const supabase = createServiceClient();
 
-  // Get the tour details and owner info
+  const paypalOrderId = body?.resource?.id;
+
+  // Dedup: if a booking already references this PayPal capture, skip — the
+  // capture-order route already created it. Guards against doubled deliveries.
+  if (paypalOrderId) {
+    const { data: existing } = await supabase
+      .from("bookings")
+      .select("id")
+      .ilike("notes", `%${paypalOrderId}%`)
+      .limit(1);
+
+    if (existing && existing.length > 0) {
+      console.log(`[PayPal webhook] Duplicate event for order ${paypalOrderId} — skipping`);
+      return NextResponse.json({ ok: true, skipped: "duplicate" });
+    }
+  }
+
   const { data: tour } = await supabase
     .from("tours")
     .select("user_id, name, price, currency")
@@ -59,20 +291,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, skipped: true });
   }
 
-  // Get operator email
   const { data: operatorProfile } = await supabase
     .from("profiles")
     .select("email")
     .eq("id", tour.user_id)
     .single();
 
-  // Extract payer info — always from PayPal, not from custom_id
   const payerEmail = resource?.payer?.email_address ?? null;
   const payerName = resource?.payer?.name?.given_name
     ? `${resource.payer.name.given_name} ${resource.payer.name.surname ?? ""}`.trim()
     : null;
 
-  // Create the booking
   const { data: booking, error } = await supabase
     .from("bookings")
     .insert({
@@ -103,7 +332,6 @@ export async function POST(req: NextRequest) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
 
   if (isCustomTime) {
-    // Custom time: send notification to Edward (not confirmation to customer)
     if (operatorProfile?.email) {
       const notificationEmail = customTimeNotificationEmail({
         tourName: tour.name,
@@ -123,7 +351,6 @@ export async function POST(req: NextRequest) {
       }).catch((e) => console.error("[PayPal webhook] Custom time notification email failed:", e));
     }
   } else {
-    // Instant book: send confirmation to customer
     if (payerEmail && tour.price) {
       const confirmationEmail = bookingConfirmationEmail({
         tourName: tour.name,
@@ -143,7 +370,6 @@ export async function POST(req: NextRequest) {
       }).catch((e) => console.error("[PayPal webhook] Confirmation email failed:", e));
     }
 
-    // Send notification email to operator
     if (operatorProfile?.email) {
       const notificationEmail = operatorNotificationEmail({
         operatorEmail: operatorProfile.email,
@@ -164,7 +390,6 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Insert in-app notification for operator
   const guestWord = guestCount === 1 ? "guest" : "guests";
   supabase
     .from("notifications")
@@ -179,7 +404,6 @@ export async function POST(req: NextRequest) {
       if (notifError) console.error("[PayPal webhook] Notification insert failed:", notifError.message);
     });
 
-  // Check auto-block (skip for custom time — Edward confirms manually)
   if (!isCustomTime) {
     const { data: tourCap } = await supabase
       .from("tours")
@@ -198,7 +422,6 @@ export async function POST(req: NextRequest) {
     const totalBooked = (allBookings ?? []).reduce((sum, b) => sum + (b.guest_count ?? 0), 0);
 
     if (tourCap && totalBooked >= tourCap.capacity) {
-      // Auto-block on Google Calendar if connected
       try {
         await fetch(`${baseUrl}/api/calendar/block`, {
           method: "POST",

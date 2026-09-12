@@ -116,3 +116,38 @@ export async function captureOrder(orderId: string): Promise<PayPalCaptureResult
 
   return res.json();
 }
+
+export interface PayPalOrderDetails {
+  id: string;
+  status: string;
+  custom_id?: string;
+  amount?: {
+    currency_code: string;
+    value: string;
+  };
+}
+
+export async function getPaypalOrder(orderId: string): Promise<PayPalOrderDetails> {
+  const token = await getAccessToken();
+
+  const res = await fetch(`${PAYPAL_BASE}/v2/checkout/orders/${orderId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(`PayPal order fetch failed: ${JSON.stringify(err)}`);
+  }
+
+  const data = await res.json();
+  return {
+    id: data.id,
+    status: data.status,
+    custom_id: data?.purchase_units?.[0]?.custom_id,
+    amount: data?.purchase_units?.[0]?.amount,
+  };
+}
