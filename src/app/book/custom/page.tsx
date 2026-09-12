@@ -7,8 +7,8 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Book a Tour — Osaka Castle Walks with Edward",
   icons: {
-    icon: "/favicon-castle.png",
-    apple: "/apple-touch-icon-castle.png",
+    icon: "/favicon.png",
+    apple: "/favicon.png",
   },
 };
 
