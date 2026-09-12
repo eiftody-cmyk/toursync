@@ -33,6 +33,7 @@
 - Option ID: 1926861
 - Config: time_period, individual (09:00-18:00)
 - Pricing: ADULT ¥28,000
+- Capacity: 4 (max guests)
 
 ### Time Period Group - Photography after dark
 - Product ID: 1c2535d2-a946-4da6-ad35-5df42339323e
