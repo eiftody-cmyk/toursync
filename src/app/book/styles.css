@@ -502,6 +502,24 @@ input[type="time"] {
   opacity: 0.5;
 }
 
+.calendar-day .day-booked {
+  font-size: 0.5rem;
+  line-height: 1;
+  margin-top: 1px;
+  color: #7f1d1d;
+  font-weight: 600;
+}
+
+.calendar-day.available .day-booked {
+  opacity: 0.9;
+}
+
+.slot-booked {
+  color: #7f1d1d;
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   .booking-header {

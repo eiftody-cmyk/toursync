@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { PayPalPayment } from "@/components/PayPalPayment";
@@ -67,28 +67,52 @@ export function BookingPageClient({ tour, companyName, paypalClientId }: Booking
   const [viewMonth, setViewMonth] = useState(now.getMonth());
   const [viewYear, setViewYear] = useState(now.getFullYear());
 
-  useEffect(() => {
-    fetch(`/api/book/available-dates?tour_id=${tour.id}`)
-      .then((r) => r.json())
-      .then((d) => setDateData({ available: d.available ?? [], blocked: d.blocked ?? [], full: d.full ?? [] }))
-      .catch(() => setDateData({ available: [], blocked: [], full: [] }))
-      .finally(() => setLoading(false));
-  }, [tour.id]);
+  const load = useCallback(async (tourId: string) => {
+    try {
+      const r = await fetch(`/api/book/available-dates?tour_id=${tourId}&t=${Date.now()}`);
+      const d = await r.json();
+      setDateData({ available: d.available ?? [], blocked: d.blocked ?? [], full: d.full ?? [] });
+    } catch {
+      setDateData({ available: [], blocked: [], full: [] });
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  // Availability lookup: date -> max remaining across all slots
+  useEffect(() => {
+    load(tour.id);
+  }, [tour.id, load]);
+
+  // Refetch whenever the tab regains focus/visibility so bookings made in
+  // the dashboard show up on the calendar without a manual refresh.
+  useEffect(() => {
+    const refresh = () => {
+      if (document.visibilityState === "visible") load(tour.id);
+    };
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", refresh);
+    return () => {
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", refresh);
+    };
+  }, [tour.id, load]);
+
+  // Availability lookup: date -> max remaining across all slots (+ total booked)
   const dateAvailability = useMemo(() => {
-    const map = new Map<string, { totalRemaining: number; slots: AvailableDate[] }>();
+    const map = new Map<string, { totalRemaining: number; booked: number; slots: AvailableDate[] }>();
     for (const d of dateData.available) {
       const existing = map.get(d.date);
+      const slotBooked = Math.max(0, tour.capacity - (d.remaining ?? 0));
       if (existing) {
         existing.totalRemaining += d.remaining;
+        existing.booked += slotBooked;
         existing.slots.push(d);
       } else {
-        map.set(d.date, { totalRemaining: d.remaining, slots: [d] });
+        map.set(d.date, { totalRemaining: d.remaining, booked: slotBooked, slots: [d] });
       }
     }
     return map;
-  }, [dateData]);
+  }, [dateData, tour.capacity]);
 
   const blockedSet = useMemo(() => new Set(dateData.blocked), [dateData]);
   const fullSet = useMemo(() => new Set(dateData.full), [dateData]);
@@ -239,7 +263,12 @@ export function BookingPageClient({ tour, companyName, paypalClientId }: Booking
                     >
                       <span className="day-number">{date.getDate()}</span>
                       {isAvailable && availability && (
-                        <span className="day-spots">{availability.totalRemaining} spots</span>
+                        <>
+                          <span className="day-spots">{availability.totalRemaining} spots</span>
+                          {availability.booked > 0 && (
+                            <span className="day-booked">{availability.booked} booked</span>
+                          )}
+                        </>
                       )}
                       {isUnavailable && <span className="day-spots">full</span>}
                     </div>
@@ -271,6 +300,9 @@ export function BookingPageClient({ tour, companyName, paypalClientId }: Booking
                         <span className="slot-time">{slot.start_time}</span>
                         <span className={`slot-spots ${slot.remaining <= 2 ? "low" : ""}`}>
                           {slot.remaining} spot{slot.remaining === 1 ? "" : "s"}
+                          {tour.capacity - slot.remaining > 0 && (
+                            <span className="slot-booked"> · {tour.capacity - slot.remaining} booked</span>
+                          )}
                         </span>
                       </button>
                     );
