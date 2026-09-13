@@ -220,6 +220,7 @@ export function BookingPageClient({ tour, companyName, paypalClientId }: Booking
                   const isPast = dateStr < todayStr;
                   const isBlocked = blockedSet.has(dateStr);
                   const isFull = fullSet.has(dateStr);
+                  const isUnavailable = isBlocked || isFull;
                   const availability = dateAvailability.get(dateStr);
                   const isAvailable = !!availability;
                   const isSelected = selectedDate === dateStr;
@@ -227,8 +228,7 @@ export function BookingPageClient({ tour, companyName, paypalClientId }: Booking
                   let className = "calendar-day";
                   if (isPast) className += " past";
                   else if (isSelected) className += " selected";
-                  else if (isBlocked) className += " blocked";
-                  else if (isFull) className += " full";
+                  else if (isUnavailable) className += " full";
                   else if (isAvailable) className += " available";
 
                   return (
@@ -238,11 +238,10 @@ export function BookingPageClient({ tour, companyName, paypalClientId }: Booking
                       onClick={() => !isPast && handleDayClick(date)}
                     >
                       <span className="day-number">{date.getDate()}</span>
-                      {isAvailable && !isBlocked && availability && (
+                      {isAvailable && availability && (
                         <span className="day-spots">{availability.totalRemaining} spots</span>
                       )}
-                      {isBlocked && <span className="day-spots">blocked</span>}
-                      {isFull && <span className="day-spots">full</span>}
+                      {isUnavailable && <span className="day-spots">full</span>}
                     </div>
                   );
                 })}
@@ -252,9 +251,6 @@ export function BookingPageClient({ tour, companyName, paypalClientId }: Booking
               <div className="calendar-legend">
                 <span className="legend-item">
                   <span className="legend-dot available" /> Available
-                </span>
-                <span className="legend-item">
-                  <span className="legend-dot blocked" /> Blocked
                 </span>
                 <span className="legend-item">
                   <span className="legend-dot full" /> Full
