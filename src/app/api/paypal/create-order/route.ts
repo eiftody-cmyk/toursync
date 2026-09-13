@@ -31,20 +31,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Tour has no price set" }, { status: 400 });
   }
 
-  // Cutoff validation — reject if start_time + cutoff has passed
-  const cutoffMinutes = tour.cutoff_minutes ?? 60;
-  const now = new Date();
-  const todayStr = now.toISOString().split("T")[0];
-  if (date === todayStr && start_time) {
-    const nowMinutes = now.getHours() * 60 + now.getMinutes();
-    const [h, m] = start_time.split(":").map(Number);
-    const slotMinutes = h * 60 + m;
-    if (nowMinutes >= slotMinutes + cutoffMinutes) {
-      return NextResponse.json({ error: "This tour time has already passed the booking cutoff" }, { status: 400 });
-    }
-  }
-
-  // Check remaining capacity
+  // Check existing confirmed bookings (also used for the last-minute booking exception)
   const { data: bookings } = await supabase
     .from("bookings")
     .select("guest_count")
@@ -52,6 +39,22 @@ export async function POST(req: NextRequest) {
     .eq("date", date)
     .eq("start_time", start_time ?? null)
     .eq("status", "confirmed");
+
+  // Cutoff validation (Japan time): a slot closes at start − cutoff,
+  // or start − 5 min if a confirmed booking already exists at that slot.
+  const cutoffMinutes = tour.cutoff_minutes ?? 60;
+  const jst = new Date(Date.now() + 9 * 60 * 60 * 1000);
+  const todayStr = `${jst.getUTCFullYear()}-${String(jst.getUTCMonth() + 1).padStart(2, "0")}-${String(jst.getUTCDate()).padStart(2, "0")}`;
+  if (date === todayStr && start_time) {
+    const nowMinutes = jst.getUTCHours() * 60 + jst.getUTCMinutes();
+    const [h, m] = start_time.split(":").map(Number);
+    const slotMinutes = h * 60 + m;
+    const existingBooking = (bookings ?? []).length > 0;
+    const effectiveCutoff = cutoffMinutes === 0 ? 0 : existingBooking ? 5 : cutoffMinutes;
+    if (nowMinutes >= slotMinutes - effectiveCutoff) {
+      return NextResponse.json({ error: "This tour time has already passed the booking cutoff" }, { status: 400 });
+    }
+  }
 
   const { data: blocked } = await supabase
     .from("blocked_dates")
