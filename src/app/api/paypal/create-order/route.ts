@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   const supabase = createServiceClient();
   const { data: tour } = await supabase
     .from("tours")
-    .select("name, price, currency, cutoff_minutes")
+    .select("name, price, currency, cutoff_minutes, new_guest_cutoff_minutes")
     .eq("id", tour_id)
     .single();
 
@@ -40,9 +40,10 @@ export async function POST(req: NextRequest) {
     .eq("start_time", start_time ?? null)
     .eq("status", "confirmed");
 
-  // Cutoff validation (Japan time): a slot closes at start − cutoff,
-  // or start − 5 min if a confirmed booking already exists at that slot.
+  // Cutoff validation (Japan time): a slot closes at start − cutoff, or start −
+  // new-guest cutoff (default: same) if a confirmed booking already exists.
   const cutoffMinutes = tour.cutoff_minutes ?? 60;
+  const newGuestCutoff = tour.new_guest_cutoff_minutes ?? null;
   const jst = new Date(Date.now() + 9 * 60 * 60 * 1000);
   const todayStr = `${jst.getUTCFullYear()}-${String(jst.getUTCMonth() + 1).padStart(2, "0")}-${String(jst.getUTCDate()).padStart(2, "0")}`;
   if (date === todayStr && start_time) {
@@ -50,7 +51,7 @@ export async function POST(req: NextRequest) {
     const [h, m] = start_time.split(":").map(Number);
     const slotMinutes = h * 60 + m;
     const existingBooking = (bookings ?? []).length > 0;
-    const effectiveCutoff = cutoffMinutes === 0 ? 0 : existingBooking ? 5 : cutoffMinutes;
+    const effectiveCutoff = cutoffMinutes === 0 ? 0 : existingBooking ? (newGuestCutoff ?? cutoffMinutes) : cutoffMinutes;
     if (nowMinutes >= slotMinutes - effectiveCutoff) {
       return NextResponse.json({ error: "This tour time has already passed the booking cutoff" }, { status: 400 });
     }

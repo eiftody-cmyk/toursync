@@ -8,6 +8,7 @@ export type Tour = {
   currency: string;
   google_calendar_id: string | null;
   cutoff_minutes: number;
+  new_guest_cutoff_minutes: number | null;
   product_type: "time_point" | "time_period";
   ticket_type: "individual" | "group";
   group_size_min: number;

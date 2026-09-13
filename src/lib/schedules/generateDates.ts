@@ -98,15 +98,16 @@ export async function generateAvailableDates(
     return { available: [], blocked: allDayBlockedDatesInRange, full: [] };
   }
 
-  // 4. Fetch tour capacity and cutoff
+  // 4. Fetch tour capacity and cutoffs
   const { data: tour } = await supabase
     .from("tours")
-    .select("capacity, cutoff_minutes")
+    .select("capacity, cutoff_minutes, new_guest_cutoff_minutes")
     .eq("id", tourId)
     .single();
 
   const capacity = tour?.capacity ?? 10;
   const cutoffMinutes = tour?.cutoff_minutes ?? 60;
+  const newGuestCutoff = tour?.new_guest_cutoff_minutes ?? null;
 
   // Track all dates that have a schedule (for blocked detection)
   const allScheduledDates = new Set<string>();
@@ -190,11 +191,12 @@ export async function generateAvailableDates(
     const booked = bookedMap[timeKey] ?? 0;
     const remaining = capacity - booked;
 
-    // Today only: a slot closes at start − cutoff, or start − 5 min if already booked.
+    // Today only: a slot closes at start − cutoff, or start − new-guest
+    // cutoff (default: same) once a confirmed booking already exists.
     if (date === todayJst) {
       const [h, m] = normalizeTime(schedule.start_time).split(":").map(Number);
       const slotStartMin = h * 60 + m;
-      const effectiveCutoff = cutoffMinutes === 0 ? 0 : booked > 0 ? 5 : cutoffMinutes;
+      const effectiveCutoff = cutoffMinutes === 0 ? 0 : booked > 0 ? (newGuestCutoff ?? cutoffMinutes) : cutoffMinutes;
       if (nowMinutesJst >= slotStartMin - effectiveCutoff) continue;
     }
 

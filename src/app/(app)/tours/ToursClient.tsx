@@ -58,6 +58,7 @@ export function ToursClient({
     price: string;
     currency: string;
     cutoff_minutes: string;
+    new_guest_cutoff_minutes: string;
     product_type: "time_point" | "time_period";
     ticket_type: "individual" | "group";
     group_size_min: string;
@@ -71,6 +72,7 @@ export function ToursClient({
     price: "9500",
     currency: "JPY",
     cutoff_minutes: "60",
+    new_guest_cutoff_minutes: "60",
     product_type: "time_point",
     ticket_type: "individual",
     group_size_min: "",
@@ -109,6 +111,7 @@ export function ToursClient({
     setEditing(null);
     setForm({
       name: "", description: "", capacity: "6", price: "9500", currency: "JPY", cutoff_minutes: "60",
+      new_guest_cutoff_minutes: "60",
       product_type: "time_point", ticket_type: "individual",
       group_size_min: "", group_size_max: "",
       opening_from: "09:00", opening_to: "18:00",
@@ -127,6 +130,7 @@ export function ToursClient({
       price: t.price != null ? String(t.price) : "",
       currency: t.currency || "JPY",
       cutoff_minutes: String(t.cutoff_minutes ?? 60),
+      new_guest_cutoff_minutes: t.new_guest_cutoff_minutes != null ? String(t.new_guest_cutoff_minutes) : String(t.cutoff_minutes ?? 60),
       product_type: t.product_type ?? "time_point",
       ticket_type: t.ticket_type ?? "individual",
       group_size_min: t.group_size_min != null ? String(t.group_size_min) : "",
@@ -165,14 +169,22 @@ export function ToursClient({
     if (form.ticket_type === "group") {
       if (!groupSizeMin || !groupSizeMax) {
         toast.error("Group tours require min and max group size");
-        setLoading(false);
         return;
       }
       if (groupSizeMin > groupSizeMax) {
         toast.error("Min group size must be <= max group size");
-        setLoading(false);
         return;
       }
+    }
+
+    const newGuestCutoff = parseInt(form.new_guest_cutoff_minutes, 10);
+    if (Number.isNaN(newGuestCutoff)) {
+      toast.error("New guest cut-off must be a number");
+      return;
+    }
+    if (newGuestCutoff !== 0 && newGuestCutoff < 60) {
+      toast.error("New guest cut-off must be 0 (no cutoff) or at least 60 minutes");
+      return;
     }
 
     setLoading(true);
@@ -184,6 +196,7 @@ export function ToursClient({
       price: form.price ? parseFloat(form.price) : null,
       currency: form.currency.trim() || "JPY",
       cutoff_minutes: parseInt(form.cutoff_minutes, 10) || 60,
+      new_guest_cutoff_minutes: form.new_guest_cutoff_minutes.trim() === "" ? null : newGuestCutoff,
       product_type: form.product_type,
       ticket_type: form.ticket_type,
       group_size_min: groupSizeMin,
@@ -402,7 +415,7 @@ export function ToursClient({
                 </div>
               </div>
               <div>
-                <Label htmlFor="cutoff">Booking Cutoff (minutes before start)</Label>
+                <Label htmlFor="cutoff">Booking Cut-off (no spots booked)</Label>
                 <Input
                   id="cutoff"
                   type="number"
@@ -411,6 +424,19 @@ export function ToursClient({
                   onChange={(e) => setForm({ ...form, cutoff_minutes: e.target.value })}
                 />
                 <p className="text-xs text-muted-foreground mt-1">Default: 60 minutes. Set to 0 for no cutoff.</p>
+              </div>
+              <div>
+                <Label htmlFor="ngcutoff">New Guest Cut-off (some spots already booked)</Label>
+                <Input
+                  id="ngcutoff"
+                  type="number"
+                  min={0}
+                  value={form.new_guest_cutoff_minutes}
+                  onChange={(e) => setForm({ ...form, new_guest_cutoff_minutes: e.target.value })}
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  How late additional guests can join an already-booked slot. Minimum 60 minutes (Airbnb-style); 0 for no cutoff.
+                </p>
               </div>
 
               {/* Product Type & Ticket Type */}
@@ -602,7 +628,7 @@ export function ToursClient({
                   <CardTitle className="text-base flex items-center justify-between">
                     <span>{t.name}</span>
                     <Badge variant="secondary">
-                      {t.capacity} guests · {t.price ? `${t.price} ${t.currency}` : "no price"} · {t.cutoff_minutes ?? 60}min cutoff · {t.product_type === "time_period" ? "Time Period" : "Time Point"} · {t.ticket_type === "group" ? "Group" : "Individual"}
+                      {t.capacity} guests · {t.price ? `${t.price} ${t.currency}` : "no price"} · {t.cutoff_minutes ?? 60}min cutoff / {t.new_guest_cutoff_minutes != null ? t.new_guest_cutoff_minutes : (t.cutoff_minutes ?? 60)}min new-guest · {t.product_type === "time_period" ? "Time Period" : "Time Point"} · {t.ticket_type === "group" ? "Group" : "Individual"}
                     </Badge>
                   </CardTitle>
                   {t.description && <p className="text-sm text-muted-foreground">{t.description}</p>}

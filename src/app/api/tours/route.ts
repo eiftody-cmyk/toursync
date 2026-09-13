@@ -36,6 +36,22 @@ export async function POST(request: Request) {
   const currency = typeof body.currency === "string" && body.currency.trim() ? body.currency.trim() : "JPY";
   const cutoffMinutes = typeof body.cutoff_minutes === "number" && body.cutoff_minutes >= 0 ? body.cutoff_minutes : 60;
 
+  let newGuestCutoffMinutes: number | null = null;
+  if ("new_guest_cutoff_minutes" in body) {
+    if (body.new_guest_cutoff_minutes === null) {
+      newGuestCutoffMinutes = null;
+    } else if (typeof body.new_guest_cutoff_minutes === "number") {
+      const v = body.new_guest_cutoff_minutes;
+      if (v !== 0 && v < 60) {
+        return NextResponse.json(
+          { error: "new_guest_cutoff_minutes must be 0 (no cutoff) or at least 60 minutes" },
+          { status: 400 }
+        );
+      }
+      newGuestCutoffMinutes = v;
+    }
+  }
+
   let groupSizeMin: number | null = null;
   let groupSizeMax: number | null = null;
 
@@ -66,6 +82,7 @@ export async function POST(request: Request) {
     price,
     currency,
     cutoff_minutes: cutoffMinutes,
+    new_guest_cutoff_minutes: newGuestCutoffMinutes,
     product_type: productType,
     ticket_type: ticketType,
     group_size_min: groupSizeMin,
@@ -131,6 +148,21 @@ export async function PATCH(request: Request) {
 
   if (typeof body.cutoff_minutes === "number" && body.cutoff_minutes >= 0) {
     update.cutoff_minutes = body.cutoff_minutes;
+  }
+
+  if ("new_guest_cutoff_minutes" in body) {
+    if (body.new_guest_cutoff_minutes === null) {
+      update.new_guest_cutoff_minutes = null;
+    } else if (typeof body.new_guest_cutoff_minutes === "number") {
+      const v = body.new_guest_cutoff_minutes;
+      if (v !== 0 && v < 60) {
+        return NextResponse.json(
+          { error: "new_guest_cutoff_minutes must be 0 (no cutoff) or at least 60 minutes" },
+          { status: 400 }
+        );
+      }
+      update.new_guest_cutoff_minutes = v;
+    }
   }
 
   if (typeof body.product_type === "string") {
