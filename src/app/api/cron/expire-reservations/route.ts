@@ -11,7 +11,17 @@ import { expireReservations } from '@/lib/core/reservations';
  */
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get('authorization');
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const expected = `Bearer ${process.env.CRON_SECRET}`;
+
+  // Constant-time comparison to prevent timing attacks
+  if (authHeader?.length !== expected.length) {
+    return new Response('Unauthorized', { status: 401 });
+  }
+  let diff = 0;
+  for (let i = 0; i < authHeader.length; i++) {
+    diff |= authHeader.charCodeAt(i) ^ expected.charCodeAt(i);
+  }
+  if (diff !== 0) {
     return new Response('Unauthorized', { status: 401 });
   }
 

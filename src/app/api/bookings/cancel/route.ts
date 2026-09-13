@@ -2,8 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { sendEmail } from "@/lib/email/client";
 import { cancellationConfirmationEmail } from "@/lib/email/cancellation-confirmation";
+import { rateLimit, clientIp } from "@/lib/security/rateLimit";
 
 export async function POST(req: NextRequest) {
+  const rl = rateLimit(`cancel:${clientIp(req)}`, 5);
+  if (!rl.ok) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   const formData = await req.formData();
   const bookingId = formData.get("booking_id") as string;
 

@@ -73,27 +73,11 @@ export function PayPalPayment({
     setProcessing(true);
     setStatusMsg("Confirming payment with PayPal...");
     try {
-      // Get full order details from PayPal (name + email come from here)
-      const orderDetails = actions?.order ? await actions.order.get() : null;
-      const payer = orderDetails?.payer;
-
       setStatusMsg("Creating your booking...");
       const res = await fetch("/api/paypal/capture-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderId: data.orderID,
-          tour_id: tourId,
-          date,
-          start_time: startTime,
-          guest_count: guestCount,
-          custom: custom ? "true" : undefined,
-          customer_phone: customerPhone,
-          payerEmail: payer?.email_address,
-          payerName: payer?.name
-            ? `${payer.name.given_name} ${payer.name.surname}`.trim()
-            : undefined,
-        }),
+        body: JSON.stringify({ orderId: data.orderID }),
       });
 
       const result = await res.json();
@@ -124,36 +108,41 @@ export function PayPalPayment({
         "enable-funding": "venmo,paylater",
       }}
     >
-      <div style={{ opacity: processing ? 0.6 : 1, pointerEvents: processing ? "none" : "auto" }}>
-        <PayPalButtons
-          style={{
-            layout: "vertical",
-            color: "blue",
-            shape: "rect",
-            label: "pay",
-            height: 50,
-          }}
-          createOrder={createOrder}
-          onApprove={onApprove}
-          onError={() => {
-            const msg = "Payment failed. Please try again.";
-            setStatusMsg(`Error: ${msg}`);
-            onError?.(msg);
-          }}
-        />
-        {statusMsg && (
-          <p style={{
-            textAlign: "center",
-            fontSize: "0.85rem",
-            marginTop: "0.75rem",
-            padding: "0.5rem 0.75rem",
-            borderRadius: "6px",
-            color: statusMsg.startsWith("Error:") ? "#dc3545" : "var(--parchment-dim)",
-            backgroundColor: statusMsg.startsWith("Error:") ? "#f8d7da" : "transparent",
-          }}>
-            {statusMsg}
-          </p>
-        )}
+      <div className="paypal-wrap">
+        <div style={{ opacity: processing ? 0.6 : 1, pointerEvents: processing ? "none" : "auto" }}>
+          <PayPalButtons
+            style={{
+              layout: "vertical",
+              color: "blue",
+              shape: "rect",
+              label: "pay",
+              height: 50,
+            }}
+            createOrder={createOrder}
+            onApprove={onApprove}
+            onError={() => {
+              const msg = "Payment failed. Please try again.";
+              setStatusMsg(`Error: ${msg}`);
+              onError?.(msg);
+            }}
+          />
+          {statusMsg && (
+            <p
+              className="paypal-status"
+              style={{
+                textAlign: "center",
+                fontSize: "0.85rem",
+                marginTop: "0.75rem",
+                padding: "0.5rem 0.75rem",
+                borderRadius: "6px",
+                color: statusMsg.startsWith("Error:") ? "#dc3545" : "var(--parchment-dim)",
+                backgroundColor: statusMsg.startsWith("Error:") ? "#f8d7da" : "transparent",
+              }}
+            >
+              {statusMsg}
+            </p>
+          )}
+        </div>
       </div>
     </PayPalScriptProvider>
   );

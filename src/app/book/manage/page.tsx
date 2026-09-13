@@ -12,6 +12,9 @@ export const metadata: Metadata = {
     icon: "/favicon.png",
     apple: "/favicon.png",
   },
+  other: {
+    referrer: "no-referrer",
+  },
 };
 
 function formatDate(dateStr: string): string {

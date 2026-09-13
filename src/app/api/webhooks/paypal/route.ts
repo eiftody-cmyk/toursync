@@ -6,10 +6,29 @@ import { bookingConfirmationEmail } from "@/lib/email/booking-confirmation";
 import { operatorNotificationEmail } from "@/lib/email/operator-notification";
 import { customTimeNotificationEmail } from "@/lib/email/custom-time-notification";
 
-// --- PayPal webhook signature verification (Web Crypto, Worker-safe) ---
-// PayPal signs webhook payloads with ES256 (ECDSA-P256-SHA256) and publishes the
-// public key in the PEGA certificate at PAYPAL-CERT-URL. We fetch the cert, extract
-// the SubjectPublicKeyInfo, and verify the JWS signature over the exact request body.
+// --- PayPal webhook signature verification ---
+// PayPal signs: transmissionId|timeStamp|webhookId|crc32(body)
+// We verify the signature over this canonical string using the cert from paypal-cert-url.
+
+const WEBHOOK_ID = process.env.PAYPAL_WEBHOOK_ID ?? "";
+
+// CRC32 lookup table (IEEE 802.3 polynomial)
+const crc32Table = new Uint32Array(256);
+for (let i = 0; i < 256; i++) {
+  let c = i;
+  for (let j = 0; j < 8; j++) {
+    c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+  }
+  crc32Table[i] = c;
+}
+
+function crc32(bytes: Uint8Array): number {
+  let crc = 0xffffffff;
+  for (let i = 0; i < bytes.length; i++) {
+    crc = crc32Table[(crc ^ bytes[i]) & 0xff] ^ (crc >>> 8);
+  }
+  return (crc ^ 0xffffffff) >>> 0;
+}
 
 const b64url = (s: string) => s.replace(/-/g, "+").replace(/_/g, "/");
 const pad = (s: string) => s + "=".repeat((4 - (s.length % 4)) % 4);
@@ -42,11 +61,6 @@ function readTlv(bytes: Uint8Array, start: number): { tag: number; length: numbe
   return { tag, length, valueStart: p, next: p + length };
 }
 
-// Extract SubjectPublicKeyInfo (SPKI) DER from an X.509 certificate DER.
-// Certificate ::= SEQUENCE { tbsCertificate SEQUENCE { ..., subjectPublicKeyInfo SEQUENCE } }
-// Within tbsCertificate, the SPKI is the SEQUENCE whose value starts with an
-// AlgorithmIdentifier (SEQUENCE) followed by a BIT STRING.
-// Returns the raw DER of the SPKI SEQUENCE (including its tag+length prefix).
 function extractSpki(certDer: Uint8Array): Uint8Array {
   const outer = readTlv(certDer, 0);
   if (outer.tag !== 0x30) throw new Error("Invalid certificate: no outer SEQUENCE");
@@ -54,17 +68,14 @@ function extractSpki(certDer: Uint8Array): Uint8Array {
   const tbs = readTlv(certDer, outer.valueStart);
   if (tbs.tag !== 0x30) throw new Error("Invalid certificate: no tbsCertificate");
 
-  // Walk the top-level TLVs of tbsCertificate looking for the SPKI structure.
   let p = tbs.valueStart;
   const tbsEnd = tbs.next;
   while (p < tbsEnd) {
     const tlv = readTlv(certDer, p);
     if (tlv.tag === 0x30) {
-      // Candidate SEQUENCE — is its value an AlgorithmIdentifier + BIT STRING?
       const alg = readTlv(certDer, tlv.valueStart);
       const bitStr = readTlv(certDer, alg.next);
       if (alg.tag === 0x30 && bitStr.tag === 0x03 && bitStr.next === tlv.next) {
-        // SPKI confirmed; return the whole SEQUENCE DER including prefix
         return certDer.slice(p, tlv.next);
       }
     }
@@ -73,8 +84,6 @@ function extractSpki(certDer: Uint8Array): Uint8Array {
   throw new Error("Invalid certificate: no SubjectPublicKeyInfo found");
 }
 
-// Convert a DER-encoded ECDSA signature (r,s INTEGERs) to raw r||s format,
-// which is what WebCrypto's ECDSA verify expects.
 function derEcdsaToRaw(der: Uint8Array, rawLen: number): Uint8Array {
   let p = 0;
   if (der[p++] !== 0x30) throw new Error("ECDSA sig: no SEQUENCE");
@@ -115,6 +124,21 @@ async function verifyWebhookSignature(
     return { ok: false, reason: "missing transmission headers" };
   }
 
+  if (!WEBHOOK_ID) {
+    return { ok: false, reason: "PAYPAL_WEBHOOK_ID not configured" };
+  }
+
+  // Validate cert URL is from PayPal
+  let certHost: URL;
+  try {
+    certHost = new URL(certUrl);
+  } catch {
+    return { ok: false, reason: "invalid cert URL" };
+  }
+  if (!certHost.hostname.endsWith(".paypal.com") && certHost.hostname !== "paypal.com") {
+    return { ok: false, reason: "cert URL not from paypal.com" };
+  }
+
   // Reject stale transmissions (skew > 5 minutes)
   const skewMs = Math.abs(Date.now() - Date.parse(transmissionTime));
   if (Number.isNaN(skewMs) || skewMs > 5 * 60 * 1000) {
@@ -130,6 +154,11 @@ async function verifyWebhookSignature(
     return { ok: false, reason: "cert fetch threw" };
   }
 
+  // Build the canonical message: transmissionId|timeStamp|webhookId|crc32
+  const bodyCrc = crc32(bodyBytes);
+  const canonicalMessage = `${transmissionId}|${transmissionTime}|${WEBHOOK_ID}|${bodyCrc}`;
+  const messageBytes = new TextEncoder().encode(canonicalMessage);
+
   const isRsa =
     algorithm.toLowerCase().includes("sha256withrsa") || algorithm.toLowerCase().includes("rs256");
 
@@ -141,10 +170,9 @@ async function verifyWebhookSignature(
     let ok: boolean;
     const sigDecoded = new Uint8Array(atob(pad(b64url(signature))).split("").map((c) => c.charCodeAt(0)));
 
-    // WebCrypto types require ArrayBuffer-backed buffers.
-    const bodyBuf = bodyBytes.buffer.slice(
-      bodyBytes.byteOffset,
-      bodyBytes.byteOffset + bodyBytes.byteLength
+    const msgBuf = messageBytes.buffer.slice(
+      messageBytes.byteOffset,
+      messageBytes.byteOffset + messageBytes.byteLength
     ) as ArrayBuffer;
 
     if (isRsa) {
@@ -159,7 +187,7 @@ async function verifyWebhookSignature(
         { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
         key,
         sigDecoded,
-        bodyBuf
+        msgBuf
       );
     } else {
       key = await crypto.subtle.importKey(
@@ -169,7 +197,6 @@ async function verifyWebhookSignature(
         false,
         ["verify"]
       );
-      // PayPal ECDSA signatures can be DER-encoded or raw r||s (JWS). Normalize both.
       const rawSig =
         sigDecoded.length === 64
           ? sigDecoded
@@ -179,7 +206,7 @@ async function verifyWebhookSignature(
         { name: "ECDSA", hash: "SHA-256" },
         key,
         sigBuf,
-        bodyBuf
+        msgBuf
       );
     }
 
@@ -192,7 +219,6 @@ async function verifyWebhookSignature(
 export async function POST(req: NextRequest) {
   const rawBody = await req.text();
 
-  // PayPal itself rate-limits retries; cap per-IP flood attempts.
   const ip = clientIp(req);
   const rl = rateLimit(`webhook:${ip}`, 30);
   if (!rl.ok) {
@@ -223,7 +249,6 @@ export async function POST(req: NextRequest) {
 
   if (!signatureValid.ok) {
     console.warn("[PayPal webhook] Signature verification failed:", signatureValid.reason);
-    // 201 halts PayPal's automatic retries for an invalid event
     return NextResponse.json({ ok: true, skipped: "invalid signature" }, { status: 201 });
   }
 
@@ -237,7 +262,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, skipped: true });
   }
 
-  // Parse custom_id: tour_id|date|start_time|guest_count[|custom=true|customer_phone]
   const customId = resource?.custom_id;
   if (!customId) {
     console.error("[PayPal webhook] No custom_id in resource");
@@ -253,7 +277,6 @@ export async function POST(req: NextRequest) {
   const [tourId, date, startTime, guestCountStr, customFlag] = parts;
   const guestCount = parseInt(guestCountStr, 10);
   const isCustomTime = customFlag === "custom=true";
-
   const customerPhone = isCustomTime && parts[5] ? decodeURIComponent(parts[5]) : null;
 
   if (!tourId || !date || !guestCount || guestCount < 1) {
@@ -262,16 +285,14 @@ export async function POST(req: NextRequest) {
   }
 
   const supabase = createServiceClient();
-
   const paypalOrderId = body?.resource?.id;
 
-  // Dedup: if a booking already references this PayPal capture, skip — the
-  // capture-order route already created it. Guards against doubled deliveries.
+  // Dedup via paypal_order_id column
   if (paypalOrderId) {
     const { data: existing } = await supabase
       .from("bookings")
       .select("id")
-      .ilike("notes", `%${paypalOrderId}%`)
+      .eq("paypal_order_id", paypalOrderId)
       .limit(1);
 
     if (existing && existing.length > 0) {
@@ -313,18 +334,24 @@ export async function POST(req: NextRequest) {
       source: isCustomTime ? "direct-custom" : "direct",
       customer_name: payerName ?? payerEmail,
       customer_email: payerEmail,
+      paypal_order_id: paypalOrderId ?? null,
       notes: isCustomTime
         ? JSON.stringify({
             custom_time: true,
             customer_phone: customerPhone,
-            paypal_order: body?.resource?.id ?? "unknown",
+            paypal_order: paypalOrderId ?? "unknown",
           })
-        : `PayPal order: ${body?.resource?.id ?? "unknown"}`,
+        : `PayPal order: ${paypalOrderId ?? "unknown"}`,
     })
     .select("id")
     .single();
 
   if (error) {
+    // P23505 = unique_violation — race condition with capture-order creating same booking
+    if (error.code === "23505") {
+      console.log(`[PayPal webhook] Race condition dedup for order ${paypalOrderId}`);
+      return NextResponse.json({ ok: true, skipped: "race-condition-dedup" });
+    }
     console.error("[PayPal webhook] Failed to create booking:", error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
