@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { clusterBlockRows, manualBlockedForTour } from "./blockOverlap";
 
 export interface AvailableDate {
   date: string; // YYYY-MM-DD
@@ -77,17 +78,14 @@ export async function generateAvailableDates(
   // 3. Fetch blocked dates — normalize start_time
   const { data: blocked } = await supabase
     .from("blocked_dates")
-    .select("date, start_time")
+    .select("date, start_time, end_time, is_auto_blocked")
     .eq("tour_id", tourId);
 
-  // Track blocked per date+time AND per date
-  const blockedTimeSet = new Set(
-    (blocked ?? []).map((b) => `${b.date}_${normalizeTime(b.start_time)}`)
-  );
-  // All-day blocks (start_time IS NULL) block every slot on that date
-  const allDayBlockedDates = new Set(
-    (blocked ?? []).filter((b) => b.start_time === null).map((b) => b.date)
-  );
+  // Split blocks: all-day (manual or auto) blocks every slot on the date,
+  // manual timed blocks use overlap against the tour's operating window,
+  // auto timed blocks only close their exact slot.
+  const { allDayDates, manualRows, autoTimeSet } = clusterBlockRows(blocked);
+  const allDayBlockedDates = allDayDates;
   // Report all-day blocked dates on the calendar even when the weekday has no schedule
   const allDayBlockedDatesInRange = [...allDayBlockedDates]
     .filter((d) => d >= todayJst && d <= rangeEndStr)
@@ -101,7 +99,7 @@ export async function generateAvailableDates(
   // 4. Fetch tour capacity and cutoffs
   const { data: tour } = await supabase
     .from("tours")
-    .select("capacity, cutoff_minutes, new_guest_cutoff_minutes")
+    .select("capacity, cutoff_minutes, new_guest_cutoff_minutes, product_type, opening_hours")
     .eq("id", tourId)
     .single();
 
@@ -133,9 +131,14 @@ export async function generateAvailableDates(
       // Skip exceptions
       if (exceptionDates.has(dateStr)) continue;
 
-      // Skip blocked time slots (time-specific or all-day)
+      const tourDayBlocked =
+        !!(tour && manualBlockedForTour(manualRows, tour, dateStr, schedules));
+      // Skip blocked days (all-day or manual overlap) and exact auto-blocked slots
+      if (allDayBlockedDates.has(dateStr)) continue;
+      if (tourDayBlocked) continue;
+
       const blockKey = `${dateStr}_${normalizeTime(schedule.start_time)}`;
-      if (blockedTimeSet.has(blockKey) || allDayBlockedDates.has(dateStr)) continue;
+      if (autoTimeSet.has(blockKey)) continue;
 
       candidateDates.push({ date: dateStr, schedule });
     }
@@ -176,9 +179,10 @@ export async function generateAvailableDates(
   for (const dateStr of allScheduledDates) {
     const slotsForDate = schedules.filter((s) => jstDayOfWeek(dateStr) === s.day_of_week);
 
+    const dateManualBlocked = !!(tour && manualBlockedForTour(manualRows, tour, dateStr, schedules));
     const allSlotsBlocked = slotsForDate.every((s) => {
       const key = `${dateStr}_${normalizeTime(s.start_time)}`;
-      return blockedTimeSet.has(key) || allDayBlockedDates.has(dateStr) || exceptionDates.has(dateStr);
+      return autoTimeSet.has(key) || allDayBlockedDates.has(dateStr) || dateManualBlocked || exceptionDates.has(dateStr);
     });
 
     if (allSlotsBlocked && slotsForDate.length > 0) {

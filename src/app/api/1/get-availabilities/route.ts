@@ -5,6 +5,7 @@ import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import { gygJson } from "@/lib/gyg/response";
 import { lookupTourByProductId } from "@/lib/gyg/lookup";
 import type { GygAvailabilityResponse, GygAvailability } from "@/lib/gyg/types";
+import { clusterBlockRows, manualBlockedForTour } from "@/lib/schedules/blockOverlap";
 
 function normalizeTime(t: string | null): string {
   if (!t) return "00:00";
@@ -71,7 +72,7 @@ async function GET_inner(req: NextRequest, startTime: number, ctx: ReturnType<ty
   const [schedulesResult, exceptionsResult, blockedResult, bookingsResult, reservationsResult, pricingResult] = await Promise.all([
     supabase.from("tour_schedules").select("*").eq("tour_id", tour.id).eq("is_active", true),
     supabase.from("schedule_exceptions").select("date").eq("tour_id", tour.id),
-    supabase.from("blocked_dates").select("date, start_time").eq("tour_id", tour.id),
+    supabase.from("blocked_dates").select("date, start_time, end_time, is_auto_blocked").eq("tour_id", tour.id),
     supabase.from("bookings").select("date, start_time, guest_count").eq("tour_id", tour.id).eq("status", "confirmed").gte("date", fromDateStr).lte("date", toDateStr),
     supabase.from("gyg_reservations").select("date, start_time, booking_items, expires_at").eq("tour_id", tour.id).gt("expires_at", new Date().toISOString()).gte("date", fromDateStr).lte("date", toDateStr),
     supabase.from("tour_pricing_categories").select("category, price, currency").eq("tour_id", tour.id),
@@ -89,9 +90,7 @@ async function GET_inner(req: NextRequest, startTime: number, ctx: ReturnType<ty
   }
 
   const exceptionDates = new Set((exceptions ?? []).map((e) => e.date));
-  const blockedTimeSet = new Set(
-    (blocked ?? []).map((b) => `${b.date}_${normalizeTime(b.start_time)}`)
-  );
+  const { allDayDates, manualRows, autoTimeSet } = clusterBlockRows(blocked);
 
   const bookedMap: Record<string, number> = {};
   for (const b of allBookings ?? []) {
@@ -141,13 +140,13 @@ async function GET_inner(req: NextRequest, startTime: number, ctx: ReturnType<ty
       }
 
       // Check if the entire day is blocked
-      // For time_period: a null start_time in blocked_dates means the whole day is blocked
-      const dayBlockedEntries = [...blockedTimeSet].filter((k) => k.startsWith(dateStr + "_"));
-      const dayFullyBlocked = dayBlockedEntries.some((k) => {
-        const time = k.split("_")[1];
-        return time === "null" || time === "00:00" || time === undefined;
-      });
-      if (dayFullyBlocked) {
+      // For time_period: an all-day block, or a manual timed block that
+      // overlaps the tour's operating window, blocks the whole day
+      if (allDayDates.has(dateStr)) {
+        current.setDate(current.getDate() + 1);
+        continue;
+      }
+      if (manualBlockedForTour(manualRows, tour, dateStr, schedules ?? [])) {
         current.setDate(current.getDate() + 1);
         continue;
       }
@@ -218,11 +217,20 @@ async function GET_inner(req: NextRequest, startTime: number, ctx: ReturnType<ty
 
       const daySchedules = schedules?.filter((s) => s.day_of_week === dayOfWeek) ?? [];
 
+      if (allDayDates.has(dateStr)) {
+        current.setDate(current.getDate() + 1);
+        continue;
+      }
+      if (manualBlockedForTour(manualRows, tour, dateStr, daySchedules)) {
+        current.setDate(current.getDate() + 1);
+        continue;
+      }
+
       for (const schedule of daySchedules) {
         if (exceptionDates.has(dateStr)) continue;
 
         const blockKey = `${dateStr}_${normalizeTime(schedule.start_time)}`;
-        if (blockedTimeSet.has(blockKey)) continue;
+        if (autoTimeSet.has(blockKey)) continue;
 
         const startTime = normalizeTime(schedule.start_time);
         const dateTime = `${dateStr}T${startTime}:00+09:00`;
@@ -336,7 +344,7 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
   const [schedulesResult, exceptionsResult, blockedResult, bookingsResult, reservationsResult, pricingResult] = await Promise.all([
     supabase.from("tour_schedules").select("*").eq("tour_id", tour.id).eq("is_active", true),
     supabase.from("schedule_exceptions").select("date").eq("tour_id", tour.id),
-    supabase.from("blocked_dates").select("date, start_time").eq("tour_id", tour.id),
+    supabase.from("blocked_dates").select("date, start_time, end_time, is_auto_blocked").eq("tour_id", tour.id),
     supabase.from("bookings").select("date, start_time, guest_count").eq("tour_id", tour.id).eq("status", "confirmed").gte("date", fromDateStr).lte("date", toDateStr),
     supabase.from("gyg_reservations").select("date, start_time, booking_items, expires_at").eq("tour_id", tour.id).gt("expires_at", new Date().toISOString()).gte("date", fromDateStr).lte("date", toDateStr),
     supabase.from("tour_pricing_categories").select("category, price, currency").eq("tour_id", tour.id),
@@ -354,9 +362,7 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
   }
 
   const exceptionDates = new Set((exceptions ?? []).map((e) => e.date));
-  const blockedTimeSet = new Set(
-    (blocked ?? []).map((b) => `${b.date}_${normalizeTime(b.start_time)}`)
-  );
+  const { allDayDates, manualRows, autoTimeSet } = clusterBlockRows(blocked);
 
   const bookedMap: Record<string, number> = {};
   for (const b of allBookings ?? []) {
@@ -401,12 +407,10 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
         continue;
       }
 
-      const dayBlockedEntries = [...blockedTimeSet].filter((k) => k.startsWith(dateStr + "_"));
-      const dayFullyBlocked = dayBlockedEntries.some((k) => {
-        const time = k.split("_")[1];
-        return time === "null" || time === "00:00" || time === undefined;
-      });
-      if (dayFullyBlocked) {
+      const dayBlocked =
+        allDayDates.has(dateStr) ||
+        manualBlockedForTour(manualRows, tour, dateStr, schedules ?? []);
+      if (dayBlocked) {
         current.setDate(current.getDate() + 1);
         continue;
       }
@@ -471,11 +475,20 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
 
       const daySchedules = schedules?.filter((s) => s.day_of_week === dayOfWeek) ?? [];
 
+      if (allDayDates.has(dateStr)) {
+        current.setDate(current.getDate() + 1);
+        continue;
+      }
+      if (manualBlockedForTour(manualRows, tour, dateStr, daySchedules)) {
+        current.setDate(current.getDate() + 1);
+        continue;
+      }
+
       for (const schedule of daySchedules) {
         if (exceptionDates.has(dateStr)) continue;
 
         const blockKey = `${dateStr}_${normalizeTime(schedule.start_time)}`;
-        if (blockedTimeSet.has(blockKey)) continue;
+        if (autoTimeSet.has(blockKey)) continue;
 
         const startTime = normalizeTime(schedule.start_time);
         const dateTime = `${dateStr}T${startTime}:00+09:00`;

@@ -5,6 +5,7 @@ import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import { gygJson } from "@/lib/gyg/response";
 import { lookupTourByProductId } from "@/lib/gyg/lookup";
 import type { GygReservationResponse, GygErrorResponse } from "@/lib/gyg/types";
+import { clusterBlockRows, manualBlockedForTour } from "@/lib/schedules/blockOverlap";
 
 function normalizeTime(t: string | null): string {
   if (!t) return "00:00";
@@ -102,11 +103,9 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
   const [pricingResult, scheduleResult, blockedDateResult] = await Promise.all([
     supabase.from("tour_pricing_categories").select("category").eq("tour_id", tour.id),
     tour.product_type === "time_point"
-      ? supabase.from("tour_schedules").select("start_time").eq("tour_id", tour.id).eq("day_of_week", dayOfWeek).eq("is_active", true)
+      ? supabase.from("tour_schedules").select("start_time, duration_minutes, start_date, end_date, day_of_week").eq("tour_id", tour.id).eq("day_of_week", dayOfWeek).eq("is_active", true)
       : Promise.resolve({ data: null }),
-    tour.product_type === "time_period"
-      ? supabase.from("blocked_dates").select("id").eq("tour_id", tour.id).eq("date", dateStr).maybeSingle()
-      : Promise.resolve({ data: null }),
+    supabase.from("blocked_dates").select("date, start_time, end_time, is_auto_blocked").eq("tour_id", tour.id).eq("date", dateStr),
   ]);
 
   const supportedCategories = (pricingResult.data ?? []).map((c: { category: string }) => c.category);
@@ -140,12 +139,21 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
     }
   }
 
-  // Validate blocked dates for time_period products (result from parallel query above)
-  if (tour.product_type === "time_period" && blockedDateResult.data) {
-    return gygJson(
-      { errorCode: "NO_AVAILABILITY", errorMessage: `No availability for ${dateStr}` },
-      { status: 200 }
-    );
+  // Validate blocked dates — an all-day block, a manual block overlapping the
+  // tour's operating window (time_period) or any slot (time_point), or an exact
+  // auto full-capacity block makes this date/time unavailable.
+  const blockedRows = blockedDateResult.data ?? [];
+  if (blockedRows.length > 0) {
+    const { allDayDates, manualRows, autoTimeSet } = clusterBlockRows(blockedRows);
+    const scheduleSpans = (scheduleResult.data ?? []) as Parameters<typeof manualBlockedForTour>[3];
+    const manualBlocked = manualBlockedForTour(manualRows, tour, dateStr, scheduleSpans);
+    const autoExact = autoTimeSet.has(`${dateStr}_${normalizeTime(tourStartTime)}`);
+    if (allDayDates.has(dateStr) || manualBlocked || autoExact) {
+      return gygJson(
+        { errorCode: "NO_AVAILABILITY", errorMessage: `No availability for ${dateStr}` },
+        { status: 200 }
+      );
+    }
   }
 
   // Calculate total guests from bookingItems

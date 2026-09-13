@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { createPaypalOrder } from "@/lib/paypal/client";
 import { rateLimit, clientIp } from "@/lib/security/rateLimit";
+import {
+  clusterBlockRows,
+  manualBlockedForTour,
+  manualBlockCoversStart,
+  timeToMinutes,
+  normalizeTime,
+} from "@/lib/schedules/blockOverlap";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -19,7 +26,7 @@ export async function POST(req: NextRequest) {
   const supabase = createServiceClient();
   const { data: tour } = await supabase
     .from("tours")
-    .select("name, price, currency, cutoff_minutes, new_guest_cutoff_minutes")
+    .select("name, price, currency, cutoff_minutes, new_guest_cutoff_minutes, product_type, opening_hours")
     .eq("id", tour_id)
     .single();
 
@@ -57,16 +64,46 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const { data: blocked } = await supabase
+  // Fetch all blocks for this tour/date and apply busy-window semantics:
+  // all-day blocks close the date; manual timed blocks close the tour when
+  // they overlap its operating window (or, for time_point, the requested slot);
+  // auto full-capacity blocks close their exact slot.
+  const { data: blockedRows } = await supabase
     .from("blocked_dates")
-    .select("id")
+    .select("date, start_time, end_time, is_auto_blocked")
     .eq("tour_id", tour_id)
-    .eq("date", date)
-    .eq("start_time", start_time ?? null)
-    .maybeSingle();
+    .eq("date", date);
 
-  if (blocked) {
-    return NextResponse.json({ error: "This date/time is not available" }, { status: 400 });
+  if (blockedRows && blockedRows.length > 0) {
+    const { allDayDates, manualRows, autoTimeSet } = clusterBlockRows(blockedRows);
+
+    if (allDayDates.has(date)) {
+      return NextResponse.json({ error: "This date/time is not available" }, { status: 400 });
+    }
+
+    if (autoTimeSet.has(`${date}_${normalizeTime(start_time)}`)) {
+      return NextResponse.json({ error: "This date/time is not available" }, { status: 400 });
+    }
+
+    if (manualRows.length > 0) {
+      // time_point: whole tour-day is unavailable if any manual block overlaps
+      // any of that date's slots; time_period: overlap against the operating window.
+      if (tour.product_type === "time_point") {
+        const { data: schedules } = await supabase
+          .from("tour_schedules")
+          .select("day_of_week, start_time, duration_minutes, start_date, end_date, is_active")
+          .eq("tour_id", tour_id)
+          .eq("is_active", true);
+        if (manualBlockedForTour(manualRows, tour, date, schedules)) {
+          return NextResponse.json({ error: "This date/time is not available" }, { status: 400 });
+        }
+        if (start_time && manualBlockCoversStart(manualRows, date, timeToMinutes(start_time))) {
+          return NextResponse.json({ error: "This date/time is not available" }, { status: 400 });
+        }
+      } else if (manualBlockedForTour(manualRows, tour, date, [])) {
+        return NextResponse.json({ error: "This date/time is not available" }, { status: 400 });
+      }
+    }
   }
 
   const { data: tourFull } = await supabase
