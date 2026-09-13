@@ -50,6 +50,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ eventId: data.id, calendarId });
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
+    console.error("[calendar/block] Google Calendar push failed:", msg);
     if (msg.includes("not connected") || msg.includes("No valid")) {
       return NextResponse.json({ eventId: null, warning: "Google not connected; local block only" });
     }

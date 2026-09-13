@@ -81,8 +81,9 @@ export async function POST(request: Request) {
         });
         googleEventId = ev.id ?? null;
         calendarIdUsed = calendarId;
-      } catch {
+      } catch (e) {
         // No Google connection — still create local auto-block
+        console.error("[auto-check] Google auto-block failed:", e instanceof Error ? e.message : String(e));
       }
     }
 
@@ -127,7 +128,9 @@ export async function POST(request: Request) {
           try {
             const { accessToken } = await getValidAccessTokenWithClient(supabase, user.id);
             await deleteCalendarEvent({ accessToken, calendarId: calendarIdUsed, eventId: googleEventId });
-          } catch { /* best effort */ }
+          } catch (e) {
+            console.error("[auto-check] Google event cleanup failed:", e instanceof Error ? e.message : String(e));
+          }
         }
         return NextResponse.json({ autoBlocked: false, booked, remaining, note: "Already blocked by concurrent request" });
       }
@@ -161,8 +164,9 @@ export async function POST(request: Request) {
           calendarId: existingBlockForSlotRow.calendar_id,
           eventId: existingBlockForSlotRow.google_calendar_event_id,
         });
-      } catch {
+      } catch (e) {
         // Google event deletion failed — still remove local block
+        console.error("[auto-check] Google unblock delete failed:", e instanceof Error ? e.message : String(e));
       }
     }
     await supabase.from("blocked_dates").delete().eq("id", existingBlockForSlotRow.id);
