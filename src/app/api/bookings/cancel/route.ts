@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { sendEmail } from "@/lib/email/client";
 import { cancellationConfirmationEmail } from "@/lib/email/cancellation-confirmation";
+import { cancellationOperatorNotificationEmail } from "@/lib/email/cancellation-operator-notification";
 import { rateLimit, clientIp } from "@/lib/security/rateLimit";
 
 export async function POST(req: NextRequest) {
@@ -58,16 +59,37 @@ export async function POST(req: NextRequest) {
     return NextResponse.redirect(new URL(`/book/manage?id=${bookingId}&error=cancel_failed`, req.url));
   }
 
-  // Fetch tour details separately
+  // Fetch tour details
   const { data: tour } = await serviceClient
     .from("tours")
-    .select("capacity, name")
+    .select("capacity, name, user_id")
     .eq("id", booking.tour_id)
     .single();
 
+  // Fetch operator profile for notification email
+  const { data: operatorProfile } = await serviceClient
+    .from("profiles")
+    .select("email")
+    .eq("id", booking.user_id)
+    .single();
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
+
+  // Issue PayPal refund if capture ID is available
+  let refundIssued = false;
+  if (booking.paypal_capture_id) {
+    try {
+      const { refundCapture } = await import("@/lib/paypal/client");
+      await refundCapture(booking.paypal_capture_id, "Tour cancelled by operator");
+      refundIssued = true;
+      console.log(`[Booking cancel] PayPal refund issued for capture ${booking.paypal_capture_id}`);
+    } catch (e) {
+      console.error("[Booking cancel] PayPal refund failed:", e);
+    }
+  }
+
   // Send cancellation confirmation email to customer
   if (booking.customer_email && tour?.name) {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
     const email = cancellationConfirmationEmail({
       tourName: tour.name,
       date: booking.date,
@@ -80,6 +102,43 @@ export async function POST(req: NextRequest) {
       subject: email.subject,
       html: email.html,
     }).catch((e) => console.error("[Booking cancel] Confirmation email failed:", e));
+  }
+
+  // Send operator notification email
+  if (operatorProfile?.email && tour?.name) {
+    const notificationEmail = cancellationOperatorNotificationEmail({
+      operatorEmail: operatorProfile.email,
+      tourName: tour.name,
+      date: booking.date,
+      startTime: booking.start_time,
+      guestCount: booking.guest_count,
+      customerName: booking.customer_name,
+      customerEmail: booking.customer_email,
+      refundIssued,
+      baseUrl,
+    });
+    sendEmail({
+      to: notificationEmail.to,
+      subject: notificationEmail.subject,
+      html: notificationEmail.html,
+    }).catch((e) => console.error("[Booking cancel] Operator notification email failed:", e));
+  }
+
+  // Insert in-app notification for operator
+  if (tour?.user_id) {
+    const guestWord = booking.guest_count === 1 ? "guest" : "guests";
+    serviceClient
+      .from("notifications")
+      .insert({
+        user_id: tour.user_id,
+        type: "booking_cancelled",
+        title: `Booking Cancelled — ${tour.name}`,
+        message: `${booking.guest_count} ${guestWord} on ${booking.date}${booking.start_time ? ` at ${booking.start_time}` : ""}`,
+        link: "/dashboard",
+      })
+      .then(({ error: notifError }) => {
+        if (notifError) console.error("[Booking cancel] Notification insert failed:", notifError.message);
+      });
   }
 
   // Check if we should un-auto-block

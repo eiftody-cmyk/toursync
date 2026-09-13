@@ -234,6 +234,11 @@ export async function POST(req: NextRequest) {
         email_address?: string;
         name?: { given_name?: string; surname?: string };
       };
+      supplementary_data?: {
+        related_ids?: {
+          order_id?: string;
+        };
+      };
     } | null;
   };
   try {
@@ -285,18 +290,35 @@ export async function POST(req: NextRequest) {
   }
 
   const supabase = createServiceClient();
-  const paypalOrderId = body?.resource?.id;
+  const captureId = body?.resource?.id;
 
-  // Dedup via paypal_order_id column
-  if (paypalOrderId) {
-    const { data: existing } = await supabase
+  // Dedup: check both paypal_order_id and paypal_capture_id to prevent duplicates
+  // The capture-order route stores orderId in paypal_order_id;
+  // this webhook fires with captureId. Either path may create the booking first.
+  if (captureId) {
+    const { data: existingCapture } = await supabase
       .from("bookings")
       .select("id")
-      .eq("paypal_order_id", paypalOrderId)
+      .eq("paypal_capture_id", captureId)
       .limit(1);
 
-    if (existing && existing.length > 0) {
-      console.log(`[PayPal webhook] Duplicate event for order ${paypalOrderId} — skipping`);
+    if (existingCapture && existingCapture.length > 0) {
+      console.log(`[PayPal webhook] Duplicate event for capture ${captureId} — skipping`);
+      return NextResponse.json({ ok: true, skipped: "duplicate" });
+    }
+  }
+
+  // Also check if a booking exists with the related order ID (capture-order may have created it)
+  const relatedOrderId = body?.resource?.supplementary_data?.related_ids?.order_id;
+  if (relatedOrderId) {
+    const { data: existingOrder } = await supabase
+      .from("bookings")
+      .select("id")
+      .eq("paypal_order_id", relatedOrderId)
+      .limit(1);
+
+    if (existingOrder && existingOrder.length > 0) {
+      console.log(`[PayPal webhook] Duplicate event for order ${relatedOrderId} — skipping`);
       return NextResponse.json({ ok: true, skipped: "duplicate" });
     }
   }
@@ -334,14 +356,15 @@ export async function POST(req: NextRequest) {
       source: isCustomTime ? "direct-custom" : "direct",
       customer_name: payerName ?? payerEmail,
       customer_email: payerEmail,
-      paypal_order_id: paypalOrderId ?? null,
+      paypal_order_id: relatedOrderId ?? null,
+      paypal_capture_id: captureId ?? null,
       notes: isCustomTime
         ? JSON.stringify({
             custom_time: true,
             customer_phone: customerPhone,
-            paypal_order: paypalOrderId ?? "unknown",
+            paypal_order: relatedOrderId ?? "unknown",
           })
-        : `PayPal order: ${paypalOrderId ?? "unknown"}`,
+        : `PayPal order: ${relatedOrderId ?? "unknown"}`,
     })
     .select("id")
     .single();
@@ -349,7 +372,7 @@ export async function POST(req: NextRequest) {
   if (error) {
     // P23505 = unique_violation — race condition with capture-order creating same booking
     if (error.code === "23505") {
-      console.log(`[PayPal webhook] Race condition dedup for order ${paypalOrderId}`);
+      console.log(`[PayPal webhook] Race condition dedup for capture ${captureId}`);
       return NextResponse.json({ ok: true, skipped: "race-condition-dedup" });
     }
     console.error("[PayPal webhook] Failed to create booking:", error.message);

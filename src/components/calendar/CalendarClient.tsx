@@ -49,7 +49,7 @@ export function CalendarClient({
   initialFilterTour?: string;
   initialDate?: string;
 }) {
-  const [bookings, setBookings] = useState<Booking[]>(initialBookings);
+  const [bookings, setBookings] = useState<Booking[]>(initialBookings.filter((b) => b.status === "confirmed"));
   const [blocked, setBlocked] = useState<BlockedDate[]>(initialBlocked);
   const [filterTour, setFilterTour] = useState<string>(initialFilterTour);
   const [view, setView] = useState<View>("month");
@@ -96,7 +96,11 @@ export function CalendarClient({
       )
       .subscribe();
 
+    // Polling fallback: refresh every 60s in case Realtime misses events
+    const pollInterval = setInterval(() => refresh(), 60_000);
+
     return () => {
+      clearInterval(pollInterval);
       supabase.removeChannel(channel);
     };
   }, [refresh]);

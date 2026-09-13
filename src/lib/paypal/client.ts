@@ -127,6 +127,39 @@ export interface PayPalOrderDetails {
   };
 }
 
+export interface PayPalRefundResult {
+  id: string;
+  status: string;
+}
+
+export async function refundCapture(
+  captureId: string,
+  noteToPayer?: string
+): Promise<PayPalRefundResult> {
+  const token = await getAccessToken();
+
+  const body: Record<string, unknown> = {};
+  if (noteToPayer) body.note_to_payer = noteToPayer;
+
+  const res = await fetch(`${PAYPAL_BASE}/v2/payments/captures/${captureId}/refund`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      Prefer: "return=representation",
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(`PayPal refund failed: ${JSON.stringify(err)}`);
+  }
+
+  const data = await res.json();
+  return { id: data.id, status: data.status };
+}
+
 export async function getPaypalOrder(orderId: string): Promise<PayPalOrderDetails> {
   const token = await getAccessToken();
 

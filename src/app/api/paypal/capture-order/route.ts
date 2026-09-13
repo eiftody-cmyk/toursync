@@ -123,6 +123,7 @@ export async function POST(req: NextRequest) {
       customer_name: payerName ?? payerEmail,
       customer_email: payerEmail,
       paypal_order_id: orderId,
+      paypal_capture_id: captureResult.purchase_units?.[0]?.payments?.captures?.[0]?.id ?? null,
       notes: isCustomTime
         ? JSON.stringify({
             custom_time: true,

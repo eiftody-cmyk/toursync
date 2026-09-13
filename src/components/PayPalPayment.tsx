@@ -111,6 +111,7 @@ export function PayPalPayment({
       <div className="paypal-wrap">
         <div style={{ opacity: processing ? 0.6 : 1, pointerEvents: processing ? "none" : "auto" }}>
           <PayPalButtons
+            forceReRender={[guestCount]}
             style={{
               layout: "vertical",
               color: "blue",
