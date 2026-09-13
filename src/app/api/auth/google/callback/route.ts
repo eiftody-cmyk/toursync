@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const tokens = await exchangeCodeForTokens(code);
+    const tokens = await exchangeCodeForTokens(code, `${origin}/api/auth/google/callback`);
     const expiry = new Date(Date.now() + tokens.expires_in * 1000).toISOString();
 
     const accessTokenEnc = await encryptToken(tokens.access_token);

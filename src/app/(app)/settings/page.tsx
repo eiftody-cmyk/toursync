@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { TourCalendarsCard } from "@/components/settings/TourCalendarsCard";
 import { CompanyBrandingCard } from "@/components/settings/CompanyBrandingCard";
 import { CommissionSettingsCard } from "@/components/settings/CommissionSettingsCard";
+import { GoogleConnectionControls } from "@/components/settings/GoogleConnectionControls";
 
 export default async function SettingsPage({
   searchParams,
@@ -108,6 +109,7 @@ export default async function SettingsPage({
                   </Button>
                 </form>
               </div>
+              <GoogleConnectionControls />
             </>
           ) : (
             <>

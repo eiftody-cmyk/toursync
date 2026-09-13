@@ -7,10 +7,10 @@ export const GOOGLE_SCOPES = [
   "https://www.googleapis.com/auth/calendar.app.created",
 ].join(" ");
 
-export function getGoogleAuthUrl(state: string) {
+export function getGoogleAuthUrl(state: string, redirectUri?: string) {
   const params = new URLSearchParams({
     client_id: process.env.GOOGLE_CLIENT_ID!,
-    redirect_uri: process.env.GOOGLE_REDIRECT_URI!,
+    redirect_uri: redirectUri ?? process.env.GOOGLE_REDIRECT_URI!,
     response_type: "code",
     scope: GOOGLE_SCOPES,
     access_type: "offline",
@@ -21,7 +21,7 @@ export function getGoogleAuthUrl(state: string) {
   return `${GOOGLE_AUTH_BASE}?${params.toString()}`;
 }
 
-export async function exchangeCodeForTokens(code: string) {
+export async function exchangeCodeForTokens(code: string, redirectUri?: string) {
   const res = await fetch(GOOGLE_TOKEN_URL, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -29,7 +29,7 @@ export async function exchangeCodeForTokens(code: string) {
       code,
       client_id: process.env.GOOGLE_CLIENT_ID!,
       client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-      redirect_uri: process.env.GOOGLE_REDIRECT_URI!,
+      redirect_uri: redirectUri ?? process.env.GOOGLE_REDIRECT_URI!,
       grant_type: "authorization_code",
     }),
   });

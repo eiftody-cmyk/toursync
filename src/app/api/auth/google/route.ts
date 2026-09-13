@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getGoogleAuthUrl } from "@/lib/google/auth";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -14,7 +14,8 @@ export async function GET() {
 
   const stateBytes = crypto.getRandomValues(new Uint8Array(16));
   const state = Array.from(stateBytes).map((b) => b.toString(16).padStart(2, "0")).join("");
-  const url = getGoogleAuthUrl(state);
+  const redirectUri = `${new URL(request.url).origin}/api/auth/google/callback`;
+  const url = getGoogleAuthUrl(state, redirectUri);
 
   const res = NextResponse.redirect(url);
   res.cookies.set("google_oauth_state", state, {
