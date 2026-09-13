@@ -166,6 +166,7 @@ export function CompanyBrandingCard({
                 alt="Company logo"
                 width={64}
                 height={64}
+                unoptimized
                 className="rounded border"
               />
               <Button variant="ghost" size="sm" className="text-destructive" onClick={removeLogo}>
@@ -201,7 +202,7 @@ export function CompanyBrandingCard({
             <p className="text-xs text-muted-foreground mb-2">Preview:</p>
             <div className="flex items-center gap-2 font-bold">
               {logoUrl ? (
-                <Image src={logoUrl} alt="" width={28} height={28} className="rounded" />
+                <Image src={logoUrl} alt="" width={28} height={28} unoptimized className="rounded" />
               ) : null}
               {companyName || "ExperienceRelay"}
             </div>
