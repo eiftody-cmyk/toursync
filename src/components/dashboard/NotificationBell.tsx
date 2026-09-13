@@ -36,7 +36,10 @@ export function NotificationBell() {
         { event: "INSERT", schema: "public", table: "notifications" },
         (payload) => {
           const notif = payload.new as Notification;
-          setNotifications((prev) => [notif, ...prev]);
+          setNotifications((prev) => {
+            if (prev.some((n) => n.id === notif.id)) return prev;
+            return [notif, ...prev];
+          });
           setUnreadCount((prev) => prev + 1);
         }
       )

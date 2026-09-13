@@ -538,3 +538,18 @@ input[type="time"] {
     display: none;
   }
 }
+
+/* PayPal injected consent/legal text (e.g. "I confirm I am of legal age") is
+   rendered by the SDK inside our booking card, right above the Pay button.
+   It inherits theme colors that end up hard to read on the dark card, so we
+   force readable parchment text here. The card background itself is left
+   untouched (that's the color you like). .paypal-status is our own message
+   node and keeps its explicit colors. */
+.paypal-wrap {
+  color: var(--parchment);
+  color-scheme: light;
+}
+
+.paypal-wrap :is(p, span, small, label, div):not(.paypal-status):not([role="button"]) {
+  color: var(--parchment) !important;
+}
