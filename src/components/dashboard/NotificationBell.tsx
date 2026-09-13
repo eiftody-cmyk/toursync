@@ -136,7 +136,7 @@ export function NotificationBell() {
                     !n.read ? "bg-muted/30" : ""
                   }`}
                 >
-                  <p className="text-sm font-medium">{n.title}</p>
+                  <p className={`text-sm ${!n.read ? "font-semibold" : "font-medium"}`}>{n.title}</p>
                   <p className="text-xs text-muted-foreground">{n.message}</p>
                 </button>
               ))
