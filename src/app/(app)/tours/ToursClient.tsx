@@ -353,7 +353,7 @@ export function ToursClient({
         <p className="text-sm text-muted-foreground">{tours.length} tour{tours.length !== 1 && "s"}</p>
         <Button onClick={startCreate}>+ New Tour</Button>
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent>
+          <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{editing ? "Edit Tour" : "New Tour"}</DialogTitle>
             </DialogHeader>
