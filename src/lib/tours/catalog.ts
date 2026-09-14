@@ -20,7 +20,7 @@ export interface TourCatalogEntry {
 }
 
 export const tourCatalog: Record<string, TourCatalogEntry> = {
-  "Before Japan Had a Name": {
+  "Osaka Castle: Before Japan Had a Name": {
     url_slug: "beforejapanhadaname",
     historical_periods: ["Jomon", "Yayoi", "Kofun"],
     themes: ["archaeology", "urban geography", "ancient Japan", "state formation"],
@@ -40,14 +40,14 @@ export const tourCatalog: Record<string, TourCatalogEntry> = {
     meeting_point_lat: 34.6849,
     meeting_point_lng: 135.5177,
     recommended_next: [
-      "Warrior Monks, a Peasant, and a Shogun",
-      "A Lord, a Concubine, and a Shogun's Lie",
+      "Osaka Castle: Warrior Monks, a Peasant, and a Shogun",
+      "Osaka Castle: A Lord, a Concubine, and a Shogun's Lie",
     ],
     recommended_before: [],
     solo_day: "Fits a morning. Pair with Osaka Museum of History or Naniwa Palace in the afternoon.",
     pair_with: "Osaka Museum of History",
   },
-  "Warrior Monks, a Peasant, and a Shogun": {
+  "Osaka Castle: Warrior Monks, a Peasant, and a Shogun": {
     url_slug: "warriormonkspeasantshogun",
     historical_periods: ["Sengoku", "Azuchi-Momoyama"],
     themes: ["military history", "religious history", "fortifications", "siege warfare"],
@@ -67,15 +67,15 @@ export const tourCatalog: Record<string, TourCatalogEntry> = {
     meeting_point_lat: 34.6849,
     meeting_point_lng: 135.5177,
     recommended_next: [
-      "A Lord, a Concubine, and a Shogun's Lie",
+      "Osaka Castle: A Lord, a Concubine, and a Shogun's Lie",
     ],
     recommended_before: [
-      "Before Japan Had a Name",
+      "Osaka Castle: Before Japan Had a Name",
     ],
     solo_day: "Fits a morning. Pair with Osaka Castle Museum in the afternoon.",
     pair_with: "Osaka Castle Museum",
   },
-  "A Lord, a Concubine, and a Shogun's Lie": {
+  "Osaka Castle: A Lord, a Concubine, and a Shogun's Lie": {
     url_slug: "lordconcubineshogunlie",
     historical_periods: ["Sengoku", "Azuchi-Momoyama", "Early Edo"],
     themes: ["political intrigue", "siege warfare", "historical mystery", "archaeology"],
@@ -96,13 +96,13 @@ export const tourCatalog: Record<string, TourCatalogEntry> = {
     meeting_point_lng: 135.5177,
     recommended_next: [],
     recommended_before: [
-      "Warrior Monks, a Peasant, and a Shogun",
-      "Before Japan Had a Name",
+      "Osaka Castle: Warrior Monks, a Peasant, and a Shogun",
+      "Osaka Castle: Before Japan Had a Name",
     ],
     solo_day: "Fits a morning or afternoon. Flexible — pairs with anything.",
     pair_with: "Osaka Castle Museum",
   },
-  "Goddess, Queen, Empress, Concubine": {
+  "Osaka Castle Goddess, Queen, Empress, Concubine": {
     url_slug: "goddess_queen_empress_concubine",
     historical_periods: ["Yayoi", "Kofun", "Nara", "Heian", "Sengoku", "Edo"],
     themes: ["women in power", "imperial history", "political dynasties", "Osaka's role in national history"],
@@ -125,6 +125,29 @@ export const tourCatalog: Record<string, TourCatalogEntry> = {
     recommended_before: [],
     solo_day: "Fills a full morning (5 hours). Pair with a light afternoon — lunch at Dotonbori.",
     pair_with: "Light lunch at Dotonbori",
+  },
+  "Osaka Castle: Photography after dark": {
+    url_slug: "",
+    historical_periods: [],
+    themes: ["photography", "night photography", "Osaka Castle"],
+    traveler_types: ["photographers", "night owls", "Instagram travelers"],
+    ideal_for: "Travelers who want to photograph Osaka Castle at night",
+    best_time_of_day: "evening",
+    itinerary_position: "Evening activity after daytime sightseeing",
+    nearby_attractions: [
+      { name: "Osaka Castle Park", distance_minutes: 2 },
+      { name: "Osaka Castle Tower", distance_minutes: 5 },
+    ],
+    good_before: [],
+    good_after: ["Dotonbori nightlife"],
+    not_ideal_for: "Travelers wanting historical content",
+    meeting_point: "Osaka Castle Park",
+    meeting_point_lat: 34.6849,
+    meeting_point_lng: 135.5177,
+    recommended_next: [],
+    recommended_before: [],
+    solo_day: "Evening activity. Pair with a morning walking tour.",
+    pair_with: "Morning walking tour",
   },
 };
 
