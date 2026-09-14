@@ -57,6 +57,10 @@ export async function GET() {
             meeting_point: meta.meeting_point,
             meeting_point_lat: meta.meeting_point_lat,
             meeting_point_lng: meta.meeting_point_lng,
+            recommended_next: meta.recommended_next,
+            recommended_before: meta.recommended_before,
+            solo_day: meta.solo_day,
+            pair_with: meta.pair_with,
           }
         : {}),
       schedules: tourSchedules,

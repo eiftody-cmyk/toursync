@@ -130,6 +130,99 @@ function createServer() {
     },
   );
 
+  server.registerTool(
+    "build_itinerary",
+    {
+      description:
+        "Build a suggested multi-day itinerary based on traveler interests and time available. Returns tour sequence with rationale.",
+      inputSchema: {
+        days: z.number().min(1).max(3).describe("Number of days available (1-3)"),
+        interests: z
+          .string()
+          .optional()
+          .describe(
+            "Traveler interests (e.g., 'archaeology', 'military history', 'women in power')",
+          ),
+      },
+      annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+    },
+    async ({ days, interests }) => {
+      const tourNames = Object.keys(tourCatalog);
+      const q = interests?.toLowerCase() ?? "";
+
+      const scored = tourNames.map((name) => {
+        const meta = tourCatalog[name];
+        let score = 0;
+        if (q) {
+          const text = [...meta.themes, ...meta.historical_periods, ...meta.traveler_types]
+            .join(" ")
+            .toLowerCase();
+          if (text.includes(q)) score += 10;
+        }
+        if (meta.recommended_next.length > 0) score += 2;
+        if (meta.recommended_before.length > 0) score += 1;
+        return { name, meta, score };
+      });
+
+      scored.sort((a, b) => b.score - a.score);
+
+      const selected: string[] = [];
+      if (days >= 1) {
+        const morning = scored.find(
+          (s) => s.meta.best_time_of_day === "morning" && !selected.includes(s.name),
+        );
+        if (morning) selected.push(morning.name);
+      }
+      if (days >= 2) {
+        const next = scored.find(
+          (s) =>
+            !selected.includes(s.name) &&
+            selected.some((sel) => tourCatalog[sel].recommended_next.includes(s.name)),
+        );
+        if (next) {
+          selected.push(next.name);
+        } else {
+          const fallback = scored.find((s) => !selected.includes(s.name));
+          if (fallback) selected.push(fallback.name);
+        }
+      }
+      if (days >= 3) {
+        const remaining = scored.find((s) => !selected.includes(s.name));
+        if (remaining) selected.push(remaining.name);
+      }
+
+      const itinerary = selected.map((name, i) => {
+        const meta = tourCatalog[name];
+        return {
+          day: i + 1,
+          tour: name,
+          duration: meta.itinerary_position.includes("Full morning") ? "5 hours" : "2.5 hours",
+          time: "morning",
+          rationale: meta.ideal_for,
+          pair_with: meta.pair_with,
+        };
+      });
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(
+              {
+                itinerary,
+                rationale: `Suggested ${days}-day itinerary${
+                  interests ? ` focused on ${interests}` : ""
+                }. Tours are ordered by historical chronology and thematic coherence.`,
+              },
+              null,
+              2,
+            ),
+          },
+        ],
+      };
+    },
+  );
+
   return server;
 }
 

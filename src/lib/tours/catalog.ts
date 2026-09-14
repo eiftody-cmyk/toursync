@@ -13,6 +13,10 @@ export interface TourCatalogEntry {
   meeting_point: string;
   meeting_point_lat: number;
   meeting_point_lng: number;
+  recommended_next: string[];
+  recommended_before: string[];
+  solo_day: string;
+  pair_with: string;
 }
 
 export const tourCatalog: Record<string, TourCatalogEntry> = {
@@ -35,6 +39,13 @@ export const tourCatalog: Record<string, TourCatalogEntry> = {
     meeting_point: "Osaka Castle Park",
     meeting_point_lat: 34.6849,
     meeting_point_lng: 135.5177,
+    recommended_next: [
+      "Warrior Monks, a Peasant, and a Shogun",
+      "A Lord, a Concubine, and a Shogun's Lie",
+    ],
+    recommended_before: [],
+    solo_day: "Fits a morning. Pair with Osaka Museum of History or Naniwa Palace in the afternoon.",
+    pair_with: "Osaka Museum of History",
   },
   "Warrior Monks, a Peasant, and a Shogun": {
     url_slug: "warriormonkspeasantshogun",
@@ -49,12 +60,20 @@ export const tourCatalog: Record<string, TourCatalogEntry> = {
       { name: "Osaka Castle Park", distance_minutes: 2 },
       { name: "Osaka Castle Museum", distance_minutes: 3 },
     ],
-    good_before: ["Osaka Castle Museum", "Osaka Castle Park walk"],
+    good_before: ["Osaka Museum of History", "Osaka Castle Park walk"],
     good_after: ["Dotonbori", "Osaka Museum of History"],
     not_ideal_for: "Travelers wanting only a photographic sightseeing experience",
     meeting_point: "Osaka Castle Park",
     meeting_point_lat: 34.6849,
     meeting_point_lng: 135.5177,
+    recommended_next: [
+      "A Lord, a Concubine, and a Shogun's Lie",
+    ],
+    recommended_before: [
+      "Before Japan Had a Name",
+    ],
+    solo_day: "Fits a morning. Pair with Osaka Castle Museum in the afternoon.",
+    pair_with: "Osaka Castle Museum",
   },
   "A Lord, a Concubine, and a Shogun's Lie": {
     url_slug: "lordconcubineshogunlie",
@@ -75,6 +94,13 @@ export const tourCatalog: Record<string, TourCatalogEntry> = {
     meeting_point: "Osaka Castle Park",
     meeting_point_lat: 34.6849,
     meeting_point_lng: 135.5177,
+    recommended_next: [],
+    recommended_before: [
+      "Warrior Monks, a Peasant, and a Shogun",
+      "Before Japan Had a Name",
+    ],
+    solo_day: "Fits a morning or afternoon. Flexible — pairs with anything.",
+    pair_with: "Osaka Castle Museum",
   },
   "Goddess, Queen, Empress, Concubine": {
     url_slug: "goddess_queen_empress_concubine",
@@ -95,6 +121,10 @@ export const tourCatalog: Record<string, TourCatalogEntry> = {
     meeting_point: "Sakidoriya",
     meeting_point_lat: 34.6849,
     meeting_point_lng: 135.5177,
+    recommended_next: [],
+    recommended_before: [],
+    solo_day: "Fills a full morning (5 hours). Pair with a light afternoon — lunch at Dotonbori.",
+    pair_with: "Light lunch at Dotonbori",
   },
 };
 
