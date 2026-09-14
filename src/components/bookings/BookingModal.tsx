@@ -33,6 +33,7 @@ export function BookingModal({
   const [guestCount, setGuestCount] = useState("2");
   const [source, setSource] = useState<string>("viator");
   const [customerName, setCustomerName] = useState("");
+  const [channelBookingRef, setChannelBookingRef] = useState("");
   const [loading, setLoading] = useState(false);
   const [remainingForSlot, setRemainingForSlot] = useState<number | null>(null);
 
@@ -50,6 +51,7 @@ export function BookingModal({
       setGuestCount("2");
       setSource("viator");
       setCustomerName("");
+      setChannelBookingRef("");
       setRemainingForSlot(null);
       if (filterTour !== "all" && tours.some((t) => t.id === filterTour)) {
         setTourId(filterTour);
@@ -116,6 +118,7 @@ export function BookingModal({
       guest_count: guests,
       source,
       customer_name: customerName.trim() || null,
+      channel_booking_reference: channelBookingRef.trim() || null,
       start_time: startTime || null,
       end_time: endTime || null,
     });
@@ -237,6 +240,14 @@ export function BookingModal({
               placeholder="Tanaka"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
+            />
+          </div>
+          <div>
+            <Label>Confirmation Code (optional)</Label>
+            <Input
+              placeholder="e.g. TAXFYBFH"
+              value={channelBookingRef}
+              onChange={(e) => setChannelBookingRef(e.target.value)}
             />
           </div>
           <Button
