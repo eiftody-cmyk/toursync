@@ -1,8 +1,75 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
+import { tourCatalog, BASE_URL, type TourCatalogEntry } from "@/lib/tours/catalog";
 
 const VALID_PRODUCT_TYPES = ["time_point", "time_period"] as const;
 const VALID_TICKET_TYPES = ["individual", "group"] as const;
+
+export async function GET() {
+  const supabase = createServiceClient();
+
+  const { data: tours, error } = await supabase
+    .from("tours")
+    .select("id, name, description, capacity, price, currency, product_type, ticket_type");
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  const { data: schedules } = await supabase
+    .from("tour_schedules")
+    .select("tour_id, day_of_week, start_time, duration_minutes")
+    .eq("is_active", true);
+
+  const schedulesByTour = new Map<string, Array<{ day_of_week: number; start_time: string; duration_minutes: number }>>();
+  for (const s of schedules ?? []) {
+    const list = schedulesByTour.get(s.tour_id) ?? [];
+    list.push({ day_of_week: s.day_of_week, start_time: s.start_time, duration_minutes: s.duration_minutes });
+    schedulesByTour.set(s.tour_id, list);
+  }
+
+  const result = (tours ?? []).map((tour) => {
+    const meta: TourCatalogEntry | undefined = tourCatalog[tour.name];
+    const tourSchedules = schedulesByTour.get(tour.id) ?? [];
+    const duration = tourSchedules[0]?.duration_minutes ?? 150;
+
+    return {
+      id: tour.id,
+      name: tour.name,
+      url: meta ? `${BASE_URL}/${meta.url_slug}` : null,
+      description: tour.description,
+      duration_minutes: duration,
+      price: tour.price,
+      currency: tour.currency,
+      max_guests: tour.capacity,
+      language: "en",
+      ...(meta
+        ? {
+            historical_periods: meta.historical_periods,
+            themes: meta.themes,
+            traveler_types: meta.traveler_types,
+            ideal_for: meta.ideal_for,
+            best_time_of_day: meta.best_time_of_day,
+            itinerary_position: meta.itinerary_position,
+            nearby_attractions: meta.nearby_attractions,
+            good_before: meta.good_before,
+            good_after: meta.good_after,
+            not_ideal_for: meta.not_ideal_for,
+            meeting_point: meta.meeting_point,
+            meeting_point_lat: meta.meeting_point_lat,
+            meeting_point_lng: meta.meeting_point_lng,
+          }
+        : {}),
+      schedules: tourSchedules,
+      availability_endpoint: `/api/tours/${tour.id}/availability`,
+      booking_url: `${BASE_URL}/book?tour=${tour.id}`,
+    };
+  });
+
+  return NextResponse.json({
+    tours: result,
+    meta: { total: result.length, language: "en", currency: "JPY" },
+  });
+}
 
 export async function POST(request: Request) {
   const supabase = await createClient();
