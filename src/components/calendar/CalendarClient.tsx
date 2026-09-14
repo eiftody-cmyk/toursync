@@ -342,7 +342,7 @@ export function CalendarClient({
                         b.status === "confirmed" &&
                         b.tour_id === t.id &&
                         b.date === selectedDate &&
-                        (slot === "all-day" ? !b.start_time : String(b.start_time) === slot)
+                        (slot === "all-day" ? !b.start_time : formatTime(String(b.start_time)) === slot)
                     )
                     .reduce((s, b) => s + b.guest_count, 0);
                   const remaining = t.capacity - total;
