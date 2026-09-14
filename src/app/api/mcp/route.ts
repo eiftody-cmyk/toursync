@@ -208,11 +208,10 @@ function createServer() {
           if (meta.trip_context.some((tc) => tc.toLowerCase().includes(ctx))) score += 8;
         }
 
-        // Weather filtering
+        // Weather filtering — all tours run rain-or-shine, Photography prefers rain
         if (weather === "rainy") {
-          if (meta.suitable_for.weather_sensitivity.includes("rain-ok")) score += 5;
-          if (meta.suitable_for.weather_sensitivity.includes("rain-preferred")) score += 7;
-          if (meta.suitable_for.weather_sensitivity.includes("outdoor-only")) score -= 10;
+          if (meta.suitable_for.weather_sensitivity.includes("rain-or-shine")) score += 3;
+          if (meta.suitable_for.weather_sensitivity.includes("rain-preferred")) score += 5;
         }
 
         // Itinerary fit
@@ -265,9 +264,9 @@ function createServer() {
           pair_with: meta.pair_with,
           neighborhood: meta.neighborhood,
           weather_fit: weather === "rainy"
-            ? meta.suitable_for.weather_sensitivity.includes("rain-ok") || meta.suitable_for.weather_sensitivity.includes("rain-preferred")
-              ? "indoor-friendly"
-              : "check forecast"
+            ? meta.suitable_for.weather_sensitivity.includes("rain-preferred")
+              ? "rain enhances this tour"
+              : "runs rain or shine — umbrellas provided"
             : "any",
         };
       });
