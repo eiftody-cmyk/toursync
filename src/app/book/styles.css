@@ -277,7 +277,7 @@ a:hover {
 }
 
 .legend-dot.full {
-  background: #7f1d1d;
+  background: #f87171;
 }
 
 /* Available dates list */
@@ -506,7 +506,7 @@ input[type="time"] {
   font-size: 0.7rem;
   line-height: 1;
   margin-top: 1px;
-  color: #7f1d1d;
+  color: #f87171;
   font-weight: 600;
 }
 
@@ -515,7 +515,7 @@ input[type="time"] {
 }
 
 .slot-booked {
-  color: #7f1d1d;
+  color: #f87171;
   font-size: 0.8em;
   font-weight: 600;
 }
