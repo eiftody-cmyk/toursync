@@ -7,6 +7,7 @@ interface BookingConfirmationEmailParams {
   pricePerGuest: number;
   bookingId: string;
   baseUrl: string;
+  meetingPointAddress?: string | null;
 }
 
 function formatDate(dateStr: string): string {
@@ -32,11 +33,20 @@ export function bookingConfirmationEmail(params: BookingConfirmationEmailParams)
     pricePerGuest,
     bookingId,
     baseUrl,
+    meetingPointAddress,
   } = params;
 
   const currencySymbol = currency === "JPY" ? "¥" : currency + " ";
   const total = pricePerGuest * guestCount;
   const manageUrl = `${baseUrl}/book/manage?id=${bookingId}`;
+
+  const meetingPointSection = meetingPointAddress
+    ? `
+  <div style="background: #f0f7ff; border: 1px solid #d0e3f7; border-radius: 8px; padding: 16px 20px; margin-bottom: 24px;">
+    <p style="margin: 0 0 6px 0; font-size: 13px; font-weight: 600; color: #1a6bb5; text-transform: uppercase; letter-spacing: 0.5px;">Meeting Point</p>
+    <p style="margin: 0; font-size: 14px; line-height: 1.5; white-space: pre-line;">${meetingPointAddress}</p>
+  </div>`
+    : "";
 
   return {
     subject: `Booking Confirmed — ${tourName}`,
@@ -57,6 +67,8 @@ export function bookingConfirmationEmail(params: BookingConfirmationEmailParams)
     <p style="margin: 0 0 4px 0;">Guests: ${guestCount}</p>
     <p style="margin: 0; font-size: 16px;">Total: ${currencySymbol}${total.toLocaleString()}</p>
   </div>
+
+  ${meetingPointSection}
 
   <p style="margin-bottom: 24px;">Your booking has been confirmed. Save this email for your records.</p>
 

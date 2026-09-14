@@ -65,6 +65,7 @@ export function ToursClient({
     group_size_max: string;
     opening_from: string;
     opening_to: string;
+    meeting_point_address: string;
   }>({
     name: "",
     description: "",
@@ -79,6 +80,7 @@ export function ToursClient({
     group_size_max: "",
     opening_from: "09:00",
     opening_to: "18:00",
+    meeting_point_address: "",
   });
   const [pricingCategories, setPricingCategories] = useState<
     Array<{ category: string; price: string }>
@@ -115,6 +117,7 @@ export function ToursClient({
       product_type: "time_point", ticket_type: "individual",
       group_size_min: "", group_size_max: "",
       opening_from: "09:00", opening_to: "18:00",
+      meeting_point_address: "",
     });
     setPricingCategories([{ category: "ADULT", price: "9500" }]);
     setOpen(true);
@@ -137,6 +140,7 @@ export function ToursClient({
       group_size_max: t.group_size_max != null ? String(t.group_size_max) : "",
       opening_from: oh?.fromTime ?? "09:00",
       opening_to: oh?.toTime ?? "18:00",
+      meeting_point_address: t.meeting_point_address ?? "",
     });
     loadPricingCategories(t.id);
     setOpen(true);
@@ -204,6 +208,7 @@ export function ToursClient({
       opening_hours: form.product_type === "time_period"
         ? { fromTime: form.opening_from, toTime: form.opening_to }
         : null,
+      meeting_point_address: form.meeting_point_address.trim() || null,
     };
 
     let res;
@@ -376,6 +381,17 @@ export function ToursClient({
                   placeholder="150-min investigative tour..."
                   rows={3}
                 />
+              </div>
+              <div>
+                <Label htmlFor="meeting_point">Meeting Point Address</Label>
+                <Textarea
+                  id="meeting_point"
+                  value={form.meeting_point_address}
+                  onChange={(e) => setForm({ ...form, meeting_point_address: e.target.value })}
+                  placeholder="Osaka Castle Park, near the Tamagawa entrance gate (1-1 Osakajo, Chuo-ku, Osaka)"
+                  rows={2}
+                />
+                <p className="text-xs text-muted-foreground mt-1">Shown in confirmation emails. Include the address and any landmark directions.</p>
               </div>
               <div className="grid grid-cols-3 gap-3">
                 <div>

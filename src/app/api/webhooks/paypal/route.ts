@@ -325,7 +325,7 @@ export async function POST(req: NextRequest) {
 
   const { data: tour } = await supabase
     .from("tours")
-    .select("user_id, name, price, currency")
+    .select("user_id, name, price, currency, meeting_point_address")
     .eq("id", tourId)
     .single();
 
@@ -411,6 +411,7 @@ export async function POST(req: NextRequest) {
         pricePerGuest: tour.price,
         bookingId: booking.id,
         baseUrl,
+        meetingPointAddress: tour.meeting_point_address,
       });
 
       sendEmail({

@@ -311,6 +311,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
       pricePerGuest: tour.price,
       bookingId: booking.id,
       baseUrl: process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com",
+      meetingPointAddress: tour.meeting_point_address,
     });
     sendEmail({
       to: customerEmail,

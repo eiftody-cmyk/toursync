@@ -11,7 +11,7 @@ export async function GET() {
 
   const { data: tours, error } = await supabase
     .from("tours")
-    .select("id, name, description, capacity, price, currency, product_type, ticket_type");
+    .select("id, name, description, capacity, price, currency, product_type, ticket_type, meeting_point_address");
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
@@ -41,6 +41,7 @@ export async function GET() {
       price: tour.price,
       currency: tour.currency,
       max_guests: tour.capacity,
+      meeting_point_address: tour.meeting_point_address,
       language: "en",
       ...(meta
         ? {
@@ -145,6 +146,13 @@ export async function POST(request: Request) {
 
   const description = typeof body.description === "string" ? body.description.trim() || null : null;
 
+  let meetingPointAddress: string | null = null;
+  if ("meeting_point_address" in body) {
+    meetingPointAddress = typeof body.meeting_point_address === "string"
+      ? body.meeting_point_address.trim() || null
+      : null;
+  }
+
   const payload = {
     user_id: user.id,
     name,
@@ -159,6 +167,7 @@ export async function POST(request: Request) {
     group_size_min: groupSizeMin,
     group_size_max: groupSizeMax,
     opening_hours: openingHours,
+    meeting_point_address: meetingPointAddress,
   };
 
   const { data, error } = await supabase.from("tours").insert(payload).select("id").single();
@@ -273,6 +282,12 @@ export async function PATCH(request: Request) {
     } else {
       update.opening_hours = null;
     }
+  }
+
+  if ("meeting_point_address" in body) {
+    update.meeting_point_address = typeof body.meeting_point_address === "string"
+      ? body.meeting_point_address.trim() || null
+      : null;
   }
 
   if (Object.keys(update).length === 0) {

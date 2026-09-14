@@ -14,6 +14,7 @@ export interface TourLookupResult {
     group_size_min: number;
     group_size_max: number;
     opening_hours: { fromTime: string; toTime: string } | null;
+    meeting_point_address: string | null;
   };
   tourId: string;
 }

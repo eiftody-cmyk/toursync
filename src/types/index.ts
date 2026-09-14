@@ -7,6 +7,7 @@ export type Tour = {
   price: number | null;
   currency: string;
   google_calendar_id: string | null;
+  meeting_point_address: string | null;
   cutoff_minutes: number;
   new_guest_cutoff_minutes: number | null;
   product_type: "time_point" | "time_period";
