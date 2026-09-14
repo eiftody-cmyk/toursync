@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { createPaypalOrder } from "@/lib/paypal/client";
+import { getPaymentProvider } from "@/lib/payments";
 import { rateLimit, clientIp } from "@/lib/security/rateLimit";
 import {
   clusterBlockRows,
@@ -123,21 +123,21 @@ export async function POST(req: NextRequest) {
   const customId = [tour_id, date, start_time ?? "", guest_count].join("|");
 
   try {
-    const order = await createPaypalOrder({
+    const provider = getPaymentProvider();
+    const order = await provider.createOrder({
       tourName: tour.name,
       amount: Math.round(tour.price * guest_count),
       currency: tour.currency || "JPY",
       customId,
     });
 
-    const approveLink = order.links.find((l) => l.rel === "approve");
     return NextResponse.json({
       orderId: order.id,
-      approveUrl: approveLink?.href,
+      approveUrl: order.approveUrl,
     });
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
-    console.error("[PayPal] create order failed:", msg);
-    return NextResponse.json({ error: "Failed to create PayPal order" }, { status: 500 });
+    console.error("[Payment] create order failed:", msg);
+    return NextResponse.json({ error: "Failed to create payment order" }, { status: 500 });
   }
 }

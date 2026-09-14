@@ -3,6 +3,7 @@ import { z } from "zod";
 import { createServiceClient } from "@/lib/supabase/service";
 import { generateAvailableDates } from "@/lib/schedules/generateDates";
 import { tourCatalog, BASE_URL } from "@/lib/tours/catalog";
+import { getPaymentProvider } from "@/lib/payments";
 
 function createServer() {
   const server = new McpServer({ name: "toursync", version: "1.0.0" });
@@ -219,6 +220,23 @@ function createServer() {
             ),
           },
         ],
+      };
+    },
+  );
+
+  server.registerTool(
+    "get_payment_methods",
+    {
+      description:
+        "List available payment methods. Returns current payment providers, their status, and supported currencies.",
+      inputSchema: z.object({}),
+      annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+    },
+    async (_args: Record<string, never>) => {
+      const provider = getPaymentProvider();
+      const methods = provider.getMethods();
+      return {
+        content: [{ type: "text" as const, text: JSON.stringify(methods, null, 2) }],
       };
     },
   );

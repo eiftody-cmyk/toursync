@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
-import { captureOrder, getPaypalOrder } from "@/lib/paypal/client";
+import { getPaymentProvider } from "@/lib/payments";
 import { sendEmail } from "@/lib/email/client";
 import { bookingConfirmationEmail } from "@/lib/email/booking-confirmation";
 import { operatorNotificationEmail } from "@/lib/email/operator-notification";
@@ -22,20 +22,22 @@ export async function POST(req: NextRequest) {
 
   let captureResult;
   try {
-    captureResult = await captureOrder(orderId);
+    const provider = getPaymentProvider();
+    captureResult = await provider.captureOrder(orderId);
 
     if (captureResult.status !== "COMPLETED") {
       return NextResponse.json({ error: "Payment not completed" }, { status: 400 });
     }
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
-    console.error("[PayPal capture] Capture failed:", msg);
+    console.error("[Payment] capture failed:", msg);
     return NextResponse.json({ error: "Payment capture failed" }, { status: 500 });
   }
 
   let orderDetails;
   try {
-    orderDetails = await getPaypalOrder(orderId);
+    const provider = getPaymentProvider();
+    orderDetails = await provider.getOrder(orderId);
   } catch {
     return NextResponse.json({ error: "Order verification failed" }, { status: 500 });
   }
@@ -44,13 +46,13 @@ export async function POST(req: NextRequest) {
   // Format: tour_id|date|start_time|guest_count[|custom=true|customer_phone]
   const customId = orderDetails.custom_id;
   if (!customId) {
-    console.error("[PayPal capture] No custom_id in order", orderId);
+    console.error("[Payment] No custom_id in order", orderId);
     return NextResponse.json({ error: "Invalid order data" }, { status: 400 });
   }
 
   const parts = customId.split("|");
   if (parts.length < 4) {
-    console.error("[PayPal capture] Invalid custom_id format:", customId);
+    console.error("[Payment] Invalid custom_id format:", customId);
     return NextResponse.json({ error: "Invalid order data" }, { status: 400 });
   }
 
@@ -60,7 +62,7 @@ export async function POST(req: NextRequest) {
   const customerPhone = isCustomTime && parts[5] ? decodeURIComponent(parts[5]) : null;
 
   if (!tourId || !date || !guestCount || guestCount < 1) {
-    console.error("[PayPal capture] Invalid booking data:", customId);
+    console.error("[Payment] Invalid booking data:", customId);
     return NextResponse.json({ error: "Invalid order data" }, { status: 400 });
   }
 
@@ -81,7 +83,7 @@ export async function POST(req: NextRequest) {
   const expectedPaid = tour.currency === "JPY" ? rawTotal : rawTotal / 100;
   const paidValue = Number(orderDetails.amount?.value);
   if (Number.isNaN(paidValue) || Math.abs(paidValue - expectedPaid) > 0.01) {
-    console.warn("[PayPal capture] amount mismatch — rejecting", {
+    console.warn("[Payment] amount mismatch — rejecting", {
       expected: expectedPaid,
       actual: paidValue,
     });
@@ -105,7 +107,7 @@ export async function POST(req: NextRequest) {
     .eq("id", tour.user_id)
     .single();
 
-  // Payer info from PayPal capture response — server-side only, never from client.
+  // Payer info from payment capture response — server-side only, never from client.
   const payerEmail = captureResult.payer?.email_address ?? null;
   const payerName = captureResult.payer?.name
     ? `${captureResult.payer.name.given_name ?? ""} ${captureResult.payer.name.surname ?? ""}`.trim() || null
@@ -123,7 +125,7 @@ export async function POST(req: NextRequest) {
       customer_name: payerName ?? payerEmail,
       customer_email: payerEmail,
       paypal_order_id: orderId,
-      paypal_capture_id: captureResult.purchase_units?.[0]?.payments?.captures?.[0]?.id ?? null,
+      paypal_capture_id: captureResult.captureId ?? null,
       notes: isCustomTime
         ? JSON.stringify({
             custom_time: true,
@@ -136,7 +138,7 @@ export async function POST(req: NextRequest) {
     .single();
 
   if (error) {
-    console.error("[PayPal capture] Failed to create booking:", error.message);
+    console.error("[Payment] Failed to create booking:", error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
@@ -221,7 +223,7 @@ export async function POST(req: NextRequest) {
       link: "/dashboard",
     })
     .then(({ error: notifError }) => {
-      if (notifError) console.error("[PayPal capture] Notification insert failed:", notifError.message);
+      if (notifError) console.error("[Payment] Notification insert failed:", notifError.message);
     });
 
   if (!isCustomTime) {
@@ -254,11 +256,11 @@ export async function POST(req: NextRequest) {
           }),
         });
       } catch (e) {
-        console.error("[PayPal capture] Auto-block failed:", e);
+        console.error("[Payment] Auto-block failed:", e);
       }
     }
   }
 
-  console.log(`[PayPal capture] Booking created: ${tourId} on ${date} for ${guestCount} guests | emails: ${emailResults.join(", ")}`);
+  console.log(`[Payment] Booking created: ${tourId} on ${date} for ${guestCount} guests | emails: ${emailResults.join(", ")}`);
   return NextResponse.json({ ok: true, bookingId: booking.id, emails: emailResults });
 }

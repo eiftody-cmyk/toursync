@@ -75,16 +75,17 @@ export async function POST(req: NextRequest) {
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
 
-  // Issue PayPal refund if capture ID is available
+  // Issue payment refund if capture ID is available
   let refundIssued = false;
   if (booking.paypal_capture_id) {
     try {
-      const { refundCapture } = await import("@/lib/paypal/client");
-      await refundCapture(booking.paypal_capture_id, "Tour cancelled by operator");
+      const { getPaymentProvider } = await import("@/lib/payments");
+      const provider = getPaymentProvider();
+      await provider.refundPayment(booking.paypal_capture_id, "Tour cancelled by operator");
       refundIssued = true;
-      console.log(`[Booking cancel] PayPal refund issued for capture ${booking.paypal_capture_id}`);
+      console.log(`[Booking cancel] Refund issued for capture ${booking.paypal_capture_id}`);
     } catch (e) {
-      console.error("[Booking cancel] PayPal refund failed:", e);
+      console.error("[Booking cancel] Refund failed:", e);
     }
   }
 
