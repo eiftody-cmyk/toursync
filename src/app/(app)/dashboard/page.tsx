@@ -84,10 +84,7 @@ export default async function DashboardPage() {
         <EarningsByListing bookings={bookings} tours={tours} commissionRates={commissionRates} />
       </div>
 
-      <div>
-        <h2 className="text-lg font-semibold mb-3">Your Tours</h2>
-        <TourCards bookings={bookings} tours={tours} commissionRates={commissionRates} />
-      </div>
+      <TourCards bookings={bookings} tours={tours} commissionRates={commissionRates} />
 
       <div className="grid md:grid-cols-2 gap-4">
         <BookingTable bookings={bookings} tours={tours} />
