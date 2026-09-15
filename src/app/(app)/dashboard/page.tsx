@@ -8,8 +8,7 @@ import { InsightsBanner } from "@/components/dashboard/InsightsBanner";
 import { TodaySummary } from "@/components/dashboard/TodaySummary";
 import { PerformanceSummary } from "@/components/dashboard/PerformanceSummary";
 import { EarningsByListing } from "@/components/dashboard/EarningsByListing";
-import { TourCards } from "@/components/dashboard/TourCards";
-import { BookingTable } from "@/components/dashboard/BookingTable";
+import { TourBookings } from "@/components/dashboard/TourBookings";
 import { BlockedDatesGrouped } from "@/components/dashboard/BlockedDatesGrouped";
 
 export default async function DashboardPage() {
@@ -84,12 +83,9 @@ export default async function DashboardPage() {
         <EarningsByListing bookings={bookings} tours={tours} commissionRates={commissionRates} />
       </div>
 
-      <TourCards bookings={bookings} tours={tours} commissionRates={commissionRates} />
+      <TourBookings bookings={bookings} tours={tours} commissionRates={commissionRates} />
 
-      <div className="grid md:grid-cols-2 gap-4">
-        <BookingTable bookings={bookings} tours={tours} />
-        <BlockedDatesGrouped blocked={blocked} tours={tours} />
-      </div>
+      <BlockedDatesGrouped blocked={blocked} tours={tours} />
 
       <p className="text-xs text-muted-foreground">
         Today: {today} · Google Calendar: {tokens ? `connected (${tokens.calendar_id})` : "not connected"} ·
