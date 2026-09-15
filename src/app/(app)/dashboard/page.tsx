@@ -1,15 +1,19 @@
 import { createClient } from "@/lib/supabase/server";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { todayJST } from "@/lib/time";
 import { startOfYear } from "date-fns";
-import { InsightsBanner } from "@/components/dashboard/InsightsBanner";
-import { TodaySummary } from "@/components/dashboard/TodaySummary";
+import { ActionRequired } from "@/components/dashboard/ActionRequired";
+import { TodaySchedule } from "@/components/dashboard/TodaySchedule";
+import { UpcomingTours } from "@/components/dashboard/UpcomingTours";
+import { ConnectionStatus } from "@/components/dashboard/ConnectionStatus";
+import { ActivityLog } from "@/components/dashboard/ActivityLog";
+import { ValueMetric } from "@/components/dashboard/ValueMetric";
 import { PerformanceSummary } from "@/components/dashboard/PerformanceSummary";
 import { EarningsByListing } from "@/components/dashboard/EarningsByListing";
 import { TourBookings } from "@/components/dashboard/TourBookings";
 import { BlockedDatesGrouped } from "@/components/dashboard/BlockedDatesGrouped";
+import { RevenueExpandable } from "@/components/dashboard/RevenueExpandable";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -24,7 +28,11 @@ export default async function DashboardPage() {
 
   const [toursResult, bookingsResult, blockedResult, tokensResult, settingsResult] =
     await Promise.all([
-      supabase.from("tours").select("*").eq("user_id", user.id).order("created_at"),
+      supabase
+        .from("tours")
+        .select("*, tour_channel_listings(channel, is_active)")
+        .eq("user_id", user.id)
+        .order("created_at"),
       supabase
         .from("bookings")
         .select("*, tours(name, price, currency)")
@@ -44,7 +52,7 @@ export default async function DashboardPage() {
   const commissionRates = (settingsResult.data?.commission_rates as Record<string, number>) ?? null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <div className="flex gap-2">
@@ -57,40 +65,28 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {!tokens && (
-        <Card className="border-amber-300 bg-amber-50 dark:bg-amber-950/20">
-          <CardContent className="pt-6 text-sm">
-            <strong>Connect Google Calendar</strong> to sync blocks to Airbnb.
-            <Button asChild size="sm" className="ml-3">
-              <a href="/api/auth/google">Connect</a>
-            </Button>
-          </CardContent>
-        </Card>
-      )}
-
-      <InsightsBanner bookings={bookings} tours={tours} blocked={blocked} />
-
-      <TodaySummary
-        allBookings={bookings}
-        allBlocked={blocked}
-        tours={tours}
-        commissionRates={commissionRates}
-        today={today}
-      />
+      <ActionRequired bookings={bookings} tours={tours} blocked={blocked} />
 
       <div className="grid md:grid-cols-2 gap-4">
-        <PerformanceSummary bookings={bookings} tours={tours} commissionRates={commissionRates} />
-        <EarningsByListing bookings={bookings} tours={tours} commissionRates={commissionRates} />
+        <TodaySchedule bookings={bookings} tours={tours} blocked={blocked} />
+        <UpcomingTours bookings={bookings} tours={tours} blocked={blocked} />
       </div>
+
+      <ConnectionStatus tokens={tokens} tours={tours} />
+
+      <ActivityLog />
+
+      <ValueMetric bookings={bookings} />
+
+      <RevenueExpandable
+        bookings={bookings}
+        tours={tours}
+        commissionRates={commissionRates}
+      />
 
       <TourBookings bookings={bookings} tours={tours} commissionRates={commissionRates} />
 
       <BlockedDatesGrouped blocked={blocked} tours={tours} />
-
-      <p className="text-xs text-muted-foreground">
-        Today: {today} · Google Calendar: {tokens ? `connected (${tokens.calendar_id})` : "not connected"} ·
-        Busy blocks push to Airbnb immediately via Google Calendar.
-      </p>
     </div>
   );
 }

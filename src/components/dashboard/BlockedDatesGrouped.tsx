@@ -59,7 +59,7 @@ export function BlockedDatesGrouped({
                           {tour?.name ?? "All tours"}
                           {bl.start_time ? ` ${String(bl.start_time).slice(0, 5)}` : ""}
                         </Link>
-                        <div className="flex gap-1 shrink-0">
+                        <div className="flex items-center gap-1.5 shrink-0">
                           {isAuto && (
                             <Badge variant="destructive" className="text-[10px] px-1 py-0">
                               auto
@@ -74,6 +74,11 @@ export function BlockedDatesGrouped({
                             <Badge variant="outline" className="text-[10px] px-1 py-0">
                               manual
                             </Badge>
+                          )}
+                          {bl.reason && (
+                            <span className="text-[10px] text-muted-foreground truncate max-w-[120px]">
+                              {bl.reason}
+                            </span>
                           )}
                         </div>
                       </div>

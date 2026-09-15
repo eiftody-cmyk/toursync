@@ -10,6 +10,17 @@ import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { format, addDays, isBefore, parseISO } from "date-fns";
 
+const BLOCK_REASON_PRESETS = [
+  "Personal",
+  "Day off",
+  "Weather",
+  "Holiday",
+  "Private event",
+  "Maintenance",
+  "Sick day",
+  "Travel",
+];
+
 export function BlockModal({
   open,
   onOpenChange,
@@ -305,10 +316,25 @@ export function BlockModal({
 
           <div>
             <Label>Reason</Label>
+            <div className="flex flex-wrap gap-1.5 mt-1">
+              {BLOCK_REASON_PRESETS.map((preset) => (
+                <Button
+                  key={preset}
+                  type="button"
+                  variant={reason === preset ? "default" : "outline"}
+                  size="sm"
+                  className="h-7 text-xs px-2"
+                  onClick={() => setReason(reason === preset ? "" : preset)}
+                >
+                  {preset}
+                </Button>
+              ))}
+            </div>
             <Input
-              placeholder="Typhoon, sick day, personal, etc."
+              placeholder="Custom reason (optional)"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
+              className="mt-1.5"
             />
           </div>
 
