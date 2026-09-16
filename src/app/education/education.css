@@ -155,45 +155,45 @@ a:hover {
   font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: white;
-  background: var(--edu-navy);
+  color: var(--edu-ink);
+  background: var(--edu-gold);
   padding: 0.6rem 1.5rem;
   text-decoration: none;
   border-radius: 3px;
-  border: none;
+  border: 1px solid var(--edu-gold);
   cursor: pointer;
   transition: background 0.25s, transform 0.2s;
   text-align: center;
 }
 
 .edu-cta-btn:hover {
-  background: var(--edu-navy-light);
+  background: var(--edu-gold-light);
   transform: translateY(-1px);
-  color: white;
 }
 
 .edu-cta-btn.secondary {
   background: transparent;
-  color: var(--edu-navy);
-  border: 1px solid var(--edu-navy);
+  color: var(--edu-gold);
+  border: 1px solid var(--edu-gold);
 }
 
 .edu-cta-btn.secondary:hover {
-  background: var(--edu-navy);
-  color: white;
+  background: var(--edu-gold);
+  color: var(--edu-ink);
 }
 
 /* ── HERO ── */
 .edu-hero {
   padding: 5rem 2rem 4rem;
   text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
+  background: var(--edu-ink);
+  color: var(--edu-parchment);
+  border-bottom: 3px solid var(--edu-gold);
 }
 
 .edu-hero h1 {
   font-size: clamp(2rem, 4vw, 3rem);
-  color: var(--edu-ink);
+  color: var(--edu-parchment);
   line-height: 1.2;
   margin-bottom: 1rem;
   letter-spacing: 0.02em;
@@ -202,7 +202,7 @@ a:hover {
 .edu-hero .subtitle {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.2rem;
-  color: var(--edu-stone);
+  color: var(--edu-gold-light);
   max-width: 600px;
   margin: 0 auto 2rem;
   font-style: italic;
@@ -237,6 +237,9 @@ a:hover {
   color: var(--edu-ink);
   margin-bottom: 0.5rem;
   letter-spacing: 0.02em;
+  border-bottom: 2px solid var(--edu-gold-light);
+  padding-bottom: 0.5rem;
+  display: inline-block;
 }
 
 .edu-section .section-subtitle {
@@ -250,6 +253,7 @@ a:hover {
 .edu-problem {
   background: var(--edu-card);
   border: 1px solid var(--edu-border);
+  border-left: 3px solid var(--edu-gold);
   border-radius: 6px;
   padding: 2rem 2.5rem;
   margin: 2rem 0;
@@ -279,7 +283,7 @@ a:hover {
 
 .method-step {
   background: var(--edu-card);
-  border: 1px solid var(--edu-border);
+  border: 1px solid var(--edu-gold-light);
   border-radius: 6px;
   padding: 1.5rem;
   text-align: center;
@@ -304,8 +308,8 @@ a:hover {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--edu-navy);
-  color: white;
+  background: var(--edu-gold);
+  color: var(--edu-ink);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -609,8 +613,8 @@ a:hover {
 }
 
 .pricing-card.featured {
-  border-color: var(--edu-navy);
-  box-shadow: 0 4px 20px rgba(44, 62, 107, 0.1);
+  border-color: var(--edu-gold);
+  box-shadow: 0 4px 20px rgba(200, 169, 110, 0.15);
 }
 
 .pricing-card h3 {
@@ -623,7 +627,7 @@ a:hover {
 .pricing-card .price {
   font-family: 'Cinzel', serif;
   font-size: 1.8rem;
-  color: var(--edu-navy);
+  color: var(--edu-gold);
   margin-bottom: 0.25rem;
 }
 

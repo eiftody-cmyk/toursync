@@ -50,9 +50,9 @@ export const investigationExamples: InvestigationExample[] = [
       "大阪城",
     ],
     discovery:
-      "Students identified geography, military, political, and symbolic reasons. The final discussion revealed that Hideyoshi's choice was primarily about projecting authority over the Kinai region — not just military defence.",
+      "Students examine geographical, military, political and symbolic explanations for Hideyoshi's choice. Their conclusions are then tested against archaeological evidence and contemporary sources.",
     discoveryJa:
-      "生徒は地理的、軍事的、政治的、象徴的な理由を特定した。最終討議により、秀吉の選択は軍事防衛だけでなく、近畿地域への権威の誇示が主眼であったことが明らかになった。",
+      "生徒は地理的、軍事的、政治的、象徴的な秀吉の選択の説明を検討する。その結論は考古学的証拠と同時代の史料で検証される。",
     feedback:
       "My students said this was the first time history felt like something they could actually think about.",
     feedbackJa:
