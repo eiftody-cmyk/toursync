@@ -56,19 +56,6 @@ export const educationTimelineLinks: TimelineLink[] = [
     heroImage: "Ishiyama.webp",
   },
   {
-    slug: "deeptimeline",
-    titleEn: "The Uemachi Plateau — A Deep Time Timeline",
-    titleJa: "上町台地 — ディープタイム年表",
-    descriptionEn:
-      "The geological and archaeological deep-time history of the ridge beneath Osaka Castle.",
-    descriptionJa:
-      "大阪城の下にある尾根の地質学的・考古学的ディープタイムの歴史。",
-    period: "Ancient–Modern",
-    periodJa: "古代〜近代",
-    relevantThemes: ["ancient-osaka", "geography-power"],
-    heroImage: "formerniwapalace.webp",
-  },
-  {
     slug: "three-unifiers",
     titleEn: "Three Unifiers — Osaka Castle Walks with Edward",
     titleJa: "三人の統一者 — 大阪城ウォークス",
@@ -121,32 +108,6 @@ export const educationTimelineLinks: TimelineLink[] = [
     heroImage: "images/jomon-people.webp",
   },
   {
-    slug: "warriormonkspeasantshogun",
-    titleEn: "Warrior Monks, Peasant & Shogun",
-    titleJa: "武者団、足軽、将軍",
-    descriptionEn:
-      "Three fortresses on the Osaka Castle site: warrior-monk stronghold, Toyotomi fortress, Tokugawa burial.",
-    descriptionJa:
-      "大阪城跡地の三つの要塞：武者団の拠点、豊臣の要塞、徳川の埋葬地。",
-    period: "Sengoku–Tokugawa",
-    periodJa: "戦国〜江戸",
-    relevantThemes: ["warrior-monks", "hideyoshi", "tokugawa"],
-    heroImage: "toyotomihideyoshi.webp",
-  },
-  {
-    slug: "beforejapanhadaname",
-    titleEn: "Before Japan Had a Name",
-    titleJa: "「日本」という国が生まれる前",
-    descriptionEn:
-      "A 7,000-year deep history covering Jomon settlements through Queen Himiko and the first imperial capitals.",
-    descriptionJa:
-      "7,000年の深歴史 — 縄文の定住から卑弥呼、最初の帝都まで。",
-    period: "Ancient",
-    periodJa: "古代",
-    relevantThemes: ["ancient-osaka", "geography-power"],
-    heroImage: "kofun.webp",
-  },
-  {
     slug: "empress-shotoku",
     titleEn: "Empress Shotoku, Dokyo & Naniwa Dynamics",
     titleJa: "称徳天皇、道鏡、難波の力学",
@@ -184,31 +145,6 @@ export const educationTimelineLinks: TimelineLink[] = [
     periodJa: "古代",
     relevantThemes: ["ancient-osaka"],
     heroImage: "images/yayoi_boat.webp",
-  },
-  {
-    slug: "osaka-castle-vs-himeji-castle",
-    titleEn: "Osaka Castle or Himeji Castle? An Honest Comparison",
-    titleJa: "大阪城か姫路城か？正直な比較",
-    descriptionEn:
-      "Himeji as the unburned original, Osaka as where Japan's history actually happened.",
-    descriptionJa:
-      "姫路は燃え残った原点、大阪は日本の歴史が実際に起きた場所。",
-    period: "Cross-period",
-    periodJa: "通史",
-    relevantThemes: ["historical-memory", "tokugawa"],
-  },
-  {
-    slug: "goddess_queen_empress_concubine",
-    titleEn: "Goddess, Queen, Empress, Concubine",
-    titleJa: "女神、女王、天皇、側室",
-    descriptionEn:
-      "2,000 years of influential women in Japanese history, from goddesses to Yodo-dono.",
-    descriptionJa:
-      "女神から淀殿まで — 日本史における影響力ある女性2,000年の歴史。",
-    period: "Ancient–Sengoku",
-    periodJa: "古代〜戦国",
-    relevantThemes: ["ancient-osaka", "hideyoshi", "historical-memory"],
-    heroImage: "himiko.webp",
   },
   {
     slug: "empress_jingu_timeline",
@@ -313,19 +249,6 @@ export const educationTimelineLinks: TimelineLink[] = [
     periodJa: "平安〜近代",
     relevantThemes: ["ancient-osaka", "historical-memory"],
     heroImage: "tenjin-matsuri-hero.webp",
-  },
-  {
-    slug: "lordconcubineshogunlie",
-    titleEn: "A Lord, a Concubine, and a Shogun's Lie",
-    titleJa: "大名、側室、将軍の嘘",
-    descriptionEn:
-      "Investigating the deaths of Toyotomi Hideyori and Yodo-dono — challenging the Tokugawa official narrative.",
-    descriptionJa:
-      "豊臣秀頼と淀殿の死を調査する — 徳川の公式見解に疑問を投げかける。",
-    period: "Sengoku–Edo",
-    periodJa: "戦国〜江戸",
-    relevantThemes: ["tokugawa", "historical-memory", "power-propaganda"],
-    heroImage: "yododonohideyori.webp",
   },
 ];
 
