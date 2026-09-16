@@ -7,6 +7,7 @@ workers_dev = true
 routes = [
   { pattern = "osakacastletours.com/_next/*", zone_name = "osakacastletours.com" },
   { pattern = "osakacastletours.com/api/*", zone_name = "osakacastletours.com" },
+  { pattern = "osakacastletours.com/education*", zone_name = "osakacastletours.com" },
   { pattern = "osakacastletours.com/book*", zone_name = "osakacastletours.com" },
   { pattern = "osakacastletours.com/dashboard", zone_name = "osakacastletours.com" },
   { pattern = "osakacastletours.com/dashboard/*", zone_name = "osakacastletours.com" },
