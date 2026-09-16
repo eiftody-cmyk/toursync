@@ -72,6 +72,12 @@ export const en = {
       closing:
         "History as a discipline. Not a guided tour.",
     },
+    companion: {
+      title: "Post-Visit Companion",
+      subtitle: "Every class receives a digital record of the investigation.",
+      body: "After the investigation, every class receives a Post-Visit Companion — a digital document containing photographs from the field lesson, a recap of the historical dilemmas explored, and the historical context for each site visited.\n\nOne page per location. Group photographs at each landmark. Candid shots of students investigating, discussing, and presenting. The teacher distributes it to students so they have a lasting memory of the investigation — and something to show parents.",
+      note: "Designed for school groups. Translated to Japanese. Photography requires advance school consent.",
+    },
     timeline: {
       title: "Explore the Evidence",
       subtitle:
@@ -416,6 +422,7 @@ export const en = {
         "Whole-class discussion",
         "Historian's evidence-based conclusion",
         "Post-visit teacher materials",
+        "Post-Visit Companion (photographs + recap)",
       ],
     },
     extended: {

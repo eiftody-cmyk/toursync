@@ -80,6 +80,42 @@ export default function EducationHub() {
         </p>
       </section>
 
+      {/* Post-Visit Companion */}
+      <section className="edu-section">
+        <h2>{t.hub.companion.title}</h2>
+        <p className="section-subtitle">{t.hub.companion.subtitle}</p>
+        <div
+          style={{
+            maxWidth: 700,
+            margin: "1.5rem 0",
+          }}
+        >
+          {t.hub.companion.body.split("\n\n").map((p, i) => (
+            <p
+              key={i}
+              style={{
+                fontSize: "1.05rem",
+                lineHeight: 1.7,
+                color: "var(--edu-ink)",
+                marginBottom: i < t.hub.companion.body.split("\n\n").length - 1 ? "1rem" : 0,
+              }}
+            >
+              {p}
+            </p>
+          ))}
+          <p
+            style={{
+              fontSize: "0.85rem",
+              color: "var(--edu-muted)",
+              fontStyle: "italic",
+              marginTop: "1.5rem",
+            }}
+          >
+            {t.hub.companion.note}
+          </p>
+        </div>
+      </section>
+
       {/* Examples */}
       <section className="edu-section">
         <h2>
