@@ -23,7 +23,7 @@ export const en = {
     },
     problem: {
       title: "The Opportunity",
-      body: "A visit to Osaka Castle can be much more than a chance to see an important historical site. The landscape itself provides students with an opportunity to ask questions, examine evidence, and explore how and why historical events unfolded where they did.\n\nHistory becomes more meaningful when students don't simply receive information, but investigate it for themselves.\n\nHistory shouldn't just be learned from a textbook. It should be investigated where it happened.",
+      body: "Imagine standing where Hideyoshi built Osaka Castle and asking your students:\n\n**Why here? Why this enormous? And if you were Hideyoshi, what would you do?**\n\nInstead of simply receiving the history, students examine the landscape, consider the evidence, debate the possibilities, and defend their own interpretation.\n\nThat is the difference between **seeing history** and **investigating it**.\n\nHistory becomes more memorable when students have to think like historians — **where history happened.**",
     },
     method: {
       title: "Osaka History Investigations",

@@ -255,7 +255,7 @@ a:hover {
   border: 1px solid var(--edu-border);
   border-left: 4px solid var(--edu-gold);
   border-radius: 6px;
-  padding: 3rem 3.5rem;
+  padding: 2.5rem 3rem;
   margin: 3rem 0;
 }
 
@@ -268,7 +268,7 @@ a:hover {
 }
 
 .edu-problem p {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   line-height: 1.8;
   color: var(--edu-ink);
 }
