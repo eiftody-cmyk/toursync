@@ -17,13 +17,13 @@ export const en = {
     hero: {
       headline: "You choose the question.\nI bring the history.",
       subtitle:
-        "English-language field investigations at Osaka Castle led by a historian and veteran English teacher.",
+        "English-language field investigations at Osaka Castle led by a historian and veteran English coach.",
       cta: "Request an Investigation",
       secondary: "See a Sample Lesson",
     },
     problem: {
       title: "The Opportunity",
-      body: "Imagine standing where Hideyoshi built Osaka Castle and asking your students:\n\n**Why here? Why this enormous? And if you were Hideyoshi, what would you do?**\n\nInstead of simply receiving the history, students examine the landscape, consider the evidence, debate the possibilities, and defend their own interpretation.\n\nThat is the difference between **seeing history** and **investigating it**.\n\nHistory becomes more memorable when students have to think like historians — **where history happened.**",
+      body: "Imagine standing where Hideyoshi built Osaka Castle and asking your students:\n\nWhy here? Why this enormous? And if you were Hideyoshi, what would you do?\n\nInstead of simply receiving the history, students examine the landscape, consider the evidence, debate the possibilities, and defend their own interpretation.\n\nThat is the difference between seeing history and investigating it.\n\nHistory becomes more memorable when students have to think like historians — where history happened.",
     },
     method: {
       title: "Osaka History Investigations",
@@ -75,7 +75,7 @@ export const en = {
     companion: {
       title: "Post-Visit Companion",
       subtitle: "Every class receives a digital record of the investigation.",
-      body: "After the investigation, every class receives a Post-Visit Companion — a digital document containing photographs from the field lesson, a recap of the historical dilemmas explored, and the historical context for each site visited.\n\nOne page per location. Group photographs at each landmark. Candid shots of students investigating, discussing, and presenting. The teacher distributes it to students so they have a lasting memory of the investigation — and something to show parents.",
+      body: "After the investigation, every class receives a Post-Visit Companion — a digital document containing photographs from the field lesson, a recap of the historical dilemmas explored, and the historical context for each site visited.\n\nOne page per location. Group photographs at each landmark. Candid shots of students investigating, discussing, and presenting. The coach distributes it to students so they have a lasting memory of the investigation — and something to show parents.",
       note: "Designed for school groups. Translated to Japanese. Photography requires advance school consent.",
     },
     timeline: {
@@ -86,12 +86,12 @@ export const en = {
     about: {
       title: "About Edward Iftody",
       paragraphs: [
-        "Edward Iftody is a historian, historical guide, and veteran English teacher who has taught in Japan since 2009. Based one block from Osaka Castle, he specializes in Japanese political history and historical geography.",
-        "His field investigations combine historical inquiry with structured English-language activities designed for students studying in Japan. He understands both sides of the desk — what a teacher needs to justify to an administrator, what makes a field trip stressful, and how to turn historical content into an actual lesson.",
+        "Edward Iftody is a historian, historical guide, and veteran English coach who has taught in Japan since 2009. Based one block from Osaka Castle, he specializes in Japanese political history and historical geography.",
+        "His field investigations combine historical inquiry with structured English-language activities designed for students studying in Japan. He understands both sides of the desk — what a coach needs to justify to an administrator, what makes a field trip stressful, and how to turn historical content into an actual lesson.",
       ],
       credentials: [
         "Historian & researcher",
-        "English teacher since 2009",
+        "English coach since 2009",
         "Osaka-based specialist",
         "Political history & historical geography",
       ],
@@ -321,7 +321,7 @@ export const en = {
     included: {
       title: "Every Field Lesson Can Include",
       items: [
-        "Teacher briefing",
+        "Coach briefing",
         "Customized learning objectives",
         "Student field workbook",
         "Socratic investigation questions",
@@ -331,7 +331,7 @@ export const en = {
         "Post-lesson questions",
         "Quiz or test questions",
         "Essay prompts",
-        "Answer key and teacher notes",
+        "Answer key and coach notes",
       ],
     },
     closing:
@@ -412,7 +412,7 @@ export const en = {
         { size: "Up to 40 students", price: "¥95,000" },
       ],
       includes: [
-        "Teacher briefing",
+        "Coach briefing",
         "Student pre-reading",
         "Key vocabulary",
         "Learning objective",
@@ -421,7 +421,7 @@ export const en = {
         "English/Japanese facilitation",
         "Whole-class discussion",
         "Historian's evidence-based conclusion",
-        "Post-visit teacher materials",
+        "Post-visit coach materials",
         "Post-Visit Companion (photographs + recap)",
       ],
     },
@@ -479,7 +479,7 @@ export const en = {
         "Short-answer questions",
         "Essay/discussion prompt",
         "Suggested answers",
-        "Teacher notes",
+        "Coach notes",
         "Quiz/test material",
       ],
     },
