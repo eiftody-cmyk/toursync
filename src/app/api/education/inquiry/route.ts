@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
   const email =
     typeof body.email === "string" ? body.email.trim() : "";
   const schoolType =
-    typeof body.schoolType === "string" ? body.schoolType.trim() : "";
+    typeof body.level === "string" ? body.level.trim() : "";
   const classSize =
     typeof body.classSize === "string" ? body.classSize.trim() : "";
   const language =
