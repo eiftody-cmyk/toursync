@@ -38,7 +38,7 @@ export function TimelineHooks({
         {links.map((link) => (
           <a
             key={link.slug}
-            href={locale === "ja" ? `/ja/${link.slug}.html` : `/${link.slug}.html`}
+            href={`/ja/${link.slug}.html`}
             className="timeline-hook-card"
           >
             <span className="timeline-hook-period">
