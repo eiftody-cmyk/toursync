@@ -7,6 +7,7 @@ export interface TimelineLink {
   period: string;
   periodJa: string;
   relevantThemes: string[];
+  heroImage?: string;
 }
 
 export const educationTimelineLinks: TimelineLink[] = [
@@ -26,6 +27,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "power-propaganda",
       "historical-memory",
     ],
+    heroImage: "toyotomicastle.webp",
   },
   {
     slug: "toyotomihideyoshi",
@@ -38,6 +40,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Sengoku",
     periodJa: "戦国",
     relevantThemes: ["hideyoshi", "power-propaganda", "geography-power"],
+    heroImage: "toyotomihideyoshi.webp",
   },
   {
     slug: "ishiyama-timeline",
@@ -50,6 +53,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Sengoku",
     periodJa: "戦国",
     relevantThemes: ["warrior-monks", "geography-power"],
+    heroImage: "Ishiyama.webp",
   },
   {
     slug: "deeptimeline",
@@ -62,6 +66,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient–Modern",
     periodJa: "古代〜近代",
     relevantThemes: ["ancient-osaka", "geography-power"],
+    heroImage: "formerniwapalace.webp",
   },
   {
     slug: "three-unifiers",
@@ -74,6 +79,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Sengoku–Tokugawa",
     periodJa: "戦国〜江戸",
     relevantThemes: ["hideyoshi", "tokugawa", "power-propaganda"],
+    heroImage: "nobunaga.webp",
   },
   {
     slug: "tokugawa-ieyasu-timeline",
@@ -86,6 +92,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Tokugawa",
     periodJa: "江戸",
     relevantThemes: ["tokugawa", "power-propaganda", "historical-memory"],
+    heroImage: "ieyasu.webp",
   },
   {
     slug: "toyotomi_hideyori",
@@ -98,6 +105,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Sengoku–Tokugawa",
     periodJa: "戦国〜江戸",
     relevantThemes: ["tokugawa", "historical-memory", "hideyoshi"],
+    heroImage: "yododonohideyori.webp",
   },
   {
     slug: "before-the-castle-prehistoric-osaka",
@@ -110,6 +118,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient",
     periodJa: "古代",
     relevantThemes: ["ancient-osaka"],
+    heroImage: "jomon-people.webp",
   },
   {
     slug: "warriormonkspeasantshogun",
@@ -122,6 +131,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Sengoku–Tokugawa",
     periodJa: "戦国〜江戸",
     relevantThemes: ["warrior-monks", "hideyoshi", "tokugawa"],
+    heroImage: "toyotomihideyoshi.webp",
   },
   {
     slug: "beforejapanhadaname",
@@ -134,6 +144,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient",
     periodJa: "古代",
     relevantThemes: ["ancient-osaka", "geography-power"],
+    heroImage: "kofun.webp",
   },
   {
     slug: "empress-shotoku",
@@ -146,6 +157,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient",
     periodJa: "古代",
     relevantThemes: ["ancient-osaka", "geography-power"],
+    heroImage: "empress-shotoku.webp",
   },
   {
     slug: "shitennojihistory",
@@ -158,6 +170,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient",
     periodJa: "古代",
     relevantThemes: ["ancient-osaka", "warrior-monks"],
+    heroImage: "shitennoji.webp",
   },
   {
     slug: "yayoi_timeline",
@@ -170,6 +183,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient",
     periodJa: "古代",
     relevantThemes: ["ancient-osaka"],
+    heroImage: "yayoi_boat.webp",
   },
   {
     slug: "osaka-castle-vs-himeji-castle",
@@ -194,6 +208,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient–Sengoku",
     periodJa: "古代〜戦国",
     relevantThemes: ["ancient-osaka", "hideyoshi", "historical-memory"],
+    heroImage: "himiko.webp",
   },
 ];
 

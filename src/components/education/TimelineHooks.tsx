@@ -41,6 +41,14 @@ export function TimelineHooks({
             href={`/ja/${link.slug}.html`}
             className="timeline-hook-card"
           >
+            {link.heroImage && (
+              <img
+                src={`https://osakacastletours.com/${link.heroImage}`}
+                alt=""
+                className="timeline-hook-thumb"
+                loading="lazy"
+              />
+            )}
             <span className="timeline-hook-period">
               {locale === "ja" ? link.periodJa : link.period}
             </span>

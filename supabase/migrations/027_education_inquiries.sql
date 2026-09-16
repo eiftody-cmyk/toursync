@@ -35,6 +35,10 @@ CREATE TABLE education_inquiries (
 -- Only service role can access (no public read/write)
 ALTER TABLE education_inquiries ENABLE ROW LEVEL SECURITY;
 
+-- Grant service_role full access (bypasses RLS)
+GRANT ALL ON education_inquiries TO service_role;
+GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO service_role;
+
 -- Index for status-based queries
 CREATE INDEX idx_education_inquiries_status ON education_inquiries(status);
 CREATE INDEX idx_education_inquiries_created ON education_inquiries(created_at DESC);
