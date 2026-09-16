@@ -181,7 +181,7 @@ export default function HighSchoolPage() {
             "power-propaganda",
             "historical-memory",
           ]}
-          limit={6}
+          limit={10}
         />
       </section>
 

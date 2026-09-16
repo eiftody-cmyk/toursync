@@ -210,6 +210,123 @@ export const educationTimelineLinks: TimelineLink[] = [
     relevantThemes: ["ancient-osaka", "hideyoshi", "historical-memory"],
     heroImage: "himiko.webp",
   },
+  {
+    slug: "empress_jingu_timeline",
+    titleEn: "Empress Jingū: Sifting Fact From Folklore",
+    titleJa: "神功皇后：伝説と史実を分かつ",
+    descriptionEn:
+      "How 8th-century court compilers re-engineered Empress Jingū's timeline to justify female imperial authority.",
+    descriptionJa:
+      "8世紀の朝廷が女性天皇の正統性を正当化するために神功皇后の年表をどう再構築したか。",
+    period: "Ancient",
+    periodJa: "古代",
+    relevantThemes: ["ancient-osaka", "power-propaganda"],
+    heroImage: "empress_jingu.webp",
+  },
+  {
+    slug: "ojinsuccession",
+    titleEn: "The Ōjin Succession — Three Versions of the Same Story",
+    titleJa: "応神天皇の皇位継承 — 三つの物語",
+    descriptionEn:
+      "Three competing accounts of Emperor Ōjin's succession crisis reveal how legitimacy was constructed.",
+    descriptionJa:
+      "応神天皇の継承危機の三つの对立する説明が、正統性がどう構築されたかを明らかにする。",
+    period: "Ancient",
+    periodJa: "古代",
+    relevantThemes: ["ancient-osaka", "power-propaganda"],
+    heroImage: "kofun.webp",
+  },
+  {
+    slug: "fujiwara-shadow-politics",
+    titleEn: "The Fujiwara Regency — Shadow Politics of the Imperial Throne",
+    titleJa: "藤原摂関政治 — 五百年にわたる影の支配",
+    descriptionEn:
+      "How the Fujiwara clan dominated the throne for five centuries through regency offices and marriage alliances.",
+    descriptionJa:
+      "藤原氏が摂関職と婚姻同盟を通じて500年にわたり帝座をどう支配したか。",
+    period: "Heian",
+    periodJa: "平安",
+    relevantThemes: ["power-propaganda", "historical-memory"],
+    heroImage: "fujiwara-no-michinaga.webp",
+  },
+  {
+    slug: "genpei-timeline",
+    titleEn: "Taira, Minamoto & the First Shogunate",
+    titleJa: "平氏、源氏と最初の幕府",
+    descriptionEn:
+      "The imperial origins of the Taira and Minamoto clans, the Genpei War, and the birth of Japan's first shogunate.",
+    descriptionJa:
+      "平氏と源氏の皇室起源、源平合戦、そして日本初の幕府の誕生。",
+    period: "Kamakura",
+    periodJa: "鎌倉",
+    relevantThemes: ["power-propaganda", "historical-memory"],
+    heroImage: "taira-minamoto-battle.webp",
+  },
+  {
+    slug: "azaiclanbetrayal",
+    titleEn: "The Oda-Azai Betrayal — A Sengoku Timeline",
+    titleJa: "織田・浅井の裏切り — 戦国タイムライン",
+    descriptionEn:
+      "The collapse of the Oda-Azai alliance, from marriage politics to the destruction of the Azai clan.",
+    descriptionJa:
+      "織田・浅井同盟の崩壊 — 婚姻政治から浅井氏の滅亡まで。",
+    period: "Sengoku",
+    periodJa: "戦国",
+    relevantThemes: ["warrior-monks", "hideyoshi"],
+    heroImage: "azaiclanbetrayal.webp",
+  },
+  {
+    slug: "sanada_nobushige",
+    titleEn: "The Crimson Path — A Sanada Nobushige Timeline",
+    titleJa: "真田信繁 — 日本最強の武将",
+    descriptionEn:
+      "The complete life of Sanada Nobushige, from his father's political maneuvering through the Siege of Osaka.",
+    descriptionJa:
+      "真田信繁の生涯 — 父の政治的駆け引きから大坂の陣まで。",
+    period: "Sengoku–Edo",
+    periodJa: "戦国〜江戸",
+    relevantThemes: ["tokugawa", "historical-memory"],
+    heroImage: "chausu-yama.webp",
+  },
+  {
+    slug: "soga-fujiwara-timeline",
+    titleEn: "Soga, Fujiwara & The Imperial Line",
+    titleJa: "蘇我氏、藤原氏と皇室 — 朝廷政治タイムライン",
+    descriptionEn:
+      "The rise of the Soga clan, the Isshi Incident, and centuries of Fujiwara dominance over the imperial line.",
+    descriptionJa:
+      "蘇我氏の台頭、乙巳の変、そして藤原氏による皇室への数世紀にわたる支配。",
+    period: "Ancient–Heian",
+    periodJa: "古代〜平安",
+    relevantThemes: ["ancient-osaka", "power-propaganda"],
+    heroImage: "assassination.webp",
+  },
+  {
+    slug: "tenjin-matsuri-history",
+    titleEn: "Tenjin Matsuri — Osaka's Greatest Water Festival",
+    titleJa: "天神祭 — 大阪最大の祭礼",
+    descriptionEn:
+      "The complete history of Tenjin Matsuri from Sugawara no Michizane's exile to one of Japan's Three Great Festivals.",
+    descriptionJa:
+      "菅原道真の流罪から日本三大祭りの一つへ — 天神祭の完全な歴史。",
+    period: "Heian–Modern",
+    periodJa: "平安〜近代",
+    relevantThemes: ["ancient-osaka", "historical-memory"],
+    heroImage: "tenjin-matsuri-hero.webp",
+  },
+  {
+    slug: "lordconcubineshogunlie",
+    titleEn: "A Lord, a Concubine, and a Shogun's Lie",
+    titleJa: "大名、側室、将軍の嘘",
+    descriptionEn:
+      "Investigating the deaths of Toyotomi Hideyori and Yodo-dono — challenging the Tokugawa official narrative.",
+    descriptionJa:
+      "豊臣秀頼と淀殿の死を調査する — 徳川の公式見解に疑問を投げかける。",
+    period: "Sengoku–Edo",
+    periodJa: "戦国〜江戸",
+    relevantThemes: ["tokugawa", "historical-memory", "power-propaganda"],
+    heroImage: "yododonohideyori.webp",
+  },
 ];
 
 export function getTimelineLinksForThemes(

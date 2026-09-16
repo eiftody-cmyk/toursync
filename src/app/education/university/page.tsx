@@ -162,7 +162,7 @@ export default function UniversityPage() {
             "hideyoshi",
             "tokugawa",
           ]}
-          limit={8}
+          limit={15}
         />
       </section>
 
