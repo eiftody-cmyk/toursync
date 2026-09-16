@@ -273,6 +273,16 @@ a:hover {
   color: var(--edu-ink);
 }
 
+.edu-highlight-question {
+  display: inline;
+  font-size: 1.3rem;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--edu-navy);
+  background: linear-gradient(180deg, transparent 55%, rgba(200, 169, 110, 0.25) 55%);
+  padding: 0 0.15rem;
+}
+
 /* ── METHOD STEPS ── */
 .method-steps {
   display: grid;

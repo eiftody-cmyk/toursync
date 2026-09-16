@@ -23,7 +23,7 @@ export const en = {
     },
     problem: {
       title: "The Opportunity",
-      body: "Imagine standing where Hideyoshi built Osaka Castle and asking your students:\n\nWhy here? Why this enormous? And if you were Hideyoshi, what would you do?\n\nInstead of simply receiving the history, students examine the landscape, consider the evidence, debate the possibilities, and defend their own interpretation.\n\nThat is the difference between seeing history and investigating it.\n\nHistory becomes more memorable when students have to think like historians — where history happened.",
+      body: "Imagine standing where Hideyoshi built Osaka Castle and asking your students:\n\n||If you were Hideyoshi, why would you choose to build such a large, powerful fortress needed here?||\n\nInstead of simply receiving the history, students examine the landscape, consider the evidence, debate the possibilities, and defend their own interpretation.\n\nThat is the difference between seeing history and investigating it.\n\nHistory becomes more memorable when students have to think like historians — where history happened.",
     },
     method: {
       title: "Osaka History Investigations",

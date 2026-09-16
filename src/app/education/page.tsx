@@ -37,7 +37,17 @@ export default function EducationHub() {
           <h3>{t.hub.problem.title}</h3>
           {t.hub.problem.body.split("\n\n").map((p, i) => (
             <p key={i} style={{ marginTop: i > 0 ? "0.75rem" : 0 }}>
-              {p}
+              {p.includes("||")
+                ? p.split(/(\|\|.*?\|\|)/).map((segment, j) =>
+                    segment.startsWith("||") && segment.endsWith("||") ? (
+                      <span key={j} className="edu-highlight-question">
+                        {segment.slice(2, -2)}
+                      </span>
+                    ) : (
+                      segment
+                    )
+                  )
+                : p}
             </p>
           ))}
         </div>
