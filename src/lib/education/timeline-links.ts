@@ -27,7 +27,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "power-propaganda",
       "historical-memory",
     ],
-    heroImage: "toyotomicastle.webp",
+    heroImage: "images/toyotomicastle.webp",
   },
   {
     slug: "toyotomihideyoshi",
@@ -118,7 +118,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient",
     periodJa: "古代",
     relevantThemes: ["ancient-osaka"],
-    heroImage: "jomon-people.webp",
+    heroImage: "images/jomon-people.webp",
   },
   {
     slug: "warriormonkspeasantshogun",
@@ -157,7 +157,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient",
     periodJa: "古代",
     relevantThemes: ["ancient-osaka", "geography-power"],
-    heroImage: "empress-shotoku.webp",
+    heroImage: "images/empress-shotoku.webp",
   },
   {
     slug: "shitennojihistory",
@@ -183,7 +183,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient",
     periodJa: "古代",
     relevantThemes: ["ancient-osaka"],
-    heroImage: "yayoi_boat.webp",
+    heroImage: "images/yayoi_boat.webp",
   },
   {
     slug: "osaka-castle-vs-himeji-castle",
@@ -221,7 +221,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient",
     periodJa: "古代",
     relevantThemes: ["ancient-osaka", "power-propaganda"],
-    heroImage: "empress_jingu.webp",
+    heroImage: "images/empress_jingu.webp",
   },
   {
     slug: "ojinsuccession",
@@ -247,7 +247,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Heian",
     periodJa: "平安",
     relevantThemes: ["power-propaganda", "historical-memory"],
-    heroImage: "fujiwara-no-michinaga.webp",
+    heroImage: "images/fujiwara-no-michinaga.webp",
   },
   {
     slug: "genpei-timeline",
@@ -260,7 +260,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Kamakura",
     periodJa: "鎌倉",
     relevantThemes: ["power-propaganda", "historical-memory"],
-    heroImage: "taira-minamoto-battle.webp",
+    heroImage: "images/taira-minamoto-battle.webp",
   },
   {
     slug: "azaiclanbetrayal",
@@ -286,7 +286,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Sengoku–Edo",
     periodJa: "戦国〜江戸",
     relevantThemes: ["tokugawa", "historical-memory"],
-    heroImage: "chausu-yama.webp",
+    heroImage: "images/chausu-yama.webp",
   },
   {
     slug: "soga-fujiwara-timeline",
