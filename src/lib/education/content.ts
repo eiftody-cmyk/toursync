@@ -15,7 +15,7 @@ export const en = {
 
   hub: {
     hero: {
-      headline: "Osaka History Investigations\nHistory beyond the classroom.",
+      headline: "Osaka History Investigations —\nHistory beyond the classroom",
       subtitle:
         "English-language field investigations at Osaka Castle led by a historian and veteran English coach.",
       cta: "Request an Investigation",
