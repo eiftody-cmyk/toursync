@@ -22,8 +22,8 @@ export const en = {
       secondary: "See a Sample Lesson",
     },
     problem: {
-      title: "The Problem",
-      body: "Most school excursions become sightseeing. Students see the castle. They take photos. They learn almost nothing they couldn't learn from a textbook.\n\nHistory shouldn't be experienced as a list of dates and names. It should be investigated.",
+      title: "The Opportunity",
+      body: "A visit to Osaka Castle can be much more than a chance to see an important historical site. The landscape itself provides students with an opportunity to ask questions, examine evidence, and explore how and why historical events unfolded where they did.\n\nHistory becomes more meaningful when students don't simply receive information, but investigate it for themselves.\n\nHistory shouldn't just be learned from a textbook. It should be investigated where it happened.",
     },
     method: {
       title: "Osaka History Investigations",
