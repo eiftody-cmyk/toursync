@@ -4,10 +4,14 @@ import { useLocale } from "@/lib/education/language-context";
 import { en } from "@/lib/education/content";
 import { ja } from "@/lib/education/content-ja";
 
-export function SocraticMethodDiagram() {
+interface SocraticMethodDiagramProps {
+  variant?: "default" | "university";
+}
+
+export function SocraticMethodDiagram({ variant = "default" }: SocraticMethodDiagramProps) {
   const { locale } = useLocale();
   const t = locale === "ja" ? ja : en;
-  const steps = t.hub.method.steps;
+  const steps = variant === "university" ? t.university.method.steps : t.hub.method.steps;
 
   return (
     <div className="method-steps">

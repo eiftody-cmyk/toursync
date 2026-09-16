@@ -212,7 +212,7 @@ export const investigationExamples: InvestigationExample[] = [
     discovery:
       "Students used地形, excavation reports, and surviving structures to reconstruct the ancient capital. They discovered that the same geographic advantages that made Naniwa important in the 7th century made it important for every subsequent power.",
     discoveryJa:
-      "生徒は地形、発掘調査報告、残存する建造物を使って古代の都を再構成した。7世紀に難波を重要にした同じ地理的優位性が、その後の全ての権力にとっても重要であったことを発見した。",
+      "生徒は地形、発掘調査報告、残存する建造物を使って古代の都を再構成した。7世紀に難波を重要にした相同的な地理的優位性が、その後の全ての権力にとっても重要であったことを発見した。",
     feedback:
       "My IB students used this as the basis for their Internal Assessment investigations.",
     feedbackJa:
@@ -223,6 +223,91 @@ export const investigationExamples: InvestigationExample[] = [
       "empress-shotoku",
       "shitennojihistory",
       "before-the-castle-prehistoric-osaka",
+    ],
+  },
+  {
+    id: "reconstructing-ancient-naniwa",
+    level: "university",
+    levelLabel: "University",
+    levelLabelJa: "大学",
+    subject: "Archaeology / Ancient History",
+    subjectJa: "考古学 / 古代史",
+    title: "Reconstructing Ancient Naniwa",
+    titleJa: "古代難波の再構成",
+    angle: "What can archaeology tell us when the documentary record is incomplete?",
+    angleJa: "文書記録が不完全なとき、考古学は何を語れるか？",
+    question:
+      "How do historians and archaeologists reconstruct a city that left few written records but significant physical remains?",
+    questionJa:
+      "歴史家と考古学者は、文書記録は少ないが物理的遺構が significant な都市をどのように再構成するか？",
+    sites: [
+      "Hoenzaka Warehouse",
+      "Naniwa Palace",
+      "Ishiyama-Hongan-ji",
+      "Osaka-jo",
+    ],
+    sitesJa: [
+      "塁釣倉庫",
+      "難波宮",
+      "石山本願寺",
+      "大阪城",
+    ],
+    discovery:
+      "Students examined how archaeological evidence — foundation stones, pottery distributions, spatial analysis — reconstructs a city that contemporary texts barely mention. They evaluated the limits of archaeological inference and the relationship between material evidence and written sources.",
+    discoveryJa:
+      "生徒は、考古学的証拠——基礎石、陶器の分布、空間分析——が、当時の史料がほとんど記述しない都市をどのように再構成するかを検証した。考古学的推論の限界と、物的証拠と文書史料の関係を評価した。",
+    feedback:
+      "This seminar gave my students a concrete understanding of how historical knowledge is constructed from incomplete evidence.",
+    feedbackJa:
+      "このセミナーは、不完全な証拠から歴史的知識がどのように構築されるかを生徒に具体的に理解させました。",
+    relevantThemes: ["ancient-osaka", "geography-power"],
+    timelineSlugs: [
+      "deeptimeline",
+      "empress-shotoku",
+      "shitennojihistory",
+      "before-the-castle-prehistoric-osaka",
+    ],
+  },
+  {
+    id: "landscape-as-evidence",
+    level: "university",
+    levelLabel: "University",
+    levelLabelJa: "大学",
+    subject: "Historical Geography / Political Science",
+    subjectJa: "歴史地理学 / 政治学",
+    title: "The Landscape as Historical Evidence",
+    titleJa: "歴史的証拠としての景観",
+    angle: "What can physical geography reveal that written sources conceal?",
+    angleJa: "地理は書かれた史料が語れないことを何を明らかにできるか？",
+    question:
+      "How does the physical landscape of the Uemachi Plateau reveal patterns of political power that written sources alone cannot explain?",
+    questionJa:
+      "上町台地の物理的景観は、文書だけでは説明できない政治的権力のパターンをどのように明らかにするか？",
+    sites: [
+      "Hoenzaka Warehouse",
+      "Naniwa Palace",
+      "Ishiyama-Hongan-ji",
+      "Osaka-jo",
+    ],
+    sitesJa: [
+      "塁釣倉庫",
+      "難波宮",
+      "石山本願寺",
+      "大阪城",
+    ],
+    discovery:
+      "Students analyzed how the ridge, waterways, elevation, and sightlines shaped 1,500 years of political decisions. They developed spatial arguments about power, defense, and legitimacy that complemented and sometimes contradicted the documentary record.",
+    discoveryJa:
+      "生徒は、尾根、水路、高さ、視線が1,500年の政治的決定をどのように形づくったかを分析した。権力、防衛、正統性に関する空間的論拠を展開し、文書記録を補完し、場合によっては矛盾させる議論を構築した。",
+    feedback:
+      "My students now approach every historical site as a primary source — not just a backdrop.",
+    feedbackJa:
+      "生徒があらゆる歴史的サイトを背景ではなく一次史料として扱うようになりました。",
+    relevantThemes: ["geography-power", "ancient-osaka"],
+    timelineSlugs: [
+      "deeptimeline",
+      "before-the-castle-prehistoric-osaka",
+      "empress-shotoku",
     ],
   },
 ];

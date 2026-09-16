@@ -37,14 +37,14 @@ export default function UniversityPage() {
         </div>
       </section>
 
-      {/* Method */}
+      {/* Seminar Structure */}
       <section className="edu-section">
-        <h2>{t.hub.method.title}</h2>
-        <p className="section-subtitle">{t.hub.method.subtitle}</p>
-        <SocraticMethodDiagram />
+        <h2>{uni.method.title}</h2>
+        <p className="section-subtitle">{uni.method.subtitle}</p>
+        <SocraticMethodDiagram variant="university" />
       </section>
 
-      {/* Why University */}
+      {/* What the Seminar Provides */}
       <section className="edu-section alt-bg">
         <h2>{uni.why.title}</h2>
         <ul style={{ listStyle: "none", maxWidth: 700, margin: "1.5rem 0" }}>
@@ -148,13 +148,6 @@ export default function UniversityPage() {
           {uniExamples.map((example) => (
             <InvestigationExampleCard key={example.id} example={example} />
           ))}
-          {/* Show HS examples too as they can be adapted */}
-          {investigationExamples
-            .filter((e) => e.level === "hs")
-            .slice(0, 2)
-            .map((example) => (
-              <InvestigationExampleCard key={example.id} example={example} />
-            ))}
         </div>
       </section>
 

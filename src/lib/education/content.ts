@@ -104,7 +104,7 @@ export const en = {
         "Field investigations for junior high school students — structured, safe, and curriculum-connected.",
     },
     why: {
-      title: "Why JHS Teachers Choose This",
+      title: "Designed for JHS Classrooms",
       items: [
         "Structured English practice built in",
         "Connects to Social Studies curriculum (Sengoku, Hideyoshi, Tokugawa, Meiji)",
@@ -134,7 +134,7 @@ export const en = {
         "Field investigations for senior high school — curriculum-aligned inquiry for 歴史総合, 日本史探究, and 探究.",
     },
     why: {
-      title: "Why HS Teachers Choose This",
+      title: "Designed for Senior High",
       items: [
         "Maps to 歴史総合, 日本史探究, 探究, and English",
         "Develops historical thinking — cause/consequence, change/continuity, perspectives",
@@ -155,7 +155,7 @@ export const en = {
         { jp: "まとめ・表現", en: "Summary & Presentation" },
       ],
       closing:
-        "The field investigation IS 探究 — in the actual landscape.",
+        "The field investigation puts the 探究 process into practice — in the actual historical landscape.",
     },
     ib: {
       title: "IB & AP Support",
@@ -172,27 +172,62 @@ export const en = {
     hero: {
       headline: "A mobile university seminar.",
       subtitle:
-        "Field seminars for university programs — source-based historical investigation led by a resident historian.",
+        "A field-based historical seminar led by a resident historian.",
+    },
+    method: {
+      title: "Seminar Structure",
+      subtitle: "A structured historical investigation, not a guided tour.",
+      steps: [
+        {
+          number: 1,
+          title: "Context",
+          subtitle: "Edward establishes the problem",
+          description:
+            "At four archaeological sites, I introduce the historical problem, the physical evidence, and the documentary record.",
+        },
+        {
+          number: 2,
+          title: "Investigation",
+          subtitle: "Students examine the evidence",
+          description:
+            "Students examine sites, sources, maps, and competing interpretations. They identify contradictions and gaps in the evidence.",
+        },
+        {
+          number: 3,
+          title: "Interpretation",
+          subtitle: "Students develop an argument",
+          description:
+            "Students develop and defend an interpretation based on the evidence. Competing arguments are tested against the sources.",
+        },
+        {
+          number: 4,
+          title: "Historiography",
+          subtitle: "Edward introduces the scholarly debate",
+          description:
+            "What have historians argued? Where do interpretations conflict? What remains uncertain or contested?",
+        },
+      ],
     },
     why: {
-      title: "Why University Programs Choose This",
+      title: "What the Seminar Provides",
       items: [
-        "Historian-led, not guide-led",
-        "Source-based investigation",
+        "Historian-led field seminar",
+        "Primary and secondary source analysis",
+        "Site-based historical investigation",
+        "Multiple historical interpretations",
         "Customized to course objectives",
-        "Mobile seminar format",
         "English-language instruction",
-        "Suitable for Japanese Studies, History, Political Science, International Studies",
+        "Pre/post seminar materials available",
       ],
     },
     seminars: {
       title: "Example Seminar Topics",
       items: [
-        "Osaka as a Political Landscape",
-        "State Formation and Physical Geography",
-        "Propaganda, Legitimacy, and Political Architecture",
-        "Historical Memory and National Identity",
-        "Archaeological Evidence and Historical Reconstruction",
+        "Architecture, Propaganda & Legitimacy — How does political architecture manufacture legitimacy?",
+        "Osaka and the Geography of State Power — Why have successive regimes competed for control of the same landscape?",
+        "Reconstructing Ancient Naniwa — What can archaeology tell us when the documentary record is incomplete?",
+        "Historical Memory and the Erasure of Osaka — How do victorious regimes reshape the physical and historical memory of defeated powers?",
+        "The Landscape as Historical Evidence — What can physical geography reveal that written sources conceal?",
       ],
     },
   },
