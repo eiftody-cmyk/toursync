@@ -597,9 +597,16 @@ a:hover {
 }
 
 /* ── PRICING ── */
-.pricing-grid {
+.pricing-tier-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.pricing-custom-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   margin: 2rem 0;
 }
@@ -642,6 +649,24 @@ a:hover {
   color: var(--edu-stone);
   margin-bottom: 1rem;
   font-style: italic;
+}
+
+.pricing-tier {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--edu-border);
+}
+
+.pricing-tier:last-of-type {
+  border-bottom: none;
+  margin-bottom: 1rem;
+}
+
+.pricing-tier .price {
+  font-size: 1.5rem;
+}
+
+.pricing-tier .price-note {
+  margin-bottom: 0;
 }
 
 .pricing-card ul {
@@ -1010,7 +1035,11 @@ a:hover {
     grid-template-columns: 1fr;
   }
 
-  .pricing-grid {
+  .pricing-tier-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-custom-grid {
     grid-template-columns: 1fr;
   }
 

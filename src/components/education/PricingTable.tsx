@@ -10,48 +10,48 @@ export function PricingTable() {
   const pricing = t.pricing;
 
   return (
-    <div className="pricing-grid">
-      {/* Standard */}
-      <div className="pricing-card">
-        <h3>{pricing.standard.name}</h3>
-        <div className="price-note">{pricing.standard.duration}</div>
-        {pricing.standard.tiers.map((tier, i) => (
-          <div key={i} style={{ marginBottom: "0.75rem" }}>
-            <div className="price">{tier.price}</div>
-            <div className="price-note">{tier.size}</div>
+    <div>
+      {/* Tiered products — 3 columns */}
+      <div className="pricing-tier-grid">
+        {[pricing.standard, pricing.extended, pricing.fullSeminar].map(
+          (product, i) => (
+            <div
+              key={i}
+              className={`pricing-card ${i === 0 ? "featured" : ""}`}
+            >
+              <h3>{product.name}</h3>
+              <div className="duration">{product.duration}</div>
+              {product.tiers.map((tier, j) => (
+                <div key={j} className="pricing-tier">
+                  <div className="price">{tier.price}</div>
+                  <div className="price-note">{tier.size}</div>
+                </div>
+              ))}
+              <ul>
+                {product.includes.map((item, j) => (
+                  <li key={j}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        )}
+      </div>
+
+      {/* Custom products — 2 columns */}
+      <div className="pricing-custom-grid">
+        {[pricing.custom, pricing.fullPack].map((product, i) => (
+          <div key={i} className="pricing-card">
+            <h3>{product.name}</h3>
+            <div className="price">{product.price}</div>
+            <div className="price-note">{product.size}</div>
+            <div className="duration">{product.duration}</div>
+            <ul>
+              {product.includes.map((item, j) => (
+                <li key={j}>{item}</li>
+              ))}
+            </ul>
           </div>
         ))}
-        <ul>
-          {pricing.standard.includes.map((item, i) => (
-            <li key={i}>{item}</li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Custom */}
-      <div className="pricing-card featured">
-        <h3>{pricing.custom.name}</h3>
-        <div className="price">{pricing.custom.price}</div>
-        <div className="price-note">{pricing.custom.size}</div>
-        <div className="duration">{pricing.custom.duration}</div>
-        <ul>
-          {pricing.custom.includes.map((item, i) => (
-            <li key={i}>{item}</li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Full Pack */}
-      <div className="pricing-card">
-        <h3>{pricing.fullPack.name}</h3>
-        <div className="price">{pricing.fullPack.price}</div>
-        <div className="price-note">{pricing.fullPack.size}</div>
-        <div className="duration">{pricing.fullPack.duration}</div>
-        <ul>
-          {pricing.fullPack.includes.map((item, i) => (
-            <li key={i}>{item}</li>
-          ))}
-        </ul>
       </div>
     </div>
   );
