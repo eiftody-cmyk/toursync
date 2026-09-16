@@ -253,14 +253,14 @@ a:hover {
 .edu-problem {
   background: var(--edu-card);
   border: 1px solid var(--edu-border);
-  border-left: 3px solid var(--edu-gold);
+  border-left: 4px solid var(--edu-gold);
   border-radius: 6px;
-  padding: 2rem 2.5rem;
-  margin: 2rem 0;
+  padding: 3rem 3.5rem;
+  margin: 3rem 0;
 }
 
 .edu-problem h3 {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--edu-stone);
   margin-bottom: 0.75rem;
   letter-spacing: 0.05em;
@@ -268,8 +268,8 @@ a:hover {
 }
 
 .edu-problem p {
-  font-size: 1.05rem;
-  line-height: 1.7;
+  font-size: 1.25rem;
+  line-height: 1.8;
   color: var(--edu-ink);
 }
 
@@ -1049,6 +1049,10 @@ a:hover {
 
   .about-card {
     flex-direction: column;
+  }
+
+  .edu-problem {
+    padding: 2rem 1.5rem;
   }
 }
 
