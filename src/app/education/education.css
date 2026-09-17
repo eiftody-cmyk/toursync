@@ -107,7 +107,7 @@ a:hover {
 
 .edu-nav-link:hover,
 .edu-nav-link.active {
-  color: var(--edu-navy);
+  color: var(--edu-ink);
 }
 
 .edu-header-actions {
