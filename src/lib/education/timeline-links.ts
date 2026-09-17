@@ -79,7 +79,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Tokugawa",
     periodJa: "江戸",
     relevantThemes: ["tokugawa", "power-propaganda", "historical-memory"],
-    heroImage: "ieyasu.webp",
+    heroImage: "Hideyoshiscouncilofelders.webp",
   },
   {
     slug: "toyotomi_hideyori",
@@ -249,6 +249,19 @@ export const educationTimelineLinks: TimelineLink[] = [
     periodJa: "平安〜近代",
     relevantThemes: ["ancient-osaka", "historical-memory"],
     heroImage: "tenjin-matsuri-hero.webp",
+  },
+  {
+    slug: "deeptimeline",
+    titleEn: "Deep Time Timeline — The Uemachi Plateau",
+    titleJa: "上町台地 ── ディープタイム・タイムライン",
+    descriptionEn:
+      "A deep-time exploration of the Uemachi Plateau — geology, archaeology, and history across millions of years.",
+    descriptionJa:
+      "大阪城の下に横たわる上町台地の歴史を、地質学・考古学・歴史学を横断するディープタイム・タイムラインとして語る。",
+    period: "Prehistoric–Modern",
+    periodJa: "先史〜近代",
+    relevantThemes: ["geography-power", "ancient-osaka"],
+    heroImage: "formernaniwapalace.webp",
   },
 ];
 

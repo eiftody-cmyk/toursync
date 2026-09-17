@@ -56,9 +56,81 @@ export const investigationExamples: InvestigationExample[] = [
     feedback:
       "My students said this was the first time history felt like something they could actually think about.",
     feedbackJa:
-      "生徒が「歴史を本propriamente考える初めての経験」と言いました。",
+      "生徒が「歴史を自分自身で考える初めての経験」と言いました。",
     relevantThemes: ["hideyoshi", "geography-power"],
     timelineSlugs: ["toyotomihideyoshi", "three-unifiers", "osaka-castle-history"],
+  },
+  {
+    id: "ishiyama-warrior-monks",
+    level: "jhs",
+    levelLabel: "Junior High",
+    levelLabelJa: "中学校",
+    subject: "Social Studies — History",
+    subjectJa: "社会 — 歴史",
+    title: "Warrior Monks, Peasants & the Siege of Osaka",
+    titleJa: "武者団、百姓、そして大坂の包囲戦",
+    angle: "Why did Nobunaga spend 10 years attacking a religious fortress?",
+    angleJa: "なぜ信長は10年かけて宗教要塞を包囲したのか？",
+    question:
+      "Was the Ishiyama Honganji War about religion, power, or control of the river?",
+    questionJa:
+      "石山本願寺戦争は宗教、権力、川の支配のどれについてだったのか？",
+    sites: [
+      "Ishiyama Honganji ruins",
+      "Uemachi Plateau",
+      "Osaka River systems",
+    ],
+    sitesJa: [
+      "石山本願寺跡",
+      "上町台地",
+      "大坂の水系",
+    ],
+    discovery:
+      "Students investigate how religion, geography, trade, and political power interacted during the conflict, then test competing explanations against the evidence.",
+    discoveryJa:
+      "学生は紛争中に宗教、地理、貿易、政治的権力がどのように相互作用したかを調査し、競合する説明を証拠 against で検証する。",
+    feedback:
+      "My students never knew Osaka's rivers were once a battlefield.",
+    feedbackJa:
+      "生徒たちはかつて大坂の川が戦場だったことを知らなかった。",
+    relevantThemes: ["warrior-monks", "geography-power"],
+    timelineSlugs: ["ishiyama-timeline"],
+  },
+  {
+    id: "ancient-naniwa",
+    level: "jhs",
+    levelLabel: "Junior High",
+    levelLabelJa: "中学校",
+    subject: "Social Studies — History",
+    subjectJa: "社会 — 歴史",
+    title: "Ancient Naniwa: Three Capitals, One Location",
+    titleJa: "古代難波：三つの都、一つの場所",
+    angle: "Why did three different emperors keep choosing the same spot?",
+    angleJa: "なぜ3人の天皇が同じ場所を選び続けたのか？",
+    question:
+      "What made this location valuable enough to rebuild a capital on three separate occasions?",
+    questionJa:
+      "この場所が3回も都を再建するに値するほどの価値があるとはどういうことか？",
+    sites: [
+      "Naniwa Palace ruins",
+      "Shitenno-ji",
+      "Uemachi Plateau",
+    ],
+    sitesJa: [
+      "難波宮跡",
+      "四天王寺",
+      "上町台地",
+    ],
+    discovery:
+      "Students investigate why multiple emperors chose the same location across centuries, evaluating whether geography, trade access, or political symbolism best explains the pattern.",
+    discoveryJa:
+      "学生はなぜ複数の天皇が世紀をかけて同じ場所を選んだのかを調査し、地理、貿易アクセス、政治的象徴のいずれがそのパターンを最もよく説明するかを評価する。",
+    feedback:
+      "I had no idea Osaka was this old. The geography makes it obvious in hindsight.",
+    feedbackJa:
+      "大阪がこんなに古いとは思わなかった。後から見れば地理がすべて説明する。",
+    relevantThemes: ["ancient-osaka", "geography-power"],
+    timelineSlugs: ["empress-shotoku", "shitennojihistory"],
   },
   {
     id: "tokugawa-legitimacy",
@@ -88,9 +160,9 @@ export const investigationExamples: InvestigationExample[] = [
       "大阪城",
     ],
     discovery:
-      "Students debated legitimacy, political symbolism, and the practicalities of governing from Osaka. The conclusion — that the Tokugawa needed to erase the Toyotomi story while occupying the same space — opened a sophisticated discussion about how power constructs narrative.",
+      "Students examine competing interpretations of why the Tokugawa rebuilt Osaka Castle and what the reconstruction communicated about legitimacy, power, and historical memory.",
     discoveryJa:
-      "生徒は正統性、政治的シンボリズム、大阪からの統治の実務を議論した。結論——徳川は同じ空間を占有しながら豊臣の物語を消去する必要があった——は、権力がどのように物語を構築するかという洗練された討議を開いた。",
+      "生徒はなぜ徳川が大阪城を再建し、その再建が正統性、権力、歴史的記憶について何を伝えたかについての競合する解釈を検証する。",
     feedback:
       "This was the first time my students understood that 'rebuilding' can be an act of political destruction.",
     feedbackJa:
@@ -168,9 +240,9 @@ export const investigationExamples: InvestigationExample[] = [
       "大阪城",
     ],
     discovery:
-      "Students examined how both the Toyotomi and Tokugawa used the same physical space to project different political narratives. The modern reconstruction added a third layer — how 20th-century nationalism reshaped historical memory.",
+      "Students examine how successive rulers used the same physical space to project different political narratives, then evaluate how 20th-century reconstruction added another interpretive layer to the site's meaning.",
     discoveryJa:
-      "生徒は、豊臣と徳川がどう同じ物理的空間を使って異なる政治的物語を投影したかを分析した。近代の再建は第三の層を加えた——20世紀のナショナリズムが歴史的記憶をどう再形成したか。",
+      "生徒は、 successive な支配者がどう同じ物理的空間を使って異なる政治的物語を投影したかを検証し、近代の再建がそのサイトの意味にどのような解釈的層を加えたかを評価する。",
     feedback:
       "This seminar changed how my students read political architecture everywhere — not just in Japan.",
     feedbackJa:
@@ -183,7 +255,7 @@ export const investigationExamples: InvestigationExample[] = [
     ],
   },
   {
-    id: "ancient-naniwa",
+    id: "ancient-naniwa-reconstruction",
     level: "hs",
     levelLabel: "Senior High / IB",
     levelLabelJa: "高等学校 / IB",
@@ -210,9 +282,9 @@ export const investigationExamples: InvestigationExample[] = [
       "大阪城",
     ],
     discovery:
-      "Students used地形, excavation reports, and surviving structures to reconstruct the ancient capital. They discovered that the same geographic advantages that made Naniwa important in the 7th century made it important for every subsequent power.",
+      "Students examine how the same geographic features attracted successive powers across 1,500 years, testing whether geography determines political outcomes or merely enables them.",
     discoveryJa:
-      "生徒は地形、発掘調査報告、残存する建造物を使って古代の都を再構成した。7世紀に難波を重要にした相同的な地理的優位性が、その後の全ての権力にとっても重要であったことを発見した。",
+      "生徒は同じ地理的特徴が1,500年にわたり如何に successive な権力を惹きつけたかを検証し、地理が政治的結果を決定するのか、それとも単に可能にするのかを検証する。",
     feedback:
       "My IB students used this as the basis for their Internal Assessment investigations.",
     feedbackJa:

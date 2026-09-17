@@ -1,177 +1,30 @@
-"use client";
+import JuniorHighClient from "./JuniorHighClient";
 
-import Link from "next/link";
-import { useLocale } from "@/lib/education/language-context";
-import { en } from "@/lib/education/content";
-import { ja } from "@/lib/education/content-ja";
-import { SocraticMethodDiagram } from "@/components/education/SocraticMethodDiagram";
-import { InvestigationExampleCard } from "@/components/education/InvestigationExampleCard";
-import { CurriculumMatrix } from "@/components/education/CurriculumMatrix";
-import { TimelineHooks } from "@/components/education/TimelineHooks";
-import { PricingTable } from "@/components/education/PricingTable";
-import { InquiryForm } from "@/components/education/InquiryForm";
-import { investigationExamples } from "@/lib/education/examples";
+export const metadata = {
+  title: "Junior High — Osaka History Field Investigations",
+  description:
+    "Curriculum-aligned history field investigations for junior high school students at Osaka Castle. Social studies, Sengoku period, and inquiry-based learning.",
+  openGraph: {
+    title: "Junior High — Osaka History Field Investigations",
+    description:
+      "Curriculum-aligned history field investigations for junior high school students at Osaka Castle.",
+    url: "https://osakacastletours.com/education/junior-high",
+    siteName: "Osaka Castle Walks with Edward",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "https://osakacastletours.com/images/yododonohideyori.webp",
+        width: 2588,
+        height: 1238,
+      },
+    ],
+  },
+  alternates: {
+    canonical: "https://osakacastletours.com/education/junior-high",
+  },
+};
 
 export default function JuniorHighPage() {
-  const { locale } = useLocale();
-  const t = locale === "ja" ? ja : en;
-  const jhs = t.juniorHigh;
-
-  const jhsExamples = investigationExamples.filter((e) => e.level === "jhs");
-
-  return (
-    <div>
-      {/* Hero */}
-      <section className="edu-hero bg-hideyori">
-        <h1>{jhs.hero.headline}</h1>
-        <p className="subtitle">{jhs.hero.subtitle}</p>
-        <p
-          style={{
-            fontFamily: '"Cinzel", serif',
-            fontSize: "0.8rem",
-            letterSpacing: "0.12em",
-            textTransform: "uppercase" as const,
-            color: "var(--edu-gold)",
-            marginTop: "1rem",
-          }}
-        >
-          {locale === "ja" ? "90〜150分 · 10〜40名 · 英語/日本語/バイリンガル · ¥50,000から" : "90–150 minutes · 10–40 students · English / Japanese / Bilingual · From ¥50,000 per class"}
-        </p>
-        <div className="cta-group">
-          <a href="#inquiry-form" className="edu-cta-btn">
-            {t.nav.cta}
-          </a>
-          <Link href="/education/teacher-pack" className="edu-cta-btn secondary">
-            {t.hub.hero.secondary}
-          </Link>
-        </div>
-      </section>
-
-      {/* Method */}
-      <section className="edu-section">
-        <h2>{t.hub.method.title}</h2>
-        <p className="section-subtitle">{t.hub.method.subtitle}</p>
-        <SocraticMethodDiagram />
-      </section>
-
-      {/* Why JHS */}
-      <section className="edu-section alt-bg">
-        <h2>{jhs.why.title}</h2>
-        <ul style={{ listStyle: "none", maxWidth: 700, margin: "1.5rem 0" }}>
-          {jhs.why.items.map((item, i) => (
-            <li
-              key={i}
-              style={{
-                padding: "0.6rem 0",
-                fontSize: "1.05rem",
-                borderBottom: "1px solid var(--edu-border)",
-              }}
-            >
-              ✓ {item}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* English Integration */}
-      <section className="edu-section">
-        <h2>{jhs.english.title}</h2>
-        <p className="section-subtitle">{jhs.english.subtitle}</p>
-        <ul style={{ listStyle: "none", maxWidth: 600, margin: "1.5rem 0" }}>
-          {jhs.english.items.map((item, i) => (
-            <li
-              key={i}
-              style={{
-                padding: "0.5rem 0",
-                fontSize: "1rem",
-                borderBottom: "1px solid var(--edu-border)",
-              }}
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Curriculum Matrix */}
-      <section className="edu-section alt-bg">
-        <h2>
-          {locale === "ja"
-            ? "カリキュラム対応表"
-            : "Curriculum Alignment"}
-        </h2>
-        <p className="section-subtitle">
-          {locale === "ja"
-            ? "全ての探究はあなたのカリキュラムに合わせてカスタマイズされます。"
-            : "Every investigation is customized to your curriculum unit."}
-        </p>
-        <CurriculumMatrix variant="jhs" />
-      </section>
-
-      {/* JHS Examples */}
-      <section className="edu-section">
-        <h2>
-          {locale === "ja" ? "あなたの生徒は何を探究できますか？" : "What could your students investigate?"}
-        </h2>
-        <p className="section-subtitle">
-          {locale === "ja"
-            ? "これらは固定されたツアーではありません。全ての探究はあなたのコース、生徒、学習目標に合わせて適応されます。"
-            : "These are examples, not fixed tours. Every investigation is adapted to your course, students, and learning objectives."}
-        </p>
-        <div className="example-cards">
-          {jhsExamples.map((example) => (
-            <InvestigationExampleCard key={example.id} example={example} />
-          ))}
-        </div>
-      </section>
-
-      {/* Timeline Hooks */}
-      <section className="edu-section alt-bg">
-        <TimelineHooks
-          themes={["hideyoshi", "warrior-monks", "tokugawa", "ancient-osaka"]}
-          limit={7}
-        />
-      </section>
-
-      {/* Pricing */}
-      <section className="edu-section">
-        <h2>{t.hub.pricing.title}</h2>
-        <p className="section-subtitle">{t.hub.pricing.subtitle}</p>
-        <PricingTable />
-        <p
-          style={{
-            fontSize: "0.8rem",
-            color: "var(--edu-muted)",
-            fontStyle: "italic",
-            marginTop: "1rem",
-          }}
-        >
-          {t.hub.pricing.note}
-        </p>
-      </section>
-
-      {/* How it works */}
-      <section className="edu-section alt-bg">
-        <h2>{t.hub.howItWorks.title}</h2>
-        <div className="how-it-works-steps">
-          {t.hub.howItWorks.steps.map((step, i) => (
-            <div key={i} className="how-it-works-step">
-              <div className="how-it-works-number">{step.number}</div>
-              <div>
-                <h4>{step.title}</h4>
-                <p>{step.body}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Inquiry */}
-      <section className="edu-section" id="inquiry-form">
-        <h2>{t.form.title}</h2>
-        <p className="section-subtitle">{t.form.subtitle}</p>
-        <InquiryForm />
-      </section>
-    </div>
-  );
+  return <JuniorHighClient />;
 }
