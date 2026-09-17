@@ -6,10 +6,44 @@ import {
   buildFaqJsonLd,
 } from "@/lib/education/json-ld";
 
-const BASE = "https://osakacastletours.com/education";
-const IMG = "https://osakacastletours.com/images/toyotomihideyoshi.webp";
+const SITE = "https://osakacastletours.com";
+const IMG = `${SITE}/images/toyotomihideyoshi.webp`;
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ locale?: string }>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const locale = params?.locale === "ja" ? "ja" : "en";
+  const BASE =
+    locale === "ja" ? `${SITE}/ja/education` : `${SITE}/education`;
+
+  if (locale === "ja") {
+    return {
+      title: "大阪歴史フィールド探究 — 学校向けフィールドセミナー",
+      description:
+        "歴史家エドワード・イフティが指導する大阪城でのフィールド探究。中学校・高等学校・大学のカリキュラムに連動した探究型学習。",
+      openGraph: {
+        title: "大阪歴史フィールド探究 — 学校向けフィールドセミナー",
+        description:
+          "歴史家が指導する大阪城でのフィールド探究。中学校・高等学校・大学向け。",
+        url: BASE,
+        siteName: "大阪城ウォークス with Edward",
+        locale: "ja_JP",
+        type: "website",
+        images: [{ url: IMG, width: 1408, height: 768 }],
+      },
+      alternates: {
+        canonical: BASE,
+        languages: {
+          en: `${SITE}/education`,
+          ja: BASE,
+        },
+      },
+    };
+  }
+
   return {
     title: "Osaka History Investigations — Field Seminars for Schools",
     description:
@@ -27,8 +61,8 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: BASE,
       languages: {
-        "en": BASE,
-        "ja": BASE,
+        en: BASE,
+        ja: `${SITE}/ja/education`,
       },
     },
   };
@@ -41,21 +75,17 @@ const articleJsonLd = buildArticleJsonLd({
     "Historian-led field investigations at Osaka Castle for junior high, high school, and university students.",
   descriptionJa:
     "歴史家が指導する大阪城でのフィールド探究。中学校・高等学校・大学のカリキュラムに連動した探究型学習。",
-  url: BASE,
+  url: `${SITE}/education`,
   image: IMG,
 });
 
 const breadcrumbJsonLd = buildBreadcrumbJsonLd({
   items: [
-    {
-      name: "Home",
-      nameJa: "ホーム",
-      url: "https://osakacastletours.com",
-    },
+    { name: "Home", nameJa: "ホーム", url: SITE },
     {
       name: "Osaka History Investigations",
       nameJa: "大阪歴史フィールド探究",
-      url: BASE,
+      url: `${SITE}/education`,
     },
   ],
 });

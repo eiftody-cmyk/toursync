@@ -11,6 +11,20 @@ const GYG_CORS_HEADERS: Record<string, string> = {
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
+  // Locale routing for /ja/education paths
+  if (pathname.startsWith("/ja/education")) {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.replace(/^\/ja/, "");
+    url.searchParams.set("locale", "ja");
+    const response = NextResponse.rewrite(url);
+    response.cookies.set("edu-locale", "ja", {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: "lax",
+    });
+    return response;
+  }
+
   // CORS preflight for GYG Supplier API endpoints
   if (pathname.startsWith("/1/") && request.method === "OPTIONS") {
     return new NextResponse(null, { status: 204, headers: GYG_CORS_HEADERS });

@@ -10,44 +10,56 @@ function Header() {
   const pathname = usePathname();
   const { locale, setLocale } = useLocale();
   const t = locale === "ja" ? ja : en;
+  const prefix = locale === "ja" ? "/ja" : "";
 
-  const isActive = (path: string) => pathname === path;
+  const isActive = (path: string) =>
+    pathname === `${prefix}${path}` || pathname === path;
+
+  const toggleLocale = () => {
+    const newLocale = locale === "ja" ? "en" : "ja";
+    const newPath =
+      newLocale === "ja"
+        ? `/ja${pathname}`
+        : pathname.replace(/^\/ja/, "") || "/education";
+    setLocale(newLocale);
+    window.location.href = newPath;
+  };
 
   return (
     <header className="edu-header">
       <div className="edu-header-inner">
-        <Link href="/education" className="edu-brand">
+        <Link href={`${prefix}/education`} className="edu-brand">
           <span className="edu-brand-name">{t.meta.siteName}</span>
           <span className="edu-brand-tagline">{t.meta.tagline}</span>
         </Link>
 
         <nav className="edu-nav">
           <Link
-            href="/education"
+            href={`${prefix}/education`}
             className={`edu-nav-link ${isActive("/education") ? "active" : ""}`}
           >
             {t.nav.hub}
           </Link>
           <Link
-            href="/education/junior-high"
+            href={`${prefix}/education/junior-high`}
             className={`edu-nav-link ${isActive("/education/junior-high") ? "active" : ""}`}
           >
             {t.nav.juniorHigh}
           </Link>
           <Link
-            href="/education/high-school"
+            href={`${prefix}/education/high-school`}
             className={`edu-nav-link ${isActive("/education/high-school") ? "active" : ""}`}
           >
             {t.nav.highSchool}
           </Link>
           <Link
-            href="/education/university"
+            href={`${prefix}/education/university`}
             className={`edu-nav-link ${isActive("/education/university") ? "active" : ""}`}
           >
             {t.nav.university}
           </Link>
           <Link
-            href="/education/teacher-pack"
+            href={`${prefix}/education/teacher-pack`}
             className={`edu-nav-link ${isActive("/education/teacher-pack") ? "active" : ""}`}
           >
             {t.nav.teacherPack}
@@ -58,13 +70,17 @@ function Header() {
           <div className="lang-toggle">
             <button
               className={locale === "en" ? "active" : ""}
-              onClick={() => setLocale("en")}
+              onClick={() => {
+                if (locale !== "en") toggleLocale();
+              }}
             >
               EN
             </button>
             <button
               className={locale === "ja" ? "active" : ""}
-              onClick={() => setLocale("ja")}
+              onClick={() => {
+                if (locale !== "ja") toggleLocale();
+              }}
             >
               日本語
             </button>
@@ -80,7 +96,6 @@ function Header() {
 
 function Footer() {
   const { locale } = useLocale();
-  const t = locale === "ja" ? ja : en;
 
   return (
     <footer className="edu-footer">
@@ -102,11 +117,13 @@ function Footer() {
 
 export default function ClientLayout({
   children,
+  locale,
 }: {
   children: React.ReactNode;
+  locale: "en" | "ja";
 }) {
   return (
-    <LanguageProvider>
+    <LanguageProvider initialLocale={locale}>
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">{children}</main>

@@ -5,10 +5,46 @@ import {
   buildBreadcrumbJsonLd,
 } from "@/lib/education/json-ld";
 
-const BASE = "https://osakacastletours.com/education/junior-high";
-const IMG = "https://osakacastletours.com/images/yododonohideyori.webp";
+const SITE = "https://osakacastletours.com";
+const IMG = `${SITE}/images/yododonohideyori.webp`;
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ locale?: string }>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const locale = params?.locale === "ja" ? "ja" : "en";
+  const BASE =
+    locale === "ja"
+      ? `${SITE}/ja/education/junior-high`
+      : `${SITE}/education/junior-high`;
+
+  if (locale === "ja") {
+    return {
+      title: "中学校 — 大阪歴史フィールド探究",
+      description:
+        "中学生向けのカリキュラム連動型歴史フィールド探究。社会科の内容と連動（戦国、秀吉、徳川、明治）。構造化された英語練習付き。",
+      openGraph: {
+        title: "中学校 — 大阪歴史フィールド探究",
+        description:
+          "中学生向けのカリキュラム連動型歴史フィールド探究。",
+        url: BASE,
+        siteName: "大阪城ウォークス with Edward",
+        locale: "ja_JP",
+        type: "website",
+        images: [{ url: IMG, width: 2588, height: 1238 }],
+      },
+      alternates: {
+        canonical: BASE,
+        languages: {
+          en: `${SITE}/education/junior-high`,
+          ja: BASE,
+        },
+      },
+    };
+  }
+
   return {
     title: "Junior High — Osaka History Field Investigations",
     description:
@@ -26,8 +62,8 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: BASE,
       languages: {
-        "en": BASE,
-        "ja": BASE,
+        en: BASE,
+        ja: `${SITE}/ja/education/junior-high`,
       },
     },
   };
@@ -40,26 +76,22 @@ const articleJsonLd = buildArticleJsonLd({
     "Curriculum-aligned history field investigations for junior high school students at Osaka Castle.",
   descriptionJa:
     "中学生向けのカリキュラム連動型歴史フィールド探究。社会科の内容と連動。",
-  url: BASE,
+  url: `${SITE}/education/junior-high`,
   image: IMG,
 });
 
 const breadcrumbJsonLd = buildBreadcrumbJsonLd({
   items: [
-    {
-      name: "Home",
-      nameJa: "ホーム",
-      url: "https://osakacastletours.com",
-    },
+    { name: "Home", nameJa: "ホーム", url: SITE },
     {
       name: "Osaka History Investigations",
       nameJa: "大阪歴史フィールド探究",
-      url: "https://osakacastletours.com/education",
+      url: `${SITE}/education`,
     },
     {
       name: "Junior High",
       nameJa: "中学校",
-      url: BASE,
+      url: `${SITE}/education/junior-high`,
     },
   ],
 });

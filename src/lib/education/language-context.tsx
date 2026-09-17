@@ -14,8 +14,14 @@ const LanguageContext = createContext<LanguageContextValue>({
   setLocale: () => {},
 });
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("en");
+export function LanguageProvider({
+  children,
+  initialLocale = "en",
+}: {
+  children: React.ReactNode;
+  initialLocale?: Locale;
+}) {
+  const [locale, setLocaleState] = useState<Locale>(initialLocale);
 
   useEffect(() => {
     const stored = localStorage.getItem("edu-lang") as Locale | null;
