@@ -1,0 +1,57 @@
+# 大阪歴史フィールド探究 — Osaka History Investigations
+# 歴史家が指導する大阪城でのフィールド探究。中学校・高等学校・大学向け。
+
+> Osaka History Investigations is a historian-led educational program offering field-based inquiry learning at Osaka Castle for junior high, high school, and university students. Curriculum-aligned, bilingual (English/Japanese).
+
+## ページ / Pages
+
+- /education — 大阪歴史フィールド探究（ホーム） / Osaka History Investigations — Field Seminars for Schools
+- /education/junior-high — 中学校向けフィールド探究 / Junior High School — Field Investigations
+- /education/high-school — 高校向けフィールド探究 / High School — Historical Inquiry at Osaka Castle
+- /education/university — 大学フィールドセミナー / University Field Seminars — Osaka History & Archaeology
+- /education/teacher-pack — 授業見本（教師用パック） / Sample Lesson — Field Investigation in Action
+
+## タイムライン記事 / Timeline Articles
+
+- /ja/osaka-castle-history.html — 大阪城：豊臣秀吉、大坂の陣、そして埋もれた歴史
+- /ja/toyotomihideyoshi.html — 太閤の道 — 豊臣秀吉の年表
+- /ja/ishiyama-timeline.html — 石山本願寺戦争（1570〜1580）
+- /ja/three-unifiers.html — 三人の統一者
+- /ja/tokugawa-ieyasu-timeline.html — 睡龍 — 徳川家康の年表
+- /ja/toyotomi_hideyori.html — 豊臣秀頼：大阪城の崩壊に直面した継承者
+- /ja/before-the-castle-prehistoric-osaka.html — 城の前：大坂が先史時代の潟であった頃
+- /ja/empress-shotoku.html — 稱徳天皇、道鏡、難波の力学
+- /ja/shitennojihistory.html — 四天王寺：1,400年の権力、信仰、生存
+- /ja/yayoi_timeline.html — 弥生時代 — 並行する歴史
+- /ja/empress_jingu_timeline.html — 神功皇后：伝説と史実を分かつ
+- /ja/ojinsuccession.html — 応神天皇の皇位継承 — 三つの物語
+- /ja/fujiwara-shadow-politics.html — 藤原摂関政治 — 五百年にわたる影の支配
+- /ja/genpei-timeline.html — 平氏、源氏と最初の幕府
+- /ja/azaiclanbetrayal.html — 織田・浅井の裏切り — 戦国タイムライン
+- /ja/sanada_nobushige.html — 真田信繁 — 日本最強の武将
+- /ja/soga-fujiwara-timeline.html — 蘇我氏、藤原氏と皇室 — 朝廷政治タイムライン
+- /ja/tenjin-matsuri-history.html — 天神祭 — 大阪最大の祭礼
+- /ja/deeptimeline.html — 上町台地 ── ディープタイム・タイムライン
+
+## 検索キーワード / Search Keywords
+
+大阪城, 豊臣秀吉, 徳川家康, 織田信長, 戦国時代, 歴史探究,
+フィールド学習, カリキュラム連動, 中学校, 高等学校, 大学,
+難波, 上町台地, 四天王寺, 石山本願寺, 大坂の陣, 歴史総合,
+日本史探究, 探究型学習, 修学旅行, 歴史授業, 社会科,
+Osaka Castle, Hideyoshi, Tokugawa, Nobunaga, Sengoku,
+field investigation, inquiry-based learning, history education,
+curriculum-aligned, junior high, high school, university
+
+## 料金 / Pricing
+
+- スタンダード・フィールド探究: ¥50,000〜 (90分, 2〜3地点)
+- エクステンデッド・フィールド探究: ¥65,000〜 (120分, 3〜4地点)
+- フル・歴史フィールドゼミ: ¥80,000〜 (150分, 4地点以上)
+- カスタムカリキュラム探究: ¥95,000から
+
+## 連絡先 / Contact
+
+- ウェブサイト: https://osakacastletours.com/education
+- 依頼フォーム: https://osakacastletours.com/education#inquiry-form
+- ジャパンタイムズ掲載: https://www.japantimes.co.jp/commentary/2026/07/22/japan/japan-new-imperial-house-law/

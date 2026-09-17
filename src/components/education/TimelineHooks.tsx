@@ -1,10 +1,7 @@
 "use client";
 
 import { useLocale } from "@/lib/education/language-context";
-import {
-  educationTimelineLinks,
-  type TimelineLink,
-} from "@/lib/education/timeline-links";
+import { educationTimelineLinks } from "@/lib/education/timeline-links";
 
 interface TimelineHooksProps {
   themes: string[];
@@ -38,7 +35,11 @@ export function TimelineHooks({
         {links.map((link) => (
           <a
             key={link.slug}
-            href={`/ja/${link.slug}.html`}
+            href={
+              locale === "ja"
+                ? `https://osakacastletours.com/ja/${link.slug}.html`
+                : `https://osakacastletours.com/${link.slug}.html`
+            }
             className="timeline-hook-card"
           >
             <div className="timeline-hook-top">
