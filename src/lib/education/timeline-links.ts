@@ -40,7 +40,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Sengoku",
     periodJa: "戦国",
     relevantThemes: ["hideyoshi", "power-propaganda", "geography-power"],
-    heroImage: "toyotomihideyoshi.webp",
+    heroImage: "images/toyotomihideyoshi.webp",
   },
   {
     slug: "ishiyama-timeline",
@@ -53,7 +53,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Sengoku",
     periodJa: "戦国",
     relevantThemes: ["warrior-monks", "geography-power"],
-    heroImage: "Ishiyama.webp",
+    heroImage: "images/ishiyama.webp",
   },
   {
     slug: "three-unifiers",
@@ -66,7 +66,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Sengoku–Tokugawa",
     periodJa: "戦国〜江戸",
     relevantThemes: ["hideyoshi", "tokugawa", "power-propaganda"],
-    heroImage: "nobunaga.webp",
+    heroImage: "images/nobunaga.webp",
   },
   {
     slug: "tokugawa-ieyasu-timeline",
@@ -79,7 +79,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Tokugawa",
     periodJa: "江戸",
     relevantThemes: ["tokugawa", "power-propaganda", "historical-memory"],
-    heroImage: "Hideyoshiscouncilofelders.webp",
+    heroImage: "images/hideyoshiscouncilofelders.webp",
   },
   {
     slug: "toyotomi_hideyori",
@@ -92,7 +92,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Sengoku–Tokugawa",
     periodJa: "戦国〜江戸",
     relevantThemes: ["tokugawa", "historical-memory", "hideyoshi"],
-    heroImage: "yododonohideyori.webp",
+    heroImage: "images/yododonohideyori.webp",
   },
   {
     slug: "before-the-castle-prehistoric-osaka",
@@ -131,7 +131,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient",
     periodJa: "古代",
     relevantThemes: ["ancient-osaka", "warrior-monks"],
-    heroImage: "shitennoji.webp",
+    heroImage: "images/shitennoji.webp",
   },
   {
     slug: "yayoi_timeline",
@@ -170,7 +170,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient",
     periodJa: "古代",
     relevantThemes: ["ancient-osaka", "power-propaganda"],
-    heroImage: "kofun.webp",
+    heroImage: "images/kofun.webp",
   },
   {
     slug: "fujiwara-shadow-politics",
@@ -209,7 +209,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Sengoku",
     periodJa: "戦国",
     relevantThemes: ["warrior-monks", "hideyoshi"],
-    heroImage: "azaiclanbetrayal.webp",
+    heroImage: "images/azaiclanbetrayal.webp",
   },
   {
     slug: "sanada_nobushige",
@@ -235,7 +235,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Ancient–Heian",
     periodJa: "古代〜平安",
     relevantThemes: ["ancient-osaka", "power-propaganda"],
-    heroImage: "assassination.webp",
+    heroImage: "images/assassination.webp",
   },
   {
     slug: "tenjin-matsuri-history",
@@ -248,7 +248,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Heian–Modern",
     periodJa: "平安〜近代",
     relevantThemes: ["ancient-osaka", "historical-memory"],
-    heroImage: "tenjin-matsuri-hero.webp",
+    heroImage: "images/tenjin-matsuri-hero.webp",
   },
   {
     slug: "deeptimeline",
@@ -261,7 +261,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     period: "Prehistoric–Modern",
     periodJa: "先史〜近代",
     relevantThemes: ["geography-power", "ancient-osaka"],
-    heroImage: "formernaniwapalace.webp",
+    heroImage: "images/formernaniwapalace.webp",
   },
 ];
 
