@@ -88,7 +88,7 @@ export const investigationExamples: InvestigationExample[] = [
     discovery:
       "Students investigate how religion, geography, trade, and political power interacted during the conflict, then test competing explanations against the evidence.",
     discoveryJa:
-      "学生は紛争中に宗教、地理、貿易、政治的権力がどのように相互作用したかを調査し、競合する説明を証拠 against で検証する。",
+      "生徒は紛争中に宗教、地理、貿易、政治的権力がどのように相互作用したかを調査し、競合する説明を証拠に照らして検証する。",
     feedback:
       "My students never knew Osaka's rivers were once a battlefield.",
     feedbackJa:
@@ -124,7 +124,7 @@ export const investigationExamples: InvestigationExample[] = [
     discovery:
       "Students investigate why multiple emperors chose the same location across centuries, evaluating whether geography, trade access, or political symbolism best explains the pattern.",
     discoveryJa:
-      "学生はなぜ複数の天皇が世紀をかけて同じ場所を選んだのかを調査し、地理、貿易アクセス、政治的象徴のいずれがそのパターンを最もよく説明するかを評価する。",
+      "生徒はなぜ複数の天皇が世紀をかけて同じ場所を選んだのかを調査し、地理、貿易アクセス、政治的象徴のいずれがそのパターンを最もよく説明するかを評価する。",
     feedback:
       "I had no idea Osaka was this old. The geography makes it obvious in hindsight.",
     feedbackJa:
@@ -188,7 +188,7 @@ export const investigationExamples: InvestigationExample[] = [
     question:
       "Why did political powers repeatedly choose this exact location — the Uemachi Plateau — as their centre?",
     questionJa:
-      "なぜ政治政治権力は繰り返し、この正確な場所——上町台地——を自らの中心としたのか？",
+      "なぜ政治権力は繰り返し、この正確な場所——上町台地——を自らの中心としたのか？",
     sites: [
       "Hoenzaka Warehouse",
       "Naniwa Palace",
@@ -204,7 +204,7 @@ export const investigationExamples: InvestigationExample[] = [
     discovery:
       "Students traced 1,500 years of political convergence on a single ridge. They identified water access, defensive elevation, transportation routes, and symbolic associations — and debated which factor mattered most in each era.",
     discoveryJa:
-      "生徒は1,50年にわたる一つの尾根への政治的集約を追跡した。水へのアクセス、防御的な高さ、交通路、象徴的連想を特定し、各時代で哪个の要因が最重要であったかを議論した。",
+      "生徒は1,500年にわたる一つの尾根への政治的集約を追跡した。水へのアクセス、防御的な高さ、交通路、象徴的連想を特定し、各時代でどの要因が最重要であったかを議論した。",
     feedback:
       "My students now understand that geography isn't background — it's a historical actor.",
     feedbackJa:
@@ -242,7 +242,7 @@ export const investigationExamples: InvestigationExample[] = [
     discovery:
       "Students examine how successive rulers used the same physical space to project different political narratives, then evaluate how 20th-century reconstruction added another interpretive layer to the site's meaning.",
     discoveryJa:
-      "生徒は、 successive な支配者がどう同じ物理的空間を使って異なる政治的物語を投影したかを検証し、近代の再建がそのサイトの意味にどのような解釈的層を加えたかを評価する。",
+      "生徒は、歴代の支配者がどう同じ物理的空間を使って異なる政治的物語を投影したかを検証し、近代の再建がその地点の意味にどのような解釈的層を加えたかを評価する。",
     feedback:
       "This seminar changed how my students read political architecture everywhere — not just in Japan.",
     feedbackJa:
@@ -284,7 +284,7 @@ export const investigationExamples: InvestigationExample[] = [
     discovery:
       "Students examine how the same geographic features attracted successive powers across 1,500 years, testing whether geography determines political outcomes or merely enables them.",
     discoveryJa:
-      "生徒は同じ地理的特徴が1,500年にわたり如何に successive な権力を惹きつけたかを検証し、地理が政治的結果を決定するのか、それとも単に可能にするのかを検証する。",
+      "生徒は同じ地理的特徴が1,500年にわたって歴代の権力者をどのように惹きつけてきたのかを検証し、地理が政治的結果を決定するのか、それとも単に可能にするのかを検証する。",
     feedback:
       "My IB students used this as the basis for their Internal Assessment investigations.",
     feedbackJa:
@@ -311,7 +311,7 @@ export const investigationExamples: InvestigationExample[] = [
     question:
       "How do historians and archaeologists reconstruct a city that left few written records but significant physical remains?",
     questionJa:
-      "歴史家と考古学者は、文書記録は少ないが物理的遺構が significant な都市をどのように再構成するか？",
+      "歴史家と考古学者は、文書記録は少ないが物理的遺構が重要な都市をどのように再構成するか？",
     sites: [
       "Hoenzaka Warehouse",
       "Naniwa Palace",
@@ -374,7 +374,7 @@ export const investigationExamples: InvestigationExample[] = [
     feedback:
       "My students now approach every historical site as a primary source — not just a backdrop.",
     feedbackJa:
-      "生徒があらゆる歴史的サイトを背景ではなく一次史料として扱うようになりました。",
+      "生徒があらゆる歴史的地点を背景ではなく一次史料として扱うようになりました。",
     relevantThemes: ["geography-power", "ancient-osaka"],
     timelineSlugs: [
       "deeptimeline",

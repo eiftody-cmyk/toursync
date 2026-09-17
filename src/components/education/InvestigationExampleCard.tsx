@@ -57,7 +57,7 @@ export function InvestigationExampleCard({ example }: InvestigationExampleCardPr
           </div>
 
           <div className="example-section">
-            <h4>{locale === "ja" ? "訪問する場所" : "Sites Visited"}</h4>
+            <h4>{locale === "ja" ? "探究する地点" : "Sites Visited"}</h4>
             <ul>
               {(locale === "ja" ? example.sitesJa : example.sites).map(
                 (site, i) => (

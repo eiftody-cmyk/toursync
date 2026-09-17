@@ -121,7 +121,7 @@ export function InquiryForm() {
       {/* Logistics Section */}
       <div className="form-section">
         <h3>
-          {locale === "ja" ? " logistical" : "Logistics"}
+          {locale === "ja" ? "実施条件" : "Logistics"}
         </h3>
 
         <div className="form-group" style={{ marginBottom: "1rem" }}>

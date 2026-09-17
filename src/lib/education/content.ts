@@ -78,6 +78,16 @@ export const en = {
       body: "After the investigation, every class receives a Post-Visit Companion — a digital document containing photographs from the field lesson, a recap of the historical dilemmas explored, and the historical context for each site visited.\n\nOne page per location. Group photographs at each landmark. Candid shots of students investigating, discussing, and presenting. The coach distributes it to students so they have a lasting memory of the investigation — and something to show parents.",
       note: "Designed for school groups. Translated to Japanese. Photography requires advance school consent.",
     },
+    howItWorks: {
+      title: "How It Works",
+      steps: [
+        { number: 1, title: "Tell me what you're teaching.", body: "Course, unit, student level, class size, learning objectives." },
+        { number: 2, title: "Choose your field format.", body: "90, 120, or 150 minutes." },
+        { number: 3, title: "We develop the historical question together.", body: "Edward adapts the investigation to your curriculum and students." },
+        { number: 4, title: "Students investigate Osaka.", body: "Landscape, evidence, competing interpretations." },
+        { number: 5, title: "Receive follow-up materials.", body: "Students and teachers can continue the investigation in class." },
+      ],
+    },
     timeline: {
       title: "Explore the Evidence",
       subtitle:
@@ -95,6 +105,10 @@ export const en = {
         "Osaka-based specialist",
         "Political history & historical geography",
       ],
+      publishedWork: {
+        label: "Featured in The Japan Times",
+        url: "https://www.japantimes.co.jp/commentary/2026/07/22/japan/japan-new-imperial-house-law/",
+      },
     },
     pricing: {
       title: "Pricing",
