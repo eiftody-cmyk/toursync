@@ -110,6 +110,10 @@ a:hover {
   color: var(--edu-ink);
 }
 
+.edu-nav-link.active {
+  font-weight: 600;
+}
+
 .edu-header-actions {
   display: flex;
   align-items: center;
