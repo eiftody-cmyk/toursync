@@ -6,11 +6,12 @@ import { en } from "@/lib/education/content";
 import { ja } from "@/lib/education/content-ja";
 import { SocraticMethodDiagram } from "@/components/education/SocraticMethodDiagram";
 import { InvestigationExampleCard } from "@/components/education/InvestigationExampleCard";
+import { CurriculumMatrix } from "@/components/education/CurriculumMatrix";
 import { TimelineHooks } from "@/components/education/TimelineHooks";
 import { PricingTable } from "@/components/education/PricingTable";
 import { InquiryForm } from "@/components/education/InquiryForm";
 import { investigationExamples } from "@/lib/education/examples";
-import { universityAlignment } from "@/lib/education/curriculum-alignment";
+
 
 export default function UniversityPage() {
   const { locale } = useLocale();
@@ -24,9 +25,21 @@ export default function UniversityPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="edu-hero">
+      <section className="edu-hero bg-shotoku">
         <h1>{uni.hero.headline}</h1>
         <p className="subtitle">{uni.hero.subtitle}</p>
+        <p
+          style={{
+            fontFamily: '"Cinzel", serif',
+            fontSize: "0.8rem",
+            letterSpacing: "0.12em",
+            textTransform: "uppercase" as const,
+            color: "var(--edu-gold)",
+            marginTop: "1rem",
+          }}
+        >
+          {locale === "ja" ? "90〜150分 · 10〜40名 · 英語/日本語/バイリンガル · ¥50,000から" : "90–150 minutes · 10–40 students · English / Japanese / Bilingual · From ¥50,000 per class"}
+        </p>
         <div className="cta-group">
           <a href="#inquiry-form" className="edu-cta-btn">
             {t.nav.cta}
@@ -104,46 +117,19 @@ export default function UniversityPage() {
             ? "学問分野との対応"
             : "Discipline Alignment"}
         </h2>
-        <p className="section-subtitle">
-          {locale === "ja"
-            ? "大学プログラムは学問分野に合わせてカスタマイズされます。"
-            : "University programs are customized to your discipline."}
-        </p>
-        <div style={{ overflowX: "auto" }}>
-          <table className="matrix-table">
-            <thead>
-              <tr>
-                <th>{locale === "ja" ? "テーマ" : "Theme"}</th>
-                <th>{locale === "ja" ? "歴史" : "History"}</th>
-                <th>{locale === "ja" ? "考古学" : "Archaeology"}</th>
-                <th>{locale === "ja" ? "歴史地理" : "Hist. Geography"}</th>
-                <th>{locale === "ja" ? "政治学" : "Political Science"}</th>
-                <th>{locale === "ja" ? "日本学" : "Japanese Studies"}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {universityAlignment.map((row, i) => (
-                <tr key={i}>
-                  <td style={{ fontWeight: 600 }}>
-                    {locale === "ja" ? row.themeJa : row.theme}
-                  </td>
-                  <td>{row.history}</td>
-                  <td>{row.archaeology}</td>
-                  <td>{row.histGeo}</td>
-                  <td>{row.poliSci}</td>
-                  <td>{row.japaneseStudies}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <CurriculumMatrix variant="university" />
       </section>
 
       {/* University Examples */}
       <section className="edu-section">
         <h2>
-          {locale === "ja" ? "大学セミナー例" : "University Seminar Examples"}
+          {locale === "ja" ? "あなたの生徒は何を探究できますか？" : "What could your students investigate?"}
         </h2>
+        <p className="section-subtitle">
+          {locale === "ja"
+            ? "これらは固定されたツアーではありません。全ての探究はあなたのコース、生徒、学習目標に合わせて適応されます。"
+            : "These are examples, not fixed tours. Every investigation is adapted to your course, students, and learning objectives."}
+        </p>
         <div className="example-cards">
           {uniExamples.map((example) => (
             <InvestigationExampleCard key={example.id} example={example} />
@@ -171,6 +157,16 @@ export default function UniversityPage() {
         <h2>{t.hub.pricing.title}</h2>
         <p className="section-subtitle">{t.hub.pricing.subtitle}</p>
         <PricingTable />
+        <p
+          style={{
+            fontSize: "0.8rem",
+            color: "var(--edu-muted)",
+            fontStyle: "italic",
+            marginTop: "1rem",
+          }}
+        >
+          {t.hub.pricing.note}
+        </p>
         <div
           style={{
             background: "var(--edu-card)",
@@ -196,8 +192,24 @@ export default function UniversityPage() {
         </div>
       </section>
 
+      {/* How it works */}
+      <section className="edu-section alt-bg">
+        <h2>{t.hub.howItWorks.title}</h2>
+        <div className="how-it-works-steps">
+          {t.hub.howItWorks.steps.map((step, i) => (
+            <div key={i} className="how-it-works-step">
+              <div className="how-it-works-number">{step.number}</div>
+              <div>
+                <h4>{step.title}</h4>
+                <p>{step.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Inquiry */}
-      <section className="edu-section alt-bg" id="inquiry-form">
+      <section className="edu-section" id="inquiry-form">
         <h2>{t.form.title}</h2>
         <p className="section-subtitle">{t.form.subtitle}</p>
         <InquiryForm />

@@ -215,6 +215,47 @@ a:hover {
   flex-wrap: wrap;
 }
 
+/* ── HERO BACKGROUNDS ── */
+.edu-hero.bg-hideyoshi,
+.edu-hero.bg-hideyori,
+.edu-hero.bg-kofun,
+.edu-hero.bg-shotoku,
+.edu-hero.bg-michizane {
+  background-size: cover;
+  background-position: top;
+  position: relative;
+}
+
+.edu-hero.bg-hideyoshi {
+  background-image:
+    linear-gradient(rgba(26, 21, 16, 0.78), rgba(26, 21, 16, 0.78)),
+    url('/images/toyotomihideyoshi.webp');
+}
+
+.edu-hero.bg-hideyori {
+  background-image:
+    linear-gradient(rgba(26, 21, 16, 0.78), rgba(26, 21, 16, 0.78)),
+    url('/images/yododonohideyori.webp');
+}
+
+.edu-hero.bg-kofun {
+  background-image:
+    linear-gradient(rgba(26, 21, 16, 0.78), rgba(26, 21, 16, 0.78)),
+    url('/images/new_kofun.webp');
+}
+
+.edu-hero.bg-shotoku {
+  background-image:
+    linear-gradient(rgba(26, 21, 16, 0.78), rgba(26, 21, 16, 0.78)),
+    url('/images/empress-shotoku.webp');
+}
+
+.edu-hero.bg-michizane {
+  background-image:
+    linear-gradient(rgba(26, 21, 16, 0.78), rgba(26, 21, 16, 0.78)),
+    url('/images/sanadacharge.webp');
+}
+
 /* ── SECTIONS ── */
 .edu-section {
   max-width: 1100px;
@@ -711,6 +752,53 @@ a:hover {
   font-weight: 600;
 }
 
+/* ── HOW IT WORKS ── */
+.how-it-works-steps {
+  max-width: 600px;
+  margin: 2rem 0;
+}
+
+.how-it-works-step {
+  display: flex;
+  gap: 1.2rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--edu-border);
+}
+
+.how-it-works-step:last-child {
+  border-bottom: none;
+}
+
+.how-it-works-number {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  background: var(--edu-gold);
+  color: var(--edu-ink);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cinzel", serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.how-it-works-step h4 {
+  font-family: "Cinzel", serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--edu-ink);
+  margin-bottom: 0.3rem;
+}
+
+.how-it-works-step p {
+  font-size: 0.95rem;
+  color: var(--edu-stone);
+  line-height: 1.5;
+}
+
+
 /* ── INQUIRY FORM ── */
 .inquiry-form {
   max-width: 700px;
@@ -1077,6 +1165,15 @@ a:hover {
 
   .edu-problem {
     padding: 2rem 1.5rem;
+  }
+
+  .matrix-table {
+    font-size: 0.75rem;
+  }
+
+  .matrix-table th,
+  .matrix-table td {
+    padding: 0.5rem 0.35rem;
   }
 }
 

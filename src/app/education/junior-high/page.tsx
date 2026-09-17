@@ -22,9 +22,21 @@ export default function JuniorHighPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="edu-hero">
+      <section className="edu-hero bg-hideyori">
         <h1>{jhs.hero.headline}</h1>
         <p className="subtitle">{jhs.hero.subtitle}</p>
+        <p
+          style={{
+            fontFamily: '"Cinzel", serif',
+            fontSize: "0.8rem",
+            letterSpacing: "0.12em",
+            textTransform: "uppercase" as const,
+            color: "var(--edu-gold)",
+            marginTop: "1rem",
+          }}
+        >
+          {locale === "ja" ? "90〜150分 · 10〜40名 · 英語/日本語/バイリンガル · ¥50,000から" : "90–150 minutes · 10–40 students · English / Japanese / Bilingual · From ¥50,000 per class"}
+        </p>
         <div className="cta-group">
           <a href="#inquiry-form" className="edu-cta-btn">
             {t.nav.cta}
@@ -35,7 +47,7 @@ export default function JuniorHighPage() {
         </div>
       </section>
 
-      {/* Method (short) */}
+      {/* Method */}
       <section className="edu-section">
         <h2>{t.hub.method.title}</h2>
         <p className="section-subtitle">{t.hub.method.subtitle}</p>
@@ -93,14 +105,19 @@ export default function JuniorHighPage() {
             ? "全ての探究はあなたのカリキュラムに合わせてカスタマイズされます。"
             : "Every investigation is customized to your curriculum unit."}
         </p>
-        <CurriculumMatrix />
+        <CurriculumMatrix variant="jhs" />
       </section>
 
       {/* JHS Examples */}
       <section className="edu-section">
         <h2>
-          {locale === "ja" ? "中学校の探究例" : "JHS Investigation Examples"}
+          {locale === "ja" ? "あなたの生徒は何を探究できますか？" : "What could your students investigate?"}
         </h2>
+        <p className="section-subtitle">
+          {locale === "ja"
+            ? "これらは固定されたツアーではありません。全ての探究はあなたのコース、生徒、学習目標に合わせて適応されます。"
+            : "These are examples, not fixed tours. Every investigation is adapted to your course, students, and learning objectives."}
+        </p>
         <div className="example-cards">
           {jhsExamples.map((example) => (
             <InvestigationExampleCard key={example.id} example={example} />
@@ -121,10 +138,36 @@ export default function JuniorHighPage() {
         <h2>{t.hub.pricing.title}</h2>
         <p className="section-subtitle">{t.hub.pricing.subtitle}</p>
         <PricingTable />
+        <p
+          style={{
+            fontSize: "0.8rem",
+            color: "var(--edu-muted)",
+            fontStyle: "italic",
+            marginTop: "1rem",
+          }}
+        >
+          {t.hub.pricing.note}
+        </p>
+      </section>
+
+      {/* How it works */}
+      <section className="edu-section alt-bg">
+        <h2>{t.hub.howItWorks.title}</h2>
+        <div className="how-it-works-steps">
+          {t.hub.howItWorks.steps.map((step, i) => (
+            <div key={i} className="how-it-works-step">
+              <div className="how-it-works-number">{step.number}</div>
+              <div>
+                <h4>{step.title}</h4>
+                <p>{step.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Inquiry */}
-      <section className="edu-section alt-bg" id="inquiry-form">
+      <section className="edu-section" id="inquiry-form">
         <h2>{t.form.title}</h2>
         <p className="section-subtitle">{t.form.subtitle}</p>
         <InquiryForm />
