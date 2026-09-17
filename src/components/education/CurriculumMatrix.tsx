@@ -18,9 +18,9 @@ type FilterDef = { key: string; label: string; labelJa: string };
 const jhsFilters: FilterDef[] = [
   { key: "all", label: "All", labelJa: "すべて" },
   { key: "jhsSocial", label: "JHS Social Studies", labelJa: "中学社会・歴史" },
-  { key: "rekishSogo", label: "歴史総合", labelJa: "歴史総合" },
-  { key: "nihonshiTankyu", label: "日本史探究", labelJa: "日本史探究" },
-  { key: "tankyu", label: "探究", labelJa: "探究" },
+  { key: "rekishSogo", label: "Historical Studies", labelJa: "歴史総合" },
+  { key: "nihonshiTankyu", label: "Japanese History Studies", labelJa: "日本史探究" },
+  { key: "tankyu", label: "Inquiry", labelJa: "探究" },
   { key: "english", label: "English", labelJa: "English" },
   { key: "ib", label: "IB", labelJa: "IB" },
   { key: "ap", label: "AP", labelJa: "AP" },
@@ -28,9 +28,9 @@ const jhsFilters: FilterDef[] = [
 
 const hsFilters: FilterDef[] = [
   { key: "all", label: "All", labelJa: "すべて" },
-  { key: "rekishSogo", label: "歴史総合", labelJa: "歴史総合" },
-  { key: "nihonshiTankyu", label: "日本史探究", labelJa: "日本史探究" },
-  { key: "tankyu", label: "探究", labelJa: "探究" },
+  { key: "rekishSogo", label: "Historical Studies", labelJa: "歴史総合" },
+  { key: "nihonshiTankyu", label: "Japanese History Studies", labelJa: "日本史探究" },
+  { key: "tankyu", label: "Inquiry", labelJa: "探究" },
   { key: "english", label: "English", labelJa: "English" },
   { key: "ib", label: "IB", labelJa: "IB" },
   { key: "ap", label: "AP", labelJa: "AP" },
@@ -48,9 +48,9 @@ const uniFilters: FilterDef[] = [
 const legacyFilters: FilterDef[] = [
   { key: "all", label: "All", labelJa: "全て" },
   { key: "jhs", label: "JHS Social Studies", labelJa: "中学校 社会科" },
-  { key: "rekish", label: "歴史総合", labelJa: "歴史総合" },
-  { key: "nihonshi", label: "日本史探究", labelJa: "日本史探究" },
-  { key: "tankyu", label: "探究", labelJa: "探究" },
+  { key: "rekish", label: "Historical Studies", labelJa: "歴史総合" },
+  { key: "nihonshi", label: "Japanese History Studies", labelJa: "日本史探究" },
+  { key: "tankyu", label: "Inquiry", labelJa: "探究" },
   { key: "english", label: "English", labelJa: "英語" },
   { key: "ib", label: "IB", labelJa: "IB" },
   { key: "ap", label: "AP", labelJa: "AP" },
@@ -65,6 +65,7 @@ export function CurriculumMatrix({ variant }: CurriculumMatrixProps) {
   const { locale } = useLocale();
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
+  const isEn = locale === "en";
   const isJhs = variant === "jhs";
   const isHs = variant === "hs";
   const isUni = variant === "university";
@@ -94,17 +95,27 @@ export function CurriculumMatrix({ variant }: CurriculumMatrixProps) {
         })
       : data;
 
-  const themeHeader = locale === "ja" ? "テーマ" : "Theme";
+  const themeHeader = isEn ? "Theme" : "テーマ";
 
   const customizationText = isUni
-    ? locale === "ja"
-      ? "すべてのフィールド・セミナーは、授業内容・研究テーマ・学習目標に合わせてカスタマイズします。"
-      : "Every field seminar is customized to your course objectives and academic focus."
-    : locale === "ja"
-      ? "すべてのフィールド・インベスティゲーションは、授業単元・学習目標・生徒のレベルに合わせてカスタマイズします。"
-      : "Every investigation is customized to your curriculum unit.";
+    ? isEn
+      ? "Every field seminar is customized to your course objectives and academic focus."
+      : "すべてのフィールド・セミナーは、授業内容・研究テーマ・学習目標に合わせてカスタマイズします。"
+    : isEn
+      ? "Every investigation is customized to your curriculum unit."
+      : "すべてのフィールド・インベスティゲーションは、授業単元・学習目標・生徒のレベルに合わせてカスタマイズします。";
 
-  const jhsHeaders = [
+  const jhsHeadersEn = [
+    { key: "jhsSocialEn", label: "JHS Social Studies" },
+    { key: "rekishSogoEn", label: "Historical Studies" },
+    { key: "nihonshiTankyuEn", label: "Japanese History Studies" },
+    { key: "tankyuEn", label: "Inquiry" },
+    { key: "english", label: "English" },
+    { key: "ib", label: "IB" },
+    { key: "ap", label: "AP" },
+  ];
+
+  const jhsHeadersJa = [
     { key: "jhsSocial", label: "中学社会・歴史" },
     { key: "rekishSogo", label: "歴史総合" },
     { key: "nihonshiTankyu", label: "日本史探究" },
@@ -114,7 +125,16 @@ export function CurriculumMatrix({ variant }: CurriculumMatrixProps) {
     { key: "ap", label: "AP" },
   ];
 
-  const hsHeaders = [
+  const hsHeadersEn = [
+    { key: "rekishSogoEn", label: "Historical Studies" },
+    { key: "nihonshiTankyuEn", label: "Japanese History Studies" },
+    { key: "tankyuEn", label: "Inquiry" },
+    { key: "english", label: "English" },
+    { key: "ib", label: "IB" },
+    { key: "ap", label: "AP" },
+  ];
+
+  const hsHeadersJa = [
     { key: "rekishSogo", label: "歴史総合" },
     { key: "nihonshiTankyu", label: "日本史探究" },
     { key: "tankyu", label: "探究" },
@@ -123,7 +143,15 @@ export function CurriculumMatrix({ variant }: CurriculumMatrixProps) {
     { key: "ap", label: "AP" },
   ];
 
-  const uniHeaders = [
+  const uniHeadersEn = [
+    { key: "historyEn", label: "History" },
+    { key: "archaeologyEn", label: "Archaeology" },
+    { key: "histGeoEn", label: "Historical Geography" },
+    { key: "poliSciEn", label: "Political Science" },
+    { key: "japaneseStudiesEn", label: "Japanese Studies" },
+  ];
+
+  const uniHeadersJa = [
     { key: "history", label: "歴史学" },
     { key: "archaeology", label: "考古学" },
     { key: "histGeo", label: "歴史地理学" },
@@ -131,7 +159,17 @@ export function CurriculumMatrix({ variant }: CurriculumMatrixProps) {
     { key: "japaneseStudies", label: "日本学" },
   ];
 
-  const legacyHeaders = [
+  const legacyHeadersEn = [
+    { key: "jhsSocial", label: "JHS" },
+    { key: "hsRekish", label: "Historical Studies" },
+    { key: "hsNihonshi", label: "Japanese History Studies" },
+    { key: "hsTankyu", label: "Inquiry" },
+    { key: "english", label: "English" },
+    { key: "ib", label: "IB" },
+    { key: "ap", label: "AP" },
+  ];
+
+  const legacyHeadersJa = [
     { key: "jhsSocial", label: "JHS" },
     { key: "hsRekish", label: "歴史総合" },
     { key: "hsNihonshi", label: "日本史探究" },
@@ -142,12 +180,12 @@ export function CurriculumMatrix({ variant }: CurriculumMatrixProps) {
   ];
 
   const headers = isJhs
-    ? jhsHeaders
+    ? isEn ? jhsHeadersEn : jhsHeadersJa
     : isHs
-      ? hsHeaders
+      ? isEn ? hsHeadersEn : hsHeadersJa
       : isUni
-        ? uniHeaders
-        : legacyHeaders;
+        ? isEn ? uniHeadersEn : uniHeadersJa
+        : isEn ? legacyHeadersEn : legacyHeadersJa;
 
   return (
     <div>
@@ -158,7 +196,7 @@ export function CurriculumMatrix({ variant }: CurriculumMatrixProps) {
             className={`matrix-filter-btn ${activeFilter === f.key || (f.key === "all" && !activeFilter) ? "active" : ""}`}
             onClick={() => setActiveFilter(f.key === "all" ? null : f.key)}
           >
-            {locale === "ja" ? f.labelJa : f.label}
+            {isEn ? f.label : f.labelJa}
           </button>
         ))}
       </div>
@@ -188,7 +226,7 @@ export function CurriculumMatrix({ variant }: CurriculumMatrixProps) {
             {visibleRows.map((row, i) => (
               <tr key={i}>
                 <td style={{ fontWeight: 600 }}>
-                  {locale === "ja" ? row.themeJa : row.theme}
+                  {isEn ? row.theme : row.themeJa}
                 </td>
                 {headers.map((h) => (
                   <td key={h.key}>
