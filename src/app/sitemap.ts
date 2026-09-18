@@ -84,5 +84,32 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ]
   );
 
-  return [...educationPages, ...timelinePages];
+  const sitePages: MetadataRoute.Sitemap = [
+    {
+      url: "https://osakacastletours.com/",
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 1.0,
+    },
+    {
+      url: "https://osakacastletours.com/landscape",
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: "https://osakacastletours.com/book",
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: "https://osakacastletours.com/book/custom",
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+  ];
+
+  return [...sitePages, ...educationPages, ...timelinePages];
 }
