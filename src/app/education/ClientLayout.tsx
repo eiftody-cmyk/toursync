@@ -99,6 +99,13 @@ function Footer() {
 
   return (
     <footer className="edu-footer">
+      <img
+        src="/images/osaka-history-investigations.webp"
+        alt="Osaka History Investigations"
+        className="edu-footer-logo"
+        width={180}
+        height={180}
+      />
       <p>
         {locale === "ja"
           ? "大阪歴史フィールド探究 — 大阪城ウォークス with Edward の一部門"

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C79TD3WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-P4C79TD3WJ');
+</script>
+
+  <!-- Clarity tracking code for https://osakacastletours.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "x9vnut320x");
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天下統一の三英傑 · エドワードと歩く大阪城</title>
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="天下統一の三英傑 · エドワードと歩く大阪城">
+<meta property="og:description" content="三人の男。一つの城。日本を形作った六十年 — 織田信長、豊臣秀吉、そして徳川家康の物語。">
+<meta property="og:url" content="https://osakacastletours.com/three-unifiers">
+<meta property="og:image" content="https://osakacastletours.com/three_unifiers_card.webp">
+<meta property="og:image:width" content="1400">
+<meta property="og:image:height" content="800">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="天下統一の三英傑 · エドワードと歩く大阪城">
+<meta name="twitter:description" content="三人の男。一つの城。日本を形作った六十年 — 織田信長、豊臣秀吉、そして徳川家康の物語。">
+<meta name="twitter:image" content="https://osakacastletours.com/three_unifiers_card.webp">
+
+<meta property="og:site_name" content="エドワードと歩く大阪城">
+<meta name="description" content="三人の男。一つの城。日本を形作った六十年 — 織田信長、豊臣秀吉、そして徳川家康の物語。">
+<meta name="author" content="Edward Iftody">
+<link rel="canonical" href="https://osakacastletours.com/three-unifiers">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/styles.css">
+
+<style>
+  :root {
+    --parchment: #f5efe3;
+    --parchment-dark: #1a1510;
+    --ink: #f5efe3;
+    --ink-light: #c8bfa8;
+    --terracotta: #c8a96e;
+    --gold: #c8a96e;
+    --rule: rgba(200, 169, 110, 0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: #0e0c09;
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+  }
+
+  .page {
+    max-width: 900px;
+    width: 100%;
+    background: #0e0c09;
+    position: relative;
+  }
+
+  .page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .header {
+    text-align: center;
+    padding-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.4rem;
+    opacity: 0.85;
+  }
+
+  .eyebrow span {
+    margin: 0 0.6em;
+    opacity: 0.5;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.8rem, 5vw, 2.9rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--ink);
+    max-width: 680px;
+    margin: 0 auto 2rem;
+    letter-spacing: -0.01em;
+  }
+
+  .rule-line {
+    width: 60px;
+    height: 1px;
+    background: var(--rule);
+    margin: 0 auto;
+  }
+
+  .portraits {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin: 2.5rem 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .portrait {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  .portrait:nth-child(1) { animation-delay: 0.1s; }
+  .portrait:nth-child(2) { animation-delay: 0.25s; }
+  .portrait:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .portrait-frame {
+    position: relative;
+    margin-bottom: 1.1rem;
+    overflow: hidden;
+  }
+
+  .portrait-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(200, 169, 110, 0.3);
+    pointer-events: none;
+  }
+
+  .portrait-frame img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    filter: sepia(8%) contrast(1.02);
+    transition: filter 0.4s ease, transform 0.4s ease;
+  }
+
+  .portrait:hover .portrait-frame img {
+    filter: sepia(0%) contrast(1.05);
+    transform: scale(1.02);
+  }
+
+  .portrait-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.35rem;
+  }
+
+  .portrait-name .underline-accent {
+    display: inline-block;
+    border-bottom: 2px solid var(--terracotta);
+    padding-bottom: 1px;
+  }
+
+  .portrait-role {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--ink-light);
+    padding: 0 0.3rem;
+  }
+
+  .portrait-role em {
+    font-style: italic;
+    color: var(--gold-light, #e8d5a3);
+    font-weight: 500;
+  }
+
+  .footer-rule {
+    width: 120px;
+    height: 1px;
+    background: var(--rule);
+    margin: 0.5rem auto 1rem;
+  }
+
+  .footer-text {
+    text-align: center;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.75;
+    position: relative;
+    z-index: 1;
+    font-family: 'Cinzel', serif;
+  }
+
+  .footer-text span {
+    margin: 0 0.5em;
+    opacity: 0.4;
+  }
+
+  @media (max-width: 600px) {
+    .portraits {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      max-width: 340px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .portrait-frame img {
+      aspect-ratio: 4/3;
+    }
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://osakacastletours.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Three Unifiers", "item": "https://osakacastletours.com/ja/three-unifiers.html" }
+    ]
+    },
+    {
+      "@type": "Article",
+      "@id": "https://osakacastletours.com/ja/three-unifiers.html#article",
+      "headline": "天下統一の三英傑",
+      "description": "織田信長、豊臣秀吉、徳川家康 — 16世紀に日本を統一した三人の人物。",
+      "image": "https://osakacastletours.com/threeunifiers.webp",
+      "mainEntityOfPage": "https://osakacastletours.com/ja/three-unifiers.html",
+      "inLanguage": "ja",
+      "author": {
+        "@type": "Person",
+        "name": "Edward Iftody",
+        "url": "https://osakacastletours.com/aboutme.html"
+      },
+      "publisher": {
+        "@id": "https://osakacastletours.com/#business"
+      },
+      "datePublished": "2026-03-09",
+      "dateModified": "2026-08-31"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://osakacastletours.com/#edward-iftody",
+      "name": "Edward Iftody",
+      "jobTitle": "Independent Researcher & Resident Historian",
+      "worksFor": {
+        "@id": "https://osakacastletours.com/#business"
+      }
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://osakacastletours.com/#business",
+      "name": "Osaka Castle Walks with Edward",
+      "url": "https://osakacastletours.com"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://osakacastletours.com/#website",
+      "name": "Osaka Castle Walks with Edward",
+      "url": "https://osakacastletours.com"
+    }
+  ]
+}
+</script>
+<meta name="robots" content="index, follow">
+</head>
+
+<body>
+
+<!-- Floating site menu (non-timeline pages) -->
+<div class="float-menu" aria-label="サイトメニュー">
+  <button type="button" class="float-menu-toggle" aria-expanded="false" aria-controls="float-menu-panel" aria-label="サイトメニューを開く">
+    <span class="float-menu-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+  </button>
+  <div class="float-menu-panel" id="float-menu-panel" hidden>
+    <a class="float-menu-home" href="/education?lang=ja">ホーム</a>
+    <span class="float-menu-heading">探究記事</span>
+    <a href="/ja/yayoi_timeline.html">弥生タイムライン</a>
+    <a href="/ja/before-the-castle-prehistoric-osaka.html">城になる前の大阪</a>
+    <a href="/ja/empress_jingu_timeline.html">神功皇后</a>
+    <a href="/ja/ojinsuccession.html">応神天皇の皇位継承</a>
+    <a href="/ja/empress-shotoku.html">聖徳太子</a>
+    <a href="/ja/shitennojihistory.html">四天王寺の歴史</a>
+    <a href="/ja/soga-fujiwara-timeline.html">蘇我氏、藤原氏と皇室</a>
+    <a href="/ja/fujiwara-shadow-politics.html">藤原摂関政治</a>
+    <a href="/ja/tenjin-matsuri-history.html">天神祭</a>
+    <a href="/ja/deeptimeline.html">大阪深層タイムライン</a>
+    <a href="/ja/genpei-timeline.html">平氏、源氏と最初の幕府</a>
+    <a href="/ja/ishiyama-timeline.html">石山本願寺</a>
+    <a href="/ja/toyotomihideyoshi.html">豊臣秀吉</a>
+    <a href="/ja/azaiclanbetrayal.html">織田・浅井の裏切り</a>
+    <a href="/ja/three-unifiers.html">三人の天下人</a>
+    <a href="/ja/osaka-castle-history.html">大阪城の歴史</a>
+    <a href="/ja/toyotomi_hideyori.html">豊臣秀頼</a>
+    <a href="/ja/lordconcubineshogunlie.html">大名、側室、将軍の嘘</a>
+    <a href="/ja/tokugawa-ieyasu-timeline.html">徳川家康</a>
+    <a href="/ja/sanada_nobushige.html">真田信繁</a>
+  </div>
+</div>
+<script>
+(function () {
+  var btn = document.querySelector('.float-menu-toggle');
+  var panel = document.querySelector('.float-menu-panel');
+  if (!btn || !panel) return;
+  function set(open) {
+    panel.hidden = !open;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  btn.addEventListener('click', function () { set(panel.hidden); });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.float-menu')) set(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') set(false);
+  });
+})();
+</script>
+
+<div class="page">
+
+  <div class="header">
+    <p class="eyebrow">Osaka Castle Walks with Edward <span>·</span> Pre-Tour Companion</p>
+    <h1>三人の男。一つの城。日本を変えた六十年の歴史。</h1>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="portraits">
+
+    <div class="portrait">
+      <div class="portrait-frame">
+        <img src="../nobunaga.webp" alt="織田信長の肖像">
+      </div>
+      <p class="portrait-name"><span class="underline-accent">Oda Nobunaga</span></p>
+      <p class="portrait-role">
+        地を<em>払い清めた</em>武将。
+        かつてここに立っていた要塞を壊すのに十一年を費やした。
+      </p>
+    </div>
+
+    <div class="portrait">
+      <div class="portrait-frame">
+        <img src="../hideyoshi.webp" alt="豊臣秀吉の肖像">
+      </div>
+      <p class="portrait-name"><span class="underline-accent">Toyotomi Hideyoshi</span></p>
+      <p class="portrait-role">
+        一農民から<em>築き上げた</em>人物。
+        何者でもない者から日本で最も有力な人物へと rises した。
+        大阪城は、世界への彼の宣言であった。
+      </p>
+    </div>
+
+    <div class="portrait">
+      <div class="portrait-frame">
+        <img src="../ieyasu.webp" alt="徳川家康の肖像">
+      </div>
+      <p class="portrait-name"><span class="underline-accent">Tokugawa Ieyasu</span></p>
+      <p class="portrait-role">
+        すべてを<em>葬り去った</em>生存者。
+        三十年を待ち、秀吉が築いたすべてを破壊した —
+        計画的かつ永久に。
+      </p>
+    </div>
+
+  </div>
+
+<div style="background: #1a1510; border: 1px solid rgba(200, 169, 110, 0.2); border-radius: 6px; padding: 2rem; margin-top: 3rem; text-align: center;">
+  <h3 style="font-family: 'Cinzel', serif; font-size: 1rem; color: #c8a96e; margin-bottom: 0.75rem; letter-spacing: 0.05em;">この歴史を実際の場所で探究してみませんか？</h3>
+  <p style="color: #c8bfa8; margin-bottom: 1rem; line-height: 1.6;">学校・大学向けの大阪歴史フィールドレッスンでは、先生が設定したテーマや問いをもとに、実際の歴史的景観を使って生徒と歴史を探究します。</p>
+  <a href="/education?lang=ja" style="display: inline-block; font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: #0e0c09; background: #c8a96e; padding: 0.75rem 2rem; text-decoration: none; border-radius: 2px;">学校向けフィールドレッスンを見る →</a>
+</div>
+
+<p class="page-date" style="margin-top:2rem;text-align:center;">最終更新：2026年9月</p>
+
+<div class="footer-logo-wrap">
+    <img class="footer-logo" src="../images/osaka-history-investigations.webp" alt="Logo">
+  </div>
+
+  <footer class="site-footer">
+    <p>エドワードと歩く大阪城</p>
+    <p>大阪市中央区谷町2-3-6</p>
+    <p>edward@osakacastletours.com</p>
+  </footer>
+
+</div>
+</body>
+</html>

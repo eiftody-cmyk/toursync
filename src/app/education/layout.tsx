@@ -38,6 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
         languages: {
           en: `${SITE}/education`,
           ja: `${SITE}/ja/education`,
+          "x-default": `${SITE}/education`,
         },
       },
     };
@@ -65,6 +66,7 @@ export async function generateMetadata(): Promise<Metadata> {
       languages: {
         en: `${SITE}/education`,
         ja: `${SITE}/ja/education`,
+        "x-default": `${SITE}/education`,
       },
     },
   };
@@ -88,7 +90,7 @@ export default async function EducationLayout({
       "歴史フィールド学習",
     ],
     url: `${SITE}/education`,
-    logo: `${SITE}/images/logo.webp`,
+    logo: `${SITE}/images/osaka-history-investigations.webp`,
     description:
       "Historian-led field investigations at Osaka Castle for schools and universities. 歴史家が指導する大阪城でのフィールド探究。中学校・高等学校・大学のカリキュラムに連動した探究型学習。",
     address: {
@@ -100,7 +102,7 @@ export default async function EducationLayout({
       "@type": "Person",
       name: "Edward Iftody",
       url: `${SITE}/aboutme`,
-      jobTitle: "Independent Researcher & Resident Historian",
+      jobTitle: "Historian, Educator & Course Developer",
     },
     knowsAbout: [
       "大阪城",

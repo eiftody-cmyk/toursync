@@ -1,0 +1,2373 @@
+/* ============================================================
+   OSAKA CASTLE WALKS WITH EDWARD — DESIGN SYSTEM
+   Index theme (dark ink / gold / parchment)
+   Single source of truth for the whole site.
+   Version 2.0
+============================================================ */
+
+
+/* ============================================================
+   RESET
+============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* Keep block-level cards, brand, and self-styled link elements flat */
+a.tour-card,
+.tour-card a,
+.review-card a,
+a.logo,
+.read-more {
+  color: inherit;
+  text-decoration: none;
+}
+
+.schedule {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--gold);
+  margin: 0.75rem 0;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+
+/* ============================================================
+   VARIABLES
+============================================================ */
+
+:root {
+  --gold: #c8a96e;
+  --gold-light: #e8d5a3;
+  --gold-mid: #a07840;
+  --ink: #0e0c09;
+  --parchment: #f5efe3;
+  --parchment-dim: #c8bfa8;
+  --stone: #1a1510;
+  --red-bright: #c0392b;
+  --red: #8b1a1a;
+}
+
+/* Extended palette — used by timeline pages to keep colour-coded
+   clan/era accents while sharing the index base tokens. */
+:root {
+  --aged: #e8dfc8;
+  --rust: #8b3a2a;
+  --moss: #3d6b47;
+  --slate: #3a4a5c;
+  --korea-blue: #2a5c8b;
+  --china-red: #8b3a2a;
+  --japan-rust: #5c4a3c;
+  --tang-gold: #b8860b;
+  --song-blue: #4a7a9b;
+  --faded: #7a6e5f;
+  --line: #c8b89a;
+}
+
+
+/* ============================================================
+   BASE
+============================================================ */
+
+html,
+body {
+  background: var(--ink);
+  color: var(--parchment);
+  font-family: "Cormorant Garamond", serif;
+  overflow-x: hidden; /* fallback for older browsers */
+  overflow-x: clip; /* clips overflow without creating a scroll container, so sticky works */
+}
+
+.site-footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--parchment-dim);
+  margin: 40px 0 20px;
+  font-family: "Cormorant Garamond", serif;
+}
+
+
+/* ============================================================
+   HERO
+============================================================ */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+/* Per-page hero image goes in each page's own override. */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 30%;
+  transform: scale(1.04);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 52%, rgba(8, 6, 4, 0.72) 0%, rgba(8, 6, 4, 0.2) 100%),
+    linear-gradient(to bottom,
+      rgba(8, 6, 4, 0.55) 0%,
+      rgba(8, 6, 4, 0.25) 30%,
+      rgba(8, 6, 4, 0.25) 60%,
+      rgba(8, 6, 4, 0.75) 100%
+    );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  animation: fadeUp 1.4s ease both;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1.6rem;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.hero h1 {
+  font-family: "Cinzel", serif;
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 0.9);
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold-light);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.12em;
+}
+
+.hero-divider {
+  width: 100px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto 1.6rem;
+}
+
+.hero-sub {
+  font-size: 1.55rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--gold-light);
+  max-width: 720px;
+  line-height: 1.75;
+  margin: 0 auto 2.5rem;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.9);
+  text-align: center;
+  white-space: normal;
+}
+
+.scroll-cue {
+  font-family: "Cinzel", serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+  animation: pulse 2.5s ease-in-out infinite;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+}
+
+
+/* ============================================================
+   INTRO
+============================================================ */
+
+.intro {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 5rem 2rem 3rem;
+  text-align: center;
+}
+
+.intro p {
+  font-size: 1.55rem;
+  line-height: 1.65;
+  font-weight: 300;
+  color: var(--parchment);
+}
+
+.intro strong {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   SECTION FURNITURE
+============================================================ */
+
+.sep {
+  width: 180px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200, 169, 110, 0.3), transparent);
+  margin: 4rem auto;
+}
+
+.sec-label {
+  font-family: "Cinzel", serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 0.6rem;
+}
+
+.sec-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--parchment);
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+/* ============================================================
+   AUTHORITY BADGE (AS SEEN IN THE JAPAN TIMES)
+============================================================ */
+
+.authority-strip {
+  max-width: 900px;
+  margin: 0 auto 1.5rem;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+.authority-badge {
+  display: block;
+  text-decoration: none;
+  background: linear-gradient(180deg, rgba(200, 169, 110, 0.12) 0%, rgba(26, 21, 16, 0.55) 60%);
+  border: 1px solid rgba(200, 169, 110, 0.5);
+  border-radius: 6px;
+  padding: 1.7rem 2rem;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.authority-badge:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.authority-label {
+  display: block;
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.authority-label em {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 1.45rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--parchment);
+  margin-top: 0.15rem;
+}
+
+.authority-note {
+  display: block;
+  color: var(--parchment-dim);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.1rem;
+}
+
+.authority-cta {
+  display: inline-block;
+  color: var(--gold);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.05rem;
+  border: 1px solid var(--gold);
+  padding: 0.45rem 1.2rem;
+  border-radius: 999px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.authority-badge:hover .authority-cta {
+  background: var(--gold);
+  color: #0d0b07;
+}
+
+/* ============================================================
+   SECTION SUBTITLE (FRAMING LINE)
+============================================================ */
+
+.sec-sub {
+  text-align: center;
+  color: var(--parchment-dim);
+  font-size: 1rem;
+  margin: 0 auto 2.75rem;
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   GO DEEPER (INTERNAL READING LINKS)
+============================================================ */
+
+.go-deeper {
+  max-width: 900px;
+  margin: 3.5rem auto 0;
+  padding: 0 1.5rem 2rem;
+  text-align: center;
+}
+
+.go-deeper .sec-label {
+  margin-bottom: 0.5rem;
+}
+
+.go-deeper-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.go-deeper-links a {
+  display: block;
+  color: var(--parchment);
+  text-decoration: none;
+  border: 1px solid rgba(200,169,110,0.25);
+  padding: 1.5rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.go-deeper-links a:hover {
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+
+.go-deeper-links strong {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--gold);
+  margin-bottom: 0.4rem;
+}
+
+.go-deeper-links span {
+  font-size: 0.9rem;
+  color: var(--parchment-dim);
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   TESTIMONIALS (HERO + STACK GRID)
+============================================================ */
+
+.review-block {
+  max-width: 1050px;
+  margin: 4rem auto;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.reviews-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.review-card {
+  background: var(--stone);
+  border: 1px solid rgba(200, 169, 110, 0.25);
+  border-radius: 4px;
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.review-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.review-card a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+/* Feature styling for the hero quote */
+.review-hero {
+  background: linear-gradient(180deg, rgba(35, 28, 20, 0.8) 0%, rgba(26, 21, 16, 0.95) 100%);
+  border-color: rgba(200, 169, 110, 0.45);
+}
+
+.review-quote-mark {
+  font-family: "Cinzel", serif;
+  font-size: 3rem;
+  color: var(--gold);
+  line-height: 0.8;
+  margin-bottom: 0.8rem;
+  opacity: 0.7;
+}
+
+.review-text {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.15rem;
+  line-height: 1.65;
+  color: var(--parchment);
+  font-style: italic;
+  margin-bottom: 1.2rem;
+}
+
+.review-hero .review-text {
+  font-size: 1.28rem;
+  line-height: 1.7;
+}
+
+.review-author {
+  font-family: "Cinzel", serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-top: auto;
+}
+
+@media (max-width: 850px) {
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ============================================================
+   MAP
+============================================================ */
+
+.map-section {
+  padding: 0 2rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.map-outer {
+  position: relative;
+  border: 1px solid rgba(200, 169, 110, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+#map {
+  width: 100%;
+  height: 560px;
+}
+
+.leaflet-tile {
+  filter: brightness(0.55) sepia(0.4) hue-rotate(10deg) saturate(0.7);
+}
+
+/* Custom markers */
+.cm-pin { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.cm-circle {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Cinzel", serif;
+  font-size: 1rem; font-weight: 600;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+}
+.cm-pin.stop  .cm-circle { background: #c8a96e; color: #0e0c09; }
+.cm-pin.start .cm-circle { background: #4a7a3a; color: #fff; font-size: 1.2rem; }
+.cm-tail {
+  width: 0; height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  margin-top: -1px;
+}
+.cm-pin.stop  .cm-tail { border-top: 10px solid #c8a96e; }
+.cm-pin.start .cm-tail { border-top: 10px solid #4a7a3a; }
+
+/* Leaflet popups */
+.leaflet-popup-content-wrapper {
+  background: #12100d !important;
+  border: 1px solid #c8a96e !important;
+  border-radius: 3px !important;
+  padding: 0 !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8) !important;
+  width: 300px !important;
+  overflow: hidden;
+}
+.leaflet-popup-content { margin: 0 !important; width: 100% !important; }
+.leaflet-popup-tip-container { display: none; }
+.leaflet-popup-close-button { color: #c8a96e !important; font-size: 1.1rem !important; top: 6px !important; right: 8px !important; z-index: 10; }
+
+.lpop-img { width: 100%; height: 175px; object-fit: cover; object-position: center 15%; display: block; }
+.lpop-body { padding: 0.85rem 1rem 1rem; }
+.lpop-date { font-family: "Cinzel", serif; font-size: 0.63rem; letter-spacing: 0.28em; color: #a07840; text-transform: uppercase; margin-bottom: 0.3rem; }
+.lpop-name { font-family: "Cinzel", serif; font-size: 0.9rem; font-weight: 600; color: #f5efe3; margin-bottom: 0.5rem; line-height: 1.3; }
+.lpop-teaser { font-size: 0.93rem; font-style: italic; font-weight: 300; color: #c8bfa8; line-height: 1.65; margin-bottom: 0.6rem; }
+.lpop-caption { font-size: 0.68rem; font-style: italic; color: #7a6240; line-height: 1.4; }
+
+.map-badges {
+  display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 1.2rem;
+}
+.badge {
+  font-family: "Cinzel", serif; font-size: 0.7rem; letter-spacing: 0.18em;
+  color: var(--gold); border: 1px solid rgba(200, 169, 110, 0.3);
+  padding: 0.45rem 1rem; border-radius: 2px; text-transform: uppercase;
+}
+
+
+/* ============================================================
+   STOP CARDS
+============================================================ */
+
+.stops-section {
+  padding: 2rem 2rem 6rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.stops-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.stop-card {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  position: relative;
+}
+
+.stop-spine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+}
+
+.stop-num {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 1px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Cinzel", serif; font-size: 0.88rem;
+  color: var(--gold); background: var(--ink);
+  flex-shrink: 0; z-index: 2;
+}
+
+.stop-card.ref .stop-num {
+  border-color: var(--red-bright); color: var(--red-bright); font-size: 1rem;
+}
+
+.spine-line {
+  width: 1px; flex: 1; min-height: 30px;
+  background: linear-gradient(to bottom, rgba(200, 169, 110, 0.35), rgba(200, 169, 110, 0.07));
+  margin-top: 6px;
+}
+
+.stop-card:last-child .spine-line { display: none; }
+
+.itinerary-block {
+  border-left: 2px solid rgba(200, 169, 110, 0.35);
+  padding: 0.4rem 0 1.2rem 1.1rem;
+  margin: 0.4rem 0;
+}
+.itinerary-block .it-legend {
+  font-family: "Cinzel", serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.55rem;
+}
+.itinerary-block ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.itinerary-block li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.4rem 0;
+}
+.it-thumb {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.it-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.it-name {
+  font-family: "Cinzel", serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--parchment);
+}
+.it-desc {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.98rem;
+  line-height: 1.4;
+  color: var(--faded);
+  margin-top: 0.15rem;
+}
+.it-duration {
+  color: var(--gold);
+  font-family: "Cinzel", serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  padding-top: 0.2rem;
+}
+.itinerary-empty {
+  border-left: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stop-body {
+  padding: 1.8rem 1.5rem 0 1.5rem;
+  border-left: 1px solid rgba(200, 169, 110, 0.12);
+  margin-left: -1px;
+}
+
+.stop-date {
+  font-family: "Cinzel", serif; font-size: 0.72rem; letter-spacing: 0.28em;
+  color: var(--gold-mid); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+
+.stop-card.ref .stop-date {
+  color: var(--red-bright); font-size: 0.7rem;
+}
+
+.stop-name {
+  font-family: "Cinzel", serif; font-size: 1.05rem; font-weight: 600;
+  color: var(--parchment); margin-bottom: 0.75rem; line-height: 1.3;
+}
+
+.stop-teaser {
+  font-size: 1.22rem; line-height: 1.8; font-weight: 300; font-style: italic;
+  color: var(--parchment-dim); max-width: 580px; margin-bottom: 1.4rem;
+}
+
+.stop-img-wrap {
+  margin: 0 0 2rem 0;
+  border-radius: 3px;
+  overflow: hidden;
+  max-width: 800px;
+}
+
+.stop-img-wrap img {
+  width: 100%; height: 450px;
+  object-fit: cover; object-position: center 40%;
+  display: block;
+}
+
+.stop-card.ref .stop-img-wrap img { object-position: center center; }
+#card-castle .stop-img-wrap img { object-position: center 8%; }
+
+.img-caption {
+  font-size: 0.8rem; font-style: italic; color: var(--parchment-dim);
+  background: rgba(26, 20, 16, 0.9);
+  padding: 0.5rem 0.8rem;
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   CTA
+============================================================ */
+
+.cta-section {
+  text-align: center;
+  padding: 5rem 2rem 8rem;
+  background: var(--ink);
+}
+
+.cta-section h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--parchment);
+  margin-bottom: 0.8rem;
+  max-width: 580px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-sub {
+  font-size: 1.12rem;
+  color: var(--parchment-dim);
+  font-style: italic;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.04em;
+}
+
+/* Doubled class = intentional specificity bump (0,2,0) so page-level
+   "section a { … }" link rules can never recolor or underline CTAs. */
+.cta-btn.cta-btn {
+  display: inline-block;
+  font-family: "Cinzel", serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--gold);
+  padding: 1rem 2.8rem;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: background 0.25s, transform 0.2s;
+  margin: 8px 6px;
+}
+
+.cta-btn.cta-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+.cta-inline {
+  text-align: center;
+  padding: 2.5rem 2rem;
+  margin: 3rem 0;
+  background: var(--aged);
+  border-top: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  border-radius: 4px;
+}
+
+.cta-inline h3 {
+  font-family: "Cinzel", serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 0.6rem;
+}
+
+.cta-inline p {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.05rem;
+  color: var(--stone);
+  font-style: italic;
+  max-width: 520px;
+  margin: 0 auto 1.2rem;
+  line-height: 1.6;
+}
+
+.page-date {
+  margin-top: 1.5rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.85rem;
+  color: var(--parchment-dim);
+  opacity: 0.7;
+}
+
+.edward-sig {
+  margin-top: 0.5rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--parchment-dim);
+}
+
+/* ============================================================
+   TOUR CARDS
+============================================================ */
+
+.tours-section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.tours-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  text-align: left;
+  align-items: stretch;
+}
+
+/* Desktop: 4 cards abreast in row 1, bespoke card spans full width in row 2 */
+@media (min-width: 1024px) {
+  .tours-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  .tours-grid .bespoke-card {
+    grid-column: span 4 !important;
+    max-width: 900px;
+    justify-self: center;
+    width: 100%;
+  }
+}
+
+.tour-card {
+  background: var(--stone);
+  border: 1px solid rgba(200, 169, 110, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tour-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--gold);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+}
+
+.tour-card-img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid rgba(200, 169, 110, 0.15);
+}
+
+.tour-card-body {
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.tour-card-meta {
+  font-family: "Cinzel", serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: var(--gold-mid);
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.tour-card-title {
+  font-family: "Cinzel", serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--parchment);
+  margin-bottom: 0.3rem;
+  line-height: 1.35;
+}
+
+.tour-card-target {
+  font-family: "Cinzel", serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--gold-light);
+  font-style: italic;
+  margin-bottom: 0.85rem;
+}
+
+.tour-card-desc {
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--parchment-dim);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+  font-style: italic;
+}
+
+.tour-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(200, 169, 110, 0.15);
+  padding-top: 1rem;
+  margin-top: auto;
+}
+
+.tour-card-price {
+  font-family: "Cinzel", serif;
+  font-size: 1.05rem;
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+.tour-card-btn {
+  display: inline-block;
+  font-family: "Cinzel", serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--gold);
+  padding: 0.65rem 1.1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.25s;
+}
+
+.tour-card:hover .tour-card-btn {
+  background: var(--gold-light);
+}
+
+/* Bespoke 5th card — mirrors the Japan Times authority badge */
+.bespoke-card {
+  border: 1px solid rgba(200, 169, 110, 0.5);
+  background: linear-gradient(180deg, rgba(200, 169, 110, 0.12) 0%, rgba(26, 21, 16, 0.55) 60%);
+  border-radius: 6px;
+}
+
+.bespoke-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.bespoke-card .tour-card-body {
+  text-align: center;
+  padding: 1.7rem 2rem;
+}
+
+.bespoke-card .tour-card-title {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+
+.bespoke-card .tour-card-meta {
+  color: var(--gold);
+}
+
+.bespoke-card .bespoke-card-footer {
+  justify-content: center;
+}
+
+.bespoke-card .tour-card-btn {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  padding: 0.45rem 1.2rem;
+  font-size: 0.78rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.bespoke-card:hover .tour-card-btn {
+  background: var(--gold);
+  color: #0d0b07;
+}
+
+.bespoke-card .card-btn-sec {
+  border-radius: 999px;
+}
+
+.card-btn-sec {
+  display: inline-block;
+  font-family: "Cinzel", serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  background: transparent;
+  border: 1px solid var(--gold);
+  padding: 0.6rem 0.9rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.25s, color 0.25s;
+}
+
+.card-btn-sec:hover {
+  border-color: var(--gold-light);
+  color: var(--gold-light);
+}
+
+.bespoke-card-footer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: 1px solid rgba(200, 169, 110, 0.25);
+  padding-top: 1rem;
+  margin-top: auto;
+}
+
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
+}
+
+
+/* ============================================================
+   LOGOS & PHOTO GRID
+============================================================ */
+
+.hero-logo {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 220px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.footer-logo-wrap {
+  text-align: center;
+  margin: 60px 0 40px;
+}
+
+.footer-logo {
+  width: 220px;
+  opacity: 0.9;
+  margin: 0 auto;
+}
+
+.homepage-photos {
+  background: var(--ink);
+  padding: 2rem 0;
+}
+
+.homepage-photos img {
+  max-width: 320px;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.photo-grid {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.photo-header {
+  text-align: center;
+  margin-top: 32px;
+  margin-bottom: 24px;
+}
+
+
+/* ============================================================
+   FAQ
+============================================================ */
+
+.faq-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4rem 2rem 6rem;
+}
+
+.faq-item {
+  border-bottom: 1px solid rgba(200, 169, 110, 0.2);
+  padding: 1.5rem 0;
+}
+
+.faq-item:first-of-type {
+  border-top: 1px solid rgba(200, 169, 110, 0.2);
+}
+
+.faq-item summary {
+  font-family: "Cinzel", serif;
+  font-size: 1.1rem;
+  color: var(--gold);
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  padding-right: 2rem;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.faq-item summary h3 {
+  font: inherit;
+  margin: 0;
+}
+
+.faq-item summary:hover {
+  color: var(--gold-light);
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: '+';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: var(--gold-mid);
+  font-family: sans-serif;
+  font-weight: 300;
+}
+
+.faq-item[open] summary::after {
+  content: '−';
+}
+
+.faq-item p {
+  font-size: 1.25rem;
+  color: var(--parchment-dim);
+  line-height: 1.6;
+  margin-top: 1.2rem;
+  padding-left: 0.5rem;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 600px) {
+  .cta-btn {
+    display: block;
+    margin-bottom: 14px;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero-bg { transform: scale(1) !important; }
+  .stop-card { grid-template-columns: 50px 1fr; }
+  .stop-num  { width: 34px; height: 34px; font-size: 0.75rem; }
+  .stop-img-wrap img { height: 200px; }
+  #map { height: 400px; }
+  .leaflet-popup-content-wrapper { width: 240px !important; }
+  .lpop-img { height: 140px; }
+}
+
+
+/* ============================================================
+   LEGACY LIGHT-THEME COMPONENTS
+   Dark restyle for pages previously styled by the old light
+   "Source Sans 3" stylesheet. Scoped to <body class="legacy">
+   so the index theme above is never affected.
+============================================================ */
+
+body.legacy {
+  font-size: 18px;
+}
+
+body.legacy .container {
+  width: min(var(--max-width, 1220px), 92%);
+  margin: auto;
+}
+
+body.legacy section {
+  padding: var(--section-space, 7rem) 0;
+}
+
+body.legacy .section-title {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+body.legacy .section-title h2 {
+  font-family: "Cinzel", serif;
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-weight: 400;
+  color: var(--parchment);
+  margin-bottom: 1.2rem;
+}
+
+body.legacy .section-title p {
+  max-width: 760px;
+  margin: 1rem auto 0;
+  font-size: 1.3rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--parchment-dim);
+  line-height: 1.7;
+}
+
+/* Sticky navigation */
+body.legacy .page-nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: var(--stone);
+  border-top: 1px solid rgba(200, 169, 110, 0.15);
+  border-bottom: 1px solid rgba(200, 169, 110, 0.15);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+body.legacy .page-nav ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+body.legacy .page-nav a {
+  display: block;
+  padding: 1.1rem 1.5rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  transition: color 0.3s ease;
+}
+
+body.legacy .page-nav a:hover {
+  color: var(--gold);
+}
+
+/* Hero (image-background variant) */
+body.legacy .hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 620px;
+  overflow: hidden;
+}
+
+body.legacy .hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+body.legacy .hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.7));
+  z-index: 1;
+}
+
+body.legacy .hero-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--parchment);
+  width: min(1100px, 90%);
+  margin: auto;
+}
+
+body.legacy .hero h1 {
+  font-family: "Cinzel", serif;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  font-weight: 400;
+  color: var(--parchment);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
+  margin-bottom: 1rem;
+}
+
+body.legacy .hero-subtitle {
+  font-size: 1.3rem;
+  max-width: 820px;
+  margin: 1.2rem auto;
+  color: var(--gold-light);
+  font-style: italic;
+  font-weight: 300;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+}
+
+body.legacy .hero-keywords {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 2rem;
+  font-family: "Cinzel", serif;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* Intro */
+body.legacy .intro-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+body.legacy .intro-copy h2 {
+  font-family: "Cinzel", serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 400;
+  color: var(--parchment);
+  margin-bottom: 2rem;
+}
+
+body.legacy .intro-copy p {
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--parchment-dim);
+  line-height: 1.7;
+}
+
+body.legacy .intro-panel {
+  background: var(--stone);
+  border-left: 4px solid var(--gold);
+  padding: 2rem;
+  border-radius: 4px;
+}
+
+body.legacy .intro-panel h3 {
+  font-family: "Cinzel", serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+body.legacy .intro-panel p {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--parchment-dim);
+  line-height: 1.65;
+}
+
+/* Section banners */
+body.legacy .section-banner {
+  margin-bottom: 5rem;
+}
+
+body.legacy .section-banner img {
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid rgba(200, 169, 110, 0.25);
+  margin-bottom: 2.5rem;
+}
+
+body.legacy .section-banner-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+body.legacy .section-banner-content h2 {
+  font-family: "Cinzel", serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 400;
+  color: var(--parchment);
+  margin-bottom: 1.5rem;
+}
+
+body.legacy .section-banner-content p {
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--parchment-dim);
+  line-height: 1.7;
+}
+
+body.legacy .era-header {
+  border-bottom: 2px solid var(--gold);
+  margin-bottom: 4rem;
+  padding-bottom: 1rem;
+}
+
+body.legacy .era-intro {
+  max-width: 900px;
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--parchment-dim);
+  line-height: 1.7;
+}
+
+/* Destination grid + cards */
+body.legacy .destination-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.75rem;
+  margin-top: 3rem;
+}
+
+body.legacy .destination-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--stone);
+  border: 1px solid rgba(200, 169, 110, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+body.legacy .destination-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--gold);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.55);
+}
+
+body.legacy .destination-image {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: #2a241c;
+}
+
+body.legacy .destination-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+
+body.legacy .destination-card:hover .destination-image img {
+  transform: scale(1.05);
+}
+
+body.legacy .destination-body {
+  padding: 2rem;
+}
+
+body.legacy .destination-period {
+  display: inline-block;
+  font-family: "Cinzel", serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+body.legacy .destination-body h3 {
+  font-family: "Cinzel", serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--parchment);
+  margin-bottom: 0.8rem;
+  line-height: 1.35;
+}
+
+body.legacy .destination-summary {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--parchment-dim);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+/* Highlight panel */
+body.legacy .highlight-panel {
+  border-left: 3px solid var(--gold);
+  padding-left: 1.2rem;
+  margin: 2rem 0;
+}
+
+body.legacy .highlight-panel h4 {
+  font-family: "Cinzel", serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+
+body.legacy .highlight-panel p {
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--parchment-dim);
+  line-height: 1.65;
+}
+
+/* Visitor information */
+body.legacy .visitor-info {
+  margin-top: 2rem;
+  padding: 1.4rem;
+  background: #12100d;
+  border: 1px solid rgba(200, 169, 110, 0.2);
+  border-radius: 4px;
+}
+
+body.legacy .visitor-info h4 {
+  font-family: "Cinzel", serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+body.legacy .visitor-table {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 0.7rem 1rem;
+}
+
+body.legacy .visitor-table dt {
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--parchment);
+}
+
+body.legacy .visitor-table dd {
+  font-size: 1.05rem;
+  color: var(--parchment-dim);
+}
+
+/* Edward's insight */
+body.legacy .insight-box {
+  margin-top: 2rem;
+  padding: 1.8rem;
+  border-top: 3px solid var(--gold);
+  background: #12100d;
+}
+
+body.legacy .insight-box h4 {
+  font-family: "Cinzel", serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+}
+
+body.legacy .insight-box p {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--parchment-dim);
+  line-height: 1.7;
+}
+
+/* Guest quote */
+body.legacy .guest-quote {
+  margin: 2rem 0 3rem;
+  padding: 1.5rem;
+  background: var(--stone);
+  border-left: 4px solid var(--gold);
+  border-radius: 4px;
+  font-style: italic;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  color: var(--parchment);
+}
+
+body.legacy .guest-quote cite {
+  display: block;
+  margin-top: 1rem;
+  font-style: normal;
+  font-family: "Cinzel", serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+}
+
+/* CTA panel + buttons */
+body.legacy .cta-panel {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(200, 169, 110, 0.2);
+}
+
+body.legacy .cta-panel h4 {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--parchment);
+  margin-bottom: 1rem;
+}
+
+body.legacy .cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+body.legacy .btn {
+  display: inline-block;
+  padding: 0.9rem 1.7rem;
+  border-radius: 2px;
+  font-family: "Cinzel", serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: 1px solid var(--gold);
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+
+body.legacy .btn-primary {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+body.legacy .btn-primary:hover {
+  background: var(--gold-light);
+  border-color: var(--gold-light);
+}
+
+body.legacy .btn-secondary {
+  background: transparent;
+  color: var(--gold);
+}
+
+body.legacy .btn-secondary:hover {
+  border-color: var(--gold-light);
+  color: var(--gold-light);
+}
+
+/* Continue the story panel */
+body.legacy .story-panel {
+  margin: 5rem auto;
+  padding: 3rem;
+  background: var(--stone);
+  border-radius: 4px;
+  border-left: 5px solid var(--gold);
+}
+
+body.legacy .story-panel h3 {
+  font-family: "Cinzel", serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--parchment);
+  margin-bottom: 1rem;
+}
+
+body.legacy .story-panel p {
+  max-width: 900px;
+  font-size: 1.15rem;
+  font-weight: 300;
+  color: var(--parchment-dim);
+  line-height: 1.7;
+}
+
+body.legacy .story-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Battlefield trail / markers */
+body.legacy .trail-intro {
+  max-width: 900px;
+  margin-bottom: 4rem;
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--parchment-dim);
+  line-height: 1.7;
+}
+
+body.legacy .marker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+body.legacy .marker-card {
+  border: 1px solid rgba(200, 169, 110, 0.25);
+  background: var(--stone);
+  border-radius: 4px;
+  padding: 2rem;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+body.legacy .marker-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+}
+
+body.legacy .marker-number {
+  font-family: "Cinzel", serif;
+  font-size: 2rem;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+body.legacy .marker-details {
+  margin: 1.5rem 0;
+}
+
+body.legacy .marker-details dl {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0.5rem 1rem;
+}
+
+body.legacy .marker-details dt {
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+body.legacy .marker-details dd {
+  font-size: 1.05rem;
+  color: var(--parchment-dim);
+}
+
+body.legacy .progress-track {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 4rem 0;
+}
+
+body.legacy .progress-track div {
+  flex: 1;
+  height: 4px;
+  background: rgba(200, 169, 110, 0.2);
+}
+
+/* FAQ wrapper */
+body.legacy .faq {
+  max-width: 900px;
+  margin: auto;
+}
+
+/* Final CTA */
+body.legacy .final-cta {
+  text-align: center;
+  background: var(--ink);
+  padding: 6rem 2rem;
+}
+
+body.legacy .final-cta h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--parchment);
+  margin-bottom: 1rem;
+}
+
+body.legacy .final-cta p {
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--parchment-dim);
+  max-width: 750px;
+  margin: 1.5rem auto 2.5rem;
+  line-height: 1.7;
+}
+
+/* Keep legacy button & sticky nav anchors free of the global underline */
+body.legacy .btn,
+body.legacy .page-nav a {
+  text-decoration: none;
+}
+
+/* Polish for unstyled wrappers on the legacy page */
+body.legacy .section-heading {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+body.legacy .section-heading h2 {
+  font-family: "Cinzel", serif;
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-weight: 400;
+  color: var(--parchment);
+  margin-bottom: 1.2rem;
+}
+
+body.legacy .section-heading p {
+  max-width: 760px;
+  margin: 1rem auto 0;
+  font-size: 1.3rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--parchment-dim);
+  line-height: 1.7;
+}
+
+body.legacy .feature-list {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+body.legacy .feature-list li {
+  font-size: 1.15rem;
+  color: var(--parchment-dim);
+  line-height: 1.6;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+body.legacy .feature-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.75em;
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+body.legacy .faq-grid {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+
+/* ============================================================
+   RESPONSIVE — LEGACY COMPONENTS
+============================================================ */
+
+@media (max-width: 900px) {
+  body.legacy .intro-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  body.legacy .visitor-table {
+    grid-template-columns: 1fr;
+  }
+
+  body.legacy .marker-details dl {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  body.legacy {
+    font-size: 17px;
+  }
+
+  body.legacy .hero {
+    height: 65vh;
+    min-height: 520px;
+  }
+
+  body.legacy .hero-subtitle {
+    font-size: 1.15rem;
+  }
+
+  body.legacy .destination-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body.legacy .marker-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body.legacy .story-panel {
+    padding: 2rem;
+  }
+
+  body.legacy section {
+    padding: 5rem 0;
+  }
+
+  body.legacy .page-nav ul {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+
+  body.legacy .page-nav a {
+    white-space: nowrap;
+  }
+
+  .itinerary-block {
+    margin: -0.6rem 0 1.8rem 72px;
+    padding: 0.15rem 0 0.3rem 1rem;
+  }
+  .itinerary-block .it-legend { display: none; }
+  .it-thumb { width: 56px; height: 56px; }
+  .it-name { font-size: 0.74rem; }
+  .it-desc { font-size: 0.92rem; }
+}
+
+/* ============================================================
+   FLOATING MENU (non-timeline pages)
+   Collapsed button bottom-right; expands upward on click.
+============================================================ */
+
+.float-menu {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 1000;
+}
+
+.float-menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--gold-mid);
+  background: var(--stone);
+  color: var(--parchment);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.float-menu-toggle:hover,
+.float-menu-toggle[aria-expanded="true"] {
+  background: var(--ink);
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+.float-menu-bars {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 18px;
+}
+
+.float-menu-bars span {
+  display: block;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+.float-menu-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.9rem);
+  min-width: 270px;
+  max-width: 78vw;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 0.9rem 0.6rem;
+  background: var(--stone);
+  border: 1px solid rgba(200, 169, 110, 0.25);
+  border-radius: 6px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+  font-family: "Cormorant Garamond", serif;
+}
+
+.float-menu-panel[hidden] {
+  display: none;
+}
+
+.float-menu-panel a {
+  display: block;
+  padding: 0.55rem 1rem;
+  color: var(--parchment);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.float-menu-panel a:hover {
+  background: rgba(200, 169, 110, 0.12);
+  color: var(--gold-light);
+}
+
+.float-menu-home {
+  font-family: "Cinzel", serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.float-menu-heading {
+  display: block;
+  padding: 0.6rem 1rem 0.35rem;
+  font-family: "Cinzel", serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-mid);
+}
+
+.inline-link {
+  color: var(--gold, #c8a96e);
+  text-decoration: underline;
+  text-decoration-color: rgba(200, 169, 110, 0.4);
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.inline-link:hover {
+  color: var(--gold-light, #e8d5a3);
+}
+
+
+/* ============================================================
+   AUTHOR BIO BAR
+============================================================ */
+
+.author-bio-bar {
+  background: var(--stone);
+  padding: 2rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.author-bio-content {
+  max-width: 700px;
+}
+
+.author-bio-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-mid);
+  margin-bottom: 0.25rem;
+}
+
+.author-bio-name {
+  font-family: "Cinzel", serif;
+  font-size: 1.25rem;
+  color: var(--gold);
+  margin-bottom: 0.15rem;
+}
+
+.author-bio-title {
+  font-size: 0.85rem;
+  color: var(--parchment-dim);
+  margin-bottom: 0.75rem;
+}
+
+.author-bio-desc {
+  font-size: 0.9rem;
+  color: var(--parchment);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.author-bio-link {
+  font-size: 0.85rem;
+  color: var(--gold);
+}
+
+
+/* ============================================================
+   SOCIAL PROOF BAR
+============================================================ */
+
+.social-proof-bar {
+  background: var(--ink);
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.social-proof-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+}
+
+.social-proof-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.social-proof-stars {
+  color: var(--gold);
+  font-size: 1.1rem;
+}
+
+.social-proof-score {
+  color: var(--gold);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.social-proof-count {
+  color: var(--parchment-dim);
+  font-size: 0.85rem;
+}
+
+.social-proof-quotes {
+  display: flex;
+  gap: 2rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.social-proof-quote {
+  font-size: 0.85rem;
+  color: var(--parchment);
+  font-style: italic;
+  line-height: 1.5;
+  border-left: 2px solid var(--gold-mid);
+  padding-left: 0.75rem;
+  margin: 0;
+  flex: 1;
+}
+
+.social-proof-quote cite {
+  display: block;
+  font-style: normal;
+  color: var(--parchment-dim);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.social-proof-links {
+  display: flex;
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+
+.social-proof-links a {
+  font-size: 0.85rem;
+  color: var(--gold);
+}
+
+
+/* ============================================================
+   TOUR COMPARISON GRID
+============================================================ */
+
+#tour-comparison {
+  background: var(--stone);
+  padding: 4rem 0;
+}
+
+#tour-comparison .section-heading {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+#tour-comparison .section-heading h2 {
+  font-family: "Cinzel", serif;
+  font-size: 1.8rem;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+#tour-comparison .section-heading p {
+  color: var(--parchment-dim);
+  font-size: 1rem;
+}
+
+.tour-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.tour-comparison-card {
+  background: var(--ink);
+  border: 1px solid var(--line);
+  padding: 1.5rem;
+  transition: border-color 0.2s;
+}
+
+.tour-comparison-card:hover {
+  border-color: var(--gold);
+}
+
+.tour-comparison-card h3 {
+  font-family: "Cinzel", serif;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.tour-comparison-card h3 a {
+  color: var(--gold);
+}
+
+.tour-comparison-meta {
+  font-size: 0.9rem;
+  color: var(--parchment-dim);
+  margin-bottom: 0.5rem;
+}
+
+.tour-comparison-best {
+  font-size: 0.9rem;
+  color: var(--parchment);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.tour-comparison-best em {
+  color: var(--gold-light);
+}
+
+.tour-comparison-periods {
+  font-size: 0.8rem;
+  color: var(--gold-mid);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.tour-comparison-desc {
+  font-size: 0.85rem;
+  color: var(--parchment-dim);
+  line-height: 1.5;
+}
+
+.tour-comparison-cta {
+  text-align: center;
+}
+
+
+/* ============================================================
+   VISITOR TIPS
+============================================================ */
+
+#visitor-tips {
+  padding: 4rem 0;
+}
+
+#visitor-tips .section-heading {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+#visitor-tips .section-heading h2 {
+  font-family: "Cinzel", serif;
+  font-size: 1.8rem;
+  color: var(--gold);
+}
+
+.visitor-tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.visitor-tip h3 {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.visitor-tip p {
+  font-size: 0.9rem;
+  color: var(--parchment);
+  line-height: 1.6;
+}
+
+.visitor-tip a {
+  color: var(--gold);
+}
+
+/* ============================================================
+   RESEARCH FOOTNOTE
+============================================================ */
+
+.research-footnote {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 1rem;
+  text-align: center;
+  border-top: 1px solid rgba(200, 169, 110, 0.2);
+}
+
+.research-footnote p {
+  font-size: 0.82rem;
+  color: var(--parchment-dim);
+  line-height: 1.6;
+  margin: 0.25rem 0;
+}
+
+.research-footnote p:first-child {
+  font-style: italic;
+}
+}

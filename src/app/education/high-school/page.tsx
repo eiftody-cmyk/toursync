@@ -3,6 +3,7 @@ import HighSchoolClient from "./HighSchoolClient";
 import {
   buildArticleJsonLd,
   buildBreadcrumbJsonLd,
+  buildFaqJsonLd,
 } from "@/lib/education/json-ld";
 
 const SITE = "https://osakacastletours.com";
@@ -96,6 +97,34 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd({
   ],
 });
 
+const faqJsonLd = buildFaqJsonLd([
+  {
+    question: "Which curriculum frameworks does the high school investigation support?",
+    answer:
+      "The investigation supports 歴史総合 (Rekishiso), 日本史探究 (Nihonshi Tankyu), 探究 (Inquiry), and English curriculum. It also supports IB Internal Assessment, AP, and A-Level Historical Investigation.",
+  },
+  {
+    question: "How does the investigation fit into 探究 time?",
+    answer:
+      "The investigation format maps directly to the 探究 required process: Issue Setting, Information Gathering, Organization and Analysis, Summary and Presentation.",
+  },
+  {
+    question: "Can this support IB Internal Assessment?",
+    answer:
+      "Yes. The field investigation provides fieldwork-based historical investigation, source analysis, and multiple perspectives — all required components of the IB IA.",
+  },
+  {
+    question: "How long is the high school session?",
+    answer:
+      "Standard sessions are 90 to 150 minutes depending on the investigation format chosen. Extended and full formats include more sites and investigations.",
+  },
+  {
+    question: "Is advance preparation required?",
+    answer:
+      "No advance preparation is required for teachers. All materials including pre-reading, vocabulary, and discussion prompts are provided.",
+  },
+]);
+
 export default function HighSchoolPage() {
   return (
     <>
@@ -109,6 +138,12 @@ export default function HighSchoolPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbJsonLd),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqJsonLd),
         }}
       />
       <HighSchoolClient />

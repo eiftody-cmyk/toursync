@@ -39,6 +39,7 @@ export function buildArticleJsonLd(opts: {
 
 export function buildBreadcrumbJsonLd(opts: {
   items: Array<{ name: string; nameJa: string; url: string }>;
+  locale?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -46,7 +47,7 @@ export function buildBreadcrumbJsonLd(opts: {
     itemListElement: opts.items.map((item, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      name: item.name,
+      name: opts.locale === "ja" ? item.nameJa : item.name,
       item: item.url,
     })),
   };

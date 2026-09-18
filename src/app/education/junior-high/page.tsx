@@ -3,6 +3,7 @@ import JuniorHighClient from "./JuniorHighClient";
 import {
   buildArticleJsonLd,
   buildBreadcrumbJsonLd,
+  buildFaqJsonLd,
 } from "@/lib/education/json-ld";
 
 const SITE = "https://osakacastletours.com";
@@ -96,6 +97,39 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd({
   ],
 });
 
+const faqJsonLd = buildFaqJsonLd([
+  {
+    question: "What curriculum does the junior high investigation connect to?",
+    answer:
+      "The investigation connects to Social Studies curriculum covering the Sengoku period, Hideyoshi, Tokugawa, and Meiji era. It maps to standard junior high history topics taught across Japan.",
+  },
+  {
+    question: "Is the field investigation safe for junior high students?",
+    answer:
+      "Yes. The investigation follows a fixed route with no free-roaming. Students work in pairs and small groups with designated meeting points throughout.",
+  },
+  {
+    question: "How long is the junior high session?",
+    answer:
+      "60 to 90 minutes, designed to fit within a standard school schedule.",
+  },
+  {
+    question: "Do students need to speak English?",
+    answer:
+      "No. The investigation is available in Japanese, English, or bilingual format. English sessions include vocabulary scaffolding and mixed-level support.",
+  },
+  {
+    question: "Is preparation required for teachers?",
+    answer:
+      "No advance preparation is required. All materials including coach briefing, student pre-reading, and vocabulary support are provided.",
+  },
+  {
+    question: "What does the price include?",
+    answer:
+      "Coach briefing, student pre-reading, key vocabulary, learning objectives, field investigation at 2-3 historical sites, small-group inquiry, whole-class discussion, historian's evidence-based conclusion, and a digital Investigation Companion.",
+  },
+]);
+
 export default function JuniorHighPage() {
   return (
     <>
@@ -109,6 +143,12 @@ export default function JuniorHighPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbJsonLd),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqJsonLd),
         }}
       />
       <JuniorHighClient />

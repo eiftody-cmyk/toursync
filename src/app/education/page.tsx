@@ -133,6 +133,46 @@ const faqJsonLd = buildFaqJsonLd([
   },
 ]);
 
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to Book a Field Investigation",
+  description:
+    "Step-by-step process for schools to book a historical field investigation at Osaka Castle.",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Tell us what you are teaching",
+      text: "Share your course, unit, student level, class size, and learning objectives.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Choose your field format",
+      text: "Select from 90-minute Standard (3 investigations), 120-minute Extended (4 investigations), or 150-minute Full (5 investigations).",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "Develop the historical question together",
+      text: "Edward adapts the investigation to your curriculum and students. A proposed outline is delivered within 2 business days.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Students investigate Osaka",
+      text: "Students examine the landscape, consider the evidence, debate competing interpretations, and defend their own conclusions.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 5,
+      name: "Continue in the classroom",
+      text: "Receive a Digital Investigation Companion with post-visit materials, discussion prompts, and assessment options.",
+    },
+  ],
+};
+
 export default function EducationPage() {
   return (
     <>
@@ -152,6 +192,12 @@ export default function EducationPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(faqJsonLd),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(howToJsonLd),
         }}
       />
       <EducationHubClient />

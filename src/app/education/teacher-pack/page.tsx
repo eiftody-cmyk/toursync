@@ -3,6 +3,7 @@ import TeacherPackClient from "./TeacherPackClient";
 import {
   buildArticleJsonLd,
   buildBreadcrumbJsonLd,
+  buildFaqJsonLd,
 } from "@/lib/education/json-ld";
 
 const SITE = "https://osakacastletours.com";
@@ -96,6 +97,69 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd({
   ],
 });
 
+const faqJsonLd = buildFaqJsonLd([
+  {
+    question: "What does this sample lesson show?",
+    answer:
+      "This is a complete example of a field investigation lesson plan covering Hideyoshi, Osaka Castle, and political power. It includes learning objectives, inquiry questions, three site visits with investigation activities, and assessment examples.",
+  },
+  {
+    question: "Can this lesson be adapted for my course?",
+    answer:
+      "Yes. This is an example. Every investigation is built around your curriculum, your students, and the question you want them to investigate.",
+  },
+  {
+    question: "What assessment options are included?",
+    answer:
+      "The sample includes short-answer questions, source-analysis questions, and an essay prompt with suggested answers. Assessment materials can be customized for your school.",
+  },
+  {
+    question: "What is included in every field lesson?",
+    answer:
+      "Coach briefing, customized learning objectives, student field workbook, Socratic investigation questions, source and evidence activities, vocabulary support, group discussion framework, post-lesson questions, quiz or test questions, essay prompts, and answer key with coach notes.",
+  },
+]);
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How a Field Investigation Works",
+  description:
+    "A step-by-step guide to how a historical field investigation at Osaka Castle is structured for schools.",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Before the Visit",
+      text: "Receive a coach briefing, student pre-reading materials, key vocabulary, and learning objectives tailored to your curriculum.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Site 1 — Historical Context",
+      text: "At the first site, the historian explains the historical background, the evidence, and what students are looking at.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "Site 2 — Investigation",
+      text: "Students break into small groups with a Socratic question. They discuss, argue, and formulate an answer based on the evidence.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Site 3 — Evidence and Conclusion",
+      text: "Each group presents their case. The historian reveals what contemporary sources, archaeology, and scholarship actually show.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 5,
+      name: "After the Visit",
+      text: "Students and teachers receive a Digital Investigation Companion with photographs, historical recap, post-visit activities, and assessment materials.",
+    },
+  ],
+};
+
 export default function TeacherPackPage() {
   return (
     <>
@@ -109,6 +173,18 @@ export default function TeacherPackPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbJsonLd),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqJsonLd),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(howToJsonLd),
         }}
       />
       <TeacherPackClient />

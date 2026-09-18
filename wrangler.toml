@@ -19,11 +19,13 @@ routes = [
   { pattern = "osakacastletours.com/settings/*", zone_name = "osakacastletours.com" },
   { pattern = "osakacastletours.com/login", zone_name = "osakacastletours.com" },
   { pattern = "osakacastletours.com/auth/*", zone_name = "osakacastletours.com" },
+  { pattern = "osakacastletours.com/*", zone_name = "osakacastletours.com" },
 ]
 
 [assets]
 directory = ".open-next/assets"
 binding = "ASSETS"
+run_worker_first = true
 
 [vars]
 NEXT_PUBLIC_BASE_URL = "https://osakacastletours.com"

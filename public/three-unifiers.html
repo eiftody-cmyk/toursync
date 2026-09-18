@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C79TD3WJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-P4C79TD3WJ');
+</script>
+
+  <!-- Clarity tracking code for https://osakacastletours.com/ -->
+<script>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "x9vnut320x");
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three Unifiers · Osaka Castle Walks with Edward</title>
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Three Unifiers · Osaka Castle Walks with Edward">
+<meta property="og:description" content="Three men. One castle. Sixty years that shaped Japan — the story of Oda Nobunaga, Toyotomi Hideyoshi, and Tokugawa Ieyasu.">
+<meta property="og:url" content="https://osakacastletours.com/three-unifiers">
+<meta property="og:image" content="https://osakacastletours.com/three_unifiers_card.webp">
+<meta property="og:image:width" content="1400">
+<meta property="og:image:height" content="800">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Three Unifiers · Osaka Castle Walks with Edward">
+<meta name="twitter:description" content="Three men. One castle. Sixty years that shaped Japan — the story of Oda Nobunaga, Toyotomi Hideyoshi, and Tokugawa Ieyasu.">
+<meta name="twitter:image" content="https://osakacastletours.com/three_unifiers_card.webp">
+
+<meta property="og:site_name" content="Osaka Castle Walks with Edward">
+<meta name="description" content="Three men. One castle. Sixty years that shaped Japan — the story of Oda Nobunaga, Toyotomi Hideyoshi, and Tokugawa Ieyasu.">
+<meta name="author" content="Edward Iftody">
+<link rel="canonical" href="https://osakacastletours.com/three-unifiers">
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+
+<style>
+  :root {
+    --parchment: #f5efe3;
+    --parchment-dark: #1a1510;
+    --ink: #f5efe3;
+    --ink-light: #c8bfa8;
+    --terracotta: #c8a96e;
+    --gold: #c8a96e;
+    --rule: rgba(200, 169, 110, 0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: #0e0c09;
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+  }
+
+  .page {
+    max-width: 900px;
+    width: 100%;
+    background: #0e0c09;
+    position: relative;
+  }
+
+  .page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .header {
+    text-align: center;
+    padding-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.4rem;
+    opacity: 0.85;
+  }
+
+  .eyebrow span {
+    margin: 0 0.6em;
+    opacity: 0.5;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.8rem, 5vw, 2.9rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--ink);
+    max-width: 680px;
+    margin: 0 auto 2rem;
+    letter-spacing: -0.01em;
+  }
+
+  .rule-line {
+    width: 60px;
+    height: 1px;
+    background: var(--rule);
+    margin: 0 auto;
+  }
+
+  .portraits {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin: 2.5rem 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .portrait {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  .portrait:nth-child(1) { animation-delay: 0.1s; }
+  .portrait:nth-child(2) { animation-delay: 0.25s; }
+  .portrait:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .portrait-frame {
+    position: relative;
+    margin-bottom: 1.1rem;
+    overflow: hidden;
+  }
+
+  .portrait-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(200, 169, 110, 0.3);
+    pointer-events: none;
+  }
+
+  .portrait-frame img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    filter: sepia(8%) contrast(1.02);
+    transition: filter 0.4s ease, transform 0.4s ease;
+  }
+
+  .portrait:hover .portrait-frame img {
+    filter: sepia(0%) contrast(1.05);
+    transform: scale(1.02);
+  }
+
+  .portrait-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.35rem;
+  }
+
+  .portrait-name .underline-accent {
+    display: inline-block;
+    border-bottom: 2px solid var(--terracotta);
+    padding-bottom: 1px;
+  }
+
+  .portrait-role {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--ink-light);
+    padding: 0 0.3rem;
+  }
+
+  .portrait-role em {
+    font-style: italic;
+    color: var(--gold-light, #e8d5a3);
+    font-weight: 500;
+  }
+
+  .footer-rule {
+    width: 120px;
+    height: 1px;
+    background: var(--rule);
+    margin: 0.5rem auto 1rem;
+  }
+
+  .footer-text {
+    text-align: center;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.75;
+    position: relative;
+    z-index: 1;
+    font-family: 'Cinzel', serif;
+  }
+
+  .footer-text span {
+    margin: 0 0.5em;
+    opacity: 0.4;
+  }
+
+  @media (max-width: 600px) {
+    .portraits {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      max-width: 340px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .portrait-frame img {
+      aspect-ratio: 4/3;
+    }
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://osakacastletours.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Three Unifiers", "item": "https://osakacastletours.com/three-unifiers" }
+    ]
+    },
+    {
+      "@type": "Article",
+      "@id": "https://osakacastletours.com/three-unifiers#article",
+      "headline": "Three Unifiers",
+      "description": "Oda Nobunaga, Toyotomi Hideyoshi, and Tokugawa Ieyasu — the three men who unified Japan in the 16th century.",
+      "image": "https://osakacastletours.com/threeunifiers.webp",
+      "mainEntityOfPage": "https://osakacastletours.com/three-unifiers",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "Edward Iftody",
+        "url": "https://osakacastletours.com/aboutme.html"
+      },
+      "publisher": {
+        "@id": "https://osakacastletours.com/#business"
+      },
+      "datePublished": "2026-03-09",
+      "dateModified": "2026-08-31"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://osakacastletours.com/#edward-iftody",
+      "name": "Edward Iftody",
+      "jobTitle": "Independent Researcher & Resident Historian",
+      "worksFor": {
+        "@id": "https://osakacastletours.com/#business"
+      }
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://osakacastletours.com/#business",
+      "name": "Osaka Castle Walks with Edward",
+      "url": "https://osakacastletours.com"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://osakacastletours.com/#website",
+      "name": "Osaka Castle Walks with Edward",
+      "url": "https://osakacastletours.com"
+    }
+  ]
+}
+</script>
+<meta name="robots" content="index, follow">
+</head>
+
+<body>
+
+<!-- Floating site menu (non-timeline pages) -->
+<div class="float-menu" aria-label="Site menu">
+  <button type="button" class="float-menu-toggle" aria-expanded="false" aria-controls="float-menu-panel" aria-label="Open site menu">
+    <span class="float-menu-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+  </button>
+  <div class="float-menu-panel" id="float-menu-panel" hidden>
+    <a class="float-menu-home" href="/index.html">Home</a>
+    <span class="float-menu-heading">Tours</span>
+    <a href="/beforejapanhadaname.html">Before Japan Had a Name</a>
+    <a href="/warriormonkspeasantshogun.html">Warrior Monks, a Peasant, and a Shogun</a>
+    <a href="/lordconcubineshogunlie.html">A Lord, a Concubine, and a Shogun's Lie</a>
+    <a href="/goddess_queen_empress_concubine.html">Goddess, Queen, Empress, Concubine</a>
+    <span class="float-menu-heading">More</span>
+    <a href="/testimonials.html">Guest Reviews</a>
+    <a href="/aboutme.html">About Me</a>
+    <a href="/history-beyond-the-postcard.html">Essays &amp; Journalism</a>
+    <a href="/faq.html">FAQ</a>
+  </div>
+</div>
+<script>
+(function () {
+  var btn = document.querySelector('.float-menu-toggle');
+  var panel = document.querySelector('.float-menu-panel');
+  if (!btn || !panel) return;
+  function set(open) {
+    panel.hidden = !open;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  btn.addEventListener('click', function () { set(panel.hidden); });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.float-menu')) set(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') set(false);
+  });
+})();
+</script>
+
+<div class="page">
+
+  <div class="header">
+    <p class="eyebrow">Osaka Castle Walks with Edward <span>·</span> Pre-Tour Companion</p>
+    <h1>Three men. One castle. Sixty years that shaped Japan forever.</h1>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="portraits">
+
+    <div class="portrait">
+      <div class="portrait-frame">
+        <img src="nobunaga.webp" alt="Portrait of Oda Nobunaga">
+      </div>
+      <p class="portrait-name"><span class="underline-accent">Oda Nobunaga</span></p>
+      <p class="portrait-role">
+        The warlord who <em>cleared the ground.</em>
+        Spent eleven years trying to destroy the fortress that stood here before.
+      </p>
+    </div>
+
+    <div class="portrait">
+      <div class="portrait-frame">
+        <img src="hideyoshi.webp" alt="Portrait of Toyotomi Hideyoshi">
+      </div>
+      <p class="portrait-name"><span class="underline-accent">Toyotomi Hideyoshi</span></p>
+      <p class="portrait-role">
+        The peasant who <em>built it.</em>
+        Rose from nothing to become the most powerful man in Japan.
+        Osaka Castle was his statement to the world.
+      </p>
+    </div>
+
+    <div class="portrait">
+      <div class="portrait-frame">
+        <img src="ieyasu.webp" alt="Portrait of Tokugawa Ieyasu">
+      </div>
+      <p class="portrait-name"><span class="underline-accent">Tokugawa Ieyasu</span></p>
+      <p class="portrait-role">
+        The survivor who <em>buried it.</em>
+        Waited thirty years, then destroyed everything Hideyoshi built —
+        deliberately and permanently.
+      </p>
+    </div>
+
+  </div>
+
+<div class="cta-inline">
+  <h3>Experience This History in Person</h3>
+  <p>Walk the story of how three men fought for one castle, personally led by Edward Iftody. One historian. Six guests. One investigation.</p>
+  <a href="https://osakacastletours.com/warriormonkspeasantshogun.html" class="cta-btn">Book Warrior Monks, a Peasant, and a Shogun</a>
+</div>
+
+<p class="page-date" style="margin-top:2rem;text-align:center;">Last updated: September 2026</p>
+
+<div class="footer-logo-wrap">
+    <img class="footer-logo" src="images/logo.webp" alt="Logo">
+  </div>
+
+  <footer class="site-footer">
+    <p>Osaka Castle Walks with Edward</p>
+    <p>2-3-6 Tanimachi, Chuo-ku, Osaka</p>
+    <p>edward@osakacastletours.com</p>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -201,6 +201,76 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
       .from("bookings")
       .update({ status: "cancelled" })
       .eq("id", existingModifyBooking.id);
+
+    // Push availability for the freed slot (old booking's date/time)
+    // Fetch the old booking's details to know which slot to update
+    const { data: oldBooking } = await supabase
+      .from("bookings")
+      .select("date, start_time, tour_id")
+      .eq("id", existingModifyBooking.id)
+      .maybeSingle();
+
+    if (oldBooking) {
+      const oldDate = oldBooking.date;
+      const oldStartTime = oldBooking.start_time;
+
+      // Check remaining capacity for the old slot
+      const { data: oldSlotBookings } = await supabase
+        .from("bookings")
+        .select("guest_count")
+        .eq("tour_id", oldBooking.tour_id)
+        .eq("date", oldDate)
+        .eq("start_time", oldStartTime || null)
+        .eq("status", "confirmed");
+
+      const oldSlotTotal = (oldSlotBookings ?? []).reduce(
+        (sum, b) => sum + (b.guest_count ?? 0),
+        0
+      );
+
+      // If below capacity and an auto-block exists, remove it
+      if (oldSlotTotal < tour.capacity) {
+        const { data: autoBlock } = await supabase
+          .from("blocked_dates")
+          .select("id, google_calendar_event_id, calendar_id")
+          .eq("tour_id", oldBooking.tour_id)
+          .eq("date", oldDate)
+          .eq("start_time", oldStartTime || null)
+          .eq("is_auto_blocked", true)
+          .maybeSingle();
+
+        if (autoBlock) {
+          await supabase.from("blocked_dates").delete().eq("id", autoBlock.id);
+
+          if (autoBlock.google_calendar_event_id && autoBlock.calendar_id && tour.user_id) {
+            try {
+              const { getValidAccessTokenWithClient, deleteCalendarEvent } = await import("@/lib/google/calendar");
+              const { accessToken } = await getValidAccessTokenWithClient(supabase, tour.user_id);
+              await deleteCalendarEvent({
+                accessToken,
+                calendarId: autoBlock.calendar_id,
+                eventId: autoBlock.google_calendar_event_id,
+              });
+            } catch (e) {
+              console.error("[GYG book] Modify: Google Calendar event cleanup failed:", e);
+            }
+          }
+        }
+      }
+
+      // Push updated availability to OTA channels
+      try {
+        const { pushAvailability } = await import("@/lib/ota/pushAvailability");
+        pushAvailability(supabase, {
+          tour_id: oldBooking.tour_id,
+          date: oldDate,
+          start_time: oldStartTime ?? undefined,
+          remaining_capacity: tour.capacity - oldSlotTotal,
+        }).catch(() => {});
+      } catch (e) {
+        console.error("[GYG book] Modify: Push availability failed:", e);
+      }
+    }
   }
 
   const reservation = reservationResult.data;

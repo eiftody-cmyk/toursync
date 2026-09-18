@@ -3,6 +3,7 @@ import UniversityClient from "./UniversityClient";
 import {
   buildArticleJsonLd,
   buildBreadcrumbJsonLd,
+  buildFaqJsonLd,
 } from "@/lib/education/json-ld";
 
 const SITE = "https://osakacastletours.com";
@@ -96,6 +97,29 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd({
   ],
 });
 
+const faqJsonLd = buildFaqJsonLd([
+  {
+    question: "What disciplines does the university seminar support?",
+    answer:
+      "The seminar supports history, archaeology, historical geography, political science, and related fields. Topics are customized to course objectives.",
+  },
+  {
+    question: "How is the seminar structured?",
+    answer:
+      "The seminar follows a 4-step structure: Context (historical background), Investigation (site and source examination), Interpretation (argument development), and Historiography (scholarly debate).",
+  },
+  {
+    question: "Can the seminar be customized for specific courses?",
+    answer:
+      "Yes. Each seminar is customized to the course objectives, student level, and specific historical questions the instructor wants to address.",
+  },
+  {
+    question: "What materials are provided?",
+    answer:
+      "Pre-seminar materials including historical background, key vocabulary, and inquiry questions. Post-seminar materials including investigation guides and further reading.",
+  },
+]);
+
 export default function UniversityPage() {
   return (
     <>
@@ -109,6 +133,12 @@ export default function UniversityPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbJsonLd),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqJsonLd),
         }}
       />
       <UniversityClient />

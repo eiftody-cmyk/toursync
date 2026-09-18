@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build --webpack",
     "preview": "opennextjs-cloudflare build && wrangler dev",
-    "deploy": "opennextjs-cloudflare build && wrangler deploy",
+    "deploy": "bash scripts/sync-timeline.sh && opennextjs-cloudflare build && wrangler deploy",
     "start": "next start",
     "lint": "eslint"
   },
