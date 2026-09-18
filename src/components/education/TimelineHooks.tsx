@@ -50,7 +50,7 @@ export function TimelineHooks({
         {filtered.map((link) => (
           <a
             key={link.slug}
-            href={locale === "ja" ? `https://osakacastletours.com/ja/${link.slug}.html` : `https://osakacastletours.com/${link.slug}.html`}
+            href={`https://osakacastletours.com/ja/${link.slug}.html`}
             className="timeline-hook-card"
           >
             <div className="timeline-hook-top">
