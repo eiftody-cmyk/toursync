@@ -19,7 +19,14 @@ export default function EducationHub() {
     <div>
       {/* Hero */}
       <section className="edu-hero bg-hideyoshi">
-        <h1 style={{ whiteSpace: "pre-line" }}>{t.hub.hero.headline}</h1>
+        <h1 style={{ whiteSpace: "pre-line" }}>
+          {t.hub.hero.headline.split("\n").map((line, i) => (
+            <span key={i}>
+              {i > 0 && <br />}
+              {i === 1 ? <em>{line}</em> : line}
+            </span>
+          ))}
+        </h1>
         <p className="subtitle" style={{ whiteSpace: "pre-line" }}>{t.hub.hero.subtitle}</p>
         <p
           style={{
