@@ -150,7 +150,7 @@ export const en = {
     pricing: {
       title: "Pricing",
       subtitle: "One class. One price. No per-student calculation.",
-      note: "Test prices — designed for Kansai schools. Contact to discuss your specific needs.",
+
     },
   },
 

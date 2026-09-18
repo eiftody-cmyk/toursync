@@ -198,16 +198,7 @@ export default function HighSchoolPage() {
         <h2>{t.hub.pricing.title}</h2>
         <p className="section-subtitle">{t.hub.pricing.subtitle}</p>
         <PricingTable />
-        <p
-          style={{
-            fontSize: "0.8rem",
-            color: "var(--edu-muted)",
-            fontStyle: "italic",
-            marginTop: "1rem",
-          }}
-        >
-          {t.hub.pricing.note}
-        </p>
+
       </section>
 
       {/* How it works */}

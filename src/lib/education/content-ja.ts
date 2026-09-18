@@ -149,7 +149,7 @@ export const ja = {
     pricing: {
       title: "料金",
       subtitle: "1クラス1価格。生徒ごとの計算は不要。",
-      note: "関西の学校向けに設定した料金です。お気軽にご相談ください。",
+
     },
   },
 
@@ -454,7 +454,6 @@ export const ja = {
   pricing: {
     title: "料金",
     subtitle: "1クラス1価格。生徒ごとの計算は不要。",
-    note: "お気軽にご相談ください。",
     standard: {
       name: "スタンダード・フィールド探究",
       duration: "90分 · 2〜3地点 · 3探究",
