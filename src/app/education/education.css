@@ -604,6 +604,39 @@ a:hover {
   margin-top: 0.15rem;
 }
 
+/* ── FILTER TABS ── */
+.edu-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.edu-tab {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--edu-border);
+  border-radius: 3px;
+  background: var(--edu-card);
+  color: var(--edu-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.edu-tab:hover {
+  border-color: var(--edu-navy);
+  color: var(--edu-ink);
+}
+
+.edu-tab.active {
+  background: var(--edu-navy);
+  color: white;
+  border-color: var(--edu-navy);
+}
+
 /* ── CURRICULUM MATRIX ── */
 .matrix-filters {
   display: flex;
