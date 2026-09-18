@@ -34,9 +34,7 @@ cp "$OSAKA_TIMELINE"/css/styles.css "$TOURSYNC_PUBLIC/css/"
 echo "→ Copying root-level images..."
 cp "$OSAKA_TIMELINE"/*.webp "$TOURSYNC_PUBLIC/"
 
-# favicon
-echo "→ Copying favicon..."
-cp "$OSAKA_TIMELINE"/favicon.png "$TOURSYNC_PUBLIC/" 2>/dev/null || true
+
 
 # Logo: convert PNG → WebP and copy to public/images/
 if [ -f "$OSAKA_TIMELINE/images/osaka-history-investigations.png" ]; then
