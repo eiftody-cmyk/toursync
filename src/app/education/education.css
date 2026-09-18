@@ -206,6 +206,16 @@ a:hover {
   letter-spacing: 0.02em;
 }
 
+.edu-hero h1 em {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.55em;
+  font-style: italic;
+  color: var(--edu-gold-light);
+  margin-top: 0.3em;
+  letter-spacing: 0.04em;
+}
+
 .edu-hero .subtitle {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.2rem;
