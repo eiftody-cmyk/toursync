@@ -225,7 +225,7 @@ export const ja = {
 
   university: {
     hero: {
-      headline: "移動する大学ゼミナール。",
+      headline: "移動する大学ゼミナール",
       subtitle:
         "歴史家が率いるフィールドベースの歴史ゼミ。",
     },

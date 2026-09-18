@@ -227,7 +227,7 @@ export const en = {
 
   university: {
     hero: {
-      headline: "A mobile university seminar.",
+      headline: "A mobile university seminar",
       subtitle:
         "A field-based historical seminar led by a resident historian.",
     },
