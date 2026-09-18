@@ -1,10 +1,14 @@
 "use client";
 
 import { useLocale } from "@/lib/education/language-context";
-import { educationTimelineLinks } from "@/lib/education/timeline-links";
+import {
+  educationTimelineLinks,
+  type CurriculumLevel,
+} from "@/lib/education/timeline-links";
 
 interface TimelineHooksProps {
-  themes: string[];
+  themes?: string[];
+  level?: CurriculumLevel;
   title?: string;
   titleJa?: string;
   limit?: number;
@@ -12,17 +16,28 @@ interface TimelineHooksProps {
 
 export function TimelineHooks({
   themes,
+  level,
   title,
   titleJa,
-  limit = 6,
+  limit,
 }: TimelineHooksProps) {
   const { locale } = useLocale();
 
-  const links = educationTimelineLinks
-    .filter((link) => themes.some((t) => link.relevantThemes.includes(t)))
-    .slice(0, limit);
+  let filtered = educationTimelineLinks;
 
-  if (links.length === 0) return null;
+  if (level) {
+    filtered = filtered.filter((link) => link.levels.includes(level));
+  } else if (themes) {
+    filtered = filtered.filter((link) =>
+      themes.some((t) => link.relevantThemes.includes(t))
+    );
+  }
+
+  if (limit) {
+    filtered = filtered.slice(0, limit);
+  }
+
+  if (filtered.length === 0) return null;
 
   return (
     <div className="timeline-hooks">
@@ -32,7 +47,7 @@ export function TimelineHooks({
           : title || "Explore the Evidence"}
       </h3>
       <div className="timeline-hook-list">
-        {links.map((link) => (
+        {filtered.map((link) => (
           <a
             key={link.slug}
             href={`https://osakacastletours.com/ja/${link.slug}.html`}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useLocale } from "@/lib/education/language-context";
 import { en } from "@/lib/education/content";
@@ -10,10 +11,19 @@ import { TimelineHooks } from "@/components/education/TimelineHooks";
 import { PricingTable } from "@/components/education/PricingTable";
 import { InquiryForm } from "@/components/education/InquiryForm";
 import { investigationExamples } from "@/lib/education/examples";
+import type { CurriculumLevel } from "@/lib/education/timeline-links";
+
+const TABS: { key: CurriculumLevel | "all"; label: string; labelJa: string }[] = [
+  { key: "all", label: "ALL", labelJa: "すべて" },
+  { key: "jhs", label: "JHS", labelJa: "中学校" },
+  { key: "hs", label: "HIGH SCHOOL", labelJa: "高校" },
+  { key: "university", label: "UNIVERSITY", labelJa: "大学" },
+];
 
 export default function EducationHub() {
   const { locale } = useLocale();
   const t = locale === "ja" ? ja : en;
+  const [activeTab, setActiveTab] = useState<CurriculumLevel | "all">("all");
 
   return (
     <div>
@@ -183,17 +193,19 @@ export default function EducationHub() {
 
       {/* Timeline Hooks */}
       <section className="edu-section">
+        <div className="edu-tabs">
+          {TABS.map((tab) => (
+            <button
+              key={tab.key}
+              className={`edu-tab ${activeTab === tab.key ? "active" : ""}`}
+              onClick={() => setActiveTab(tab.key)}
+            >
+              {locale === "ja" ? tab.labelJa : tab.label}
+            </button>
+          ))}
+        </div>
         <TimelineHooks
-          themes={[
-            "hideyoshi",
-            "tokugawa",
-            "warrior-monks",
-            "ancient-osaka",
-            "geography-power",
-            "power-propaganda",
-            "historical-memory",
-          ]}
-          limit={8}
+          level={activeTab === "all" ? undefined : activeTab}
         />
       </section>
 

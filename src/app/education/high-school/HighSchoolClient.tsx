@@ -190,16 +190,7 @@ export default function HighSchoolPage() {
 
       {/* Timeline Hooks */}
       <section className="edu-section">
-        <TimelineHooks
-          themes={[
-            "hideyoshi",
-            "tokugawa",
-            "geography-power",
-            "power-propaganda",
-            "historical-memory",
-          ]}
-          limit={10}
-        />
+        <TimelineHooks level="hs" />
       </section>
 
       {/* Pricing */}

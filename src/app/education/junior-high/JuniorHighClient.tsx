@@ -127,10 +127,7 @@ export default function JuniorHighPage() {
 
       {/* Timeline Hooks */}
       <section className="edu-section alt-bg">
-        <TimelineHooks
-          themes={["hideyoshi", "warrior-monks", "tokugawa", "ancient-osaka"]}
-          limit={7}
-        />
+        <TimelineHooks level="jhs" />
       </section>
 
       {/* Pricing */}

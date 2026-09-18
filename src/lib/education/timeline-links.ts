@@ -1,3 +1,5 @@
+export type CurriculumLevel = "jhs" | "hs" | "university";
+
 export interface TimelineLink {
   slug: string;
   titleEn: string;
@@ -6,6 +8,7 @@ export interface TimelineLink {
   descriptionJa: string;
   period: string;
   periodJa: string;
+  levels: CurriculumLevel[];
   relevantThemes: string[];
   heroImage?: string;
 }
@@ -21,6 +24,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "大阪城の裏側の物語 — 豊臣秀吉のvision、二度の大坂の陣、そして徳川が豊臣の遺産をどう埋めたか。",
     period: "Sengoku–Tokugawa",
     periodJa: "戦国〜江戸",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: [
       "hideyoshi",
       "tokugawa",
@@ -39,6 +43,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "足軽から天下統一者へ — 豊臣秀吉の生涯と大阪城の建設。",
     period: "Sengoku",
     periodJa: "戦国",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["hideyoshi", "power-propaganda", "geography-power"],
     heroImage: "images/toyotomihideyoshi.webp",
   },
@@ -52,6 +57,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "なぜ織田信長は10年かけて大坂の武者団要塞を包囲したのか。",
     period: "Sengoku",
     periodJa: "戦国",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["warrior-monks", "geography-power"],
     heroImage: "images/ishiyama.webp",
   },
@@ -65,6 +71,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "織田信長、豊臣秀吉、徳川家康 — 三人の男、一つの城、60年の歴史。",
     period: "Sengoku–Tokugawa",
     periodJa: "戦国〜江戸",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["hideyoshi", "tokugawa", "power-propaganda"],
     heroImage: "images/nobunaga.webp",
   },
@@ -78,6 +85,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "徳川家康の忍耐、裏切り、幕府を確立した大坂の戦い。",
     period: "Tokugawa",
     periodJa: "江戸",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["tokugawa", "power-propaganda", "historical-memory"],
     heroImage: "images/hideyoshiscouncilofelders.webp",
   },
@@ -91,6 +99,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "豊臣秀頼の生涯 — 生誕から大坂の陣、そして徳川の公式見解まで。",
     period: "Sengoku–Tokugawa",
     periodJa: "戦国〜江戸",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["tokugawa", "historical-memory", "hideyoshi"],
     heroImage: "images/yododonohideyori.webp",
   },
@@ -104,6 +113,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "先史時代の大坂における縄文・弥生の出会い — 水辺の狩猟採集農民と渡来農民の失われた世界。",
     period: "Ancient",
     periodJa: "古代",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["ancient-osaka"],
     heroImage: "images/jomon-people.webp",
   },
@@ -117,6 +127,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "称徳天皇、道鏡、そして皇位継承と難波の都をどう再形成したかの学術年表。",
     period: "Ancient",
     periodJa: "古代",
+    levels: ["hs", "university"],
     relevantThemes: ["ancient-osaka", "geography-power"],
     heroImage: "images/empress-shotoku.webp",
   },
@@ -130,6 +141,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "593年に聖徳太子が建立して以来の四天王寺の完全な歴史。",
     period: "Ancient",
     periodJa: "古代",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["ancient-osaka", "warrior-monks"],
     heroImage: "images/shitennoji.webp",
   },
@@ -143,6 +155,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "弥生時代のディープタイム年表 — 中国と朝鮮の並行する歴史を含む。",
     period: "Ancient",
     periodJa: "古代",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["ancient-osaka"],
     heroImage: "images/yayoi_boat.webp",
   },
@@ -156,6 +169,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "8世紀の朝廷が女性天皇の正統性を正当化するために神功皇后の年表をどう再構築したか。",
     period: "Ancient",
     periodJa: "古代",
+    levels: ["university"],
     relevantThemes: ["ancient-osaka", "power-propaganda"],
     heroImage: "images/empress_jingu.webp",
   },
@@ -169,6 +183,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "応神天皇の継承危機の三つの对立する説明が、正統性がどう構築されたかを明らかにする。",
     period: "Ancient",
     periodJa: "古代",
+    levels: ["university"],
     relevantThemes: ["ancient-osaka", "power-propaganda"],
     heroImage: "images/kofun.webp",
   },
@@ -182,6 +197,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "藤原氏が摂関職と婚姻同盟を通じて500年にわたり帝座をどう支配したか。",
     period: "Heian",
     periodJa: "平安",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["power-propaganda", "historical-memory"],
     heroImage: "images/fujiwara-no-michinaga.webp",
   },
@@ -195,6 +211,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "平氏と源氏の皇室起源、源平合戦、そして日本初の幕府の誕生。",
     period: "Kamakura",
     periodJa: "鎌倉",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["power-propaganda", "historical-memory"],
     heroImage: "images/taira-minamoto-battle.webp",
   },
@@ -208,6 +225,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "織田・浅井同盟の崩壊 — 婚姻政治から浅井氏の滅亡まで。",
     period: "Sengoku",
     periodJa: "戦国",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["warrior-monks", "hideyoshi"],
     heroImage: "images/azaiclanbetrayal.webp",
   },
@@ -221,6 +239,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "真田信繁の生涯 — 父の政治的駆け引きから大坂の陣まで。",
     period: "Sengoku–Edo",
     periodJa: "戦国〜江戸",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["tokugawa", "historical-memory"],
     heroImage: "images/chausu-yama.webp",
   },
@@ -234,6 +253,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "蘇我氏の台頭、乙巳の変、そして藤原氏による皇室への数世紀にわたる支配。",
     period: "Ancient–Heian",
     periodJa: "古代〜平安",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["ancient-osaka", "power-propaganda"],
     heroImage: "images/assassination.webp",
   },
@@ -247,6 +267,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "菅原道真の流罪から日本三大祭りの一つへ — 天神祭の完全な歴史。",
     period: "Heian–Modern",
     periodJa: "平安〜近代",
+    levels: ["university"],
     relevantThemes: ["ancient-osaka", "historical-memory"],
     heroImage: "images/tenjin-matsuri-hero.webp",
   },
@@ -260,6 +281,7 @@ export const educationTimelineLinks: TimelineLink[] = [
       "大阪城の下に横たわる上町台地の歴史を、地質学・考古学・歴史学を横断するディープタイム・タイムラインとして語る。",
     period: "Prehistoric–Modern",
     periodJa: "先史〜近代",
+    levels: ["jhs", "hs", "university"],
     relevantThemes: ["geography-power", "ancient-osaka"],
     heroImage: "images/formernaniwapalace.webp",
   },

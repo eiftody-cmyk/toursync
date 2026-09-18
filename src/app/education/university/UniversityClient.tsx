@@ -139,17 +139,7 @@ export default function UniversityPage() {
 
       {/* Timeline Hooks */}
       <section className="edu-section alt-bg">
-        <TimelineHooks
-          themes={[
-            "geography-power",
-            "power-propaganda",
-            "ancient-osaka",
-            "historical-memory",
-            "hideyoshi",
-            "tokugawa",
-          ]}
-          limit={18}
-        />
+        <TimelineHooks />
       </section>
 
       {/* Pricing */}
