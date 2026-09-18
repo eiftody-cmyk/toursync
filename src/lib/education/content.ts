@@ -156,7 +156,7 @@ export const en = {
 
   juniorHigh: {
     hero: {
-      headline: "History where it happened.",
+      headline: "History beyond the classroom",
       subtitle:
         "Field investigations for junior high school students — structured, safe, and curriculum-connected.",
     },
@@ -186,7 +186,7 @@ export const en = {
 
   highSchool: {
     hero: {
-      headline: "Teach history where it happened.",
+      headline: "The landscape is the primary source",
       subtitle:
         "Field investigations for senior high school — curriculum-aligned inquiry for 歴史総合, 日本史探究, and 探究.",
     },

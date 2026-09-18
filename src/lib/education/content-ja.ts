@@ -155,7 +155,7 @@ export const ja = {
 
   juniorHigh: {
     hero: {
-      headline: "教室の外で歴史を学ぶ。",
+      headline: "教室の外で歴史を学ぶ",
       subtitle:
         "中学生向けのフィールド探究 — 様式化され、安全で、教科書と連動しています。",
     },
@@ -185,7 +185,7 @@ export const ja = {
 
   highSchool: {
     hero: {
-      headline: "歴史が起きた場所で教える。",
+      headline: "景観が一次史料になる",
       subtitle:
         "高校生向けフィールド探究 — 歴史総合、日本史探究、探究に対応したカリキュラム連動型の探究形式。",
     },
