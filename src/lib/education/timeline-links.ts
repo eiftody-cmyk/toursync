@@ -15,93 +15,18 @@ export interface TimelineLink {
 
 export const educationTimelineLinks: TimelineLink[] = [
   {
-    slug: "osaka-castle-history",
-    titleEn: "Osaka Castle: Toyotomi Hideyoshi, the Siege & the Erasure",
-    titleJa: "大阪城：豊臣秀吉、大坂の陣、そして埋もれた歴史",
+    slug: "deeptimeline",
+    titleEn: "Deep Time Timeline — The Uemachi Plateau",
+    titleJa: "上町台地 ── ディープタイム・タイムライン",
     descriptionEn:
-      "The hidden story of Osaka Castle — Toyotomi Hideyoshi's vision, the two sieges, and how the Tokugawa buried his legacy.",
+      "A deep-time exploration of the Uemachi Plateau — geology, archaeology, and history across millions of years.",
     descriptionJa:
-      "大阪城の裏側の物語 — 豊臣秀吉のvision、二度の大坂の陣、そして徳川が豊臣の遺産をどう埋めたか。",
-    period: "Sengoku–Tokugawa",
-    periodJa: "戦国〜江戸",
+      "大阪城の下に横たわる上町台地の歴史を、地質学・考古学・歴史学を横断するディープタイム・タイムラインとして語る。",
+    period: "Prehistoric–Modern",
+    periodJa: "先史〜近代",
     levels: ["jhs", "hs", "university"],
-    relevantThemes: [
-      "hideyoshi",
-      "tokugawa",
-      "power-propaganda",
-      "historical-memory",
-    ],
-    heroImage: "images/toyotomicastle.webp",
-  },
-  {
-    slug: "toyotomihideyoshi",
-    titleEn: "The Taikō's Path — A Toyotomi Hideyoshi Timeline",
-    titleJa: "太閤の道 — 豊臣秀吉の年表",
-    descriptionEn:
-      "Toyotomi Hideyoshi's rise from peasant foot-soldier to Japan's unifier and builder of Osaka Castle.",
-    descriptionJa:
-      "足軽から天下統一者へ — 豊臣秀吉の生涯と大阪城の建設。",
-    period: "Sengoku",
-    periodJa: "戦国",
-    levels: ["jhs", "hs", "university"],
-    relevantThemes: ["hideyoshi", "power-propaganda", "geography-power"],
-    heroImage: "images/toyotomihideyoshi.webp",
-  },
-  {
-    slug: "ishiyama-timeline",
-    titleEn: "The Ishiyama Honganji War (1570–1580)",
-    titleJa: "石山本願寺戦争（1570〜1580）",
-    descriptionEn:
-      "Why Oda Nobunaga spent a decade besieging Osaka's warrior-monk fortress.",
-    descriptionJa:
-      "なぜ織田信長は10年かけて大坂の武者団要塞を包囲したのか。",
-    period: "Sengoku",
-    periodJa: "戦国",
-    levels: ["jhs", "hs", "university"],
-    relevantThemes: ["warrior-monks", "geography-power"],
-    heroImage: "images/ishiyama.webp",
-  },
-  {
-    slug: "three-unifiers",
-    titleEn: "Three Unifiers — Osaka Castle Walks with Edward",
-    titleJa: "三人の統一者 — 大阪城ウォークス",
-    descriptionEn:
-      "Oda Nobunaga, Toyotomi Hideyoshi, and Tokugawa Ieyasu — three men, one castle, sixty years.",
-    descriptionJa:
-      "織田信長、豊臣秀吉、徳川家康 — 三人の男、一つの城、60年の歴史。",
-    period: "Sengoku–Tokugawa",
-    periodJa: "戦国〜江戸",
-    levels: ["jhs", "hs", "university"],
-    relevantThemes: ["hideyoshi", "tokugawa", "power-propaganda"],
-    heroImage: "images/nobunaga.webp",
-  },
-  {
-    slug: "tokugawa-ieyasu-timeline",
-    titleEn: "The Sleeping Dragon — A Tokugawa Ieyasu Timeline",
-    titleJa: "睡龍 — 徳川家康の年表",
-    descriptionEn:
-      "Tokugawa Ieyasu's patience, betrayal, and the sieges of Osaka that established the shogunate.",
-    descriptionJa:
-      "徳川家康の忍耐、裏切り、幕府を確立した大坂の戦い。",
-    period: "Tokugawa",
-    periodJa: "江戸",
-    levels: ["jhs", "hs", "university"],
-    relevantThemes: ["tokugawa", "power-propaganda", "historical-memory"],
-    heroImage: "images/hideyoshiscouncilofelders.webp",
-  },
-  {
-    slug: "toyotomi_hideyori",
-    titleEn: "Toyotomi Hideyori: Heir to Osaka Castle's Fall",
-    titleJa: "豊臣秀頼：大阪城の崩壊に直面した継承者",
-    descriptionEn:
-      "The life of Toyotomi Hideyori from birth to the siege of Osaka and the Tokugawa's official story.",
-    descriptionJa:
-      "豊臣秀頼の生涯 — 生誕から大坂の陣、そして徳川の公式見解まで。",
-    period: "Sengoku–Tokugawa",
-    periodJa: "戦国〜江戸",
-    levels: ["jhs", "hs", "university"],
-    relevantThemes: ["tokugawa", "historical-memory", "hideyoshi"],
-    heroImage: "images/yododonohideyori.webp",
+    relevantThemes: ["geography-power", "ancient-osaka"],
+    heroImage: "images/formernaniwapalace.webp",
   },
   {
     slug: "before-the-castle-prehistoric-osaka",
@@ -116,34 +41,6 @@ export const educationTimelineLinks: TimelineLink[] = [
     levels: ["jhs", "hs", "university"],
     relevantThemes: ["ancient-osaka"],
     heroImage: "images/jomon-people.webp",
-  },
-  {
-    slug: "empress-shotoku",
-    titleEn: "Empress Shotoku, Dokyo & Naniwa Dynamics",
-    titleJa: "称徳天皇、道鏡、難波の力学",
-    descriptionEn:
-      "Scholarly timeline of Empress Shotoku, the monk Dokyo, and how they reshaped imperial succession and the Naniwa capital.",
-    descriptionJa:
-      "称徳天皇、道鏡、そして皇位継承と難波の都をどう再形成したかの学術年表。",
-    period: "Ancient",
-    periodJa: "古代",
-    levels: ["hs", "university"],
-    relevantThemes: ["ancient-osaka", "geography-power"],
-    heroImage: "images/empress-shotoku.webp",
-  },
-  {
-    slug: "shitennojihistory",
-    titleEn: "Shitenno-ji: 1,400 Years of Power, Faith, and Survival",
-    titleJa: "四天王寺：1,400年の権力、信仰、生存",
-    descriptionEn:
-      "The complete history of Shitenno-ji from its founding by Prince Shotoku in 593 CE.",
-    descriptionJa:
-      "593年に聖徳太子が建立して以来の四天王寺の完全な歴史。",
-    period: "Ancient",
-    periodJa: "古代",
-    levels: ["jhs", "hs", "university"],
-    relevantThemes: ["ancient-osaka", "warrior-monks"],
-    heroImage: "images/shitennoji.webp",
   },
   {
     slug: "yayoi_timeline",
@@ -185,7 +82,49 @@ export const educationTimelineLinks: TimelineLink[] = [
     periodJa: "古代",
     levels: ["university"],
     relevantThemes: ["ancient-osaka", "power-propaganda"],
-    heroImage: "images/kofun.webp",
+    heroImage: "ojinsuccession.webp",
+  },
+  {
+    slug: "empress-shotoku",
+    titleEn: "Empress Shotoku, Dokyo & Naniwa Dynamics",
+    titleJa: "称徳天皇、道鏡、難波の力学",
+    descriptionEn:
+      "Scholarly timeline of Empress Shotoku, the monk Dokyo, and how they reshaped imperial succession and the Naniwa capital.",
+    descriptionJa:
+      "称徳天皇、道鏡、そして皇位継承と難波の都をどう再形成したかの学術年表。",
+    period: "Ancient",
+    periodJa: "古代",
+    levels: ["hs", "university"],
+    relevantThemes: ["ancient-osaka", "geography-power"],
+    heroImage: "images/empress-shotoku.webp",
+  },
+  {
+    slug: "shitennojihistory",
+    titleEn: "Shitenno-ji: 1,400 Years of Power, Faith, and Survival",
+    titleJa: "四天王寺：1,400年の権力、信仰、生存",
+    descriptionEn:
+      "The complete history of Shitenno-ji from its founding by Prince Shotoku in 593 CE.",
+    descriptionJa:
+      "593年に聖徳太子が建立して以来の四天王寺の完全な歴史。",
+    period: "Ancient",
+    periodJa: "古代",
+    levels: ["jhs", "hs", "university"],
+    relevantThemes: ["ancient-osaka", "warrior-monks"],
+    heroImage: "images/shitennoji.webp",
+  },
+  {
+    slug: "soga-fujiwara-timeline",
+    titleEn: "Soga, Fujiwara & The Imperial Line",
+    titleJa: "蘇我氏、藤原氏と皇室 — 朝廷政治タイムライン",
+    descriptionEn:
+      "The rise of the Soga clan, the Isshi Incident, and centuries of Fujiwara dominance over the imperial line.",
+    descriptionJa:
+      "蘇我氏の台頭、乙巳の変、そして藤原氏による皇室への数世紀にわたる支配。",
+    period: "Ancient–Heian",
+    periodJa: "古代〜平安",
+    levels: ["jhs", "hs", "university"],
+    relevantThemes: ["ancient-osaka", "power-propaganda"],
+    heroImage: "images/assassination.webp",
   },
   {
     slug: "fujiwara-shadow-politics",
@@ -200,6 +139,20 @@ export const educationTimelineLinks: TimelineLink[] = [
     levels: ["jhs", "hs", "university"],
     relevantThemes: ["power-propaganda", "historical-memory"],
     heroImage: "images/fujiwara-no-michinaga.webp",
+  },
+  {
+    slug: "tenjin-matsuri-history",
+    titleEn: "Tenjin Matsuri — Osaka's Greatest Water Festival",
+    titleJa: "天神祭 — 大阪最大の祭礼",
+    descriptionEn:
+      "The complete history of Tenjin Matsuri from Sugawara no Michizane's exile to one of Japan's Three Great Festivals.",
+    descriptionJa:
+      "菅原道真の流罪から日本三大祭りの一つへ — 天神祭の完全な歴史。",
+    period: "Heian–Modern",
+    periodJa: "平安〜近代",
+    levels: ["university"],
+    relevantThemes: ["ancient-osaka", "historical-memory"],
+    heroImage: "images/tenjin-matsuri-hero.webp",
   },
   {
     slug: "genpei-timeline",
@@ -230,6 +183,81 @@ export const educationTimelineLinks: TimelineLink[] = [
     heroImage: "images/azaiclanbetrayal.webp",
   },
   {
+    slug: "ishiyama-timeline",
+    titleEn: "The Ishiyama Honganji War (1570–1580)",
+    titleJa: "石山本願寺戦争（1570〜1580）",
+    descriptionEn:
+      "Why Oda Nobunaga spent a decade besieging Osaka's warrior-monk fortress.",
+    descriptionJa:
+      "なぜ織田信長は10年かけて大坂の武者団要塞を包囲したのか。",
+    period: "Sengoku",
+    periodJa: "戦国",
+    levels: ["jhs", "hs", "university"],
+    relevantThemes: ["warrior-monks", "geography-power"],
+    heroImage: "images/ishiyama.webp",
+  },
+  {
+    slug: "toyotomihideyoshi",
+    titleEn: "The Taikō's Path — A Toyotomi Hideyoshi Timeline",
+    titleJa: "太閤の道 — 豊臣秀吉の年表",
+    descriptionEn:
+      "Toyotomi Hideyoshi's rise from peasant foot-soldier to Japan's unifier and builder of Osaka Castle.",
+    descriptionJa:
+      "足軽から天下統一者へ — 豊臣秀吉の生涯と大阪城の建設。",
+    period: "Sengoku",
+    periodJa: "戦国",
+    levels: ["jhs", "hs", "university"],
+    relevantThemes: ["hideyoshi", "power-propaganda", "geography-power"],
+    heroImage: "images/toyotomihideyoshi.webp",
+  },
+  {
+    slug: "three-unifiers",
+    titleEn: "Three Unifiers — Osaka Castle Walks with Edward",
+    titleJa: "三人の統一者 — 大阪城ウォークス",
+    descriptionEn:
+      "Oda Nobunaga, Toyotomi Hideyoshi, and Tokugawa Ieyasu — three men, one castle, sixty years.",
+    descriptionJa:
+      "織田信長、豊臣秀吉、徳川家康 — 三人の男、一つの城、60年の歴史。",
+    period: "Sengoku–Tokugawa",
+    periodJa: "戦国〜江戸",
+    levels: ["jhs", "hs", "university"],
+    relevantThemes: ["hideyoshi", "tokugawa", "power-propaganda"],
+    heroImage: "images/nobunaga.webp",
+  },
+  {
+    slug: "osaka-castle-history",
+    titleEn: "Osaka Castle: Toyotomi Hideyoshi, the Siege & the Erasure",
+    titleJa: "大阪城：豊臣秀吉、大坂の陣、そして埋もれた歴史",
+    descriptionEn:
+      "The hidden story of Osaka Castle — Toyotomi Hideyoshi's vision, the two sieges, and how the Tokugawa buried his legacy.",
+    descriptionJa:
+      "大阪城の裏側の物語 — 豊臣秀吉のvision、二度の大坂の陣、そして徳川が豊臣の遺産をどう埋めたか。",
+    period: "Sengoku–Tokugawa",
+    periodJa: "戦国〜江戸",
+    levels: ["jhs", "hs", "university"],
+    relevantThemes: [
+      "hideyoshi",
+      "tokugawa",
+      "power-propaganda",
+      "historical-memory",
+    ],
+    heroImage: "images/toyotomicastle.webp",
+  },
+  {
+    slug: "toyotomi_hideyori",
+    titleEn: "Toyotomi Hideyori: Heir to Osaka Castle's Fall",
+    titleJa: "豊臣秀頼：大阪城の崩壊に直面した継承者",
+    descriptionEn:
+      "The life of Toyotomi Hideyori from birth to the siege of Osaka and the Tokugawa's official story.",
+    descriptionJa:
+      "豊臣秀頼の生涯 — 生誕から大坂の陣、そして徳川の公式見解まで。",
+    period: "Sengoku–Tokugawa",
+    periodJa: "戦国〜江戸",
+    levels: ["jhs", "hs", "university"],
+    relevantThemes: ["tokugawa", "historical-memory", "hideyoshi"],
+    heroImage: "images/yododonohideyori.webp",
+  },
+  {
     slug: "sanada_nobushige",
     titleEn: "The Crimson Path — A Sanada Nobushige Timeline",
     titleJa: "真田信繁 — 日本最強の武将",
@@ -244,46 +272,18 @@ export const educationTimelineLinks: TimelineLink[] = [
     heroImage: "images/chausu-yama.webp",
   },
   {
-    slug: "soga-fujiwara-timeline",
-    titleEn: "Soga, Fujiwara & The Imperial Line",
-    titleJa: "蘇我氏、藤原氏と皇室 — 朝廷政治タイムライン",
+    slug: "tokugawa-ieyasu-timeline",
+    titleEn: "The Sleeping Dragon — A Tokugawa Ieyasu Timeline",
+    titleJa: "睡龍 — 徳川家康の年表",
     descriptionEn:
-      "The rise of the Soga clan, the Isshi Incident, and centuries of Fujiwara dominance over the imperial line.",
+      "Tokugawa Ieyasu's patience, betrayal, and the sieges of Osaka that established the shogunate.",
     descriptionJa:
-      "蘇我氏の台頭、乙巳の変、そして藤原氏による皇室への数世紀にわたる支配。",
-    period: "Ancient–Heian",
-    periodJa: "古代〜平安",
+      "徳川家康の忍耐、裏切り、幕府を確立した大坂の戦い。",
+    period: "Tokugawa",
+    periodJa: "江戸",
     levels: ["jhs", "hs", "university"],
-    relevantThemes: ["ancient-osaka", "power-propaganda"],
-    heroImage: "images/assassination.webp",
-  },
-  {
-    slug: "tenjin-matsuri-history",
-    titleEn: "Tenjin Matsuri — Osaka's Greatest Water Festival",
-    titleJa: "天神祭 — 大阪最大の祭礼",
-    descriptionEn:
-      "The complete history of Tenjin Matsuri from Sugawara no Michizane's exile to one of Japan's Three Great Festivals.",
-    descriptionJa:
-      "菅原道真の流罪から日本三大祭りの一つへ — 天神祭の完全な歴史。",
-    period: "Heian–Modern",
-    periodJa: "平安〜近代",
-    levels: ["university"],
-    relevantThemes: ["ancient-osaka", "historical-memory"],
-    heroImage: "images/tenjin-matsuri-hero.webp",
-  },
-  {
-    slug: "deeptimeline",
-    titleEn: "Deep Time Timeline — The Uemachi Plateau",
-    titleJa: "上町台地 ── ディープタイム・タイムライン",
-    descriptionEn:
-      "A deep-time exploration of the Uemachi Plateau — geology, archaeology, and history across millions of years.",
-    descriptionJa:
-      "大阪城の下に横たわる上町台地の歴史を、地質学・考古学・歴史学を横断するディープタイム・タイムラインとして語る。",
-    period: "Prehistoric–Modern",
-    periodJa: "先史〜近代",
-    levels: ["jhs", "hs", "university"],
-    relevantThemes: ["geography-power", "ancient-osaka"],
-    heroImage: "images/formernaniwapalace.webp",
+    relevantThemes: ["tokugawa", "power-propaganda", "historical-memory"],
+    heroImage: "images/hideyoshiscouncilofelders.webp",
   },
 ];
 
