@@ -37,11 +37,20 @@ export function PricingTable() {
         )}
       </div>
 
+      {/* Custom section header */}
+      <div className="pricing-custom-header">
+        <h3>{pricing.customHeader}</h3>
+        <p>{pricing.customSubtitle}</p>
+      </div>
+
       {/* Custom products — 2 columns */}
       <div className="pricing-custom-grid">
         {[pricing.custom, pricing.fullPack].map((product, i) => (
           <div key={i} className="pricing-card">
             <h3>{product.name}</h3>
+            {"description" in product && (
+              <div className="pricing-card-description">{product.description}</div>
+            )}
             <div className="price">{product.price}</div>
             <div className="price-note">{product.size}</div>
             <div className="duration">{product.duration}</div>

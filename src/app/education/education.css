@@ -251,13 +251,19 @@ a:hover {
 .edu-hero.bg-shotoku {
   background-image:
     linear-gradient(rgba(26, 21, 16, 0.78), rgba(26, 21, 16, 0.78)),
-    url('/images/empress-shotoku.webp');
+    url('/ojinsuccession.webp');
 }
 
 .edu-hero.bg-michizane {
   background-image:
     linear-gradient(rgba(26, 21, 16, 0.78), rgba(26, 21, 16, 0.78)),
     url('/images/sanadacharge.webp');
+}
+
+/* Center hero image vertically on university and sample lesson pages */
+.edu-hero.bg-shotoku,
+.edu-hero.bg-michizane {
+  background-position: center;
 }
 
 /* ── SECTIONS ── */
@@ -680,6 +686,34 @@ a:hover {
   margin: 2rem 0;
 }
 
+.pricing-custom-header {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--edu-border);
+}
+
+.pricing-custom-header h3 {
+  font-size: 1rem;
+  color: var(--edu-ink);
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.03em;
+}
+
+.pricing-custom-header p {
+  font-size: 0.9rem;
+  color: var(--edu-muted);
+  font-style: italic;
+}
+
+.pricing-card-description {
+  font-size: 0.85rem;
+  color: var(--edu-stone);
+  font-style: italic;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
 .pricing-card {
   background: var(--edu-card);
   border: 1px solid var(--edu-border);
@@ -800,6 +834,56 @@ a:hover {
   font-size: 0.95rem;
   color: var(--edu-stone);
   line-height: 1.5;
+}
+
+/* ── PROGRAM LIFECYCLE (BEFORE / DURING / AFTER) ── */
+.program-lifecycle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.program-lifecycle-phase {
+  background: var(--edu-card);
+  border: 1px solid var(--edu-border);
+  border-radius: 6px;
+  padding: 1.75rem 1.5rem;
+}
+
+.program-lifecycle-phase-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--edu-gold);
+  margin-bottom: 0.5rem;
+}
+
+.program-lifecycle-phase h3 {
+  font-size: 1rem;
+  color: var(--edu-ink);
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.program-lifecycle-phase ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.program-lifecycle-phase li {
+  padding: 0.35rem 0;
+  font-size: 0.9rem;
+  color: var(--edu-ink);
+  line-height: 1.5;
+}
+
+.program-lifecycle-phase li::before {
+  content: '→ ';
+  color: var(--edu-gold);
+  font-weight: 600;
 }
 
 
@@ -1093,6 +1177,13 @@ a:hover {
   margin-bottom: 0.5rem;
 }
 
+.edu-footer-logo {
+  display: block;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  opacity: 0.9;
+}
+
 .edu-footer a {
   color: var(--edu-gold);
 }
@@ -1156,6 +1247,10 @@ a:hover {
   }
 
   .pricing-custom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .program-lifecycle-grid {
     grid-template-columns: 1fr;
   }
 

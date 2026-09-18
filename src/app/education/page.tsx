@@ -45,13 +45,13 @@ export async function generateMetadata({
   }
 
   return {
-    title: "Osaka History Investigations — Field Seminars for Schools",
+    title: "Osaka History Investigations — Structured Historical Investigations for Schools",
     description:
-      "Historian-led field investigations at Osaka Castle for junior high, high school, and university students. Curriculum-aligned inquiry-based learning with Edward Iftody.",
+      "Structured historical investigations at Osaka Castle for junior high, high school, and university students. Designed by a historian and experienced educator. Curriculum-aligned inquiry-based learning with Edward Iftody.",
     openGraph: {
-      title: "Osaka History Investigations — Field Seminars for Schools",
+      title: "Osaka History Investigations — Structured Historical Investigations for Schools",
       description:
-        "Historian-led field investigations at Osaka Castle for junior high, high school, and university students.",
+        "Structured historical investigations at Osaka Castle for junior high, high school, and university students. Designed by a historian and experienced educator.",
       url: BASE,
       siteName: "Osaka Castle Walks with Edward",
       locale: "en_US",
@@ -69,10 +69,10 @@ export async function generateMetadata({
 }
 
 const articleJsonLd = buildArticleJsonLd({
-  titleEn: "Osaka History Investigations — Field Seminars for Schools",
+  titleEn: "Osaka History Investigations — Structured Historical Investigations for Schools",
   titleJa: "大阪歴史フィールド探究 — 学校向けフィールドセミナー",
   descriptionEn:
-    "Historian-led field investigations at Osaka Castle for junior high, high school, and university students.",
+    "Structured historical investigations at Osaka Castle for junior high, high school, and university students. Designed by a historian and experienced educator.",
   descriptionJa:
     "歴史家が指導する大阪城でのフィールド探究。中学校・高等学校・大学のカリキュラムに連動した探究型学習。",
   url: `${SITE}/education`,
@@ -124,7 +124,7 @@ const faqJsonLd = buildFaqJsonLd([
   {
     question: "料金に何が含まれますか？",
     answer:
-      "コーチ向けブリーフィング、生徒用事前読物、語彙サポート、学習目標、フィールド探究、全体討議、歴史家による証拠に基づく解釈、教師向けフォローアップ教材、訪問後コンパニオンが含まれます。",
+      "コーチ向けブリーフィング、生徒用事前読物、語彙サポート、学習目標、フィールド探究、全体討議、歴史家による証拠に基づく解釈、教師向けフォローアップ教材、デジタル調査コンパニオンが含まれます。上位プランには追加の探究活動、一次資料、評価教材が含まれます。",
   },
   {
     question: "予約方法は？",

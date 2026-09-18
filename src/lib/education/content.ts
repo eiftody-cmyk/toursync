@@ -17,7 +17,7 @@ export const en = {
     hero: {
       headline: "Osaka History Investigations —\nHistory beyond the classroom",
       subtitle:
-        "English-language field investigations at Osaka Castle led by a historian and veteran English coach.",
+        "Structured historical investigations at Osaka Castle — designed by a historian and experienced educator.",
       cta: "Request an Investigation",
       secondary: "See a Sample Lesson",
     },
@@ -73,19 +73,55 @@ export const en = {
         "History as a discipline. Not a guided tour.",
     },
     companion: {
-      title: "Post-Visit Companion",
-      subtitle: "Every class receives a digital record of the investigation.",
-      body: "After the investigation, every class receives a Post-Visit Companion — a digital document containing photographs from the field lesson, a recap of the historical dilemmas explored, and the historical context for each site visited.\n\nOne page per location. Group photographs at each landmark. Candid shots of students investigating, discussing, and presenting. The coach distributes it to students so they have a lasting memory of the investigation — and something to show parents.",
-      note: "Designed for school groups. Translated to Japanese. Photography requires advance school consent.",
+      title: "Digital Investigation Companion",
+      subtitle: "Your investigation doesn't end at Osaka Castle.",
+      body: "Every investigation includes access to a Digital Investigation Companion — a web-based educational resource designed for use before, during, and after the field visit.\n\nTeachers receive learning objectives, curriculum connections, historical background, vocabulary, and discussion prompts.\n\nStudents receive investigation guides, primary sources, evidence to examine, and post-visit activities.\n\nThe companion is designed to continue in the classroom.",
+      note: "Translated to Japanese. Photography requires advance school consent.",
+    },
+    programLifecycle: {
+      title: "The Program",
+      subtitle: "The field investigation is one part of the lesson.",
+      phases: [
+        {
+          phase: "Before",
+          title: "Preparation",
+          items: [
+            "Coach and teacher briefing",
+            "Student pre-reading materials",
+            "Key vocabulary and learning objectives",
+            "Historical context for the field visit",
+          ],
+        },
+        {
+          phase: "During",
+          title: "Investigation",
+          items: [
+            "Structured historical investigations at actual sites",
+            "Small-group Socratic inquiry",
+            "Competing interpretations and evidence",
+            "Historian's evidence-based conclusion",
+          ],
+        },
+        {
+          phase: "After",
+          title: "Continuation",
+          items: [
+            "Digital Investigation Companion",
+            "Post-visit teacher materials",
+            "Classroom activities and discussion prompts",
+            "Assessment options",
+          ],
+        },
+      ],
     },
     howItWorks: {
       title: "How It Works",
       steps: [
         { number: 1, title: "Tell me what you're teaching.", body: "Course, unit, student level, class size, learning objectives." },
-        { number: 2, title: "Choose your field format.", body: "90, 120, or 150 minutes." },
+        { number: 2, title: "Choose your field format.", body: "90, 120, or 150 minutes — with 3, 4, or 5 historical investigations." },
         { number: 3, title: "We develop the historical question together.", body: "Edward adapts the investigation to your curriculum and students." },
         { number: 4, title: "Students investigate Osaka.", body: "Landscape, evidence, competing interpretations." },
-        { number: 5, title: "Receive follow-up materials.", body: "Students and teachers can continue the investigation in class." },
+        { number: 5, title: "Use the Digital Investigation Companion.", body: "Continue the investigation in class with structured materials." },
       ],
     },
     timeline: {
@@ -96,11 +132,12 @@ export const en = {
     about: {
       title: "About Edward Iftody",
       paragraphs: [
-        "Edward Iftody is a historian, historical guide, and veteran English coach who has taught in Japan since 2009. Based one block from Osaka Castle, he specializes in Japanese political history and historical geography.",
-        "His field investigations combine historical inquiry with structured English-language activities designed for students studying in Japan. He understands both sides of the desk — what a coach needs to justify to an administrator, what makes a field trip stressful, and how to turn historical content into an actual lesson.",
+        "Edward Iftody is a historian, educator, and course developer who has taught in Japan since 2009. Based one block from Osaka Castle, he specializes in Japanese political history and historical geography.",
+        "His investigations are designed from the beginning as educational experiences — not tours adapted for students. He combines historical research, teaching experience, and course development to turn Osaka's historical landscape into structured investigations. He understands both sides of the desk — what a coach needs to justify to an administrator, what makes a field trip stressful, and how to turn historical content into an actual lesson.",
       ],
       credentials: [
         "Historian & researcher",
+        "Educator & course developer",
         "English coach since 2009",
         "Osaka-based specialist",
         "Political history & historical geography",
@@ -419,7 +456,7 @@ export const en = {
   pricing: {
     standard: {
       name: "Standard Field Investigation",
-      duration: "90 minutes · 2–3 sites",
+      duration: "90 minutes · 2–3 sites · 3 investigations",
       tiers: [
         { size: "Up to 15 students", price: "¥50,000" },
         { size: "Up to 30 students", price: "¥75,000" },
@@ -436,12 +473,12 @@ export const en = {
         "Whole-class discussion",
         "Historian's evidence-based conclusion",
         "Post-visit coach materials",
-        "Post-Visit Companion (photographs + recap)",
+        "Digital Investigation Companion",
       ],
     },
     extended: {
       name: "Extended Field Investigation",
-      duration: "120 minutes · 3–4 sites",
+      duration: "120 minutes · 3–4 sites · 4 investigations",
       tiers: [
         { size: "Up to 15 students", price: "¥65,000" },
         { size: "Up to 30 students", price: "¥90,000" },
@@ -449,14 +486,19 @@ export const en = {
       ],
       includes: [
         "Everything in Standard",
-        "Additional site stops",
-        "Deeper source analysis",
-        "Extended discussion time",
+        "4th historical investigation",
+        "Additional site(s)",
+        "Additional historical source material",
+        "Expanded student reading and materials",
+        "Additional investigation activities",
+        "Additional classroom discussion and extension activities",
+        "More extensive teacher follow-up materials",
+        "Expanded digital Investigation Companion",
       ],
     },
     fullSeminar: {
       name: "Full Historical Field Seminar",
-      duration: "150 minutes · 4+ sites",
+      duration: "150 minutes · 4+ sites · 5 investigations",
       tiers: [
         { size: "Up to 15 students", price: "¥80,000" },
         { size: "Up to 30 students", price: "¥110,000" },
@@ -464,13 +506,23 @@ export const en = {
       ],
       includes: [
         "Everything in Extended",
-        "Complete Osaka historical landscape",
-        "Primary source analysis",
-        "Historiographical discussion",
+        "5th historical investigation",
+        "Multiple primary sources",
+        "Source-analysis activities",
+        "Assessment material",
+        "Essay and discussion prompts",
+        "Suggested answers",
+        "Teacher notes",
+        "Additional classroom activities",
+        "Comprehensive digital Investigation Companion",
+        "Further investigation and extension resources",
       ],
     },
+    customHeader: "Need something tailored to your course?",
+    customSubtitle: "Customize any field investigation with additional educational materials.",
     custom: {
-      name: "Custom Curriculum Investigation",
+      name: "Custom Curriculum Design",
+      description: "For schools that need the investigation built around a specific course or unit.",
       price: "From ¥95,000",
       size: "Up to 30 students",
       duration: "Customized to your curriculum",
@@ -483,18 +535,18 @@ export const en = {
       ],
     },
     fullPack: {
-      name: "Investigation + Assessment",
+      name: "Custom Assessment",
+      description: "Add assessment and teacher materials to your investigation.",
       price: "From ¥120,000",
       size: "Up to 30 students",
       duration: "Customized with assessment materials",
       includes: [
-        "Everything in Custom",
         "Source-analysis questions",
         "Short-answer questions",
-        "Essay/discussion prompt",
+        "Essay/discussion prompts",
         "Suggested answers",
-        "Coach notes",
-        "Quiz/test material",
+        "Teacher and coach notes",
+        "Quiz and test materials",
       ],
     },
   },

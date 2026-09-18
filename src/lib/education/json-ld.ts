@@ -3,7 +3,7 @@ const AUTHOR = {
   "@type": "Person",
   name: "Edward Iftody",
   url: `${SITE}/aboutme`,
-  jobTitle: "Independent Researcher & Resident Historian",
+  jobTitle: "Historian, Educator & Course Developer",
 };
 const PUBLISHER = {
   "@type": "Organization",

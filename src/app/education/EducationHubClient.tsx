@@ -72,6 +72,25 @@ export default function EducationHub() {
         <SocraticMethodDiagram />
       </section>
 
+      {/* Program Lifecycle — Before / During / After */}
+      <section className="edu-section alt-bg">
+        <h2>{t.hub.programLifecycle.title}</h2>
+        <p className="section-subtitle">{t.hub.programLifecycle.subtitle}</p>
+        <div className="program-lifecycle-grid">
+          {t.hub.programLifecycle.phases.map((phase, i) => (
+            <div key={i} className="program-lifecycle-phase">
+              <div className="program-lifecycle-phase-label">{phase.phase}</div>
+              <h3>{phase.title}</h3>
+              <ul>
+                {phase.items.map((item, j) => (
+                  <li key={j}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* What Students Do */}
       <section className="edu-section alt-bg">
         <h2>{t.hub.students.title}</h2>
