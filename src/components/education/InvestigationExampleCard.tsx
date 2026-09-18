@@ -20,7 +20,7 @@ export function InvestigationExampleCard({ example }: InvestigationExampleCardPr
       <div className="example-card-header">
         <div>
           <div className="example-card-meta">
-            <span className="badge level">
+            <span className={`badge level level-${example.level}`}>
               {locale === "ja" ? example.levelLabelJa : example.levelLabel}
             </span>
             <span className="badge period">

@@ -14,6 +14,9 @@
   --edu-card-hover: #fdfcfa;
   --edu-success: #2d6a4f;
   --edu-surface: #f5f2ed;
+  --edu-level-jhs: #b87333;
+  --edu-level-hs: #2c3e6b;
+  --edu-level-university: #6b5e4b;
 }
 
 * {
@@ -442,9 +445,22 @@ a:hover {
 }
 
 .badge.level {
-  background: var(--edu-navy);
   color: white;
-  border-color: var(--edu-navy);
+}
+
+.badge.level-jhs {
+  background: var(--edu-level-jhs);
+  border-color: var(--edu-level-jhs);
+}
+
+.badge.level-hs {
+  background: var(--edu-level-hs);
+  border-color: var(--edu-level-hs);
+}
+
+.badge.level-university {
+  background: var(--edu-level-university);
+  border-color: var(--edu-level-university);
 }
 
 .badge.period {
