@@ -18,9 +18,7 @@ export default function UniversityPage() {
   const t = locale === "ja" ? ja : en;
   const uni = t.university;
 
-  const uniExamples = investigationExamples.filter(
-    (e) => e.level === "university"
-  );
+  const uniExamples = investigationExamples;
 
   return (
     <div>

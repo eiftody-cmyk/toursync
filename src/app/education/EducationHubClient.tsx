@@ -175,7 +175,7 @@ export default function EducationHub() {
             : "These are examples, not fixed tours. Every investigation is adapted to your course, students, and learning objectives."}
         </p>
         <div className="example-cards">
-          {investigationExamples.map((example) => (
+          {investigationExamples.filter((e) => e.level !== "university").map((example) => (
             <InvestigationExampleCard key={example.id} example={example} />
           ))}
         </div>
