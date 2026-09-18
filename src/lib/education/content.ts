@@ -285,6 +285,7 @@ export const en = {
         "Reconstructing Ancient Naniwa — What can archaeology tell us when the documentary record is incomplete?",
         "Historical Memory and the Erasure of Osaka — How do victorious regimes reshape the physical and historical memory of defeated powers?",
         "The Landscape as Historical Evidence — What can physical geography reveal that written sources conceal?",
+        "Gender, Succession & the Imperial Court — How were female rulers constructed, remembered, and erased by the political record?",
       ],
     },
   },
