@@ -5,25 +5,25 @@ import { useState, useEffect, useCallback } from "react";
 const SITES = [
   {
     id: "hoenzaka" as const,
-    label: ["HOENZAKA", "WAREHOUSES"],
+    label: "HOENZAKA WAREHOUSES",
     image: "/Hoenzaka.webp",
     alt: "Historical reconstruction of Hoenzaka warehouses along the Yodo River in Osaka",
   },
   {
     id: "naniwa" as const,
-    label: ["NANIWA", "PALACE"],
+    label: "NANIWA PALACE",
     image: "/formerniwapalace.webp",
     alt: "Historical reconstruction of Naniwa Palace, the ancient imperial residence in Osaka",
   },
   {
     id: "ishiyama" as const,
-    label: ["ISHIYAMA", "HONGAN-JI"],
+    label: "ISHIYAMA HONGAN-JI",
     image: "/ishiyamahonganji.webp",
     alt: "Historical reconstruction of Ishiyama Hongan-ji, the great Buddhist fortress temple in Osaka",
   },
   {
     id: "toyotomi" as const,
-    label: ["TOYOTOMI", "PALACE"],
+    label: "TOYOTOMI PALACE",
     image: "/toyotomipalace.webp",
     alt: "Historical reconstruction of Toyotomi Palace within Osaka Castle",
   },
@@ -268,14 +268,9 @@ export default function LandscapePage() {
                 key={s.id}
                 className="landing-btn"
                 onClick={() => open(s.id)}
-                aria-label={`View ${s.label.join(" ")}`}
+                aria-label={`View ${s.label}`}
               >
-                {s.label.map((line, i) => (
-                  <span key={i}>
-                    {line}
-                    {i < s.label.length - 1 && <br />}
-                  </span>
-                ))}
+                {s.label}
               </button>
             ))}
           </div>
