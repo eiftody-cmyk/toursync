@@ -1404,6 +1404,103 @@ a:hover {
   }
 }
 
+/* ── AUTHORITY STRIP ── */
+.authority-strip {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.authority-badge {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  text-decoration: none;
+  background: linear-gradient(180deg, rgba(200, 169, 110, 0.08) 0%, rgba(200, 169, 110, 0.02) 100%);
+  border: 1px solid rgba(200, 169, 110, 0.4);
+  border-radius: 6px;
+  padding: 1.5rem 2rem;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.authority-badge:hover {
+  border-color: var(--edu-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(200, 169, 110, 0.15);
+}
+
+.authority-img {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.authority-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.authority-label {
+  font-family: "Cinzel", serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: var(--edu-gold);
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.authority-label em {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--edu-navy);
+  margin-top: 0.1rem;
+}
+
+.authority-note {
+  color: var(--edu-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 0.8rem;
+}
+
+.authority-cta {
+  color: var(--edu-gold);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  border: 1px solid var(--edu-gold);
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  transition: background 0.2s, color 0.2s;
+  align-self: flex-start;
+}
+
+.authority-badge:hover .authority-cta {
+  background: var(--edu-gold);
+  color: #0d0b07;
+}
+
+@media (max-width: 560px) {
+  .authority-badge {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.25rem;
+  }
+
+  .authority-img {
+    width: 100%;
+    height: 160px;
+  }
+
+  .authority-cta {
+    align-self: center;
+  }
+}
+
 /* ── INVESTIGATION MAP ── */
 .edu-map-section {
   text-align: center;

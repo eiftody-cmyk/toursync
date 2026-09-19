@@ -145,10 +145,6 @@ export const en = {
         "Osaka-based specialist",
         "Political history & historical geography",
       ],
-      publishedWork: {
-        label: "Featured in The Japan Times",
-        url: "https://www.japantimes.co.jp/commentary/2026/07/22/japan/japan-new-imperial-house-law/",
-      },
     },
     pricing: {
       title: "Pricing",

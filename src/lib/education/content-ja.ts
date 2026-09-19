@@ -144,10 +144,7 @@ export const ja = {
         "大阪在住の専門家",
         "政治史・歴史地理学",
       ],
-      publishedWork: {
-        label: "ジャパンタイムズ掲載",
-        url: "https://www.japantimes.co.jp/commentary/2026/07/22/japan/japan-new-imperial-house-law/",
-      },
+    },
     },
     pricing: {
       title: "料金",

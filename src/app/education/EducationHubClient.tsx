@@ -61,6 +61,31 @@ export default function EducationHub() {
         </div>
       </section>
 
+      {/* Authority Strip */}
+      <section className="authority-strip">
+        <a
+          className="authority-badge"
+          href="https://www.japantimes.co.jp/commentary/2026/07/22/japan/japan-new-imperial-house-law/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            className="authority-img"
+            src="/images/royal-family.webp"
+            alt="Edward Iftody's research"
+          />
+          <div className="authority-text">
+            <span className="authority-label">
+              As seen in <em>The Japan Times</em>
+            </span>
+            <span className="authority-note">
+              Edward Iftody&apos;s commentary on the new Imperial House law
+            </span>
+            <span className="authority-cta">Read the article →</span>
+          </div>
+        </a>
+      </section>
+
       {/* Problem */}
       <section className="edu-section alt-bg">
         <div className="edu-problem">
@@ -258,18 +283,6 @@ export default function EducationHub() {
                 </span>
               ))}
             </div>
-            {t.hub.about.publishedWork && (
-              <p style={{ marginTop: "1rem", fontSize: "0.95rem" }}>
-                <a
-                  href={t.hub.about.publishedWork.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "var(--edu-navy)", textDecoration: "underline" }}
-                >
-                  {t.hub.about.publishedWork.label} →
-                </a>
-              </p>
-            )}
           </div>
         </div>
       </section>
