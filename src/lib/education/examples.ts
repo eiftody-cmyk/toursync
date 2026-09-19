@@ -90,9 +90,9 @@ export const investigationExamples: InvestigationExample[] = [
     discoveryJa:
       "生徒は紛争中に宗教、地理、貿易、政治的権力がどのように相互作用したかを調査し、競合する説明を証拠に照らして検証する。",
     feedback:
-      "My students never knew Osaka's rivers were once a battlefield.",
+      "Osaka's rivers were once Japan's highways.",
     feedbackJa:
-      "生徒たちはかつて大坂の川が戦場だったことを知らなかった。",
+      "大坂の川はかつて日本のハイウェイだった。",
     relevantThemes: ["warrior-monks", "geography-power"],
     timelineSlugs: ["ishiyama-timeline"],
   },
