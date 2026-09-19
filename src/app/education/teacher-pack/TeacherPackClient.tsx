@@ -189,10 +189,14 @@ export default function TeacherPackPage() {
         </div>
         <p
           style={{
-            fontSize: "0.9rem",
-            color: "var(--edu-ink)",
-            lineHeight: 1.6,
+            fontSize: "1.05rem",
+            color: "var(--edu-navy)",
+            lineHeight: 1.7,
             marginTop: "1rem",
+            fontWeight: 600,
+            padding: "0.75rem 1rem",
+            borderLeft: "3px solid var(--edu-navy)",
+            background: "rgba(0,0,0,0.03)",
           }}
         >
           {locale === "ja"

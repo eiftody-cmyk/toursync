@@ -32,15 +32,15 @@ export const en = {
         },
         {
           q: "Why Osaka Castle specifically?",
-          a: "Because no other location in Japan contains four eras stacked on the same ground: 450 AD warehouse district, 645 AD Naniwa Palace, 1496–1580 Ishiyama Hongan-ji, 1583 Hideyoshi's castle, 1614–15 Siege of Osaka, and modern reconstruction + archaeology. Students literally stand on multiple layers of Japanese state formation, all in one walkable zone.",
+          a: "Because no other location in Japan contains four eras stacked on the same ground: 450 AD warehouse district, 645 AD Naniwa Palace, 1496–1580 Ishiyama Hongan-ji, 1583 Hideyoshi's castle, and 1620 Tokugawa reconstruction. Students literally stand on multiple layers of Japanese state formation, all in one walkable zone.",
         },
         {
           q: "What makes this different from a normal Osaka Castle tour?",
-          a: "A normal tour tells students what happened. A structured investigation asks students why it happened and how we know. They become archaeologists analyzing stone layers, historians comparing sources, and detectives reconstructing events. This is active learning, not passive listening.",
+          a: "A normal tour tells students what happened. A structured investigation asks students why it happened and how we know. They become archaeologists analyzing layered eras of time, historians comparing sources, and detectives reconstructing events. This is active learning, not passive listening.",
         },
         {
           q: "Why do students enjoy this more than textbook history?",
-          a: "Because they get to touch real stone walls, stand where armies fought, see where palaces once stood, and reconstruct events themselves. It's hands-on, place-based, and story-driven — the opposite of memorizing timelines.",
+          a: "Because they get to touch real stone walls, stand where armies fought, see where palaces once stood, and reconstruct events themselves. It's hands-on, place-based, interactive, and story-driven — the opposite of memorizing timelines. From Jōmon Osaka to the end of the Sengoku period, each investigation connects historical evidence and the physical landscape to your students\u2019 curriculum and learning objectives.",
         },
         {
           q: "What outcomes can teachers expect?",
@@ -95,14 +95,13 @@ export const en = {
       ],
       positioning:
         "From Jōmon Osaka to the end of the Sengoku period, each investigation connects historical evidence and the physical landscape to your students\u2019 curriculum and learning objectives.",
-      closing:
-        "History as a discipline. Not a guided tour.",
+      closing: "Not a field trip.",
     },
     companion: {
       title: "Digital Investigation Companion",
       subtitle: "Your investigation doesn't end at Osaka Castle.",
       body: "Every investigation includes access to a Digital Investigation Companion — a web-based educational resource designed for use before, during, and after the field visit.\n\nTeachers receive learning objectives, curriculum connections, historical background, vocabulary, and discussion prompts.\n\nStudents receive investigation guides, primary sources, evidence to examine, and post-visit activities.\n\nThe companion is designed to continue in the classroom.",
-      note: "Photography requires advance school consent.",
+      note: "Photography of students investigating requires advance school consent.",
     },
     programLifecycle: {
       title: "The Program",
@@ -478,10 +477,10 @@ export const en = {
     subject: {
       label: "What subject or course are your students studying?",
       placeholder:
-        "e.g., Japanese History — Sengoku period and unification",
+        "e.g., History — Sengoku period and unification",
     },
     angle: {
-      label: "What angle or question would you like students to investigate?",
+      label: "What angle or question(s) would you like students to investigate? (You can enter more than one)",
       placeholder:
         "e.g., How did Hideyoshi use Osaka Castle as a tool of political authority?",
     },
