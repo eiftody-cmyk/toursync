@@ -11,7 +11,7 @@ const INVESTIGATION_STOPS = [
     date: "c. 450 AD",
     lat: 34.68188,
     lng: 135.52021,
-    img: "ojinsuccession.webp",
+    img: "Hoenzaka.webp",
     teaser:
       "The Ōjin succession crisis triggers two generations of brother betraying brother ...",
     caption: "Prince Ōyamamori escaping across the Uji River, c. 410 AD",
@@ -23,7 +23,7 @@ const INVESTIGATION_STOPS = [
     date: "c. 645 AD",
     lat: 34.68012,
     lng: 135.52304,
-    img: "assassination.webp",
+    img: "formernaniwapalace.webp",
     teaser: "A betrayal paid back in full ...",
     caption:
       "The Soga Clan leader — assassinated by the son of the Empress Kōgyoku, c. 645",
@@ -35,7 +35,7 @@ const INVESTIGATION_STOPS = [
     date: "1496–1580",
     lat: 34.68457,
     lng: 135.52445,
-    img: "azaiclanbetrayal.webp",
+    img: "ishiyamahonganji.webp",
     teaser:
       "Oda Nobunaga is betrayed and nearly killed by his own brother-in-law, Lord Azai in 1564 ...",
     caption:
@@ -48,7 +48,7 @@ const INVESTIGATION_STOPS = [
     date: "1583",
     lat: 34.68766,
     lng: 135.52705,
-    img: "hideyoriyamazatomaru.webp",
+    img: "toyotomipalace.webp",
     teaser:
       "Lady Yodo spent her lifetime close to powerful men making promises they never intended to keep ...",
     caption:
