@@ -62,7 +62,7 @@ const INVESTIGATION_STOPS = [
     lng: 135.5255,
     img: "hideyoriyamazatomaru.webp",
     teaser:
-      "1615 summer siege — Yamazatomaru — Discover what really happened to Toyotomi Hideyori and his mother.",
+      "What really happened to Toyotomi Hideyori and his mother? Solve the mystery.",
     caption:
       "Historical reconstruction — Yamazatomaru, Osaka Castle, 1615",
   },
