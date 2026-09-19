@@ -17,7 +17,7 @@ export const en = {
     hero: {
       headline: "Osaka History Investigations\nHistory beyond the classroom",
       subtitle:
-        "Structured historical investigations at Osaka Castle — designed by a historian and experienced educator",
+        "Structured historical investigations at Osaka Castle — designed by a historian and experienced educator who lives beside Osaka Castle.",
       cta: "Request an Investigation",
       secondary: "See a Sample Lesson",
     },
