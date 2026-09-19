@@ -1407,7 +1407,7 @@ a:hover {
 /* ── AUTHORITY STRIP ── */
 .authority-strip {
   max-width: 900px;
-  margin: 0 auto;
+  margin: 2.5rem auto;
   padding: 0 1.5rem;
 }
 
