@@ -76,12 +76,14 @@ export default function EducationHub() {
           />
           <div className="authority-text">
             <span className="authority-label">
-              As seen in <em>The Japan Times</em>
+              {locale === "ja" ? "掲載" : "As seen in"} <em>The Japan Times</em>
             </span>
             <span className="authority-note">
-              Edward Iftody&apos;s commentary on the new Imperial House law
+              {locale === "ja"
+                ? "Edmund Iftodyの新皇室法に関する寄稿"
+                : "Edward Iftody&apos;s commentary on the new Imperial House law"}
             </span>
-            <span className="authority-cta">Read the article →</span>
+            <span className="authority-cta">{locale === "ja" ? "記事を読む →" : "Read the article →"}</span>
           </div>
         </a>
       </section>
