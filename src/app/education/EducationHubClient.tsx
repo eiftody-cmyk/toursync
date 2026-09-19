@@ -174,10 +174,13 @@ export default function EducationHub() {
           ))}
           <p
             style={{
-              fontSize: "0.85rem",
-              color: "var(--edu-muted)",
-              fontStyle: "italic",
+              fontSize: "1rem",
+              color: "var(--edu-navy)",
+              fontWeight: 600,
               marginTop: "1.5rem",
+              padding: "0.75rem 1rem",
+              borderLeft: "3px solid var(--edu-navy)",
+              background: "rgba(0,0,0,0.03)",
             }}
           >
             {t.hub.companion.note}

@@ -79,7 +79,7 @@ export const en = {
       title: "Digital Investigation Companion",
       subtitle: "Your investigation doesn't end at Osaka Castle.",
       body: "Every investigation includes access to a Digital Investigation Companion — a web-based educational resource designed for use before, during, and after the field visit.\n\nTeachers receive learning objectives, curriculum connections, historical background, vocabulary, and discussion prompts.\n\nStudents receive investigation guides, primary sources, evidence to examine, and post-visit activities.\n\nThe companion is designed to continue in the classroom.",
-      note: "Translated to Japanese. Photography requires advance school consent.",
+      note: "Photography requires advance school consent.",
     },
     programLifecycle: {
       title: "The Program",
