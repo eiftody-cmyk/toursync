@@ -145,7 +145,6 @@ export const ja = {
         "政治史・歴史地理学",
       ],
     },
-    },
     pricing: {
       title: "料金",
       subtitle: "1クラス1価格。生徒ごとの計算は不要。",
