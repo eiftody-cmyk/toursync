@@ -41,7 +41,7 @@ const INVESTIGATION_STOPS = [
 export function InvestigationMap() {
   const { locale } = useLocale();
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<unknown>(null);
+  const mapInstanceRef = useRef<{ remove(): void } | null>(null);
 
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
