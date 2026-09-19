@@ -147,6 +147,18 @@ export default function UniversityPage() {
         <h2>{t.hub.pricing.title}</h2>
         <p className="section-subtitle">{t.hub.pricing.subtitle}</p>
         <PricingTable />
+        <p
+          style={{
+            fontSize: "0.9rem",
+            color: "var(--edu-ink)",
+            lineHeight: 1.6,
+            marginTop: "1rem",
+          }}
+        >
+          {locale === "ja"
+            ? "フィールド探究の前後に生徒が必要なものすべてがオンラインで利用可能です。デジタルで回答することも、ウェブサイトから直接印刷して教室で使用することもできます。"
+            : "Everything your students need before and after the field investigation is available online. Activities can be completed digitally or printed directly from the website for classroom use."}
+        </p>
 
         <div
           style={{

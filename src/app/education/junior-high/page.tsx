@@ -121,12 +121,12 @@ const faqJsonLd = buildFaqJsonLd([
   {
     question: "Is preparation required for teachers?",
     answer:
-      "No advance preparation is required. All materials including coach briefing, student pre-reading, and vocabulary support are provided.",
+      "No advance preparation is required. All materials including teacher briefing, student pre-reading, and vocabulary support are provided.",
   },
   {
     question: "What does the price include?",
     answer:
-      "Coach briefing, student pre-reading, key vocabulary, learning objectives, field investigation at 2-3 historical sites, small-group inquiry, whole-class discussion, historian's evidence-based conclusion, and a digital Investigation Companion.",
+      "Teacher briefing, student pre-reading, key vocabulary, learning objectives, field investigation at 2-3 historical sites, small-group inquiry, whole-class discussion, historian's evidence-based conclusion, and a digital Investigation Companion.",
   },
 ]);
 

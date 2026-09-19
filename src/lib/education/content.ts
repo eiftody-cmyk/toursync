@@ -86,7 +86,7 @@ export const en = {
           phase: "Before",
           title: "Preparation",
           items: [
-            "Coach and teacher briefing",
+            "Teacher briefing",
             "Student pre-reading materials",
             "Key vocabulary and learning objectives",
             "Historical context for the field visit",
@@ -133,12 +133,12 @@ export const en = {
       title: "About Edward Iftody",
       paragraphs: [
         "Edward Iftody is a historian, educator, and course developer who has taught in Japan since 2009. Based one block from Osaka Castle, he specializes in Japanese political history and historical geography.",
-        "His investigations are designed from the beginning as educational experiences — not tours adapted for students. He combines historical research, teaching experience, and course development to turn Osaka's historical landscape into structured investigations. He understands both sides of the desk — what a coach needs to justify to an administrator, what makes a field trip stressful, and how to turn historical content into an actual lesson.",
+        "His investigations are designed from the beginning as educational experiences — not tours adapted for students. He combines historical research, teaching experience, and course development to turn Osaka's historical landscape into structured investigations. He understands both sides of the desk — what a teacher needs to justify to an administrator, what makes a field trip stressful, and how to turn historical content into an actual lesson.",
       ],
       credentials: [
         "Historian & researcher",
         "Educator & course developer",
-        "English coach since 2009",
+        "English teacher since 2009",
         "Osaka-based specialist",
         "Political history & historical geography",
       ],
@@ -373,7 +373,7 @@ export const en = {
     included: {
       title: "Every Field Lesson Can Include",
       items: [
-        "Coach briefing",
+        "Teacher briefing",
         "Customized learning objectives",
         "Student field workbook",
         "Socratic investigation questions",
@@ -383,7 +383,7 @@ export const en = {
         "Post-lesson questions",
         "Quiz or test questions",
         "Essay prompts",
-        "Answer key and coach notes",
+        "Answer key and teacher notes",
       ],
     },
     closing:
@@ -464,7 +464,7 @@ export const en = {
         { size: "Up to 40 students", price: "¥95,000" },
       ],
       includes: [
-        "Coach briefing",
+        "Teacher briefing",
         "Student pre-reading",
         "Key vocabulary",
         "Learning objective",
@@ -473,7 +473,7 @@ export const en = {
         "English/Japanese facilitation",
         "Whole-class discussion",
         "Historian's evidence-based conclusion",
-        "Post-visit coach materials",
+        "Post-visit teacher materials",
         "Digital Investigation Companion",
       ],
     },

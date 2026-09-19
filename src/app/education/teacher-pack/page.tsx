@@ -116,7 +116,7 @@ const faqJsonLd = buildFaqJsonLd([
   {
     question: "What is included in every field lesson?",
     answer:
-      "Coach briefing, customized learning objectives, student field workbook, Socratic investigation questions, source and evidence activities, vocabulary support, group discussion framework, post-lesson questions, quiz or test questions, essay prompts, and answer key with coach notes.",
+      "Teacher briefing, customized learning objectives, student field workbook, Socratic investigation questions, source and evidence activities, vocabulary support, group discussion framework, post-lesson questions, quiz or test questions, essay prompts, and answer key with teacher notes.",
   },
 ]);
 
@@ -131,7 +131,7 @@ const howToJsonLd = {
       "@type": "HowToStep",
       position: 1,
       name: "Before the Visit",
-      text: "Receive a coach briefing, student pre-reading materials, key vocabulary, and learning objectives tailored to your curriculum.",
+      text: "Receive a teacher briefing, student pre-reading materials, key vocabulary, and learning objectives tailored to your curriculum.",
     },
     {
       "@type": "HowToStep",
