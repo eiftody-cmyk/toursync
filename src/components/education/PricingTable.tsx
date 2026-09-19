@@ -17,7 +17,7 @@ export function PricingTable() {
           (product, i) => (
             <div
               key={i}
-              className={`pricing-card ${i === 0 ? "featured" : ""}`}
+              className="pricing-card featured"
             >
               <h3>{product.name}</h3>
               <div className="duration">{product.duration}</div>
