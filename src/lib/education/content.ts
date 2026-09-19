@@ -23,7 +23,30 @@ export const en = {
     },
     problem: {
       title: "The Opportunity",
-      body: "Imagine standing where Hideyoshi built Osaka Castle and asking your students:\n\n||If you were Hideyoshi, why would you choose to build such a large, powerful fortress needed here?||\n\nInstead of simply receiving the history, students examine the landscape, consider the evidence, debate the possibilities, and defend their own interpretation.\n\nThat is the difference between seeing history and investigating it.\n\nHistory becomes more memorable when students have to think like historians — where history happened.",
+      intro:
+        "Imagine standing where Hideyoshi built Osaka Castle and asking your students to think like historians.",
+      faq: [
+        {
+          q: "Why structured investigations?",
+          a: "Because students stop being spectators and start being investigators. A structured investigation gives them a problem, a mystery, or a contradiction to solve — exactly how archaeologists and historians work. This shifts the focus from memorizing dates to interpreting evidence, which is far more motivating for students who dislike rote learning.",
+        },
+        {
+          q: "Why Osaka Castle specifically?",
+          a: "Because no other location in Japan contains four eras stacked on the same ground: 450 AD warehouse district, 645 AD Naniwa Palace, 1496–1580 Ishiyama Hongan-ji, 1583 Hideyoshi's castle, 1614–15 Siege of Osaka, and modern reconstruction + archaeology. Students literally stand on multiple layers of Japanese state formation, all in one walkable zone.",
+        },
+        {
+          q: "What makes this different from a normal Osaka Castle tour?",
+          a: "A normal tour tells students what happened. A structured investigation asks students why it happened and how we know. They become archaeologists analyzing stone layers, historians comparing sources, and detectives reconstructing events. This is active learning, not passive listening.",
+        },
+        {
+          q: "Why do students enjoy this more than textbook history?",
+          a: "Because they get to touch real stone walls, stand where armies fought, see where palaces once stood, and reconstruct events themselves. It's hands-on, place-based, and story-driven — the opposite of memorizing timelines.",
+        },
+        {
+          q: "What outcomes can teachers expect?",
+          a: 'Teachers consistently report higher engagement, better retention, more confident English use, and stronger critical thinking — students who say "History finally makes sense."',
+        },
+      ],
     },
     method: {
       title: "Osaka History Investigations",
@@ -181,6 +204,20 @@ export const en = {
         "30-second group report-outs only",
       ],
     },
+    faq: [
+      {
+        q: "How does this benefit English-learning students?",
+        a: "Structured investigations require asking questions, making claims, supporting ideas with evidence, and explaining reasoning. These are core communicative skills, not grammar drills. Students speak English because they need it to solve the investigation, not because a teacher told them to.",
+      },
+      {
+        q: "Is this suitable for shy or low-confidence students?",
+        a: "Yes — structured inquiry reduces pressure. Students work in pairs or small groups, focusing on shared discovery, not performance. They don't need perfect English; they need curiosity.",
+      },
+      {
+        q: "Does this align with curriculum goals?",
+        a: "Yes — it directly supports JHS 「歴史的思考力」, HS inquiry-based learning + critical thinking, and university source evaluation, historiography, and argumentation. Teachers get a program that is curriculum-safe, assessment-friendly, and administratively easy.",
+      },
+    ],
   },
 
   highSchool: {
@@ -222,6 +259,20 @@ export const en = {
         "A-Level Historical Investigation component",
       ],
     },
+    faq: [
+      {
+        q: "How does this help students who hate memorizing dates?",
+        a: "Dates become tools, not tests. When students examine stone walls, palace foundations, or battlefield geography, dates suddenly matter because they explain change, cause, and consequence. Students remember dates naturally because they discovered why they mattered.",
+      },
+      {
+        q: "Does this align with curriculum goals?",
+        a: "Yes — it directly supports JHS 「歴史的思考力」, HS inquiry-based learning + critical thinking, and university source evaluation, historiography, and argumentation. Teachers get a program that is curriculum-safe, assessment-friendly, and administratively easy.",
+      },
+      {
+        q: "What about controversial topics like Hideyori and Yododono's deaths?",
+        a: "Students examine the official Tokugawa narrative, the modern historian consensus, and the survival conspiracy theory. They learn how historians judge credibility, bias, and evidence quality — a perfect critical-thinking exercise.",
+      },
+    ],
   },
 
   university: {
@@ -287,6 +338,16 @@ export const en = {
         "Gender, Succession & the Imperial Court — How were female rulers constructed, remembered, and erased by the political record?",
       ],
     },
+    faq: [
+      {
+        q: "What do students actually do during the investigation?",
+        a: "They perform three core historian tasks: observe physical evidence (stonework, elevation, defensive angles, reconstruction layers), interpret competing narratives (Tokugawa vs. Toyotomi vs. modern archaeology), and form a defensible conclusion — just like a real historian writing a paper. This transforms Osaka Castle from a sightseeing spot into a living research site.",
+      },
+      {
+        q: "What about controversial topics like Hideyori and Yododono's deaths?",
+        a: "Students examine the official Tokugawa narrative, the modern historian consensus, and the survival conspiracy theory. They learn how historians judge credibility, bias, and evidence quality — a perfect critical-thinking exercise.",
+      },
+    ],
   },
 
   teacherPack: {
@@ -385,6 +446,16 @@ export const en = {
         "Answer key and teacher notes",
       ],
     },
+    faq: [
+      {
+        q: "Does this align with curriculum goals?",
+        a: "Yes — it directly supports JHS 「歴史的思考力」, HS inquiry-based learning + critical thinking, and university source evaluation, historiography, and argumentation. Teachers get a program that is curriculum-safe, assessment-friendly, and administratively easy.",
+      },
+      {
+        q: "What outcomes can teachers expect?",
+        a: 'Teachers consistently report higher engagement, better retention, more confident English use, and stronger critical thinking — students who say "History finally makes sense."',
+      },
+    ],
     closing:
       "This is an example. Your lesson is built around your curriculum, your students and the question you want them to investigate.",
     logistics: {

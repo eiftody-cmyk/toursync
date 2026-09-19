@@ -92,21 +92,15 @@ export default function EducationHub() {
       <section className="edu-section alt-bg">
         <div className="edu-problem">
           <h3>{t.hub.problem.title}</h3>
-          {t.hub.problem.body.split("\n\n").map((p, i) => (
-            <p key={i} style={{ marginTop: i > 0 ? "0.75rem" : 0 }}>
-              {p.includes("||")
-                ? p.split(/(\|\|.*?\|\|)/).map((segment, j) =>
-                    segment.startsWith("||") && segment.endsWith("||") ? (
-                      <span key={j} className="edu-highlight-question">
-                        {segment.slice(2, -2)}
-                      </span>
-                    ) : (
-                      segment
-                    )
-                  )
-                : p}
-            </p>
-          ))}
+          <p className="edu-problem-intro">{t.hub.problem.intro}</p>
+          <div className="edu-faq">
+            {t.hub.problem.faq.map((item, i) => (
+              <div key={i} className="edu-faq-item">
+                <h4>{item.q}</h4>
+                <p>{item.a}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

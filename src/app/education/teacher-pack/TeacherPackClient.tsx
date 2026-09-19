@@ -201,6 +201,21 @@ export default function TeacherPackPage() {
         </p>
       </section>
 
+      {/* FAQ */}
+      <section className="edu-section alt-bg">
+        <h2>
+          {locale === "ja" ? "よくあるご質問" : "Frequently Asked Questions"}
+        </h2>
+        <div className="edu-faq">
+          {tp.faq.map((item, i) => (
+            <div key={i} className="edu-faq-item">
+              <h4>{item.q}</h4>
+              <p>{item.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Logistics */}
       <section className="edu-section">
         <h2>{tp.logistics.title}</h2>

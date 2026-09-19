@@ -1648,3 +1648,36 @@ a:hover {
     height: 140px;
   }
 }
+
+/* FAQ / Q&A format */
+.edu-problem-intro {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--edu-navy);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.edu-faq {
+  margin-top: 1.5rem;
+}
+
+.edu-faq-item {
+  margin-bottom: 1.75rem;
+}
+
+.edu-faq-item h4 {
+  font-family: "Cinzel", serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--edu-ink);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.edu-faq-item p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--edu-stone);
+  margin: 0;
+}

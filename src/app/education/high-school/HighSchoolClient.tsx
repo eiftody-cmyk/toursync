@@ -156,6 +156,21 @@ export default function HighSchoolPage() {
         </ul>
       </section>
 
+      {/* FAQ */}
+      <section className="edu-section">
+        <h2>
+          {locale === "ja" ? "よくあるご質問" : "Frequently Asked Questions"}
+        </h2>
+        <div className="edu-faq">
+          {hs.faq.map((item, i) => (
+            <div key={i} className="edu-faq-item">
+              <h4>{item.q}</h4>
+              <p>{item.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Curriculum Matrix */}
       <section className="edu-section">
         <h2>
