@@ -138,8 +138,8 @@ export function InvestigationMap() {
       <h2>{locale === "ja" ? "探究の候補地点" : "Possible Investigation Stops"}</h2>
       <p className="section-subtitle">
         {locale === "ja"
-          ? "訪問する地点は、選択する探究によって異なります。"
-          : "The sites we visit depend on the investigation you choose."}
+          ? "800メートル圏内の4つの主要な考古学的地点。"
+          : "Four major archaeological sites within 800 meters."}
       </p>
       <div className="edu-map-outer">
         <div id="edu-map" ref={mapRef} />
