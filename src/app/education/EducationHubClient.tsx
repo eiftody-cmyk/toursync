@@ -112,7 +112,18 @@ export default function EducationHub() {
       <section className="edu-section alt-bg">
         <h2>{t.hub.students.title}</h2>
         <p className="section-subtitle">{t.hub.students.subtitle}</p>
-        <ul style={{ listStyle: "none", maxWidth: 600, margin: "1.5rem 0" }}>
+        <p
+          style={{
+            fontSize: "1rem",
+            lineHeight: 1.7,
+            color: "var(--edu-ink)",
+            maxWidth: 600,
+            margin: "0 auto 1.5rem",
+          }}
+        >
+          {t.hub.students.positioning}
+        </p>
+        <ul style={{ listStyle: "none", maxWidth: 600, margin: "0 auto 1.5rem" }}>
           {t.hub.students.items.map((item, i) => (
             <li
               key={i}

@@ -61,14 +61,17 @@ export const en = {
     },
     students: {
       title: "What Students Actually Do",
-      subtitle: "Not what tourists do.",
+      subtitle: "Interactive history lessons conducted where history happened.",
       items: [
-        "Receive historical context and evidence from a historian",
-        "Break into small groups with a Socratic question",
-        "Investigate and formulate an argument",
-        "Present competing interpretations",
-        "Hear what the historical evidence actually reveals",
+        "Study the history of Osaka from the Jōmon era through the Sengoku period, using archaeological sites, historical landscapes, and primary sources.",
+        "Receive historical context and evidence from a historian and experienced educator.",
+        "Investigate historical questions in small groups and formulate their own arguments.",
+        "Compare competing interpretations and defend their conclusions.",
+        "Connect what they discover in the field to their school curriculum and classroom learning.",
+        "Continue learning before and after the visit through online materials that can also be printed for classroom use.",
       ],
+      positioning:
+        "From Jōmon Osaka to the end of the Sengoku period, each investigation connects historical evidence and the physical landscape to your students\u2019 curriculum and learning objectives.",
       closing:
         "History as a discipline. Not a guided tour.",
     },
