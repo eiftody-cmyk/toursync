@@ -24,27 +24,27 @@ export const en = {
     problem: {
       title: "The Opportunity",
       intro:
-        "Imagine standing where Hideyoshi built Osaka Castle and asking your students to think like historians.",
+        "Imagine standing where Hideyoshi built Osaka Castle and asking your students:\n\nWhy did Hideyoshi choose to build such a large and powerful fortress here?\n\nInstead of simply receiving the answer, students examine the landscape, consider the evidence, debate the possibilities, and defend their own interpretation.\n\nThat is the difference between seeing history and investigating it.",
       faq: [
         {
           q: "Why structured investigations?",
-          a: "Because students stop being spectators and start being investigators. A structured investigation gives them a problem, a mystery, or a contradiction to solve — exactly how archaeologists and historians work. This shifts the focus from memorizing dates to interpreting evidence, which is far more motivating for students who dislike rote learning.",
+          a: "Because students stop being spectators and start being investigators. A structured investigation gives students a problem, a mystery, or a contradiction to solve \u2014 much like the questions archaeologists and historians ask when reconstructing the past. The focus shifts from memorizing dates to interpreting evidence, weighing possibilities, and constructing an explanation.",
         },
         {
           q: "Why Osaka Castle specifically?",
-          a: "Because no other location in Japan contains four eras stacked on the same ground: 450 AD warehouse district, 645 AD Naniwa Palace, 1496–1580 Ishiyama Hongan-ji, 1583 Hideyoshi's castle, and 1620 Tokugawa reconstruction. Students literally stand on multiple layers of Japanese state formation, all in one walkable zone.",
+          a: "Because no other location in Japan brings so many layers of Japanese political history together in one walkable landscape. Students encounter the 450 AD H\u014Denzaka Warehouse District, 645 AD Naniwa Palace, 1496\u20131580 Ishiyama Hongan-ji, Hideyoshi\u2019s 1583 castle, and the 1620 Tokugawa reconstruction \u2014 literally standing on multiple layers of Japanese state formation.",
         },
         {
           q: "What makes this different from a normal Osaka Castle tour?",
-          a: "A normal tour tells students what happened. A structured investigation asks students why it happened and how we know. They become archaeologists analyzing layered eras of time, historians comparing sources, and detectives reconstructing events. This is active learning, not passive listening.",
+          a: "A normal tour tells students what happened. A structured investigation asks students why it happened \u2014 and how we know. They become archaeologists examining physical evidence, historians comparing sources, and investigators reconstructing events from incomplete evidence. This is active learning, not passive listening.",
         },
         {
-          q: "Why do students enjoy this more than textbook history?",
-          a: "Because they get to touch real stone walls, stand where armies fought, see where palaces once stood, and reconstruct events themselves. It's hands-on, place-based, interactive, and story-driven — the opposite of memorizing timelines. From Jōmon Osaka to the end of the Sengoku period, each investigation connects historical evidence and the physical landscape to your students\u2019 curriculum and learning objectives.",
+          q: "Why does this make history more memorable?",
+          a: "Because students get to touch real stone walls, stand where armies fought, see where palaces once stood, and reconstruct events themselves. It\u2019s hands-on, place-based, interactive, and story-driven \u2014 the opposite of memorizing timelines. From J\u014Dmon Osaka to the end of the Sengoku period, each investigation connects historical evidence and the physical landscape to your students\u2019 curriculum and learning objectives.",
         },
         {
-          q: "What outcomes can teachers expect?",
-          a: 'Teachers consistently report higher engagement, better retention, more confident English use, and stronger critical thinking — students who say "History finally makes sense."',
+          q: "What do students take away?",
+          a: "Students don\u2019t simply leave knowing more historical facts. They have practiced asking historical questions, evaluating evidence, comparing interpretations, and defending their own conclusions \u2014 skills they can carry back into the classroom.",
         },
       ],
     },

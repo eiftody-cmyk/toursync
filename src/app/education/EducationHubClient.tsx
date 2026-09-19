@@ -92,7 +92,11 @@ export default function EducationHub() {
       <section className="edu-section alt-bg">
         <div className="edu-problem">
           <h3>{t.hub.problem.title}</h3>
-          <p className="edu-problem-intro">{t.hub.problem.intro}</p>
+          {t.hub.problem.intro.split("\n\n").map((p, i) => (
+            <p key={i} className="edu-problem-intro" style={{ marginTop: i > 0 ? "0.75rem" : 0 }}>
+              {p}
+            </p>
+          ))}
           <div className="edu-faq">
             {t.hub.problem.faq.map((item, i) => (
               <div key={i} className="edu-faq-item">
