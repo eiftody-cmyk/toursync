@@ -80,8 +80,8 @@ export default function EducationHub() {
             </span>
             <span className="authority-note">
               {locale === "ja"
-                ? "イフトウ エドワード — 日本の皇室継承と伝統の発明"
-                : "Japan's imperial succession and the invention of tradition"}
+                ? "イフトウデイ　エドワード — 日本の皇室継承と伝統の発明"
+                : "Edward Iftody — Japan's imperial succession and the invention of tradition"}
             </span>
             <span className="authority-cta">{locale === "ja" ? "記事を読む →" : "Read the article →"}</span>
           </div>
