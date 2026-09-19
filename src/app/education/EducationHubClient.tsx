@@ -10,6 +10,7 @@ import { InvestigationExampleCard } from "@/components/education/InvestigationEx
 import { TimelineHooks } from "@/components/education/TimelineHooks";
 import { PricingTable } from "@/components/education/PricingTable";
 import { InquiryForm } from "@/components/education/InquiryForm";
+import { InvestigationMap } from "@/components/education/InvestigationMap";
 import { investigationExamples } from "@/lib/education/examples";
 import type { CurriculumLevel } from "@/lib/education/timeline-links";
 
@@ -147,6 +148,11 @@ export default function EducationHub() {
         >
           {t.hub.students.closing}
         </p>
+      </section>
+
+      {/* Investigation Map */}
+      <section className="edu-section">
+        <InvestigationMap />
       </section>
 
       {/* Post-Visit Companion */}

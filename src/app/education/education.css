@@ -1403,3 +1403,122 @@ a:hover {
     color: #666;
   }
 }
+
+/* ── INVESTIGATION MAP ── */
+.edu-map-section {
+  text-align: center;
+}
+
+.edu-map-outer {
+  position: relative;
+  border: 1px solid rgba(200, 169, 110, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+
+#edu-map {
+  width: 100%;
+  height: 480px;
+}
+
+.edu-map-section .leaflet-tile {
+  filter: brightness(0.55) sepia(0.4) hue-rotate(10deg) saturate(0.7);
+}
+
+/* Education map markers */
+.edu-map-section .cm-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.edu-map-section .cm-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+.edu-map-section .cm-pin.stop .cm-circle {
+  background: #c8a96e;
+  color: #0e0c09;
+}
+
+.edu-map-section .cm-tail {
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  margin-top: -1px;
+}
+
+.edu-map-section .cm-pin.stop .cm-tail {
+  border-top: 10px solid #c8a96e;
+}
+
+/* Education map popups */
+.edu-map-section .leaflet-popup-content-wrapper {
+  background: #12100d !important;
+  border: 1px solid #c8a96e !important;
+  border-radius: 3px !important;
+  padding: 0 !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8) !important;
+  overflow: hidden;
+}
+
+.edu-map-section .leaflet-popup-content {
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+.edu-map-section .leaflet-popup-tip-container {
+  display: none;
+}
+
+.edu-map-section .leaflet-popup-close-button {
+  color: #c8a96e !important;
+  font-size: 1.1rem !important;
+  top: 6px !important;
+  right: 8px !important;
+  z-index: 10;
+}
+
+.edu-map-section .lpop-body {
+  padding: 0.85rem 1rem 1rem;
+}
+
+.edu-map-section .lpop-date {
+  font-family: "Cinzel", serif;
+  font-size: 0.63rem;
+  letter-spacing: 0.28em;
+  color: #a07840;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.edu-map-section .lpop-name {
+  font-family: "Cinzel", serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f5efe3;
+  line-height: 1.3;
+}
+
+@media (max-width: 560px) {
+  #edu-map {
+    height: 400px;
+  }
+
+  .edu-map-section .leaflet-popup-content-wrapper {
+    width: 240px !important;
+  }
+}
