@@ -72,7 +72,7 @@ export default function EducationHub() {
           <img
             className="authority-img"
             src="/images/royal-family.webp"
-            alt="Edward Iftody's research"
+            alt="イフトウ エドワードの研究"
           />
           <div className="authority-text">
             <span className="authority-label">
@@ -80,8 +80,8 @@ export default function EducationHub() {
             </span>
             <span className="authority-note">
               {locale === "ja"
-                ? "Edmund Iftodyの新皇室法に関する寄稿"
-                : "Edward Iftody&apos;s commentary on the new Imperial House law"}
+                ? "イフトウ エドワード — 日本の皇室継承と伝統の発明"
+                : "Japan's imperial succession and the invention of tradition"}
             </span>
             <span className="authority-cta">{locale === "ja" ? "記事を読む →" : "Read the article →"}</span>
           </div>
