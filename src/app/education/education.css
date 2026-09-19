@@ -1496,6 +1496,13 @@ a:hover {
   padding: 0.85rem 1rem 1rem;
 }
 
+.edu-map-section .lpop-img {
+  width: 100%;
+  height: 175px;
+  object-fit: cover;
+  display: block;
+}
+
 .edu-map-section .lpop-date {
   font-family: "Cinzel", serif;
   font-size: 0.63rem;
@@ -1513,12 +1520,33 @@ a:hover {
   line-height: 1.3;
 }
 
+.edu-map-section .lpop-teaser {
+  font-size: 0.93rem;
+  font-style: italic;
+  font-weight: 300;
+  color: #c8bfa8;
+  line-height: 1.65;
+  margin-top: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.edu-map-section .lpop-caption {
+  font-size: 0.68rem;
+  font-style: italic;
+  color: #7a6240;
+  line-height: 1.4;
+}
+
 @media (max-width: 560px) {
   #edu-map {
     height: 400px;
   }
 
   .edu-map-section .leaflet-popup-content-wrapper {
-    width: 240px !important;
+    width: 280px !important;
+  }
+
+  .edu-map-section .lpop-img {
+    height: 140px;
   }
 }

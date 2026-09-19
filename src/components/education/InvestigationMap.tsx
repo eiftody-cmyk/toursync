@@ -11,6 +11,10 @@ const INVESTIGATION_STOPS = [
     date: "c. 450 AD",
     lat: 34.68188,
     lng: 135.52021,
+    img: "ojinsuccession.webp",
+    teaser:
+      "The Ōjin succession crisis triggers two generations of brother betraying brother ...",
+    caption: "Prince Ōyamamori escaping across the Uji River, c. 410 AD",
   },
   {
     label: "2",
@@ -19,6 +23,10 @@ const INVESTIGATION_STOPS = [
     date: "c. 645 AD",
     lat: 34.68012,
     lng: 135.52304,
+    img: "assassination.webp",
+    teaser: "A betrayal paid back in full ...",
+    caption:
+      "The Soga Clan leader — assassinated by the son of the Empress Kōgyoku, c. 645",
   },
   {
     label: "3",
@@ -27,6 +35,11 @@ const INVESTIGATION_STOPS = [
     date: "1496–1580",
     lat: 34.68457,
     lng: 135.52445,
+    img: "azaiclanbetrayal.webp",
+    teaser:
+      "Oda Nobunaga is betrayed and nearly killed by his own brother-in-law, Lord Azai in 1564 ...",
+    caption:
+      "Oda Nobunaga's army in a desperate retreat. The Azai Clan betray a blood oath to honor an ancestral pact. Omi Province — summer 1570.",
   },
   {
     label: "4",
@@ -35,6 +48,11 @@ const INVESTIGATION_STOPS = [
     date: "1583",
     lat: 34.68766,
     lng: 135.52705,
+    img: "hideyoriyamazatomaru.webp",
+    teaser:
+      "Lady Yodo spent her lifetime close to powerful men making promises they never intended to keep ...",
+    caption:
+      "Summer siege — 1615. Lady Yodo and Hideyori waiting for an answer that will never come.",
   },
 ];
 
@@ -90,11 +108,14 @@ export function InvestigationMap() {
         const marker = L.marker([stop.lat, stop.lng], { icon: makeIcon(stop.label) }).addTo(map);
         const name = locale === "ja" ? stop.nameJa : stop.name;
         marker.bindPopup(
-          `<div class="lpop-body">
-            <p class="lpop-date">${stop.date}</p>
-            <p class="lpop-name">${name}</p>
-          </div>`,
-          { maxWidth: 240, minWidth: 200, autoPan: true, closeButton: true }
+          `<img class="lpop-img" src="/${stop.img}" alt="${name}">
+           <div class="lpop-body">
+             <p class="lpop-date">${stop.date}</p>
+             <p class="lpop-name">${name}</p>
+             <p class="lpop-teaser">${stop.teaser}</p>
+             <p class="lpop-caption">${stop.caption}</p>
+           </div>`,
+          { maxWidth: 300, minWidth: 300, autoPan: true, closeButton: true }
         );
       });
 
