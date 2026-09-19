@@ -37,10 +37,19 @@ export function PricingTable() {
         )}
       </div>
 
-      {/* Customization note */}
-      <div className="pricing-custom-header">
-        <h3>{pricing.customHeader}</h3>
-        <p>{pricing.customSubtitle}</p>
+      {/* Customization section */}
+      <div className="pricing-custom-section">
+        <h3>{pricing.customProgram.title}</h3>
+        <p className="custom-intro">{pricing.customProgram.intro}</p>
+        <ul className="custom-examples">
+          {pricing.customProgram.examples.map((example, i) => (
+            <li key={i}>
+              <strong>{example.bold}</strong> {example.text}
+            </li>
+          ))}
+        </ul>
+        <p className="custom-cta">{pricing.customProgram.cta}</p>
+        <p className="custom-online-note">{pricing.customProgram.onlineNote}</p>
       </div>
     </div>
   );

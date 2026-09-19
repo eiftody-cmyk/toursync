@@ -522,7 +522,27 @@ export const en = {
         "Further investigation and extension resources",
       ],
     },
-    customHeader: "Need something tailored to your course?",
-    customSubtitle: "Every field investigation is connected to your course, students and learning objectives. For schools requiring substantial custom curriculum development or bespoke assessment materials, additional customization is available. Contact me to discuss your requirements.",
+    customProgram: {
+      title: "Need something tailored to your course?",
+      intro:
+        "Every field investigation is connected to your course, students, and learning objectives. If you have a particular historical theme, site, or wider study program in mind, we can develop a field experience around it.",
+      examples: [
+        {
+          bold: "The Tennoji Valley, Sanada-maru, Shitenno-ji, or Chausuyama",
+          text: "as part of a study of Osaka\u2019s military and religious landscape.",
+        },
+        {
+          bold: "Sakai\u2019s great kofun",
+          text: "while exploring the relationship between the early political centre at Naniwa and the emergence of powerful regional elites.",
+        },
+        {
+          bold: "Osaka, Nara, Kyoto, or Koyasan",
+          text: "as connected sites in a broader investigation of capitals, political power, religion, and historical memory.",
+        },
+      ],
+      cta: "You might even have a particular question or itinerary in mind that doesn\u2019t fit one of our standard investigations. Tell me what your students are studying and where you want to take them, and we\u2019ll explore what can be built around it.",
+      onlineNote:
+        "Everything your students need before and after the field investigation is available online. Activities can be completed digitally or printed directly from the website for classroom use.",
+    },
   },
 };
