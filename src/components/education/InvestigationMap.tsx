@@ -58,8 +58,8 @@ const INVESTIGATION_STOPS = [
     name: "Yamazatomaru",
     nameJa: "山崎丸",
     date: "1615",
-    lat: 34.6885,
-    lng: 135.5255,
+    lat: 34.688096,
+    lng: 135.526819,
     img: "hideyoriyamazatomaru.webp",
     teaser:
       "What really happened to Toyotomi Hideyori and his mother? Solve the mystery.",
