@@ -45,13 +45,26 @@ const INVESTIGATION_STOPS = [
     name: "Osaka Castle",
     nameJa: "大阪城",
     date: "1583",
-    lat: 34.68766,
-    lng: 135.52705,
+    lat: 34.6865,
+    lng: 135.5255,
     img: "toyotomipalace.webp",
     teaser:
       "Hideyoshi built the greatest castle Japan had ever seen — on the ashes of the fortress Nobunaga destroyed.",
     caption:
       "Historical reconstruction — Osaka Castle as Hideyoshi built it, 1583",
+  },
+  {
+    label: "5",
+    name: "Yamazatomaru",
+    nameJa: "山崎丸",
+    date: "1615",
+    lat: 34.6885,
+    lng: 135.5255,
+    img: "hideyoriyamazatomaru.webp",
+    teaser:
+      "1615 summer siege — Yamazatomaru — Discover what really happened to Toyotomi Hideyori and his mother.",
+    caption:
+      "Historical reconstruction — Yamazatomaru, Osaka Castle, 1615",
   },
 ];
 
@@ -120,7 +133,7 @@ export function InvestigationMap() {
 
       const bounds = L.latLngBounds(INVESTIGATION_STOPS.map((s) => [s.lat, s.lng]));
       const isMobile = window.innerWidth <= 560;
-      map.fitBounds(bounds, { padding: isMobile ? [20, 20] : [48, 48] });
+      map.fitBounds(bounds, { padding: isMobile ? [40, 40] : [80, 80] });
 
       mapInstanceRef.current = map;
     }
