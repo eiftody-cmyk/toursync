@@ -12,9 +12,8 @@ const INVESTIGATION_STOPS = [
     lat: 34.68188,
     lng: 135.52021,
     img: "Hoenzaka.webp",
-    teaser:
-      "The Ōjin succession crisis triggers two generations of brother betraying brother ...",
-    caption: "Prince Ōyamamori escaping across the Uji River, c. 410 AD",
+    teaser: "Sixteen government warehouses on this exact ground — before Kyoto, before Nara, before Japan had a name.",
+    caption: "AI historical reconstruction — Hoenzaka warehouse district, c. 450 AD",
   },
   {
     label: "2",
@@ -24,9 +23,9 @@ const INVESTIGATION_STOPS = [
     lat: 34.68012,
     lng: 135.52304,
     img: "formernaniwapalace.webp",
-    teaser: "A betrayal paid back in full ...",
+    teaser: "The Emperor moved here to rewrite the rules of power — the first palace built to centralize the state.",
     caption:
-      "The Soga Clan leader — assassinated by the son of the Empress Kōgyoku, c. 645",
+      "AI historical reconstruction — The Former Naniwa Palace at its height, c. 645 AD",
   },
   {
     label: "3",
@@ -37,9 +36,9 @@ const INVESTIGATION_STOPS = [
     lng: 135.52445,
     img: "ishiyamahonganji.webp",
     teaser:
-      "Oda Nobunaga is betrayed and nearly killed by his own brother-in-law, Lord Azai in 1564 ...",
+      "A warrior-monk fortress that held off Oda Nobunaga for ten years. The word 'Osaka' was born here. Then it burned.",
     caption:
-      "Oda Nobunaga's army in a desperate retreat. The Azai Clan betray a blood oath to honor an ancestral pact. Omi Province — summer 1570.",
+      "AI historical reconstruction — Ishiyama Hongan-ji fortress, c. 1570",
   },
   {
     label: "4",
@@ -50,9 +49,9 @@ const INVESTIGATION_STOPS = [
     lng: 135.52705,
     img: "toyotomipalace.webp",
     teaser:
-      "Lady Yodo spent her lifetime close to powerful men making promises they never intended to keep ...",
+      "Hideyoshi built the greatest castle Japan had ever seen — on the ashes of the fortress Nobunaga destroyed.",
     caption:
-      "Summer siege — 1615. Lady Yodo and Hideyori waiting for an answer that will never come.",
+      "Historical reconstruction — Osaka Castle as Hideyoshi built it, 1583",
   },
 ];
 
