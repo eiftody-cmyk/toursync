@@ -196,6 +196,61 @@ a:hover {
   font-size: 0.9rem;
 }
 
+/* Unavailable card */
+.booking-unavailable {
+  background: rgba(200, 169, 110, 0.08);
+  border: 1px solid rgba(200, 169, 110, 0.35);
+  border-left: 4px solid var(--gold);
+  border-radius: 6px;
+  padding: 1.25rem 1.5rem;
+  margin-top: 1rem;
+}
+
+.booking-unavailable h3 {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  margin-bottom: 0.5rem;
+}
+
+.booking-unavailable p {
+  font-size: 0.95rem;
+  color: var(--parchment-dim);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.booking-unavailable .unavailable-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.booking-unavailable .unavailable-actions button,
+.booking-unavailable .unavailable-actions a {
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.6rem 1.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.booking-unavailable .btn-try {
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+}
+
+.booking-unavailable .btn-home {
+  background: transparent;
+  color: var(--parchment-dim);
+  border: 1px solid var(--parchment-dim);
+}
+
 /* Info note */
 .booking-note {
   color: var(--parchment-dim);

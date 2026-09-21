@@ -177,7 +177,20 @@ export function CustomBookingClient({ tour, companyName, paypalClientId }: Custo
             Payment confirms your booking request, not your requested time. Your tour time will be confirmed by email.
           </p>
 
-          {error && <div className="booking-error">{error}</div>}
+          {error && (
+            <div className="booking-unavailable">
+              <h3>Date Not Available</h3>
+              <p>{error}</p>
+              <div className="unavailable-actions">
+                <button className="btn-try" onClick={() => { setError(null); document.getElementById("date")?.focus(); }}>
+                  Try Another Date
+                </button>
+                <Link href="https://osakacastletours.com/" className="btn-home">
+                  Back to Tours
+                </Link>
+              </div>
+            </div>
+          )}
 
           {date && time && guests >= 1 ? (
             <PayPalPayment

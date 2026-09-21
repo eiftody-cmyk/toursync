@@ -60,11 +60,11 @@ export async function POST(req: NextRequest) {
     const { allDayDates, manualRows, autoTimeSet } = clusterBlockRows(blockedRows);
 
     if (allDayDates.has(date)) {
-      return NextResponse.json({ error: "This date is not available" }, { status: 400 });
+      return NextResponse.json({ error: "Edward is not available on this date. Please choose another date." }, { status: 400 });
     }
 
     if (autoTimeSet.has(`${date}_${normalizeTime(start_time)}`)) {
-      return NextResponse.json({ error: "This time slot is not available" }, { status: 400 });
+      return NextResponse.json({ error: "This time slot is already fully booked. Please choose a different time." }, { status: 400 });
     }
 
     if (manualRows.length > 0) {
@@ -75,13 +75,13 @@ export async function POST(req: NextRequest) {
           .eq("tour_id", tour_id)
           .eq("is_active", true);
         if (manualBlockedForTour(manualRows, tour, date, schedules)) {
-          return NextResponse.json({ error: "This date is not available" }, { status: 400 });
+          return NextResponse.json({ error: "Edward is not available at this time. Please choose a different time or date." }, { status: 400 });
         }
         if (start_time && manualBlockCoversStart(manualRows, date, timeToMinutes(start_time))) {
-          return NextResponse.json({ error: "This time slot is not available" }, { status: 400 });
+          return NextResponse.json({ error: "Edward is not available at this time. Please choose a different time or date." }, { status: 400 });
         }
       } else if (manualBlockedForTour(manualRows, tour, date, [])) {
-        return NextResponse.json({ error: "This date is not available" }, { status: 400 });
+        return NextResponse.json({ error: "Edward is not available on this date. Please choose another date." }, { status: 400 });
       }
     }
   }
