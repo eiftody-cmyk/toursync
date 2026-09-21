@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import {
-  tourWindowSpansForDate,
   timeToMinutes,
   normalizeTime,
 } from "@/lib/schedules/blockOverlap";
@@ -23,7 +22,7 @@ export async function GET(req: NextRequest) {
   // Get tour details
   const { data: tour } = await supabase
     .from("tours")
-    .select("product_type, opening_hours, capacity")
+    .select("capacity")
     .eq("id", tour_id)
     .single();
 
@@ -38,15 +37,10 @@ export async function GET(req: NextRequest) {
     .eq("tour_id", tour_id)
     .eq("is_active", true);
 
-  // Get tour operating spans for this date
-  const spans = tourWindowSpansForDate(tour, date, schedules);
-  if (!spans || spans.length === 0) {
-    return NextResponse.json({
-      existing_tours: [],
-      available_windows: [],
-      suggested_times: [],
-    });
-  }
+  // Custom booking window: 9am–3pm for all tours
+  const CUSTOM_START = 9 * 60;   // 540 minutes
+  const CUSTOM_END = 15 * 60;    // 900 minutes
+  const BUFFER_MINUTES = 30;
 
   // Get all confirmed bookings for this date
   const { data: bookings } = await supabase
@@ -102,7 +96,7 @@ export async function GET(req: NextRequest) {
     const duration = schedule?.duration_minutes ?? 150;
     const bookingEnd = bookingStart + duration;
 
-    bookingWindows.push({ start: bookingStart, end: bookingEnd });
+    bookingWindows.push({ start: bookingStart, end: bookingEnd + BUFFER_MINUTES });
 
     const endTimeH = String(Math.floor(bookingEnd / 60)).padStart(2, "0");
     const endTimeM = String(bookingEnd % 60).padStart(2, "0");
@@ -116,48 +110,40 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  // Calculate available windows by subtracting booking windows from operating spans
+  // Calculate available windows by subtracting booking windows from the 9am-3pm range
   const availableWindows: Array<{ from: string; to: string }> = [];
 
-  for (const span of spans) {
-    let windows = [{ start: span.start, end: span.end }];
+  let windows = [{ start: CUSTOM_START, end: CUSTOM_END }];
 
-    for (const bw of bookingWindows) {
-      const newWindows: typeof windows = [];
-      for (const w of windows) {
-        if (bw.start <= w.start && bw.end >= w.end) {
-          // Booking covers entire window — remove it
-          continue;
-        } else if (bw.start > w.start && bw.start < w.end && bw.end >= w.end) {
-          // Booking covers end of window
-          newWindows.push({ start: w.start, end: bw.start });
-        } else if (bw.start <= w.start && bw.end > w.start && bw.end < w.end) {
-          // Booking covers start of window
-          newWindows.push({ start: bw.end, end: w.end });
-        } else if (bw.start > w.start && bw.end < w.end) {
-          // Booking is in the middle — split window
-          newWindows.push({ start: w.start, end: bw.start });
-          newWindows.push({ start: bw.end, end: w.end });
-        } else {
-          // No overlap
-          newWindows.push(w);
-        }
-      }
-      windows = newWindows;
-    }
-
+  for (const bw of bookingWindows) {
+    const newWindows: typeof windows = [];
     for (const w of windows) {
-      if (w.end - w.start >= 60) {
-        // Only include windows that are at least 60 minutes
-        availableWindows.push({
-          from: normalizeTime(
-            `${String(Math.floor(w.start / 60)).padStart(2, "0")}:${String(w.start % 60).padStart(2, "0")}`
-          ),
-          to: normalizeTime(
-            `${String(Math.floor(w.end / 60)).padStart(2, "0")}:${String(w.end % 60).padStart(2, "0")}`
-          ),
-        });
+      if (bw.start <= w.start && bw.end >= w.end) {
+        continue;
+      } else if (bw.start > w.start && bw.start < w.end && bw.end >= w.end) {
+        newWindows.push({ start: w.start, end: bw.start });
+      } else if (bw.start <= w.start && bw.end > w.start && bw.end < w.end) {
+        newWindows.push({ start: bw.end, end: w.end });
+      } else if (bw.start > w.start && bw.end < w.end) {
+        newWindows.push({ start: w.start, end: bw.start });
+        newWindows.push({ start: bw.end, end: w.end });
+      } else {
+        newWindows.push(w);
       }
+    }
+    windows = newWindows;
+  }
+
+  for (const w of windows) {
+    if (w.end - w.start >= 30) {
+      availableWindows.push({
+        from: normalizeTime(
+          `${String(Math.floor(w.start / 60)).padStart(2, "0")}:${String(w.start % 60).padStart(2, "0")}`
+        ),
+        to: normalizeTime(
+          `${String(Math.floor(w.end / 60)).padStart(2, "0")}:${String(w.end % 60).padStart(2, "0")}`
+        ),
+      });
     }
   }
 
