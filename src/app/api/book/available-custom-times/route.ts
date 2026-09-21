@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
   // Custom booking window: 9am–3pm for all tours
   const CUSTOM_START = 9 * 60;   // 540 minutes
   const CUSTOM_END = 15 * 60;    // 900 minutes
-  const CUSTOM_TOUR_DURATION = 180; // 3 hours (tour + 30-min buffer)
+  const CUSTOM_TOUR_DURATION = 165; // 150-min tour + 15-min safety margin
   const BUFFER_MINUTES = 30;
 
   // Get current time in JST
