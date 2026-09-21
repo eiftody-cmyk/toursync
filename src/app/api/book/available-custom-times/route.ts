@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
 
   const tourNameMap = new Map((tourDetails ?? []).map((t) => [t.id, t.name]));
 
-  // Calculate existing tour windows
+  // Calculate existing tour windows — group by tour_id + start_time
   const existingTours: Array<{
     tour_id: string;
     tour_name: string;
@@ -75,34 +75,45 @@ export async function GET(req: NextRequest) {
 
   const bookingWindows: Array<{ start: number; end: number }> = [];
 
+  // Group bookings by tour_id + start_time to avoid duplicates
+  const bookingGroups = new Map<string, { tour_id: string; start_time: string; total_guests: number }>();
+
   for (const booking of bookings ?? []) {
-    const bookingStart = timeToMinutes(booking.start_time);
-    let bookingEnd: number;
-
-    if (booking.end_time) {
-      bookingEnd = timeToMinutes(booking.end_time);
+    const key = `${booking.tour_id}_${normalizeTime(booking.start_time)}`;
+    const existing = bookingGroups.get(key);
+    if (existing) {
+      existing.total_guests += booking.guest_count ?? 0;
     } else {
-      // Try to find duration from schedules
-      const schedule = schedules?.find(
-        (s) => s.start_time && normalizeTime(s.start_time) === normalizeTime(booking.start_time)
-      );
-      const duration = schedule?.duration_minutes ?? 150;
-      bookingEnd = bookingStart + duration;
-    }
-
-    if (bookingStart < bookingEnd) {
-      bookingWindows.push({ start: bookingStart, end: bookingEnd });
-
-      existingTours.push({
+      bookingGroups.set(key, {
         tour_id: booking.tour_id,
-        tour_name: tourNameMap.get(booking.tour_id) ?? "Tour",
         start_time: normalizeTime(booking.start_time),
-        end_time: normalizeTime(
-          `${String(Math.floor(bookingEnd / 60)).padStart(2, "0")}:${String(bookingEnd % 60).padStart(2, "0")}`
-        ),
-        spots_left: tour.capacity - (booking.guest_count ?? 0),
+        total_guests: booking.guest_count ?? 0,
       });
     }
+  }
+
+  for (const group of bookingGroups.values()) {
+    const bookingStart = timeToMinutes(group.start_time);
+
+    // Find duration from schedules
+    const schedule = schedules?.find(
+      (s) => s.start_time && normalizeTime(s.start_time) === group.start_time
+    );
+    const duration = schedule?.duration_minutes ?? 150;
+    const bookingEnd = bookingStart + duration;
+
+    bookingWindows.push({ start: bookingStart, end: bookingEnd });
+
+    const endTimeH = String(Math.floor(bookingEnd / 60)).padStart(2, "0");
+    const endTimeM = String(bookingEnd % 60).padStart(2, "0");
+
+    existingTours.push({
+      tour_id: group.tour_id,
+      tour_name: tourNameMap.get(group.tour_id) ?? "Tour",
+      start_time: group.start_time,
+      end_time: `${endTimeH}:${endTimeM}`,
+      spots_left: tour.capacity - group.total_guests,
+    });
   }
 
   // Calculate available windows by subtracting booking windows from operating spans
