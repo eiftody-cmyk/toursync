@@ -50,7 +50,7 @@ function jstDayOfWeek(dateStr: string): number {
 export async function generateAvailableDates(
   supabase: SupabaseClient,
   tourId: string,
-  monthsAhead: number = 6
+  monthsAhead: number = 13
 ): Promise<DateAvailability> {
   const nowAbs = Date.now();
   const todayJst = jstDateStr(new Date(nowAbs));

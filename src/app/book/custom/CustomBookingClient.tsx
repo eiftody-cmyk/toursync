@@ -44,9 +44,9 @@ function tomorrow(): string {
   return `${y}-${m}-${day}`;
 }
 
-function threeMonthsOut(): string {
+function maxBookingDate(): string {
   const d = new Date();
-  d.setMonth(d.getMonth() + 3);
+  d.setDate(d.getDate() + 400);
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");
@@ -170,7 +170,7 @@ export function CustomBookingClient({ tour, companyName, paypalClientId }: Custo
               value={date}
               onChange={(e) => { setDate(e.target.value); setTime(""); setError(null); }}
               min={tomorrow()}
-              max={threeMonthsOut()}
+              max={maxBookingDate()}
               required
             />
           </div>
