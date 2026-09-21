@@ -251,6 +251,106 @@ a:hover {
   border: 1px solid var(--parchment-dim);
 }
 
+/* Conflict details in unavailable card */
+.conflict-details {
+  font-size: 0.85rem;
+  color: var(--parchment-dim);
+  font-style: italic;
+  padding: 0.5rem 0.75rem;
+  background: rgba(200, 169, 110, 0.05);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+/* Existing tour card on custom form */
+.existing-tours-section {
+  margin-bottom: 1rem;
+}
+
+.existing-tours-section > label {
+  display: block;
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--parchment-dim);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.existing-tour-card {
+  background: rgba(200, 169, 110, 0.06);
+  border: 1px solid rgba(200, 169, 110, 0.25);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.existing-tour-card .tour-time {
+  font-family: "Cinzel", serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gold-light);
+}
+
+.existing-tour-card .tour-name {
+  font-size: 0.85rem;
+  color: var(--parchment-dim);
+  margin: 0.25rem 0;
+}
+
+.existing-tour-card .spots-left {
+  font-size: 0.8rem;
+  color: var(--parchment-dim);
+  font-style: italic;
+}
+
+.join-tour-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-family: "Cinzel", serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.join-tour-link:hover {
+  color: var(--gold-light);
+  text-decoration: underline;
+}
+
+/* Available times grid */
+.available-times {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.available-times button {
+  font-family: "Cinzel", serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--gold-light);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.available-times button:hover {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.available-times button.selected {
+  background: var(--gold);
+  color: var(--ink);
+}
+
 /* Info note */
 .booking-note {
   color: var(--parchment-dim);

@@ -86,6 +86,72 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // Check existing bookings for time conflicts
+  const { data: existingBookings } = await supabase
+    .from("bookings")
+    .select("tour_id, start_time, end_time, guest_count")
+    .eq("date", date)
+    .eq("status", "confirmed");
+
+  if (existingBookings && existingBookings.length > 0) {
+    // Get schedules for duration calculation
+    const { data: schedules } = await supabase
+      .from("tour_schedules")
+      .select("day_of_week, start_time, duration_minutes, start_date, end_date, is_active")
+      .eq("tour_id", tour_id)
+      .eq("is_active", true);
+
+    const requestedStart = timeToMinutes(start_time);
+
+    for (const booking of existingBookings) {
+      const bookingStart = timeToMinutes(booking.start_time);
+      let bookingEnd: number;
+
+      if (booking.end_time) {
+        bookingEnd = timeToMinutes(booking.end_time);
+      } else {
+        const schedule = schedules?.find(
+          (s) => s.start_time && normalizeTime(s.start_time) === normalizeTime(booking.start_time)
+        );
+        const duration = schedule?.duration_minutes ?? 150;
+        bookingEnd = bookingStart + duration;
+      }
+
+      // Check if requested time falls within the booking window
+      if (requestedStart >= bookingStart && requestedStart < bookingEnd) {
+        const nextAvailable = bookingEnd;
+        const nextH = String(Math.floor(nextAvailable / 60)).padStart(2, "0");
+        const nextM = String(nextAvailable % 60).padStart(2, "0");
+        const nextTime = `${nextH}:${nextM}`;
+
+        // Get the conflicting tour name
+        const { data: conflictTour } = await supabase
+          .from("tours")
+          .select("name")
+          .eq("id", booking.tour_id)
+          .single();
+
+        const endTimeH = String(Math.floor(bookingEnd / 60)).padStart(2, "0");
+        const endTimeM = String(bookingEnd % 60).padStart(2, "0");
+
+        return NextResponse.json(
+          {
+            error: "unavailable",
+            message: `Edward has a tour at ${normalizeTime(booking.start_time)} (until ${endTimeH}:${endTimeM}). The next available time is ${nextTime}.`,
+            conflict: {
+              tour_name: conflictTour?.name ?? "Tour",
+              start_time: normalizeTime(booking.start_time),
+              end_time: `${endTimeH}:${endTimeM}`,
+            },
+            next_available: nextTime,
+            existing_tour_id: booking.tour_id,
+          },
+          { status: 400 }
+        );
+      }
+    }
+  }
+
   // Encode custom_id: tour_id|date|start_time|guest_count|custom=true|customer_phone
   // Name/email come from PayPal payer object — no need to encode
   const customId = [

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { PayPalPayment } from "@/components/PayPalPayment";
@@ -11,6 +11,28 @@ interface CustomBookingClientProps {
   tour: Tour;
   companyName: string | null;
   paypalClientId: string;
+}
+
+interface ExistingTour {
+  tour_id: string;
+  tour_name: string;
+  start_time: string;
+  end_time: string;
+  spots_left: number;
+}
+
+interface Availability {
+  existing_tours: ExistingTour[];
+  available_windows: Array<{ from: string; to: string }>;
+  suggested_times: string[];
+}
+
+interface ConflictError {
+  error: string;
+  message: string;
+  conflict?: { tour_name: string; start_time: string; end_time: string };
+  next_available?: string;
+  existing_tour_id?: string;
 }
 
 function tomorrow(): string {
@@ -50,8 +72,33 @@ export function CustomBookingClient({ tour, companyName, paypalClientId }: Custo
   const [time, setTime] = useState("");
   const [guestCount, setGuestCount] = useState("2");
   const [phone, setPhone] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | ConflictError | null>(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [availability, setAvailability] = useState<Availability | null>(null);
+  const [loadingAvailability, setLoadingAvailability] = useState(false);
+
+  const fetchAvailability = useCallback(async (selectedDate: string) => {
+    if (!selectedDate) {
+      setAvailability(null);
+      return;
+    }
+    setLoadingAvailability(true);
+    try {
+      const res = await fetch(
+        `/api/book/available-custom-times?tour_id=${tour.id}&date=${selectedDate}`
+      );
+      const data = await res.json();
+      setAvailability(data);
+    } catch {
+      setAvailability(null);
+    } finally {
+      setLoadingAvailability(false);
+    }
+  }, [tour.id]);
+
+  useEffect(() => {
+    fetchAvailability(date);
+  }, [date, fetchAvailability]);
 
   const currencySymbol = tour.currency === "JPY" ? "¥" : tour.currency + " ";
   const pricePerGuest = tour.price ?? 0;
@@ -121,27 +168,75 @@ export function CustomBookingClient({ tour, companyName, paypalClientId }: Custo
               type="date"
               id="date"
               value={date}
-              onChange={(e) => setDate(e.target.value)}
+              onChange={(e) => { setDate(e.target.value); setTime(""); setError(null); }}
               min={tomorrow()}
               max={threeMonthsOut()}
               required
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="time">Preferred Time *</label>
-            <select
-              id="time"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              required
-            >
-              <option value="">Select a time</option>
-              {TIME_OPTIONS.map((t) => (
-                <option key={t} value={t}>{t}</option>
+          {loadingAvailability && (
+            <p style={{ color: "var(--parchment-dim)", fontSize: "0.85rem", fontStyle: "italic" }}>
+              Checking availability...
+            </p>
+          )}
+
+          {availability && !loadingAvailability && availability.existing_tours.length > 0 && (
+            <div className="existing-tours-section">
+              <label>Edward has a tour on this date:</label>
+              {availability.existing_tours.map((t, i) => (
+                <div key={i} className="existing-tour-card">
+                  <div className="tour-time">{t.start_time} — {t.end_time}</div>
+                  <div className="tour-name">{t.tour_name}</div>
+                  <div className="spots-left">{t.spots_left} spot{t.spots_left !== 1 ? "s" : ""} left</div>
+                  <a href={`/book?tour=${t.tour_id}`} className="join-tour-link">
+                    Join this tour →
+                  </a>
+                </div>
               ))}
-            </select>
-          </div>
+            </div>
+          )}
+
+          {availability && !loadingAvailability && availability.suggested_times.length > 0 && (
+            <div className="form-group">
+              <label>Available Custom Times *</label>
+              <div className="available-times">
+                {availability.suggested_times.map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    className={time === t ? "selected" : ""}
+                    onClick={() => { setTime(t); setError(null); }}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {availability && !loadingAvailability && availability.suggested_times.length === 0 && availability.existing_tours.length === 0 && (
+            <p style={{ color: "var(--parchment-dim)", fontSize: "0.85rem", fontStyle: "italic" }}>
+              No available custom times on this date. Try another date.
+            </p>
+          )}
+
+          {!date && !loadingAvailability && (
+            <div className="form-group">
+              <label htmlFor="time">Preferred Time *</label>
+              <select
+                id="time"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+                required
+              >
+                <option value="">Select a time</option>
+                {TIME_OPTIONS.map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <div className="form-group">
             <label htmlFor="guests">Number of Guests *</label>
@@ -180,14 +275,29 @@ export function CustomBookingClient({ tour, companyName, paypalClientId }: Custo
           {error && (
             <div className="booking-unavailable">
               <h3>Date Not Available</h3>
-              <p>{error}</p>
+              <p>{typeof error === "string" ? error : error.message}</p>
+              {typeof error === "object" && error.conflict && (
+                <div className="conflict-details">
+                  Conflicting tour: {error.conflict.tour_name} ({error.conflict.start_time}–{error.conflict.end_time})
+                </div>
+              )}
               <div className="unavailable-actions">
+                {typeof error === "object" && error.next_available && (
+                  <button
+                    className="btn-try"
+                    onClick={() => { setTime(error.next_available!); setError(null); }}
+                  >
+                    Pick {error.next_available}
+                  </button>
+                )}
+                {typeof error === "object" && error.existing_tour_id && (
+                  <a href={`/book?tour=${error.existing_tour_id}`} className="btn-home">
+                    Join Existing Tour
+                  </a>
+                )}
                 <button className="btn-try" onClick={() => { setError(null); document.getElementById("date")?.focus(); }}>
                   Try Another Date
                 </button>
-                <Link href="https://osakacastletours.com/" className="btn-home">
-                  Back to Tours
-                </Link>
               </div>
             </div>
           )}
