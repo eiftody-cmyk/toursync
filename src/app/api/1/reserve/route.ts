@@ -182,17 +182,6 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
   if (isGroup) {
     for (const item of requestData.bookingItems) {
       if (item.category === "GROUP" && item.groupSize) {
-        if (item.groupSize < tour.group_size_min) {
-          return gygJson(
-            {
-              errorCode: "INVALID_PARTICIPANTS_CONFIGURATION",
-              errorMessage: `Group size ${item.groupSize} is below minimum ${tour.group_size_min}`,
-              participantsConfiguration: { min: tour.group_size_min, max: tour.group_size_max },
-              groupConfiguration: { max: Math.floor(tour.capacity / tour.group_size_min) },
-            },
-            { status: 200 }
-          );
-        }
         if (item.groupSize > tour.group_size_max) {
           return gygJson(
             {
