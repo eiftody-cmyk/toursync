@@ -161,9 +161,18 @@ export async function GET(req: NextRequest) {
     }
   }
 
+  // Filter out past times for today (JST)
+  const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
+  const nowJst = new Date(Date.now() + JST_OFFSET_MS);
+  const todayJst = nowJst.toISOString().slice(0, 10);
+  const nowMinutes = nowJst.getUTCHours() * 60 + nowJst.getUTCMinutes();
+  const filteredTimes = date === todayJst
+    ? suggestedTimes.filter((t) => timeToMinutes(t) > nowMinutes)
+    : suggestedTimes;
+
   return NextResponse.json({
     existing_tours: existingTours,
     available_windows: availableWindows,
-    suggested_times: suggestedTimes,
+    suggested_times: filteredTimes,
   });
 }
