@@ -224,6 +224,14 @@ export async function generateAvailableDates(
     fullDates.push(dateStr);
   }
 
+  // Hide today from the calendar once all its slots have passed the cutoff
+  if (allScheduledDates.has(todayJst) && !available.some((a) => a.date === todayJst)) {
+    const fullIdx = fullDates.indexOf(todayJst);
+    if (fullIdx !== -1) fullDates.splice(fullIdx, 1);
+    const blockedIdx = blockedDates.indexOf(todayJst);
+    if (blockedIdx !== -1) blockedDates.splice(blockedIdx, 1);
+  }
+
   // Merge all-day blocked dates (including weekdays without a schedule)
   for (const dateStr of allDayBlockedDatesInRange) {
     if (!blockedDates.includes(dateStr)) blockedDates.push(dateStr);
