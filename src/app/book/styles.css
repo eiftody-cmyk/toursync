@@ -8,6 +8,16 @@
   --parchment: #f5efe3;
   --parchment-dim: #c8bfa8;
   --stone: #1a1510;
+
+  /* shadcn theme vars for Calendar component */
+  --background: #1a1510;
+  --foreground: #f5efe3;
+  --primary: #c8a96e;
+  --primary-foreground: #0e0c09;
+  --muted: #1a1510;
+  --muted-foreground: #c8bfa8;
+  --border: rgba(200, 169, 110, 0.3);
+  --radius: 4px;
 }
 
 * {
