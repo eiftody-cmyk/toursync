@@ -40,6 +40,7 @@ export async function GET(req: NextRequest) {
   // Custom booking window: 9am–3pm for all tours
   const CUSTOM_START = 9 * 60;   // 540 minutes
   const CUSTOM_END = 15 * 60;    // 900 minutes
+  const CUSTOM_TOUR_DURATION = 150; // 2.5 hours
   const BUFFER_MINUTES = 30;
 
   // Get all confirmed bookings for this date
@@ -96,7 +97,7 @@ export async function GET(req: NextRequest) {
     const duration = schedule?.duration_minutes ?? 150;
     const bookingEnd = bookingStart + duration;
 
-    bookingWindows.push({ start: bookingStart, end: bookingEnd + BUFFER_MINUTES });
+    bookingWindows.push({ start: bookingStart - CUSTOM_TOUR_DURATION, end: bookingEnd + BUFFER_MINUTES });
 
     const endTimeH = String(Math.floor(bookingEnd / 60)).padStart(2, "0");
     const endTimeM = String(bookingEnd % 60).padStart(2, "0");
