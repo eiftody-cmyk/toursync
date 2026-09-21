@@ -171,7 +171,16 @@ export function CustomBookingClient({ tour, companyName, paypalClientId }: Custo
                 setTime("");
                 setError(null);
               }}
-              disabled={(d) => d < new Date(new Date().toDateString()) || d > new Date(maxBookingDate() + "T00:00:00")}
+              disabled={(d) => {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const isPast = d < today;
+                const isMax = d > new Date(maxBookingDate() + "T00:00:00");
+                // Disable today if past 3 PM JST (end of custom booking window)
+                const jstNow = new Date(Date.now() + 9 * 60 * 60 * 1000);
+                const isTodayPastCutoff = d.getTime() === today.getTime() && jstNow.getUTCHours() >= 15;
+                return isPast || isMax || isTodayPastCutoff;
+              }}
               captionLayout="dropdown"
               startMonth={new Date()}
               endMonth={(() => { const d = new Date(); d.setDate(d.getDate() + 400); return d; })()}

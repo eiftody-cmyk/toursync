@@ -43,6 +43,12 @@ export async function GET(req: NextRequest) {
   const CUSTOM_TOUR_DURATION = 150; // 2.5 hours
   const BUFFER_MINUTES = 30;
 
+  // Get current time in JST
+  const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
+  const nowJst = new Date(Date.now() + JST_OFFSET_MS);
+  const todayJst = nowJst.toISOString().slice(0, 10);
+  const nowMinutes = nowJst.getUTCHours() * 60 + nowJst.getUTCMinutes();
+
   // Get all confirmed bookings for this date
   const { data: bookings } = await supabase
     .from("bookings")
@@ -84,6 +90,20 @@ export async function GET(req: NextRequest) {
         start_time: normalizeTime(booking.start_time),
         total_guests: booking.guest_count ?? 0,
       });
+    }
+  }
+
+  // For today, filter out tours that have already ended
+  if (date === todayJst) {
+    for (const [key, group] of bookingGroups) {
+      const schedule = schedules?.find(
+        (s) => s.start_time && normalizeTime(s.start_time) === group.start_time
+      );
+      const duration = schedule?.duration_minutes ?? 150;
+      const endMinutes = timeToMinutes(group.start_time) + duration;
+      if (endMinutes <= nowMinutes) {
+        bookingGroups.delete(key);
+      }
     }
   }
 
@@ -162,10 +182,6 @@ export async function GET(req: NextRequest) {
   }
 
   // Filter out past times for today (JST)
-  const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
-  const nowJst = new Date(Date.now() + JST_OFFSET_MS);
-  const todayJst = nowJst.toISOString().slice(0, 10);
-  const nowMinutes = nowJst.getUTCHours() * 60 + nowJst.getUTCMinutes();
   const filteredTimes = date === todayJst
     ? suggestedTimes.filter((t) => timeToMinutes(t) > nowMinutes)
     : suggestedTimes;
