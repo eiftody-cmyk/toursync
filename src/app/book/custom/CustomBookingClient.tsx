@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { PayPalPayment } from "@/components/PayPalPayment";
+import { Calendar } from "@/components/ui/calendar";
 import type { Tour } from "@/types";
 import "../styles.css";
 
@@ -33,15 +34,6 @@ interface ConflictError {
   conflict?: { tour_name: string; start_time: string; end_time: string };
   next_available?: string;
   existing_tour_id?: string;
-}
-
-function tomorrow(): string {
-  const d = new Date();
-  d.setDate(d.getDate() + 1);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
 }
 
 function maxBookingDate(): string {
@@ -163,15 +155,26 @@ export function CustomBookingClient({ tour, companyName, paypalClientId }: Custo
           </div>
 
           <div className="form-group">
-            <label htmlFor="date">Preferred Date *</label>
-            <input
-              type="date"
-              id="date"
-              value={date}
-              onChange={(e) => { setDate(e.target.value); setTime(""); setError(null); }}
-              min={tomorrow()}
-              max={maxBookingDate()}
-              required
+            <label>Preferred Date *</label>
+            <Calendar
+              mode="single"
+              selected={date ? new Date(date + "T00:00:00") : undefined}
+              onSelect={(day) => {
+                if (day) {
+                  const y = day.getFullYear();
+                  const m = String(day.getMonth() + 1).padStart(2, "0");
+                  const d = String(day.getDate()).padStart(2, "0");
+                  setDate(`${y}-${m}-${d}`);
+                } else {
+                  setDate("");
+                }
+                setTime("");
+                setError(null);
+              }}
+              disabled={(d) => d < new Date(new Date().toDateString()) || d > new Date(maxBookingDate() + "T00:00:00")}
+              captionLayout="dropdown"
+              startMonth={new Date()}
+              endMonth={(() => { const d = new Date(); d.setDate(d.getDate() + 400); return d; })()}
             />
           </div>
 
