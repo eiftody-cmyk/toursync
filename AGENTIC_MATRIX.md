@@ -179,6 +179,45 @@ and never as an education page. First meaningful comparison will be the 2-week c
 spot-check; weekly proxy runs confirm the retrieval layer hasn't shifted. Watch for ANY
 change in E4–E7 and E9–E10 (EN education) first, then J1–J25.
 
+## Round 2 — 2026-09-22 (weekly #2, web-search proxy)
+
+Full 35-query re-run, same day as Round 1 (confirmation pass). **Result: 0/35
+education-page HITs** (JA 0/25, EN 0/10). JA dominant-source mix is stable; the notable
+movement is on the EN side.
+
+JA: unchanged from Round 1 for J1–J10, J13–J24 (same authorities: Osaka Univ / mo
+県reference / 大阪城天守閣 / 文化庁 / 奈文研 etc.). Drift only on:
+| # | Lang | Dominant interpretation | Mentioned | Cited URL | Notes |
+|---|---|---|---|---|---|
+| J11 | JA | T / N (off-topic drift) | N | — | japan.travel, fudan.edu.cn, wikipedia — was school/curriculum in R1 |
+| J12 | JA | M / heritage authority | N | — | naniwanomiya.jp, bunka.go.jp, takenouchikaidou.com — was Osaka Univ academic in R1 |
+| J25 | JA | M / heritage (HRP angle) | N | — | hrp.org.uk, takenouchikaidou.com, bunka.go.jp — was osakamushis/naniwanomiya in R1 |
+
+EN — all 10 rows, re-run live:
+| # | Lang | Dominant interpretation | Mentioned | Cited URL | Notes |
+|---|---|---|---|---|---|
+| E1 | EN | T — **SITE not visible** | N | — | airbnb.com, lokalee.app, guruwalk.com — was homepage ~#3 in R1 |
+| E2 | EN | T — **SITE not visible** | N | — | airbnb.com, contexttravel.com, tomogo-travel.com — was homepage ~#4 in R1 |
+| E3 | EN | T — **SITE not visible** | N | — | airbnb.com, linktr.ee, klook.com — was homepage ~#2 + GYG in R1 |
+| E4 | EN | S / M | N | — | kaijo.ed.jp, kindai-sensyu.ed.jp, osakacastle.net |
+| E5 | EN | S / U | N | — | tennoji-hs.jp, osaka-c.ed.jp, jstage.jst.go.jp |
+| E6 | EN | M | N | — | naniwanomiya.jp, osakahaku.ocm.osaka, osaka-info.jp |
+| E7 | EN | S / resource platform | N | — | osaka-info.jp, lessonplanet.com, doi.org |
+| E8 | EN | T — **SITE not visible** | N | — | airbnb.com, projectexpedition.com, lokalee.app — was homepage #1 in R1 |
+| E9 | EN | U / M | N | — | kanazawa-u.ac.jp, lit.omu.ac.jp, osakacastle.net |
+| E10 | EN | S / U | N | — | kuas.ac.jp, osakagakugei.ac.jp, kihs.jp |
+
+**Round 2 read:** STILL 0 education hits — no defect, freeze continues. Two honest
+observations, both on the EN side: (1) token-level site visibility on tour queries
+(E1/E2/E3/E8) dropped out this run — results are now booking-platform fronts (airbnb,
+lokalee, klook); Edward still surfaces indirectly through those platforms and his linktree.
+Same-day variance in this search layer is real, so treat as a flag to watch next round, not
+a verdict. (2) EN education-intent queries (E4/E5/E7/E10) now lean toward actual school
+programs (Kaijo, Tennoji HS, KUAS, Eiken Prefectural) instead of just museum authorities —
+closer to the education-intent audience, still no site presence. JA drift (J11/J12/J25) is
+keyword-query noise toward general tourism/heritage. No content lever indicated; next
+milestone is the 2-week chat-model spot-check (R1–R5).
+
 ## P4 regression probes (representative subset for quick re-checks)
 
 Run these at each round for a fast signal; full matrix for depth.
