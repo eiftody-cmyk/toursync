@@ -11,6 +11,7 @@ import { TimelineHooks } from "@/components/education/TimelineHooks";
 import { PricingTable } from "@/components/education/PricingTable";
 import { InquiryForm } from "@/components/education/InquiryForm";
 import { InvestigationMap } from "@/components/education/InvestigationMap";
+import { InvestigationLayers } from "@/components/education/InvestigationLayers";
 import { investigationExamples } from "@/lib/education/examples";
 import type { CurriculumLevel } from "@/lib/education/timeline-links";
 
@@ -179,6 +180,9 @@ export default function EducationHub() {
       <section className="edu-section">
         <InvestigationMap />
       </section>
+
+      {/* Investigation Layers */}
+      <InvestigationLayers />
 
       {/* Post-Visit Companion */}
       <section className="edu-section">

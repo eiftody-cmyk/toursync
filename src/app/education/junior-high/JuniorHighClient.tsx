@@ -8,6 +8,7 @@ import { SocraticMethodDiagram } from "@/components/education/SocraticMethodDiag
 import { InvestigationExampleCard } from "@/components/education/InvestigationExampleCard";
 import { CurriculumMatrix } from "@/components/education/CurriculumMatrix";
 import { TimelineHooks } from "@/components/education/TimelineHooks";
+import { InvestigationLayers } from "@/components/education/InvestigationLayers";
 import { PricingTable } from "@/components/education/PricingTable";
 import { InquiryForm } from "@/components/education/InquiryForm";
 import { investigationExamples } from "@/lib/education/examples";
@@ -139,6 +140,9 @@ export default function JuniorHighPage() {
           ))}
         </div>
       </section>
+
+      {/* Investigation Layers */}
+      <InvestigationLayers />
 
       {/* Timeline Hooks */}
       <section className="edu-section alt-bg">
