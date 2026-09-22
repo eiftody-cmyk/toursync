@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { createBusyEvent, getValidAccessTokenWithClient, getCalendarIdForTour } from "@/lib/google/calendar";
+import { blockSlot } from "@/lib/google/sync";
+import { GoogleDisconnectedError } from "@/lib/google/auth";
 import { pushAvailability } from "@/lib/ota/pushAvailability";
 
 export async function POST(request: Request) {
@@ -14,45 +15,48 @@ export async function POST(request: Request) {
   const { tour_id, date, start_time, end_time, reason, summary } = body;
 
   if (!date) return NextResponse.json({ error: "date required" }, { status: 400 });
-
-  // OTA_SYNC_ENABLED gate: skip outbound push during staging
-  if (process.env.OTA_SYNC_ENABLED !== "true") {
-    return NextResponse.json({ eventId: null, warning: "OTA sync paused — local block only" });
+  if (!tour_id) {
+    return NextResponse.json({ error: "tour_id required — per-tour calendar needed" }, { status: 400 });
   }
 
   try {
-    const { accessToken } = await getValidAccessTokenWithClient(supabase, user.id);
-
-    if (!tour_id) {
-      return NextResponse.json({ error: "tour_id required — per-tour calendar needed" }, { status: 400 });
-    }
-    const calendarId = await getCalendarIdForTour(supabase, tour_id);
-
-    const tourName = summary ?? `Blocked${reason ? ` - ${reason}` : ""}`;
-    const data = await createBusyEvent({
-      accessToken,
-      calendarId,
-      summary: tourName,
-      description: reason ? `Reason: ${reason}` : undefined,
+    const result = await blockSlot({
+      supabase,
+      userId: user.id,
+      tourId: tour_id,
       date,
-      startTime: start_time ?? undefined,
-      endTime: end_time ?? undefined,
+      startTime: start_time ?? null,
+      endTime: end_time ?? null,
+      reason: reason ?? null,
+      summary: summary ?? undefined,
+      isAutoBlocked: false,
     });
 
-    // Push to OTA channels (fire-and-forget — block already saved to Google)
-    pushAvailability(supabase, {
-      tour_id,
-      date,
-      start_time: start_time ?? undefined,
-      remaining_capacity: 0,
-    }).catch(() => {});
+    if (result.error) {
+      console.error("[calendar/block] Google Calendar push failed:", result.error);
+      return NextResponse.json({ error: result.error }, { status: 500 });
+    }
 
-    return NextResponse.json({ eventId: data.id, calendarId });
+    if (result.eventId && tour_id && date) {
+      pushAvailability(supabase, {
+        tour_id,
+        date,
+        start_time: start_time ?? undefined,
+        remaining_capacity: 0,
+      }).catch(() => {});
+    }
+
+    return NextResponse.json({
+      eventId: result.eventId,
+      calendarId: result.calendarId,
+      blockedId: result.blockedRowId,
+      warning: result.warning,
+    });
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     console.error("[calendar/block] Google Calendar push failed:", msg);
-    if (msg.includes("not connected") || msg.includes("No valid")) {
-      return NextResponse.json({ eventId: null, warning: "Google not connected; local block only" });
+    if (e instanceof GoogleDisconnectedError || msg.includes("not connected") || msg.includes("No valid")) {
+      return NextResponse.json({ eventId: null, warning: "Google not connected; local block only. Reconnect in Settings." });
     }
     return NextResponse.json({ error: msg }, { status: 500 });
   }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { getValidAccessTokenWithClient, createBusyEvent, deleteCalendarEvent, getCalendarIdForTour } from "@/lib/google/calendar";
+import { blockSlot, unblockSlot } from "@/lib/google/sync";
 import { pushAvailability } from "@/lib/ota/pushAvailability";
 
 function slotEnd(time?: string | null) {
@@ -61,33 +61,25 @@ export async function POST(request: Request) {
   const { data: existingBlockForSlot } = await existingBlockForSlotQuery.maybeSingle();
 
   if (remaining <= 0 && !existingBlockForSlot) {
-    let googleEventId: string | null = null;
-    let calendarIdUsed: string | null = null;
     const endTime = slotEnd(normalizedStartTime);
 
-    // OTA_SYNC_ENABLED gate: skip outbound push during staging
-    if (process.env.OTA_SYNC_ENABLED === "true") {
-      try {
-        const { accessToken } = await getValidAccessTokenWithClient(supabase, user.id);
-        const calendarId = await getCalendarIdForTour(supabase, tour_id);
-        const ev = await createBusyEvent({
-          accessToken,
-          calendarId,
-          summary: `FULL - ${tour.name}${normalizedStartTime ? ` ${normalizedStartTime}` : ""}`,
-          description: `Auto-blocked: ${booked}/${tour.capacity} guests booked on ${date}${normalizedStartTime ? ` at ${normalizedStartTime}` : ""}`,
-          date,
-          startTime: normalizedStartTime ?? undefined,
-          endTime,
-        });
-        googleEventId = ev.id ?? null;
-        calendarIdUsed = calendarId;
-      } catch (e) {
-        // No Google connection — still create local auto-block
-        console.error("[auto-check] Google auto-block failed:", e instanceof Error ? e.message : String(e));
-      }
+    const result = await blockSlot({
+      supabase,
+      userId: user.id,
+      tourId: tour_id,
+      date,
+      startTime: normalizedStartTime,
+      endTime: endTime ?? null,
+      reason: `Auto-blocked: FULL ${booked}/${tour.capacity}`,
+      summary: `FULL - ${tour.name}${normalizedStartTime ? ` ${normalizedStartTime}` : ""}`,
+      description: `Auto-blocked: ${booked}/${tour.capacity} guests booked on ${date}${normalizedStartTime ? ` at ${normalizedStartTime}` : ""}`,
+      isAutoBlocked: true,
+    });
+
+    if (result.blockedRowId === null && result.error) {
+      return NextResponse.json({ error: result.error }, { status: 500 });
     }
 
-    // Push to OTA channels (fire-and-forget — slot is now full)
     pushAvailability(supabase, {
       tour_id,
       date,
@@ -95,49 +87,11 @@ export async function POST(request: Request) {
       remaining_capacity: 0,
     }).catch(() => {});
 
-    let insertResult = await supabase.from("blocked_dates").insert({
-      tour_id,
-      user_id: user.id,
-      date,
-      start_time: normalizedStartTime,
-      end_time: endTime ?? null,
-      reason: `Auto-blocked: FULL ${booked}/${tour.capacity}`,
-      google_calendar_event_id: googleEventId,
-      calendar_id: calendarIdUsed,
-      is_auto_blocked: true,
-    });
-
-    if (insertResult.error && (insertResult.error.message?.includes("calendar_id") || insertResult.error.code === "42703")) {
-      insertResult = await supabase.from("blocked_dates").insert({
-        tour_id,
-        user_id: user.id,
-        date,
-        start_time: normalizedStartTime,
-        end_time: endTime ?? null,
-        reason: `Auto-blocked: FULL ${booked}/${tour.capacity}`,
-        google_calendar_event_id: googleEventId,
-        is_auto_blocked: true,
-      });
+    if (result.skipped && result.eventId) {
+      return NextResponse.json({ autoBlocked: false, booked, remaining, note: "Already blocked by concurrent request" });
     }
 
-    const insertError = insertResult.error;
-
-    if (insertError) {
-      if (insertError.code === "23505") {
-        if (googleEventId && calendarIdUsed) {
-          try {
-            const { accessToken } = await getValidAccessTokenWithClient(supabase, user.id);
-            await deleteCalendarEvent({ accessToken, calendarId: calendarIdUsed, eventId: googleEventId });
-          } catch (e) {
-            console.error("[auto-check] Google event cleanup failed:", e instanceof Error ? e.message : String(e));
-          }
-        }
-        return NextResponse.json({ autoBlocked: false, booked, remaining, note: "Already blocked by concurrent request" });
-      }
-      return NextResponse.json({ error: insertError.message }, { status: 500 });
-    }
-
-    return NextResponse.json({ autoBlocked: true, booked, remaining });
+    return NextResponse.json({ autoBlocked: true, booked, remaining, warning: result.warning });
   }
 
   let existingBlockForSlotUnblockQuery = supabase
@@ -156,22 +110,15 @@ export async function POST(request: Request) {
   const { data: existingBlockForSlotRow } = await existingBlockForSlotUnblockQuery.maybeSingle();
 
   if (remaining > 0 && existingBlockForSlotRow && existingBlockForSlotRow.is_auto_blocked) {
-    if (existingBlockForSlotRow.google_calendar_event_id && existingBlockForSlotRow.calendar_id) {
-      try {
-        const { accessToken } = await getValidAccessTokenWithClient(supabase, user.id);
-        await deleteCalendarEvent({
-          accessToken,
-          calendarId: existingBlockForSlotRow.calendar_id,
-          eventId: existingBlockForSlotRow.google_calendar_event_id,
-        });
-      } catch (e) {
-        // Google event deletion failed — still remove local block
-        console.error("[auto-check] Google unblock delete failed:", e instanceof Error ? e.message : String(e));
-      }
-    }
-    await supabase.from("blocked_dates").delete().eq("id", existingBlockForSlotRow.id);
+    const result = await unblockSlot({ supabase, blockedId: existingBlockForSlotRow.id });
 
-    // Push to OTA channels (fire-and-forget — slot is available again)
+    if (!result.ok) {
+      return NextResponse.json(
+        { autoUnblocked: false, booked, remaining, error: result.error ?? "Unblock failed" },
+        { status: 502 }
+      );
+    }
+
     pushAvailability(supabase, {
       tour_id,
       date,

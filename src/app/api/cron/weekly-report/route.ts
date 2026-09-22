@@ -12,8 +12,8 @@ import { weeklyReportEmail } from "@/lib/email/weekly-report";
  */
 export async function POST(req: NextRequest) {
   const authHeader = req.headers.get("authorization");
+  if (!process.env.CRON_SECRET) return new Response("CRON_SECRET not set", { status: 500 });
   const expected = `Bearer ${process.env.CRON_SECRET}`;
-  if (!expected) return new Response("CRON_SECRET not set", { status: 500 });
 
   if (authHeader?.length !== expected.length) return new Response("Unauthorized", { status: 401 });
   let diff = 0;

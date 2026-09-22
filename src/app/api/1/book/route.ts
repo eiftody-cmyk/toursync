@@ -7,6 +7,7 @@ import { operatorNotificationEmail } from "@/lib/email/operator-notification";
 import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import { gygJson } from "@/lib/gyg/response";
 import { lookupTourByProductId } from "@/lib/gyg/lookup";
+import { blockSlot } from "@/lib/google/sync";
 import type { GygBookingResponse, GygErrorResponse, GygTicket } from "@/lib/gyg/types";
 
 function normalizeTime(t: string | null): string {
@@ -429,21 +430,24 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     });
 
   // Auto-block if slot is now full (totalBooked already includes pre-existing bookings)
+  // Awaited so Cloudflare Workers doesn't kill the push when the response returns.
   const totalForSlot = totalBooked + totalGuests;
   if (totalForSlot >= tour.capacity) {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
-    fetch(`${baseUrl}/api/calendar/block`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        tour_id: tour.id,
+    try {
+      await blockSlot({
+        supabase: createServiceClient(),
+        userId: tour.user_id,
+        tourId: tour.id,
         date: dateStr,
-        start_time: startTime,
+        startTime,
         reason: "Full — via GYG booking",
-      }),
-    }).catch((e) => {
+        summary: "Full — via GYG booking",
+        description: "Auto-blocked: slot at capacity via GYG booking",
+        isAutoBlocked: true,
+      });
+    } catch (e) {
       console.error("[GYG book] Auto-block failed:", e);
-    });
+    }
   }
 
   // Generate tickets

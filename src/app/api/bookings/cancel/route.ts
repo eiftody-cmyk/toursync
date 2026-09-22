@@ -158,10 +158,9 @@ export async function POST(req: NextRequest) {
   );
 
   if (tour && totalBooked < tour.capacity) {
-    // Find and remove the auto-block directly (service client bypasses auth + RLS)
     const { data: autoBlock } = await serviceClient
       .from("blocked_dates")
-      .select("id, google_calendar_event_id, calendar_id")
+      .select("id")
       .eq("tour_id", booking.tour_id)
       .eq("date", booking.date)
       .eq("start_time", booking.start_time || null)
@@ -169,35 +168,24 @@ export async function POST(req: NextRequest) {
       .maybeSingle();
 
     if (autoBlock) {
-      // Delete from blocked_dates table directly
-      await serviceClient.from("blocked_dates").delete().eq("id", autoBlock.id);
+      // Delete Google event first, then DB row — keeps event id if Google fails
+      const { unblockSlot } = await import("@/lib/google/sync");
+      const result = await unblockSlot({ supabase: serviceClient, blockedId: autoBlock.id });
 
-      // Delete from Google Calendar if connected
-      if (autoBlock.google_calendar_event_id && autoBlock.calendar_id && booking.user_id) {
+      if (result.ok) {
         try {
-          const { getValidAccessTokenWithClient, deleteCalendarEvent } = await import("@/lib/google/calendar");
-          const { accessToken } = await getValidAccessTokenWithClient(serviceClient, booking.user_id);
-          await deleteCalendarEvent({
-            accessToken,
-            calendarId: autoBlock.calendar_id,
-            eventId: autoBlock.google_calendar_event_id,
-          });
+          const { pushAvailability } = await import("@/lib/ota/pushAvailability");
+          pushAvailability(serviceClient, {
+            tour_id: booking.tour_id,
+            date: booking.date,
+            start_time: booking.start_time ?? undefined,
+            remaining_capacity: 1,
+          }).catch(() => {});
         } catch (e) {
-          console.error("[Booking cancel] Delete Google Calendar event failed:", e);
+          console.error("[Booking cancel] Push availability failed:", e);
         }
-      }
-
-      // Push availability to OTA channels (fire-and-forget — slot is available again)
-      try {
-        const { pushAvailability } = await import("@/lib/ota/pushAvailability");
-        pushAvailability(serviceClient, {
-          tour_id: booking.tour_id,
-          date: booking.date,
-          start_time: booking.start_time ?? undefined,
-          remaining_capacity: 1,
-        }).catch(() => {});
-      } catch (e) {
-        console.error("[Booking cancel] Push availability failed:", e);
+      } else {
+        console.error("[Booking cancel] Unblock failed (row kept):", result.error);
       }
     }
   }

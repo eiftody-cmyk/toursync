@@ -17,27 +17,35 @@ export function ActionRequired({
   bookings,
   tours,
   blocked,
+  tokens,
 }: {
   bookings: Booking[];
   tours: Tour[];
   blocked: BlockedDate[];
+  tokens?: { refresh_token: string | null } | null;
 }) {
   const actions = useMemo(() => {
     const items: ActionItem[] = [];
     const todayStr = new Date().toISOString().slice(0, 10);
 
-    const unsyncedManualBlocks = blocked.filter(
-      (b) =>
-        b.date >= todayStr &&
-        !b.is_auto_blocked &&
-        !b.google_calendar_event_id
+    const unsyncedBlocks = blocked.filter(
+      (b) => b.date >= todayStr && !b.google_calendar_event_id
     );
-    if (unsyncedManualBlocks.length > 0) {
+    if (unsyncedBlocks.length > 0) {
       items.push({
         id: "unsynced-blocks",
-        message: `${unsyncedManualBlocks.length} block${unsyncedManualBlocks.length !== 1 ? "s" : ""} not synced to Google Calendar`,
-        link: "/calendar",
+        message: `${unsyncedBlocks.length} block${unsyncedBlocks.length !== 1 ? "s" : ""} not synced to Google Calendar`,
+        link: "/settings",
         linkText: "Retry sync",
+      });
+    }
+
+    if (tokens && !tokens.refresh_token) {
+      items.push({
+        id: "google-disconnected",
+        message: "Google Calendar disconnected — bookings won't sync to your calendar",
+        link: "/settings",
+        linkText: "Reconnect",
       });
     }
 
@@ -68,7 +76,7 @@ export function ActionRequired({
     }
 
     return items;
-  }, [bookings, tours, blocked]);
+  }, [bookings, tours, blocked, tokens]);
 
   if (actions.length === 0) {
     return (

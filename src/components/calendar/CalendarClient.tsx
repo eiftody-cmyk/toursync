@@ -160,7 +160,6 @@ export function CalendarClient({
   }
 
   async function handleUnblock(bl: BlockedDate) {
-    setBlocked((prev) => prev.filter((row) => row.id !== bl.id));
     try {
       const res = await fetch("/api/calendar/unblock", {
         method: "POST",
@@ -169,19 +168,16 @@ export function CalendarClient({
       });
       if (res.ok) {
         toast.success("Unblocked");
+        setBlocked((prev) => prev.filter((row) => row.id !== bl.id));
         await refresh();
         return;
       }
-    } catch {
-      // API failed — fall through to client-side DB delete only
-    }
-    const supabase = createClient();
-    const { error } = await supabase.from("blocked_dates").delete().eq("id", bl.id);
-    if (error) {
-      toast.error(error.message);
+      const json = await res.json().catch(() => ({}));
+      toast.error(json.error || "Unblock failed — Google event may remain");
       await refresh();
-    } else {
-      toast.success("Unblocked (Google event may remain — check manually)");
+      return;
+    } catch {
+      toast.error("Unblock failed — check connection");
       await refresh();
     }
   }

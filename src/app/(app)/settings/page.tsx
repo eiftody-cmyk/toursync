@@ -56,6 +56,17 @@ export default async function SettingsPage({
         </Card>
       )}
 
+      {token && !token.refresh_token && (
+        <Card className="border-red-300 bg-red-50 dark:bg-red-950/20">
+          <CardContent className="pt-4 pb-4 text-sm text-red-700 dark:text-red-200 flex items-center justify-between">
+            <span>Google Calendar is disconnected. Bookings will not sync to your calendar.</span>
+            <Button asChild size="sm" className="ml-4 shrink-0">
+              <a href="/api/auth/google">Reconnect Now</a>
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Account</CardTitle>

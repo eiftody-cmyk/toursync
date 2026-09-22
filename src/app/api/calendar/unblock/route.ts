@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { deleteCalendarEvent, getValidAccessTokenWithClient } from "@/lib/google/calendar";
+import { unblockSlot } from "@/lib/google/sync";
 import { pushAvailability } from "@/lib/ota/pushAvailability";
 
 export async function POST(request: Request) {
@@ -13,32 +13,25 @@ export async function POST(request: Request) {
   const { blockedId } = await request.json();
   if (!blockedId) return NextResponse.json({ error: "blockedId required" }, { status: 400 });
 
-  const { data: blocked, error } = await supabase
+  const { data: blocked } = await supabase
     .from("blocked_dates")
-    .select("*")
+    .select("id, user_id, tour_id, date, start_time")
     .eq("id", blockedId)
     .eq("user_id", user.id)
     .single();
 
-  if (error || !blocked) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!blocked) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  if (blocked.google_calendar_event_id && blocked.calendar_id) {
-    try {
-      const { accessToken } = await getValidAccessTokenWithClient(supabase, user.id);
-      await deleteCalendarEvent({
-        accessToken,
-        calendarId: blocked.calendar_id,
-        eventId: blocked.google_calendar_event_id,
-      });
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
-      console.error("Failed to delete Google event:", msg);
-    }
+  const result = await unblockSlot({ supabase, blockedId });
+
+  if (!result.ok) {
+    // Google delete failed — keep the row so the event id is not lost
+    return NextResponse.json(
+      { ok: false, error: result.error ?? "Google delete failed; block kept for retry" },
+      { status: 502 }
+    );
   }
 
-  await supabase.from("blocked_dates").delete().eq("id", blockedId);
-
-  // Push to OTA channels (fire-and-forget — slot is available again)
   if (blocked.tour_id && blocked.date) {
     pushAvailability(supabase, {
       tour_id: blocked.tour_id,

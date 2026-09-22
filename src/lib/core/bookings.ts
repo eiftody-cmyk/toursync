@@ -2,6 +2,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { checkCapacity } from './availability';
 import { convertReservation } from './reservations';
 import { countGuestsFromItems } from './guests';
+import { blockSlot, unblockSlot } from '@/lib/google/sync';
 import type { BookingItem, CustomerInfo, Booking } from './types';
 
 interface CreateBookingParams {
@@ -90,10 +91,22 @@ export async function createBooking(
     await convertReservation(reservationId);
   }
 
-  // Auto-block if full (fire-and-forget)
+  // Auto-block if full — awaited so Cloudflare Workers doesn't kill the push
   const newCapacity = await checkCapacity(tourId, date, startTime);
   if (newCapacity.remaining === 0) {
-    triggerAutoBlock(tourId, date, startTime).catch(console.error);
+    await blockSlot({
+      supabase,
+      userId,
+      tourId,
+      date,
+      startTime,
+      reason: 'Full — via OTA booking',
+      summary: 'Full — via OTA booking',
+      description: 'Auto-blocked: slot at capacity via OTA booking',
+      isAutoBlocked: true,
+    }).catch((e) => {
+      console.error('[createBooking] auto-block failed:', e instanceof Error ? e.message : e);
+    });
   }
 
   return booking as Booking;
@@ -110,7 +123,7 @@ export async function cancelBooking(
   // Check if in the past (JST-aware)
   const { data: booking } = await supabase
     .from('bookings')
-    .select('date, start_time')
+    .select('date, start_time, tour_id, user_id, status')
     .eq('id', bookingId)
     .single();
 
@@ -129,17 +142,51 @@ export async function cancelBooking(
     .from('bookings')
     .update({ status: 'cancelled' })
     .eq('id', bookingId);
+
+  // If slot is now below capacity, remove auto-block (Google event + DB row)
+  if (booking?.tour_id) {
+    try {
+      await maybeRemoveAutoBlock(supabase, booking.tour_id, booking.date, booking.start_time);
+    } catch (e) {
+      console.error('[cancelBooking] auto-unblock failed:', e instanceof Error ? e.message : e);
+    }
+  }
 }
 
-/**
- * Trigger auto-block on Google Calendar (fire-and-forget).
- */
-async function triggerAutoBlock(
+async function maybeRemoveAutoBlock(
+  supabase: ReturnType<typeof createServiceClient>,
   tourId: string,
   date: string,
   startTime: string | null
 ): Promise<void> {
-  // This would call the existing /api/calendar/block endpoint
-  // For now, just log - will be implemented in Phase 4
-  console.log(`Auto-block triggered for tour ${tourId} on ${date} at ${startTime}`);
+  const { data: tour } = await supabase
+    .from('tours')
+    .select('capacity')
+    .eq('id', tourId)
+    .single();
+  if (!tour) return;
+
+  const { data: remainingBookings } = await supabase
+    .from('bookings')
+    .select('guest_count')
+    .eq('tour_id', tourId)
+    .eq('date', date)
+    .eq('start_time', startTime)
+    .eq('status', 'confirmed');
+
+  const totalBooked = (remainingBookings ?? []).reduce((s, b) => s + (b.guest_count ?? 0), 0);
+  if (totalBooked >= tour.capacity) return;
+
+  let q = supabase
+    .from('blocked_dates')
+    .select('id, user_id')
+    .eq('tour_id', tourId)
+    .eq('date', date)
+    .eq('is_auto_blocked', true);
+  q = startTime ? q.eq('start_time', startTime) : q.is('start_time', null);
+  const { data: autoBlock } = await q.maybeSingle();
+
+  if (autoBlock) {
+    await unblockSlot({ supabase, blockedId: autoBlock.id });
+  }
 }

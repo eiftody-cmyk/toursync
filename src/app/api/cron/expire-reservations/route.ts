@@ -11,6 +11,9 @@ import { expireReservations } from '@/lib/core/reservations';
  */
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get('authorization');
+  if (!process.env.CRON_SECRET) {
+    return new Response('CRON_SECRET not set', { status: 500 });
+  }
   const expected = `Bearer ${process.env.CRON_SECRET}`;
 
   // Constant-time comparison to prevent timing attacks

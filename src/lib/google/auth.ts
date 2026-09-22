@@ -49,29 +49,37 @@ export async function exchangeCodeForTokens(code: string, redirectUri?: string) 
   };
 }
 
-export async function refreshAccessToken(refreshToken: string) {
-  const res = await fetch(GOOGLE_TOKEN_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      refresh_token: refreshToken,
-      client_id: process.env.GOOGLE_CLIENT_ID!,
-      client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-      grant_type: "refresh_token",
-    }),
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`Token refresh failed: ${err}`);
+export async function refreshAccessToken(refreshToken: string): Promise<{
+  access_token: string;
+  expires_in: number;
+  scope: string;
+  token_type: string;
+}> {
+  let lastError: string = "";
+  for (let attempt = 0; attempt < 2; attempt++) {
+    if (attempt > 0) await new Promise((r) => setTimeout(r, 1000));
+    const res = await fetch(GOOGLE_TOKEN_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        refresh_token: refreshToken,
+        client_id: process.env.GOOGLE_CLIENT_ID!,
+        client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+        grant_type: "refresh_token",
+      }),
+    });
+    if (res.ok) return await res.json();
+    lastError = await res.text();
   }
+  throw new Error(`Token refresh failed: ${lastError}`);
+}
 
-  return (await res.json()) as {
-    access_token: string;
-    expires_in: number;
-    scope: string;
-    token_type: string;
-  };
+/** Thrown when the Google refresh token is revoked — caller should mark disconnected. */
+export class GoogleDisconnectedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "GoogleDisconnectedError";
+  }
 }
 
 // Token encryption using Web Crypto API (AES-256-GCM)

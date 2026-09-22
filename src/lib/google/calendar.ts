@@ -1,4 +1,4 @@
-import { decryptToken } from "./auth";
+import { decryptToken, GoogleDisconnectedError } from "./auth";
 import { nextDay } from "@/lib/time";
 
 const CALENDAR_API = "https://www.googleapis.com/calendar/v3";
@@ -86,11 +86,14 @@ export async function createBusyEvent(params: {
   let start: { date?: string; dateTime?: string; timeZone?: string };
   let end: { date?: string; dateTime?: string; timeZone?: string };
 
+  // Normalize HH:MM:SS to HH:MM for Google Calendar API
+  const normTime = (t: string) => t.length > 5 ? t.slice(0, 5) : t;
+
   if (params.startTime && params.endTime) {
-    start = { dateTime: `${params.date}T${params.startTime}:00`, timeZone };
-    end = { dateTime: `${params.date}T${params.endTime}:00`, timeZone };
+    start = { dateTime: `${params.date}T${normTime(params.startTime)}:00`, timeZone };
+    end = { dateTime: `${params.date}T${normTime(params.endTime)}:00`, timeZone };
   } else if (params.startTime) {
-    start = { dateTime: `${params.date}T${params.startTime}:00`, timeZone };
+    start = { dateTime: `${params.date}T${normTime(params.startTime)}:00`, timeZone };
     end = { dateTime: `${params.date}T23:59:00`, timeZone };
   } else {
     const nextDayStr = nextDay(params.date);
@@ -141,7 +144,28 @@ export async function getValidAccessToken(_userId: string): Promise<{
   throw new Error("Use getValidAccessTokenWithClient — see api route");
 }
 
+// Mutex: one refresh per userId at a time (Google rotates refresh tokens on use)
+const refreshLocks = new Map<string, Promise<{ accessToken: string; calendarId: string }>>();
+
 export async function getValidAccessTokenWithClient(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: any,
+  userId: string
+): Promise<{ accessToken: string; calendarId: string }> {
+  // If a refresh is already in-flight for this user, wait for it
+  const existing = refreshLocks.get(userId);
+  if (existing) return existing;
+
+  const promise = doRefresh(supabase, userId);
+  refreshLocks.set(userId, promise);
+  try {
+    return await promise;
+  } finally {
+    refreshLocks.delete(userId);
+  }
+}
+
+async function doRefresh(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   supabase: any,
   userId: string
@@ -164,19 +188,33 @@ export async function getValidAccessTokenWithClient(
   if (needsRefresh && data.refresh_token) {
     const refreshToken = await decryptToken(data.refresh_token);
     const { refreshAccessToken } = await import("./auth");
-    const tokens = await refreshAccessToken(refreshToken);
-    accessToken = tokens.access_token;
+    try {
+      const tokens = await refreshAccessToken(refreshToken);
+      accessToken = tokens.access_token;
 
-    const { encryptToken } = await import("./auth");
-    const newExpiry = new Date(Date.now() + tokens.expires_in * 1000).toISOString();
+      const { encryptToken } = await import("./auth");
+      const newExpiry = new Date(Date.now() + tokens.expires_in * 1000).toISOString();
 
-    await supabase
-      .from("google_tokens")
-      .update({
-        access_token: await encryptToken(tokens.access_token),
-        token_expiry: newExpiry,
-      })
-      .eq("user_id", userId);
+      await supabase
+        .from("google_tokens")
+        .update({
+          access_token: await encryptToken(tokens.access_token),
+          token_expiry: newExpiry,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("user_id", userId);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      if (msg.includes("invalid_grant")) {
+        // Refresh token revoked — clear credentials so admin sees "disconnected"
+        await supabase
+          .from("google_tokens")
+          .update({ access_token: null, refresh_token: null, token_expiry: null, updated_at: new Date().toISOString() })
+          .eq("user_id", userId);
+        throw new GoogleDisconnectedError("Google Calendar refresh token was revoked. Reconnect in Settings.");
+      }
+      throw e;
+    }
   }
 
   if (!accessToken) throw new Error("No valid access token");

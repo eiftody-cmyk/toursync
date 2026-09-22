@@ -143,6 +143,8 @@ export function BlockModal({
 
         let googleEventId: string | null = null;
         let calendarId: string | null = null;
+        let jsonBlockedId: string | null = null;
+        let jsonWarning: string | null = null;
 
         if (existingBlock?.google_calendar_event_id) {
           // Reuse existing Google event for this tour+date
@@ -168,8 +170,10 @@ export function BlockModal({
               const json = await res.json();
               googleEventId = json.eventId ?? null;
               calendarId = json.calendarId ?? null;
+              jsonBlockedId = json.blockedId ?? null;
+              jsonWarning = json.warning ?? null;
               if (googleEventId) syncedCount++;
-              else if (json.warning) googleSkipped = true;
+              else if (jsonWarning) googleSkipped = true;
             } else {
               googleSkipped = true;
             }
@@ -178,8 +182,15 @@ export function BlockModal({
           }
         }
 
-        // Insert blocked_dates row (one per tour per date)
-        // Try with calendar_id first; if column missing (003 not applied), retry without it
+        // Server already wrote blocked_dates via blockSlot — done for this slot
+        if (jsonBlockedId) {
+          blockedCount++;
+          continue;
+        }
+
+        // Insert blocked_dates row (one per tour per date).
+        // /api/calendar/block now writes the row server-side (blockSlot);
+        // only insert here if the API returned no blockedId (legacy/warning path).
         let insertResult = await supabase.from("blocked_dates").insert({
           tour_id: tour.id,
           user_id: user.id,

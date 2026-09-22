@@ -41,7 +41,7 @@ export default async function DashboardPage() {
         .gte("date", yearStart)
         .order("date", { ascending: true }),
       supabase.from("blocked_dates").select("*").eq("user_id", user.id).order("date", { ascending: true }),
-      supabase.from("google_tokens").select("calendar_id, token_expiry").eq("user_id", user.id).maybeSingle(),
+      supabase.from("google_tokens").select("calendar_id, token_expiry, refresh_token").eq("user_id", user.id).maybeSingle(),
       supabase.from("operator_settings").select("commission_rates").eq("user_id", user.id).maybeSingle(),
     ]);
 
@@ -65,7 +65,7 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <ActionRequired bookings={bookings} tours={tours} blocked={blocked} />
+      <ActionRequired bookings={bookings} tours={tours} blocked={blocked} tokens={tokens} />
 
       <div className="grid md:grid-cols-2 gap-4">
         <TodaySchedule bookings={bookings} tours={tours} blocked={blocked} />

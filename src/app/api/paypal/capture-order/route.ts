@@ -6,6 +6,7 @@ import { bookingConfirmationEmail } from "@/lib/email/booking-confirmation";
 import { operatorNotificationEmail } from "@/lib/email/operator-notification";
 import { customTimeNotificationEmail } from "@/lib/email/custom-time-notification";
 import { rateLimit, clientIp } from "@/lib/security/rateLimit";
+import { blockSlot } from "@/lib/google/sync";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -246,15 +247,17 @@ export async function POST(req: NextRequest) {
 
     if (tourCap && totalBooked >= tourCap.capacity) {
       try {
-        await fetch(`${baseUrl}/api/calendar/block`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            tour_id: tourId,
-            date,
-            start_time: startTime || null,
-            reason: "Full — via PayPal booking",
-          }),
+        // Direct service-client push — no session cookie, so no HTTP hop / 401
+        await blockSlot({
+          supabase,
+          userId: tour.user_id,
+          tourId,
+          date,
+          startTime: startTime || null,
+          reason: "Full — via PayPal booking",
+          summary: "Full — via PayPal booking",
+          description: "Auto-blocked: slot at capacity via PayPal booking",
+          isAutoBlocked: true,
         });
       } catch (e) {
         console.error("[Payment] Auto-block failed:", e);
