@@ -9,8 +9,13 @@ the entire value of this exercise is comparing identical queries over time.
 2. Record the first AI answer for each query per system.
 3. Fill one row per query per system. Keep EN and JA analysis separate (they answer
    different markets and are expected to behave differently).
-4. Run rounds at baseline (done 2026-09-22), then 2, 4, and 8 weeks later.
-5. Never change the query set mid-experiment.
+4. The assistant runs the full 35-query set every week via the live web-search proxy
+   (the "weekly check" — Round 1 started 2026-09-22). Chat-model rounds (ChatGPT /
+   Perplexity / Google AI / Bing Copilot) are spot-checks at the 2, 4, and 8-week
+   marks using the R1–R5 regression probes below. The R1–R5 spot-check is the only
+   way to inspect real chat answers, because the assistant cannot operate those
+   chat products directly (live web search is the same retrieval layer feeding them).
+5. NEVER change the query set mid-experiment.
 
 ## Target systems
 
@@ -38,6 +43,15 @@ the entire value of this exercise is comparing identical queries over time.
 - **Program described correctly** — does the AI describe the school program accurately
   (curriculum-aligned field investigations, bilingual, priced by format)? Y/N/partial.
 - **Notes** — anything notable.
+
+## Hit definition
+
+A term counts as a **HIT** when a result points to any education page on
+osakacastletours.com: `/education`, `/ja/education`, `/education/junior-high`,
+`/education/high-school`, `/education/university`, `/education/teacher-pack`, or any
+education program sub-page. Tour pages, the homepage, blog/chronicle articles, and
+supplier (Viator/GYG) listings DO NOT count as hits; they are recorded separately in the
+Notes column as "SITE visible".
 
 ## Japanese queries (school/investigation intent)
 
@@ -113,6 +127,57 @@ N = none / irrelevant · SITE = osakacastletours.com surfaced.
 - **EN education-program graph is not yet visible** ("Naniwa Palace on-site field learning" → academic/tourism sources only).
 - **JA education graph is fully undeveloped.** All queries resolve to municipal/museum/academic/publisher authorities. The semantic association "Osaka Castle + historical investigation + school education + evidence + historian + fieldwork" is not yet established in Japanese results.
 - Keep EN and JA strictly separate in all later analysis — they are at different maturity stages by design.
+
+## Round 1 — 2026-09-22 (weekly #1, web-search proxy)
+
+Same 35 queries as Round 0, re-run live in full. **Result: 0/35 education-page HITs.**
+JA 0/25, EN 0/10. EN tour graph still surfaces the site (homepage / blog article only);
+EN and JA education-intent queries resolve to authorities (municipal, museum, university,
+publisher) with no osakacastletours.com presence.
+
+| # | Lang | Dominant interpretation | Mentioned | Cited URL | Notes |
+|---|---|---|---|---|---|
+| J1 | JA | U / S | N | — | Osaka Univ Museum Links, 類塾 |
+| J2 | JA | P / M | N | — | 実教出版 日本史探究, Asahi News |
+| J3 | JA | M / T | N | — | osakacastlepark (xsrv.jp), 大阪城天守閣 |
+| J4 | JA | U / P | N | — | Keio 歴史総合 PDF, 河合塾 |
+| J5 | JA | M | N | — | osakacastle.net, osakacastlepark.jp, city.osaka.lg.jp |
+| J6 | JA | U / S | N | — | let.osaka-u.ac.jp, studyinosaka.com |
+| J7 | JA | M / U | N | — | osakamushis.jp, nabunken.go.jp (奈文研) |
+| J8 | JA | M / U | N | — | osaka-castle.org, osakamushis.jp, let.osaka-u.ac.jp |
+| J9 | JA | S / U | N | — | ja.wikipedia.org, kaichigakuen.ed.jp, osaka-kyoiku.ac.jp |
+| J10 | JA | U / N | N | — | art.idai.ly, blog.wenxuecity.com, history.osu.edu |
+| J11 | JA | S / P | N | — | mext.go.jp (文科省), osaka-c.ed.jp (市教委), owis.org |
+| J12 | JA | U | N | — | let.osaka-u.ac.jp, ila.doshisha.ac.jp |
+| J13 | JA | M / T | N | — | osakacastle.net, yomyma.com, serai.jp |
+| J14 | JA | T | N | — | japan.travel, liontravel.com, intojapanwaraku.com |
+| J15 | JA | M / U | N | — | osakamushis.jp, bunka.go.jp (文化庁), naniwanomiya.jp |
+| J16 | JA | M | N | — | osakacastlepark.jp, manabi.city.osaka.lg.jp |
+| J17 | JA | T / S | N | — | octb.osaka-info.jp, acis.com |
+| J18 | JA | M | N | — | osakacastle.net, nomurakougei.co.jp |
+| J19 | JA | U / S | N | — | let.osaka-u.ac.jp, kyoto-seika.ac.jp |
+| J20 | JA | T / S | N | — | octb.osaka-info.jp, getyourguide.com |
+| J21 | JA | U | N | — | let.osaka-u.ac.jp, osaka-kyoiku.ac.jp |
+| J22 | JA | S / N | N | — | osaka-c.ed.jp, lv-bilingual.com |
+| J23 | JA | T / M | N | — | osaka-castle.org, msroad.fudan.edu.cn |
+| J24 | JA | U | N | — | let.osaka-u.ac.jp, omu.ac.jp (大阪公立大) |
+| J25 | JA | M / U | N | — | osakamushis.jp, naniwanomiya.jp |
+| E1 | EN | T — SITE visible (homepage ~#3 + blog article) | Y | osakacastletours.com | tour graph only; no education page |
+| E2 | EN | T — SITE visible (homepage ~#4) | Y | osakacastletours.com | no education page |
+| E3 | EN | T — SITE visible (homepage ~#2; GYG supplier ~#9) | Y | osakacastletours.com | no education page |
+| E4 | EN | M | N | — | osakacastle.org, city.osaka.lg.jp, osakacastle.net |
+| E5 | EN | U | N | — | en.wikipedia.org, ir.library.osaka-u.ac.jp |
+| E6 | EN | M | N | — | osakamushis.jp, osaka-info.jp, naniwanomiya.jp |
+| E7 | EN | S / N | N | — | mtsac.edu, owis.org, education.com |
+| E8 | EN | T — SITE visible (homepage #1) | Y | osakacastletours.com | no education page |
+| E9 | EN | M | N | — | osakacastle.org, osakacastle.net, city.osaka.lg.jp |
+| E10 | EN | U | N | — | lang.osaka-u.ac.jp, en.wikipedia.org |
+
+**Round 1 read:** identical pattern to Round 0 — expected. Both education graphs still
+thoroughly owned by authorities; site visible only on genuine tour queries (E1/E2/E3/E8)
+and never as an education page. First meaningful comparison will be the 2-week chat
+spot-check; weekly proxy runs confirm the retrieval layer hasn't shifted. Watch for ANY
+change in E4–E7 and E9–E10 (EN education) first, then J1–J25.
 
 ## P4 regression probes (representative subset for quick re-checks)
 

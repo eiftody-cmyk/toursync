@@ -6,15 +6,47 @@ additions (P2/P3) that move the matrix dials, or fixes for defects the measureme
 
 ## Schedule
 
-| Round | Date | Action |
-|---|---|---|
-| 0 | 2026-09-22 | Baseline — full agentic matrix run + Search Console snapshot (before new content indexed) |
-| 1 | 2026-10-06 (2 weeks) | Chat-model matrix round (ChatGPT / Perplexity / Google AI / Gemini / Bing Copilot) + SC delta |
-| 2 | 2026-10-20 (4 weeks) | Repeat matrix + SC delta + first JA indexed-page expectation check |
-| 3 | 2026-11-17 (8 weeks) | Repeat matrix + SC delta + go/no-go on further investment |
+| When | Action |
+|---|---|
+| 2026-09-22 | Baseline — Round 0 matrix + Search Console snapshot (before new content indexed) |
+| Every week (user: "run the weekly check") | Full 35-query proxy re-run + plain-English email summary (Round 1/2026-09-22 → 0/35 hits) |
+| 2026-10-06 (2 weeks) | Chat-model spot-check (R1–R5) + SC delta |
+| 2026-10-20 (4 weeks) | Chat-model spot-check + SC delta + first JA indexed-page expectation check |
+| 2026-11-17 (8 weeks) | Chat-model spot-check + SC delta + go/no-go on further investment |
 
 Each round uses the **exact** frozen query set in `AGENTIC_MATRIX.md`. Do not edit queries
 between rounds; log new observations as new rows in the same table.
+
+## Weekly check protocol (the "run the weekly check" ritual)
+
+The assistant cannot self-schedule — the user starts a session, says "run the weekly check,"
+and this ritual is followed identically every week.
+
+1. **Run the queries.** All 35 (J1–J25, E1–E10) via live web search, one at a time, in
+   order. Delegate in batches to subagents when context is a concern, but each query must be
+   an actual live search — never guessed. The R1–R5 regression probes are a 5-query subset
+   that can serve as a quick signal, but the full 35 is the canonical weekly run.
+2. **Record.** Fill one row per query in the current round's table in `AGENTIC_MATRIX.md`,
+   using the hit definition there (education page = hit; homepage/tour/blog = "SITE
+   visible", not a hit). Keep JA and EN separate.
+3. **Write the read.** One short paragraph: what moved, what didn't, any first-time hits or
+   losses, which graph (EN tour / EN education / JA education) changed.
+4. **Email the summary.** POST the round results to the deployed weekly-report endpoint so
+   the email actually sends (Resend key exists only on the Cloudflare worker):
+
+   ```
+   curl -s -X POST https://osakacastletours.com/api/cron/weekly-report \
+     -H "Authorization: Bearer $CRON_SECRET" \
+     -H "Content-Type: application/json" \
+     -d '{"roundName":"Round N — YYYY-MM-DD","runDate":"YYYY-MM-DD","verdict":"<read>","hits":[{lang,query,page,rank,note}]}'
+   ```
+
+   Email goes to edward@osakacastletours.com the moment the round finishes. No separate
+   reminder system.
+5. **True chat answer (2/4/8-week marks only).** Paste R1–R5 into chatgpt.com (search
+   mode) / Perplexity by hand and record what the chat model actually says. This is the only
+   window into real chat answers; the assistant's live web search is the same retrieval
+   layer feeding them, so the weekly number is the honest proxy.
 
 ## Matrix execution protocol
 
