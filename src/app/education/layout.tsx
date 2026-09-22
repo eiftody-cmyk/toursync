@@ -83,13 +83,14 @@ export default async function EducationLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
+    "@id": `${SITE}/education#organization`,
     name: "Osaka History Investigations",
     alternateName: [
       "大阪歴史フィールド探究",
       "大阪城フィールド探究",
       "歴史フィールド学習",
     ],
-    url: `${SITE}/education`,
+    url: locale === "ja" ? `${SITE}/ja/education` : `${SITE}/education`,
     logo: `${SITE}/images/osaka-history-investigations.webp`,
     description:
       "Historian-led field investigations at Osaka Castle for schools and universities. 歴史家が指導する大阪城でのフィールド探究。中学校・高等学校・大学のカリキュラムに連動した探究型学習。",
@@ -129,6 +130,9 @@ export default async function EducationLayout({
     availableLanguage: ["en", "ja"],
     sameAs: [
       "https://www.japantimes.co.jp/commentary/2026/07/22/japan/japan-new-imperial-house-law/",
+      "https://www.wikidata.org/wiki/Q191854",
+      "https://en.wikipedia.org/wiki/Osaka_Castle",
+      `${SITE}/aboutme`,
     ],
   };
 
@@ -136,7 +140,9 @@ export default async function EducationLayout({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
       />
       <ClientLayout locale={locale}>{children}</ClientLayout>
     </>

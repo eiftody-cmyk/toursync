@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://osakacastletours.com/sitemap.xml
+LLMs: /llms.txt

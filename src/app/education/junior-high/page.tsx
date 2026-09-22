@@ -3,23 +3,29 @@ import JuniorHighClient from "./JuniorHighClient";
 import {
   buildArticleJsonLd,
   buildBreadcrumbJsonLd,
+  buildCourseJsonLd,
   buildFaqJsonLd,
+  jsonLd,
+  pageUrl,
+  type Locale,
 } from "@/lib/education/json-ld";
+import { en } from "@/lib/education/content";
+import { ja as jaContent } from "@/lib/education/content-ja";
 
 const SITE = "https://osakacastletours.com";
 const IMG = `${SITE}/images/yododonohideyori.webp`;
+
+function getLocale(params: { locale?: string }): Locale {
+  return params?.locale === "ja" ? "ja" : "en";
+}
 
 export async function generateMetadata({
   searchParams,
 }: {
   searchParams: Promise<{ locale?: string }>;
 }): Promise<Metadata> {
-  const params = await searchParams;
-  const locale = params?.locale === "ja" ? "ja" : "en";
-  const BASE =
-    locale === "ja"
-      ? `${SITE}/ja/education/junior-high`
-      : `${SITE}/education/junior-high`;
+  const locale = getLocale(await searchParams);
+  const BASE = pageUrl("/education/junior-high", locale);
 
   if (locale === "ja") {
     return {
@@ -36,11 +42,18 @@ export async function generateMetadata({
         type: "website",
         images: [{ url: IMG, width: 2588, height: 1238 }],
       },
+      twitter: {
+        card: "summary_large_image",
+        title: "中学校 — 大阪歴史フィールド探究",
+        description: "中学生向けのカリキュラム連動型歴史フィールド探究。",
+        images: [IMG],
+      },
       alternates: {
         canonical: BASE,
         languages: {
           en: `${SITE}/education/junior-high`,
           ja: BASE,
+          "x-default": `${SITE}/education/junior-high`,
         },
       },
     };
@@ -60,96 +73,108 @@ export async function generateMetadata({
       type: "website",
       images: [{ url: IMG, width: 2588, height: 1238 }],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: "Junior High — Osaka History Field Investigations",
+      description:
+        "Curriculum-aligned history field investigations for junior high school students at Osaka Castle.",
+      images: [IMG],
+    },
     alternates: {
       canonical: BASE,
       languages: {
         en: BASE,
         ja: `${SITE}/ja/education/junior-high`,
+        "x-default": BASE,
       },
     },
   };
 }
 
-const articleJsonLd = buildArticleJsonLd({
-  titleEn: "Junior High — Osaka History Field Investigations",
-  titleJa: "中学校 — 大阪歴史フィールド探究",
-  descriptionEn:
-    "Curriculum-aligned history field investigations for junior high school students at Osaka Castle.",
-  descriptionJa:
-    "中学生向けのカリキュラム連動型歴史フィールド探究。社会科の内容と連動。",
-  url: `${SITE}/education/junior-high`,
-  image: IMG,
-});
+export default async function JuniorHighPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ locale?: string }>;
+}) {
+  const locale = getLocale(await searchParams);
+  const content = locale === "ja" ? jaContent : en;
 
-const breadcrumbJsonLd = buildBreadcrumbJsonLd({
-  items: [
-    { name: "Home", nameJa: "ホーム", url: SITE },
-    {
-      name: "Osaka History Investigations",
-      nameJa: "大阪歴史フィールド探究",
-      url: `${SITE}/education`,
-    },
-    {
-      name: "Junior High",
-      nameJa: "中学校",
-      url: `${SITE}/education/junior-high`,
-    },
-  ],
-});
+  const articleJsonLd = buildArticleJsonLd({
+    titleEn: "Junior High — Osaka History Field Investigations",
+    titleJa: "中学校 — 大阪歴史フィールド探究",
+    descriptionEn:
+      "Curriculum-aligned history field investigations for junior high school students at Osaka Castle.",
+    descriptionJa:
+      "中学生向けのカリキュラム連動型歴史フィールド探究。社会科の内容と連動。",
+    url: `${SITE}/education/junior-high`,
+    urlJa: `${SITE}/ja/education/junior-high`,
+    image: IMG,
+    locale,
+    datePublished: "2026-09-01",
+  });
 
-const faqJsonLd = buildFaqJsonLd([
-  {
-    question: "What curriculum does the junior high investigation connect to?",
-    answer:
-      "The investigation connects to Social Studies curriculum covering the Sengoku period, Hideyoshi, Tokugawa, and Meiji era. It maps to standard junior high history topics taught across Japan.",
-  },
-  {
-    question: "Is the field investigation safe for junior high students?",
-    answer:
-      "Yes. The investigation follows a fixed route with no free-roaming. Students work in pairs and small groups with designated meeting points throughout.",
-  },
-  {
-    question: "How long is the junior high session?",
-    answer:
-      "60 to 90 minutes, designed to fit within a standard school schedule.",
-  },
-  {
-    question: "Do students need to speak English?",
-    answer:
-      "No. The investigation is available in Japanese, English, or bilingual format. English sessions include vocabulary scaffolding and mixed-level support.",
-  },
-  {
-    question: "Is preparation required for teachers?",
-    answer:
-      "No advance preparation is required. All materials including teacher briefing, student pre-reading, and vocabulary support are provided.",
-  },
-  {
-    question: "What does the price include?",
-    answer:
-      "Teacher briefing, student pre-reading, key vocabulary, learning objectives, field investigation at 2-3 historical sites, small-group inquiry, whole-class discussion, historian's evidence-based conclusion, and a digital Investigation Companion.",
-  },
-]);
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd({
+    locale,
+    items: [
+      {
+        name: "Home",
+        nameJa: "ホーム",
+        url: SITE,
+        urlJa: `${SITE}/ja/education`,
+      },
+      {
+        name: "Osaka History Investigations",
+        nameJa: "大阪歴史フィールド探究",
+        url: `${SITE}/education`,
+        urlJa: `${SITE}/ja/education`,
+      },
+      {
+        name: "Junior High",
+        nameJa: "中学校",
+        url: `${SITE}/education/junior-high`,
+        urlJa: `${SITE}/ja/education/junior-high`,
+      },
+    ],
+  });
 
-export default function JuniorHighPage() {
+  const faqJsonLd = buildFaqJsonLd(
+    content.juniorHigh.faq.map((f) => ({
+      question: f.q,
+      answer: f.a,
+    }))
+  );
+
+  const courseJsonLd = buildCourseJsonLd({
+    name: "Junior High Osaka History Field Investigation",
+    nameJa: "中学生向け大阪歴史フィールド探究",
+    description:
+      "Curriculum-aligned history field investigations for junior high school students at Osaka Castle, led by historian Edward Iftody.",
+    descriptionJa:
+      "歴史家エドワード・イフティが指導する中学生向けのカリキュラム連動型歴史フィールド探究。",
+    url: `${SITE}/education/junior-high`,
+    urlJa: `${SITE}/ja/education/junior-high`,
+    locale,
+    lowPrice: "50000",
+    highPrice: "95000",
+  });
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(articleJsonLd),
-        }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(articleJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbJsonLd),
-        }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqJsonLd),
-        }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(courseJsonLd) }}
       />
       <JuniorHighClient />
     </>
