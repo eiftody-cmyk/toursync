@@ -13,6 +13,8 @@ type ActionItem = {
   linkText: string;
 };
 
+const OTA_SOURCES = new Set(["viator", "gyg", "travelio", "airbnb"]);
+
 export function ActionRequired({
   bookings,
   tours,
@@ -62,14 +64,21 @@ export function ActionRequired({
       }
     }
 
-    const toursWithoutChannels = tours.filter((t) => {
-      const channelListings = (t as Tour & { tour_channel_listings?: Array<{ is_active: boolean }> }).tour_channel_listings;
-      return !channelListings || channelListings.length === 0;
+    const toursWithOtaSalesNoListing = tours.filter((t) => {
+      const listings = (
+        t as Tour & { tour_channel_listings?: Array<{ is_active: boolean }> }
+      ).tour_channel_listings;
+      const hasActive = (listings ?? []).some((l) => l.is_active);
+      if (hasActive) return false;
+      return bookings.some(
+        (b) => b.tour_id === t.id && OTA_SOURCES.has(b.source ?? "")
+      );
     });
-    if (toursWithoutChannels.length > 0 && tours.length > 0) {
+    if (toursWithOtaSalesNoListing.length > 0) {
+      const n = toursWithOtaSalesNoListing.length;
       items.push({
         id: "no-channels",
-        message: `${toursWithoutChannels.length} tour${toursWithoutChannels.length !== 1 ? "s" : ""} without channel connections`,
+        message: `${n} tour${n !== 1 ? "s" : ""} with OTA sales but no active channel connection`,
         link: "/tours",
         linkText: "Manage",
       });
@@ -92,7 +101,8 @@ export function ActionRequired({
     <Card className="border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/20">
       <CardContent className="py-3 px-4">
         <p className="text-sm font-medium text-amber-800 dark:text-amber-300 mb-2">
-          ⚠️ {actions.length} thing{actions.length !== 1 ? "s" : ""} need{actions.length === 1 ? "s" : ""} attention
+          ⚠️ {actions.length} thing{actions.length !== 1 ? "s" : ""} need
+          {actions.length === 1 ? "s" : ""} attention
         </p>
         <div className="space-y-1.5">
           {actions.map((a) => (

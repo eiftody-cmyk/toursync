@@ -1,8 +1,7 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { createClient } from "@/lib/supabase/client";
 
 type ActivityEvent = {
@@ -102,7 +101,7 @@ export function ActivityLog() {
       }
 
       allEvents.sort((a, b) => b.created_at.localeCompare(a.created_at));
-      setEvents(allEvents.slice(0, 10));
+      setEvents(allEvents.slice(0, 5));
       setLoading(false);
     }
 

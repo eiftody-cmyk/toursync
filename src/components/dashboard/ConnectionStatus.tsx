@@ -17,12 +17,16 @@ export function ConnectionStatus({
   tours: Tour[];
 }) {
   const [testing, setTesting] = useState(false);
-  const [testResults, setTestResults] = useState<Record<string, "ok" | "fail" | null>>({});
+  const [testResult, setTestResult] = useState<"ok" | "fail" | null>(null);
 
   const channels = useMemo(() => {
     const connected = new Set<string>();
     for (const tour of tours) {
-      const listings = (tour as Tour & { tour_channel_listings?: Array<{ channel: string; is_active: boolean }> }).tour_channel_listings;
+      const listings = (
+        tour as Tour & {
+          tour_channel_listings?: Array<{ channel: string; is_active: boolean }>;
+        }
+      ).tour_channel_listings;
       if (listings) {
         for (const l of listings) {
           if (l.is_active) connected.add(l.channel);
@@ -34,28 +38,15 @@ export function ConnectionStatus({
 
   const handleTest = async () => {
     setTesting(true);
-    const results: Record<string, "ok" | "fail"> = {};
-
     try {
       const res = await fetch("/api/calendar/test", { method: "POST" });
-      results.google = res.ok ? "ok" : "fail";
+      setTestResult(res.ok ? "ok" : "fail");
     } catch {
-      results.google = "fail";
+      setTestResult("fail");
     }
-
-    for (const ch of ["airbnb", "viator", "gyg"]) {
-      if (channels.has(ch)) {
-        results[ch] = "ok";
-      }
-    }
-
-    setTestResults(results);
     setTesting(false);
-    setTimeout(() => setTestResults({}), 5000);
+    setTimeout(() => setTestResult(null), 5000);
   };
-
-  const allHealthy = tokens && channels.size > 0;
-  const hasIssues = tokens === null;
 
   return (
     <Card>
@@ -66,14 +57,17 @@ export function ConnectionStatus({
             <ConnectionBadge
               name="Google Calendar"
               connected={!!tokens}
-              testResult={testResults.google}
+              testResult={testResult}
             />
-            {(["airbnb", "viator", "gyg"] as const).map((ch) => (
+            {(["viator", "gyg", "travelio", "airbnb"] as const).map((ch) => (
               <ConnectionBadge
                 key={ch}
-                name={ch === "gyg" ? "GYG" : ch.charAt(0).toUpperCase() + ch.slice(1)}
+                name={
+                  ch === "gyg"
+                    ? "GYG"
+                    : ch.charAt(0).toUpperCase() + ch.slice(1)
+                }
                 connected={channels.has(ch)}
-                testResult={testResults[ch]}
               />
             ))}
           </div>
@@ -85,7 +79,7 @@ export function ConnectionStatus({
               onClick={handleTest}
               disabled={testing}
             >
-              {testing ? "Testing…" : "Test"}
+              {testing ? "Testing…" : "Test Google"}
             </Button>
             <Button asChild variant="ghost" size="sm" className="h-6 text-xs px-2">
               <Link href="/settings">Settings</Link>
@@ -106,14 +100,26 @@ function ConnectionBadge({
   connected: boolean;
   testResult?: "ok" | "fail" | null;
 }) {
-  if (testResult === "ok") {
-    return <Badge variant="outline" className="text-[10px] text-emerald-600 border-emerald-300">{name} ✓</Badge>;
+  if (testResult === "ok" && name === "Google Calendar") {
+    return (
+      <Badge variant="outline" className="text-[10px] text-emerald-600 border-emerald-300">
+        {name} connected
+      </Badge>
+    );
   }
-  if (testResult === "fail") {
-    return <Badge variant="destructive" className="text-[10px]">{name} ✗</Badge>;
+  if (testResult === "fail" && name === "Google Calendar") {
+    return <Badge variant="destructive" className="text-[10px]">{name} failed</Badge>;
   }
   if (connected) {
-    return <Badge variant="outline" className="text-[10px] text-muted-foreground">{name} ✓</Badge>;
+    return (
+      <Badge variant="outline" className="text-[10px] text-muted-foreground">
+        {name} configured
+      </Badge>
+    );
   }
-  return <Badge variant="outline" className="text-[10px] text-muted-foreground opacity-50">{name} —</Badge>;
+  return (
+    <Badge variant="outline" className="text-[10px] text-muted-foreground opacity-50">
+      {name} not configured
+    </Badge>
+  );
 }

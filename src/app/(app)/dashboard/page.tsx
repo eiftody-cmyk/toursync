@@ -8,12 +8,11 @@ import { TodaySchedule } from "@/components/dashboard/TodaySchedule";
 import { UpcomingTours } from "@/components/dashboard/UpcomingTours";
 import { ConnectionStatus } from "@/components/dashboard/ConnectionStatus";
 import { ActivityLog } from "@/components/dashboard/ActivityLog";
-import { ValueMetric } from "@/components/dashboard/ValueMetric";
-import { PerformanceSummary } from "@/components/dashboard/PerformanceSummary";
-import { EarningsByListing } from "@/components/dashboard/EarningsByListing";
+import { DashboardKpis } from "@/components/dashboard/DashboardKpis";
 import { TourBookings } from "@/components/dashboard/TourBookings";
-import { BlockedDatesGrouped } from "@/components/dashboard/BlockedDatesGrouped";
 import { RevenueExpandable } from "@/components/dashboard/RevenueExpandable";
+import { UpcomingBlocksLink } from "@/components/dashboard/UpcomingBlocksLink";
+import { calcNet } from "@/lib/revenue";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -51,10 +50,39 @@ export default async function DashboardPage() {
   const tokens = tokensResult.data;
   const commissionRates = (settingsResult.data?.commission_rates as Record<string, number>) ?? null;
 
+  const monthPrefix = today.slice(0, 7);
+  const monthBookings = bookings.filter((b) => b.date.startsWith(monthPrefix));
+  const monthGuests = monthBookings.reduce((s, b) => s + b.guest_count, 0);
+  const ytdGuests = bookings.reduce((s, b) => s + b.guest_count, 0);
+
+  const netThisMonth = monthBookings.reduce((sum, b) => {
+    const tour = tours.find((t) => t.id === b.tour_id);
+    return sum + calcNet(b.source ?? "direct", tour?.price ?? 0, b.guest_count, commissionRates);
+  }, 0);
+
+  const in14 = new Date();
+  in14.setDate(in14.getDate() + 14);
+  const in14Str = in14.toISOString().slice(0, 10);
+  const upcoming14 = bookings.filter(
+    (b) => b.date > today && b.date <= in14Str && b.status === "confirmed"
+  ).length;
+
+  const headerDate = new Date(
+    `${today}T12:00:00+09:00`
+  ).toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <div>
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <p className="text-xs text-muted-foreground mt-0.5">{headerDate}</p>
+        </div>
         <div className="flex gap-2">
           <Button asChild variant="outline" size="sm">
             <Link href="/tours">Manage Tours</Link>
@@ -67,6 +95,15 @@ export default async function DashboardPage() {
 
       <ActionRequired bookings={bookings} tours={tours} blocked={blocked} tokens={tokens} />
 
+      <DashboardKpis
+        netThisMonth={netThisMonth}
+        monthBookings={monthBookings.length}
+        ytdBookings={bookings.length}
+        monthGuests={monthGuests}
+        ytdGuests={ytdGuests}
+        upcoming14={upcoming14}
+      />
+
       <div className="grid md:grid-cols-2 gap-4">
         <TodaySchedule bookings={bookings} tours={tours} blocked={blocked} />
         <UpcomingTours bookings={bookings} tours={tours} blocked={blocked} />
@@ -74,9 +111,7 @@ export default async function DashboardPage() {
 
       <ConnectionStatus tokens={tokens} tours={tours} />
 
-      <ActivityLog />
-
-      <ValueMetric bookings={bookings} />
+      <TourBookings bookings={bookings} tours={tours} commissionRates={commissionRates} />
 
       <RevenueExpandable
         bookings={bookings}
@@ -84,9 +119,9 @@ export default async function DashboardPage() {
         commissionRates={commissionRates}
       />
 
-      <TourBookings bookings={bookings} tours={tours} commissionRates={commissionRates} />
+      <ActivityLog />
 
-      <BlockedDatesGrouped blocked={blocked} tours={tours} />
+      <UpcomingBlocksLink blocked={blocked} />
     </div>
   );
 }
