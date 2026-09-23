@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { exchangeCodeForTokens, encryptToken } from "@/lib/google/auth";
+import { isGoogleSyncEnabled, syncPendingBlocks } from "@/lib/google/sync";
 import { rateLimit, clientIp } from "@/lib/security/rateLimit";
 
 export async function GET(request: NextRequest) {
@@ -65,6 +66,25 @@ export async function GET(request: NextRequest) {
     }
 
     await supabase.from("google_tokens").upsert(payload, { onConflict: "user_id" });
+
+    // Heal any blocks created while disconnected — never make the user
+    // hunt for a manual "sync pending" button after reconnect.
+    if (isGoogleSyncEnabled()) {
+      try {
+        const result = await syncPendingBlocks({ supabase, userId: user.id });
+        if (result.total > 0) {
+          console.log(
+            `[google/callback] backfilled ${result.synced.length}/${result.total} pending block(s) for ${user.id}` +
+              (result.failed.length ? `; failed=${result.failed.length}` : "")
+          );
+        }
+      } catch (e) {
+        console.error(
+          "[google/callback] post-connect backfill failed:",
+          e instanceof Error ? e.message : e
+        );
+      }
+    }
 
     const res = NextResponse.redirect(`${origin}/settings?google=connected`);
     res.cookies.set("google_oauth_state", "", { maxAge: 0, path: "/" });

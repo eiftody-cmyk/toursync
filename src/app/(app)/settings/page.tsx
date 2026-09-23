@@ -44,7 +44,8 @@ export default async function SettingsPage({
       {success && (
         <Card className="border-emerald-300 bg-emerald-50 dark:bg-emerald-950/20">
           <CardContent className="pt-6 text-sm text-emerald-800 dark:text-emerald-200">
-            Google account connected. Now create per-tour calendars below.
+            Google account connected. Pending blocks were synced automatically.
+            Create per-tour calendars below if you haven&apos;t already.
           </CardContent>
         </Card>
       )}
@@ -56,12 +57,16 @@ export default async function SettingsPage({
         </Card>
       )}
 
-      {token && !token.refresh_token && (
+      {(!token || !token.refresh_token) && (
         <Card className="border-red-300 bg-red-50 dark:bg-red-950/20">
           <CardContent className="pt-4 pb-4 text-sm text-red-700 dark:text-red-200 flex items-center justify-between">
-            <span>Google Calendar is disconnected. Bookings will not sync to your calendar.</span>
+            <span>
+              {token
+                ? "Google Calendar is disconnected. Bookings will not sync to your calendar."
+                : "Google Calendar is not connected. Bookings will not sync to your calendar."}
+            </span>
             <Button asChild size="sm" className="ml-4 shrink-0">
-              <a href="/api/auth/google">Reconnect Now</a>
+              <a href="/api/auth/google">{token ? "Reconnect Now" : "Connect Now"}</a>
             </Button>
           </CardContent>
         </Card>

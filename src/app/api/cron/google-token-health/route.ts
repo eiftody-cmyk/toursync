@@ -2,11 +2,12 @@ import { NextRequest } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { getValidAccessTokenWithClient } from "@/lib/google/calendar";
 import { GoogleDisconnectedError } from "@/lib/google/auth";
+import { isGoogleSyncEnabled, syncPendingBlocks } from "@/lib/google/sync";
 
 /**
- * Daily cron: verify Google Calendar tokens are still valid.
+ * Daily cron: verify Google Calendar tokens are still valid, then drain any
+ * blocked_dates rows that never got a google_calendar_event_id.
  * If a token is revoked, the row is already cleared by getValidAccessTokenWithClient.
- * This cron proactively checks so the admin sees the banner before any booking fails.
  *
  * Scheduled via wrangler.toml [triggers] crons = ["0 3 * * *"].
  * Requires Worker secret CRON_SECRET (wrangler secret put CRON_SECRET).
@@ -29,12 +30,27 @@ export async function GET(req: NextRequest) {
     .select("user_id, refresh_token")
     .not("refresh_token", "is", null);
 
-  const results: { userId: string; status: string }[] = [];
+  const results: { userId: string; status: string; backfilled?: number; failed?: number }[] = [];
 
   for (const row of tokens ?? []) {
     try {
       await getValidAccessTokenWithClient(supabase, row.user_id);
-      results.push({ userId: row.user_id, status: "ok" });
+      let backfilled = 0;
+      let failed = 0;
+      if (isGoogleSyncEnabled()) {
+        try {
+          const sync = await syncPendingBlocks({ supabase, userId: row.user_id });
+          backfilled = sync.synced.length;
+          failed = sync.failed.length;
+        } catch (e) {
+          console.error(
+            "[cron/google-token-health] backfill failed:",
+            row.user_id,
+            e instanceof Error ? e.message : e
+          );
+        }
+      }
+      results.push({ userId: row.user_id, status: "ok", backfilled, failed });
     } catch (e) {
       const status = e instanceof GoogleDisconnectedError ? "disconnected" : "error";
       results.push({ userId: row.user_id, status });

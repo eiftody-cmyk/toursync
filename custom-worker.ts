@@ -3,7 +3,7 @@
 //
 // crons in wrangler.toml:
 //  - "* * * * *"     → expire Reservations holds
-//  - "0 3 * * *"     → Google token health check
+//  - "0 3 * * *"     → Google token health check + pending block backfill
 
 // @ts-expect-error `.open-next/worker.js` is generated at build time
 import { default as handler } from "./.open-next/worker.js";
