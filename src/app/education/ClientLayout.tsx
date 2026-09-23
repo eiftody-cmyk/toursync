@@ -22,6 +22,8 @@ function Header() {
         ? `/ja${pathname}`
         : pathname.replace(/^\/ja/, "") || "/education";
     setLocale(newLocale);
+    // Keep server metadata/layout in sync (middleware also sets this on /ja/*)
+    document.cookie = `edu-locale=${newLocale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
     window.location.href = newPath;
   };
 

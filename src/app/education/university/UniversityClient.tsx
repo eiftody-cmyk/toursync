@@ -18,6 +18,7 @@ export default function UniversityPage() {
   const { locale } = useLocale();
   const t = locale === "ja" ? ja : en;
   const uni = t.university;
+  const prefix = locale === "ja" ? "/ja" : "";
 
   const uniExamples = investigationExamples.filter(
     (e) => e.level === "university"
@@ -45,7 +46,7 @@ export default function UniversityPage() {
           <a href="#inquiry-form" className="edu-cta-btn">
             {t.nav.cta}
           </a>
-          <Link href="/education/teacher-pack" className="edu-cta-btn secondary">
+          <Link href={`${prefix}/education/teacher-pack`} className="edu-cta-btn secondary">
             {t.hub.hero.secondary}
           </Link>
         </div>

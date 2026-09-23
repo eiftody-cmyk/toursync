@@ -17,6 +17,7 @@ export default function HighSchoolPage() {
   const { locale } = useLocale();
   const t = locale === "ja" ? ja : en;
   const hs = t.highSchool;
+  const prefix = locale === "ja" ? "/ja" : "";
 
   const hsExamples = investigationExamples.filter(
     (e) => e.level === "hs"
@@ -44,7 +45,7 @@ export default function HighSchoolPage() {
           <a href="#inquiry-form" className="edu-cta-btn">
             {t.nav.cta}
           </a>
-          <Link href="/education/teacher-pack" className="edu-cta-btn secondary">
+          <Link href={`${prefix}/education/teacher-pack`} className="edu-cta-btn secondary">
             {t.hub.hero.secondary}
           </Link>
         </div>

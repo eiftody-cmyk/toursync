@@ -25,6 +25,7 @@ const TABS: { key: CurriculumLevel | "all"; label: string; labelJa: string }[] =
 export default function EducationHub() {
   const { locale } = useLocale();
   const t = locale === "ja" ? ja : en;
+  const prefix = locale === "ja" ? "/ja" : "";
   const [activeTab, setActiveTab] = useState<CurriculumLevel | "all">("all");
 
   return (
@@ -56,7 +57,7 @@ export default function EducationHub() {
           <a href="#inquiry-form" className="edu-cta-btn">
             {t.hub.hero.cta}
           </a>
-          <Link href="/education/teacher-pack" className="edu-cta-btn secondary">
+          <Link href={`${prefix}/education/teacher-pack`} className="edu-cta-btn secondary">
             {t.hub.hero.secondary}
           </Link>
         </div>
@@ -329,7 +330,7 @@ export default function EducationHub() {
           }}
         >
           {t.form.notSure}{" "}
-          <Link href="/education/teacher-pack">
+          <Link href={`${prefix}/education/teacher-pack`}>
             {locale === "ja" ? "授業見本を見る →" : "See a sample lesson →"}
           </Link>
         </p>

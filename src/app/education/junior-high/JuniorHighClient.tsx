@@ -17,6 +17,7 @@ export default function JuniorHighPage() {
   const { locale } = useLocale();
   const t = locale === "ja" ? ja : en;
   const jhs = t.juniorHigh;
+  const prefix = locale === "ja" ? "/ja" : "";
 
   const jhsExamples = investigationExamples.filter((e) => e.level === "jhs");
 
@@ -42,7 +43,7 @@ export default function JuniorHighPage() {
           <a href="#inquiry-form" className="edu-cta-btn">
             {t.nav.cta}
           </a>
-          <Link href="/education/teacher-pack" className="edu-cta-btn secondary">
+          <Link href={`${prefix}/education/teacher-pack`} className="edu-cta-btn secondary">
             {t.hub.hero.secondary}
           </Link>
         </div>

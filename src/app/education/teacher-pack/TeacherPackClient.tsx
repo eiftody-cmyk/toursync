@@ -11,6 +11,7 @@ export default function TeacherPackPage() {
   const { locale } = useLocale();
   const t = locale === "ja" ? ja : en;
   const tp = t.teacherPack;
+  const prefix = locale === "ja" ? "/ja" : "";
 
   return (
     <div>
@@ -22,7 +23,7 @@ export default function TeacherPackPage() {
           <a href="#inquiry-form" className="edu-cta-btn">
             {t.nav.cta}
           </a>
-          <Link href="/education" className="edu-cta-btn secondary">
+          <Link href={`${prefix}/education`} className="edu-cta-btn secondary">
             {locale === "ja" ? "全体概要に戻る" : "Back to Overview"}
           </Link>
         </div>

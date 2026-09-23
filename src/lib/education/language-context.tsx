@@ -33,6 +33,8 @@ export function LanguageProvider({
   const setLocale = useCallback((l: Locale) => {
     setLocaleState(l);
     localStorage.setItem("edu-lang", l);
+    // Keep SSR metadata/layout in sync with the client language toggle
+    document.cookie = `edu-locale=${l}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
   }, []);
 
   return (
