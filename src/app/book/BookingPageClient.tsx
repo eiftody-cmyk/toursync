@@ -18,6 +18,20 @@ interface DateData {
   available: AvailableDate[];
   blocked: string[];
   full: string[];
+  otherTourSpots: Record<string, number>;
+}
+
+interface AltTour {
+  tour_id: string;
+  name: string;
+  price: number | null;
+  currency: string;
+  capacity: number;
+  slots: Array<{
+    start_time: string;
+    duration_minutes: number;
+    remaining: number;
+  }>;
 }
 
 interface BookingPageClientProps {
@@ -38,6 +52,14 @@ function toDateStr(date: Date): string {
 function parseDateStr(dateStr: string): Date {
   const [y, m, d] = dateStr.split("-").map(Number);
   return new Date(y, m - 1, d);
+}
+
+function addMinutesToTime(time: string, minutes: number): string {
+  const [h, m] = time.split(":").map(Number);
+  const total = h * 60 + m + (minutes || 0);
+  const hh = Math.floor(total / 60) % 24;
+  const mm = total % 60;
+  return `${String(hh).padStart(2, "0")}:${String(mm).padStart(2, "0")}`;
 }
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -63,13 +85,20 @@ export function BookingPageClient({
   initialDate = null,
   initialTime = null,
 }: BookingPageClientProps) {
-  const [dateData, setDateData] = useState<DateData>({ available: [], blocked: [], full: [] });
+  const [dateData, setDateData] = useState<DateData>({
+    available: [],
+    blocked: [],
+    full: [],
+    otherTourSpots: {},
+  });
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<AvailableDate | null>(null);
   const [guestCount, setGuestCount] = useState("2");
   const [error, setError] = useState<string | null>(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [altTours, setAltTours] = useState<AltTour[]>([]);
+  const [loadingAlts, setLoadingAlts] = useState(false);
 
   const now = new Date();
   const [viewMonth, setViewMonth] = useState(now.getMonth());
@@ -79,9 +108,14 @@ export function BookingPageClient({
     try {
       const r = await fetch(`/api/book/available-dates?tour_id=${tourId}&t=${Date.now()}`);
       const d = await r.json();
-      setDateData({ available: d.available ?? [], blocked: d.blocked ?? [], full: d.full ?? [] });
+      setDateData({
+        available: d.available ?? [],
+        blocked: d.blocked ?? [],
+        full: d.full ?? [],
+        otherTourSpots: d.otherTourSpots ?? {},
+      });
     } catch {
-      setDateData({ available: [], blocked: [], full: [] });
+      setDateData({ available: [], blocked: [], full: [], otherTourSpots: {} });
     } finally {
       setLoading(false);
     }
@@ -124,47 +158,86 @@ export function BookingPageClient({
 
   const blockedSet = useMemo(() => new Set(dateData.blocked), [dateData]);
   const fullSet = useMemo(() => new Set(dateData.full), [dateData]);
+  const otherSpots = dateData.otherTourSpots;
   const todayStr = toDateStr(now);
 
   // Preselect date (+ slot) when landing with ?date=&time= from the date-first picker.
   const preselectKey = `${initialDate}|${initialTime}|${dateData.available.length}`;
   const [preselectDone, setPreselectDone] = useState(false);
   useEffect(() => {
-    if (preselectDone || !initialDate || dateData.available.length === 0) return;
+    if (preselectDone || !initialDate) return;
+    const pd = parseDateStr(initialDate);
+    const jump = () => {
+      setViewMonth(pd.getMonth());
+      setViewYear(pd.getFullYear());
+      setSelectedDate(initialDate);
+      setPreselectDone(true);
+    };
+
     const match = dateData.available.filter((d) => d.date === initialDate);
-    if (match.length === 0) return;
+    if (match.length === 0) {
+      // Date has no slots for this tour — still select it so the
+      // alternate-tour panel can load below the calendar.
+      if (initialDate >= todayStr) jump();
+      return;
+    }
     if (initialTime) {
       const slot = match.find((d) => d.start_time === initialTime);
       if (slot) {
-        setSelectedDate(initialDate);
+        jump();
         setSelectedSlot(slot);
-        const pd = parseDateStr(initialDate);
-        setViewMonth(pd.getMonth());
-        setViewYear(pd.getFullYear());
-        setPreselectDone(true);
         return;
       }
     }
-    setSelectedDate(initialDate);
-    const pd = parseDateStr(initialDate);
-    setViewMonth(pd.getMonth());
-    setViewYear(pd.getFullYear());
-    setPreselectDone(true);
-  }, [preselectDone, initialDate, initialTime, dateData.available, preselectKey]);
+    jump();
+  }, [preselectDone, initialDate, initialTime, dateData.available, preselectKey, todayStr]);
 
   const slotsForDate = useMemo(() => {
     if (!selectedDate) return [];
     return dateData.available.filter((d) => d.date === selectedDate);
   }, [dateData, selectedDate]);
 
+  const loadAlts = useCallback(async (dateStr: string) => {
+    setLoadingAlts(true);
+    setAltTours([]);
+    try {
+      const r = await fetch(`/api/book/availability-by-date?date=${dateStr}&t=${Date.now()}`);
+      if (!r.ok) throw new Error("failed");
+      const d: { tours?: AltTour[] } = await r.json();
+      const others = (d.tours ?? []).filter((t) => t.tour_id !== tour.id);
+      setAltTours(others);
+    } catch {
+      setAltTours([]);
+    } finally {
+      setLoadingAlts(false);
+    }
+  }, [tour.id]);
+
   function handleDayClick(date: Date) {
     const dateStr = toDateStr(date);
-    if (!dateAvailability.has(dateStr)) return;
+    if (dateStr < todayStr) return;
+    const hasOwn = dateAvailability.has(dateStr);
+    const hasOther = otherSpots[dateStr] != null;
+    if (!hasOwn && !hasOther) return;
+
     setSelectedDate(dateStr);
     setSelectedSlot(null);
     setGuestCount("2");
     setError(null);
+    setAltTours([]);
+    if (!hasOwn) {
+      loadAlts(dateStr);
+    }
   }
+
+  // Load alternates when preselect lands on a date without this tour's slots.
+  useEffect(() => {
+    if (!selectedDate || slotsForDate.length > 0 || altTours.length > 0 || loadingAlts) return;
+    if (!dateAvailability.has(selectedDate)) {
+      loadAlts(selectedDate);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDate, slotsForDate.length, dateAvailability]);
 
   function handleSlotClick(slot: AvailableDate) {
     setSelectedSlot(slot);
@@ -244,7 +317,7 @@ export function BookingPageClient({
 
         {loading ? (
           <p style={{ color: "var(--parchment-dim)" }}>Loading available dates...</p>
-        ) : dateData.available.length === 0 && dateData.blocked.length === 0 && dateData.full.length === 0 ? (
+        ) : dateData.available.length === 0 && dateData.blocked.length === 0 && dateData.full.length === 0 && Object.keys(otherSpots).length === 0 ? (
           <p style={{ color: "var(--parchment-dim)" }}>
             No available dates at this time. Check back later or contact us.
           </p>
@@ -276,12 +349,16 @@ export function BookingPageClient({
 
                   const dateStr = toDateStr(date);
                   const isPast = dateStr < todayStr;
-                  const isBlocked = blockedSet.has(dateStr);
-                  const isFull = fullSet.has(dateStr);
-                  const isUnavailable = isBlocked || isFull;
                   const availability = dateAvailability.get(dateStr);
-                  const isAvailable = !!availability;
+                  const otherCount = otherSpots[dateStr];
+                  const isFull = fullSet.has(dateStr) || blockedSet.has(dateStr);
+                  const hasOwn = !!availability;
+                  const hasOther = otherCount != null;
+                  // Full only when no tour has room that day.
+                  const isUnavailable = isFull && !hasOwn && !hasOther;
+                  const isAvailable = hasOwn || hasOther;
                   const isSelected = selectedDate === dateStr;
+                  const spotCount = hasOwn ? availability!.totalRemaining : otherCount;
 
                   let className = "calendar-day";
                   if (isPast) className += " past";
@@ -296,10 +373,10 @@ export function BookingPageClient({
                       onClick={() => !isPast && handleDayClick(date)}
                     >
                       <span className="day-number">{date.getDate()}</span>
-                      {isAvailable && availability && (
+                      {isAvailable && spotCount != null && (
                         <>
-                          <span className="day-spots">{availability.totalRemaining} spots</span>
-                          {availability.booked > 0 && (
+                          <span className="day-spots">{spotCount} spots</span>
+                          {hasOwn && availability && availability.booked > 0 && (
                             <span className="day-booked">{availability.booked} booked</span>
                           )}
                         </>
@@ -343,10 +420,46 @@ export function BookingPageClient({
                   })}
                 </div>
               )}
+
+              {/* Alternate tours when this tour has no slots */}
               {selectedDate && slotsForDate.length === 0 && (
-                <p style={{ color: "var(--parchment-dim)", fontSize: "0.9rem", marginTop: "0.75rem" }}>
-                  No times available for this date.
-                </p>
+                <div style={{ marginTop: "1rem" }}>
+                  {loadingAlts && (
+                    <p style={{ color: "var(--parchment-dim)", fontSize: "0.9rem" }}>
+                      Checking availability...
+                    </p>
+                  )}
+                  {!loadingAlts && altTours.length > 0 && (
+                    <div className="existing-tours-section">
+                      <label>This tour is full on this date — Edward has a tour:</label>
+                      {altTours.map((alt) =>
+                        alt.slots.map((slot) => {
+                          const end = addMinutesToTime(slot.start_time, slot.duration_minutes);
+                          return (
+                            <div key={`${alt.tour_id}_${slot.start_time}`} className="existing-tour-card">
+                              <div className="tour-time">{slot.start_time} — {end}</div>
+                              <div className="tour-name">{alt.name}</div>
+                              <div className="spots-left">
+                                {slot.remaining} spot{slot.remaining === 1 ? "" : "s"} left
+                              </div>
+                              <Link
+                                href={`/book?tour=${alt.tour_id}&date=${selectedDate}&time=${slot.start_time}`}
+                                className="join-tour-link"
+                              >
+                                Join this tour →
+                              </Link>
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
+                  )}
+                  {!loadingAlts && altTours.length === 0 && (
+                    <p style={{ color: "var(--parchment-dim)", fontSize: "0.9rem" }}>
+                      No times available for this date. Try another date.
+                    </p>
+                  )}
+                </div>
               )}
             </div>
           </div>
