@@ -6,6 +6,7 @@ import { gygJson } from "@/lib/gyg/response";
 import { lookupTourByProductId } from "@/lib/gyg/lookup";
 import type { GygReservationResponse, GygErrorResponse } from "@/lib/gyg/types";
 import { clusterBlockRows, manualBlockedForTour } from "@/lib/schedules/blockOverlap";
+import { filterBySlot } from "@/lib/core/slot";
 
 function normalizeTime(t: string | null): string {
   if (!t) return "00:00";
@@ -226,8 +227,14 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
   // distinguish a true idempotent retry (same date/time/items) from a
   // modification (different date/time or items) and issue a fresh reference.
   const [bookingsResult, reservationsResult, refReservationsResult] = await Promise.all([
-    supabase.from("bookings").select("guest_count").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", tourStartTime).eq("status", "confirmed"),
-    supabase.from("gyg_reservations").select("booking_items, gyg_booking_reference").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", tourStartTime).gt("expires_at", new Date().toISOString()),
+    filterBySlot(
+      supabase.from("bookings").select("guest_count").eq("tour_id", tour.id).eq("date", dateStr),
+      tourStartTime
+    ).eq("status", "confirmed"),
+    filterBySlot(
+      supabase.from("gyg_reservations").select("booking_items, gyg_booking_reference").eq("tour_id", tour.id).eq("date", dateStr),
+      tourStartTime
+    ).gt("expires_at", new Date().toISOString()),
     supabase.from("gyg_reservations").select("reservation_reference, date, start_time, booking_items").eq("gyg_booking_reference", requestData.gygBookingReference).gt("expires_at", new Date().toISOString()),
   ]);
 
@@ -253,7 +260,7 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
   }
 
   let totalBooked = (existingBookings ?? []).reduce(
-    (sum, b) => sum + (b.guest_count ?? 0),
+    (sum: number, b: { guest_count?: number }) => sum + (b.guest_count ?? 0),
     0
   );
 

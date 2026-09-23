@@ -3,6 +3,7 @@ import { checkCapacity } from './availability';
 import { convertReservation } from './reservations';
 import { countGuestsFromItems } from './guests';
 import { blockSlot, unblockSlot } from '@/lib/google/sync';
+import { filterBySlot } from './slot';
 import type { BookingItem, CustomerInfo, Booking } from './types';
 
 interface CreateBookingParams {
@@ -94,7 +95,7 @@ export async function createBooking(
   // Auto-block if full — awaited so Cloudflare Workers doesn't kill the push
   const newCapacity = await checkCapacity(tourId, date, startTime);
   if (newCapacity.remaining === 0) {
-    await blockSlot({
+    const blockResult = await blockSlot({
       supabase,
       userId,
       tourId,
@@ -104,9 +105,10 @@ export async function createBooking(
       summary: 'Full — via OTA booking',
       description: 'Auto-blocked: slot at capacity via OTA booking',
       isAutoBlocked: true,
-    }).catch((e) => {
-      console.error('[createBooking] auto-block failed:', e instanceof Error ? e.message : e);
     });
+    if (blockResult.error) {
+      console.error('[createBooking] auto-block failed:', blockResult.error);
+    }
   }
 
   return booking as Booking;
@@ -128,20 +130,22 @@ export async function cancelBooking(
     .single();
 
   if (booking) {
-    const now = new Date();
-    const jstOffset = 9 * 60;
-    const jstNow = new Date(now.getTime() + jstOffset * 60 * 1000);
-    const bookingDate = new Date(`${booking.date}T${booking.start_time || '00:00'}:00+09:00`);
-
-    if (bookingDate < jstNow) {
+    const start = (booking.start_time ?? '00:00').slice(0, 5);
+    const bookingStartAbs = Date.parse(`${booking.date}T${start}:00+09:00`);
+    if (Number.isNaN(bookingStartAbs) || bookingStartAbs < Date.now()) {
       throw new Error('CANNOT_CANCEL_PAST_BOOKING');
     }
   }
 
-  await supabase
+  const { data: cancelled } = await supabase
     .from('bookings')
     .update({ status: 'cancelled' })
-    .eq('id', bookingId);
+    .eq('id', bookingId)
+    .eq('status', 'confirmed')
+    .select('id');
+  if (!cancelled || cancelled.length === 0) {
+    return;
+  }
 
   // If slot is now below capacity, remove auto-block (Google event + DB row)
   if (booking?.tour_id) {
@@ -166,25 +170,27 @@ async function maybeRemoveAutoBlock(
     .single();
   if (!tour) return;
 
-  const { data: remainingBookings } = await supabase
-    .from('bookings')
-    .select('guest_count')
-    .eq('tour_id', tourId)
-    .eq('date', date)
-    .eq('start_time', startTime)
-    .eq('status', 'confirmed');
+  const { data: remainingBookings } = await filterBySlot(
+    supabase
+      .from('bookings')
+      .select('guest_count')
+      .eq('tour_id', tourId)
+      .eq('date', date),
+    startTime
+  ).eq('status', 'confirmed');
 
-  const totalBooked = (remainingBookings ?? []).reduce((s, b) => s + (b.guest_count ?? 0), 0);
+  const totalBooked = (remainingBookings ?? []).reduce((s: number, b: { guest_count?: number }) => s + (b.guest_count ?? 0), 0);
   if (totalBooked >= tour.capacity) return;
 
-  let q = supabase
-    .from('blocked_dates')
-    .select('id, user_id')
-    .eq('tour_id', tourId)
-    .eq('date', date)
-    .eq('is_auto_blocked', true);
-  q = startTime ? q.eq('start_time', startTime) : q.is('start_time', null);
-  const { data: autoBlock } = await q.maybeSingle();
+  const { data: autoBlock } = await filterBySlot(
+    supabase
+      .from('blocked_dates')
+      .select('id, user_id')
+      .eq('tour_id', tourId)
+      .eq('date', date)
+      .eq('is_auto_blocked', true),
+    startTime
+  ).maybeSingle();
 
   if (autoBlock) {
     await unblockSlot({ supabase, blockedId: autoBlock.id });

@@ -6,16 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-interface BookingDetails {
-  tourId: string;
-  date: string;
-  startTime: string | null;
-  guestCount: number;
-}
-
 export function ConfirmPageClient({ orderId }: { orderId: string }) {
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
-  const [bookingDetails, setBookingDetails] = useState<BookingDetails | null>(null);
   const [tourName, setTourName] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -36,24 +28,12 @@ export function ConfirmPageClient({ orderId }: { orderId: string }) {
           return;
         }
 
-        if (data.status === "COMPLETED" && data.bookingDetails) {
-          setBookingDetails(data.bookingDetails);
-
-          // Fetch tour name
-          try {
-            const tourRes = await fetch(
-              `/api/book/available-dates?tour_id=${data.bookingDetails.tourId}`
-            );
-            // The tour name isn't in available-dates, so we'll use a simple approach
-            // The webhook will handle the actual booking - we just show confirmation
-          } catch {
-            // Tour name fetch is optional - we have the other details
-          }
-
+        if (data.ok === true) {
           setStatus("success");
+          setTourName(typeof data.tourName === "string" ? data.tourName : "");
         } else {
           setStatus("error");
-          setErrorMessage("Payment status: " + (data.status || "unknown"));
+          setErrorMessage(data.error || "Payment status: unknown");
         }
       } catch {
         setStatus("error");
@@ -63,17 +43,6 @@ export function ConfirmPageClient({ orderId }: { orderId: string }) {
 
     capture();
   }, [orderId]);
-
-  // Parse date for display
-  function formatDate(dateStr: string): string {
-    const [y, m, d] = dateStr.split("-").map(Number);
-    return new Date(y, m - 1, d).toLocaleDateString("en-US", {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
-  }
 
   return (
     <div className="min-h-screen bg-muted/20">
@@ -106,26 +75,12 @@ export function ConfirmPageClient({ orderId }: { orderId: string }) {
                 Your booking has been confirmed. You&apos;ll receive a confirmation from PayPal.
               </p>
 
-              {bookingDetails && (
-                <div className="rounded-lg bg-muted p-4 text-sm space-y-1">
-                  {tourName && <p><strong>{tourName}</strong></p>}
-                  <p>
-                    <strong>Date:</strong>{" "}
-                    {formatDate(bookingDetails.date)}
-                  </p>
-                  {bookingDetails.startTime && (
-                    <p>
-                      <strong>Time:</strong> {bookingDetails.startTime}
-                    </p>
-                  )}
-                  <p>
-                    <strong>Guests:</strong> {bookingDetails.guestCount}
-                  </p>
-                  <p className="text-xs text-muted-foreground pt-2">
-                    Order ID: {orderId}
-                  </p>
-                </div>
-              )}
+              <div className="rounded-lg bg-muted p-4 text-sm space-y-1">
+                {tourName && <p><strong>{tourName}</strong></p>}
+                <p className="text-xs text-muted-foreground pt-2">
+                  Order ID: {orderId}
+                </p>
+              </div>
 
               <div className="flex gap-2 pt-2">
                 <Button asChild size="sm">

@@ -1,4 +1,5 @@
 import { createServiceClient } from '@/lib/supabase/service';
+import { filterBySlot } from './slot';
 import type { CapacityResult } from './types';
 
 /**
@@ -33,26 +34,33 @@ export async function checkCapacity(
   const capacity = tour.capacity;
 
   // 2. Count confirmed bookings
-  const { data: bookings } = await supabase
-    .from('bookings')
-    .select('guest_count')
-    .eq('tour_id', tourId)
-    .eq('date', date)
-    .is('start_time', startTime)
-    .eq('status', 'confirmed');
+  const bookingsQuery = filterBySlot(
+    supabase
+      .from('bookings')
+      .select('guest_count')
+      .eq('tour_id', tourId)
+      .eq('date', date),
+    startTime
+  ).eq('status', 'confirmed');
+  const { data: bookings, error: bookingsError } = await bookingsQuery;
+  if (bookingsError) {
+    throw new Error(`Capacity check failed: ${bookingsError.message}`);
+  }
 
   let totalBooked = (bookings ?? []).reduce(
-    (sum, b) => sum + (b.guest_count ?? 0),
+    (sum: number, b: { guest_count?: number }) => sum + (b.guest_count ?? 0),
     0
   );
 
   // 3. Count active reservations from new reservations table
-  let reservationsQuery = supabase
-    .from('reservations')
-    .select('booking_items')
-    .eq('tour_id', tourId)
-    .eq('date', date)
-    .is('start_time', startTime)
+  let reservationsQuery = filterBySlot(
+    supabase
+      .from('reservations')
+      .select('booking_items')
+      .eq('tour_id', tourId)
+      .eq('date', date),
+    startTime
+  )
     .eq('status', 'active')
     .gt('expires_at', new Date().toISOString());
 
@@ -63,13 +71,14 @@ export async function checkCapacity(
   const { data: reservations } = await reservationsQuery;
 
   // Also check gyg_reservations (legacy table during migration)
-  const { data: gygReservations } = await supabase
-    .from('gyg_reservations')
-    .select('booking_items')
-    .eq('tour_id', tourId)
-    .eq('date', date)
-    .is('start_time', startTime)
-    .gt('expires_at', new Date().toISOString());
+  const { data: gygReservations } = await filterBySlot(
+    supabase
+      .from('gyg_reservations')
+      .select('booking_items')
+      .eq('tour_id', tourId)
+      .eq('date', date),
+    startTime
+  ).gt('expires_at', new Date().toISOString());
 
   // 4. Sum reservation guests from both tables
   const allReservations = [...(reservations ?? []), ...(gygReservations ?? [])];

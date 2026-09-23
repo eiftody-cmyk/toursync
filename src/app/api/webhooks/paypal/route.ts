@@ -6,6 +6,7 @@ import { bookingConfirmationEmail } from "@/lib/email/booking-confirmation";
 import { operatorNotificationEmail } from "@/lib/email/operator-notification";
 import { customTimeNotificationEmail } from "@/lib/email/custom-time-notification";
 import { blockSlot } from "@/lib/google/sync";
+import { checkCapacity } from "@/lib/core/availability";
 
 // --- PayPal webhook signature verification ---
 // PayPal signs: transmissionId|timeStamp|webhookId|crc32(body)
@@ -223,7 +224,8 @@ export async function POST(req: NextRequest) {
   const ip = clientIp(req);
   const rl = rateLimit(`webhook:${ip}`, 30);
   if (!rl.ok) {
-    return NextResponse.json({ ok: true, skipped: "rate limited" }, { status: 201 });
+    // Non-2xx so PayPal retries legitimate events that were rate-limited
+    return NextResponse.json({ ok: false, error: "rate limited" }, { status: 503 });
   }
 
   let body: {
@@ -231,6 +233,7 @@ export async function POST(req: NextRequest) {
     resource?: {
       id?: string;
       custom_id?: string;
+      amount?: { value?: string; currency_code?: string };
       payer?: {
         email_address?: string;
         name?: { given_name?: string; surname?: string };
@@ -245,7 +248,7 @@ export async function POST(req: NextRequest) {
   try {
     body = JSON.parse(rawBody) as typeof body;
   } catch {
-    return NextResponse.json({ ok: true, skipped: "invalid json" }, { status: 201 });
+    return NextResponse.json({ ok: false, error: "invalid json" }, { status: 400 });
   }
 
   const signatureValid = await verifyWebhookSignature(
@@ -255,7 +258,7 @@ export async function POST(req: NextRequest) {
 
   if (!signatureValid.ok) {
     console.warn("[PayPal webhook] Signature verification failed:", signatureValid.reason);
-    return NextResponse.json({ ok: true, skipped: "invalid signature" }, { status: 201 });
+    return NextResponse.json({ ok: false, error: "invalid signature" }, { status: 400 });
   }
 
   const eventType = body?.event_type;
@@ -284,8 +287,16 @@ export async function POST(req: NextRequest) {
   const guestCount = parseInt(guestCountStr, 10);
   const isCustomTime = customFlag === "custom=true";
   const customerPhone = isCustomTime && parts[5] ? decodeURIComponent(parts[5]) : null;
+  const normalizedStart = startTime && /^([01]\d|2[0-3]):[0-5]\d/.test(startTime) ? startTime.slice(0, 5) : startTime || null;
 
-  if (!tourId || !date || !guestCount || guestCount < 1) {
+  if (
+    !tourId ||
+    !date ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+    !Number.isInteger(guestCount) ||
+    guestCount < 1 ||
+    guestCount > 99
+  ) {
     console.error("[PayPal webhook] Invalid booking data:", customId);
     return NextResponse.json({ ok: true, skipped: true });
   }
@@ -335,6 +346,42 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, skipped: true });
   }
 
+  // Verify paid amount matches server-side price (same check as capture-order)
+  if (tour.price) {
+    const rawTotal = Math.round(tour.price * guestCount);
+    const expectedPaid = tour.currency === "JPY" ? rawTotal : rawTotal / 100;
+    const paidValue = Number(resource.amount?.value);
+    if (Number.isNaN(paidValue) || Math.abs(paidValue - expectedPaid) > 0.01) {
+      console.error("[PayPal webhook] amount mismatch — rejecting", {
+        expected: expectedPaid,
+        actual: resource.amount?.value,
+        customId,
+      });
+      return NextResponse.json({ ok: true, skipped: "amount-mismatch" });
+    }
+    if (resource.amount?.currency_code && tour.currency && resource.amount.currency_code !== tour.currency) {
+      console.error("[PayPal webhook] currency mismatch — rejecting");
+      return NextResponse.json({ ok: true, skipped: "currency-mismatch" });
+    }
+  }
+
+  // Re-check capacity before insert (TOCTOU guard after create-order)
+  if (!isCustomTime) {
+    try {
+      const capacity = await checkCapacity(tourId, date, normalizedStart);
+      if (capacity.remaining < guestCount) {
+        console.error("[PayPal webhook] capacity exceeded — rejecting", {
+          remaining: capacity.remaining,
+          guestCount,
+        });
+        return NextResponse.json({ ok: true, skipped: "no-capacity" });
+      }
+    } catch (e) {
+      console.error("[PayPal webhook] capacity check failed:", e);
+      return NextResponse.json({ ok: false, error: "capacity check failed" }, { status: 500 });
+    }
+  }
+
   const { data: operatorProfile } = await supabase
     .from("profiles")
     .select("email")
@@ -352,7 +399,7 @@ export async function POST(req: NextRequest) {
       tour_id: tourId,
       user_id: tour.user_id,
       date,
-      start_time: startTime || null,
+      start_time: normalizedStart,
       guest_count: guestCount,
       source: isCustomTime ? "direct-custom" : "direct",
       customer_name: payerName ?? payerEmail,
@@ -377,7 +424,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true, skipped: "race-condition-dedup" });
     }
     console.error("[PayPal webhook] Failed to create booking:", error.message);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: "Failed to create booking" }, { status: 500 });
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
@@ -457,39 +504,26 @@ export async function POST(req: NextRequest) {
     });
 
   if (!isCustomTime) {
-    const { data: tourCap } = await supabase
-      .from("tours")
-      .select("capacity")
-      .eq("id", tourId)
-      .single();
-
-    const { data: allBookings } = await supabase
-      .from("bookings")
-      .select("guest_count")
-      .eq("tour_id", tourId)
-      .eq("date", date)
-      .eq("start_time", startTime || null)
-      .eq("status", "confirmed");
-
-    const totalBooked = (allBookings ?? []).reduce((sum, b) => sum + (b.guest_count ?? 0), 0);
-
-    if (tourCap && totalBooked >= tourCap.capacity) {
-      try {
-        // Direct service-client push — no session cookie, so no HTTP hop / 401
-        await blockSlot({
+    try {
+      const capacity = await checkCapacity(tourId, date, normalizedStart);
+      if (capacity.remaining <= 0) {
+        const blockResult = await blockSlot({
           supabase,
           userId: tour.user_id,
           tourId,
           date,
-          startTime: startTime || null,
+          startTime: normalizedStart,
           reason: "Full — via PayPal booking",
           summary: "Full — via PayPal booking",
           description: "Auto-blocked: slot at capacity via PayPal booking",
           isAutoBlocked: true,
         });
-      } catch (e) {
-        console.error("[PayPal webhook] Auto-block failed:", e);
+        if (blockResult.error) {
+          console.error("[PayPal webhook] Auto-block failed:", blockResult.error);
+        }
       }
+    } catch (e) {
+      console.error("[PayPal webhook] Auto-block check failed:", e);
     }
   }
 

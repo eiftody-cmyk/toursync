@@ -18,9 +18,9 @@
 - User is already a supplier on Airbnb, Viator, GYG, and Travelio
 - Domain `experiencerelay.com` available — user likes "ExperienceRelay" brand
 - JPY currency handling: PayPal amounts must NOT be divided by 100 for JPY
-- GYG outbound credentials: `GYG_USERNAME=OsakaCastleWalkswithEdward`, `GYG_PASSWORD=64a96de598f01c5b29e9f1266b7e53dc`
-- GYG inbound (test): `GYG_INBOUND_USERNAME=ExperienceRelay`, `GYG_INBOUND_PASSWORD=P421105x`
-- GYG inbound (production): `GYG_PROD_USERNAME=ExperienceRelay1`, `GYG_PROD_PASSWORD=P421105x`
+- GYG outbound credentials: `GYG_USERNAME=OsakaCastleWalkswithEdward`, `GYG_PASSWORD` — **value lives only in secrets (do not commit)**
+- GYG inbound (test): `GYG_INBOUND_USERNAME=ExperienceRelay`, `GYG_INBOUND_PASSWORD` — **value lives only in secrets (do not commit)**
+- GYG inbound (production): `GYG_PROD_USERNAME=ExperienceRelay1`, `GYG_PROD_PASSWORD` — **value lives only in secrets (do not commit)**
 - Auth middleware accepts both test and production GYG credential sets
 - `NEXT_PUBLIC_BASE_URL`: `https://osakacastletours.com`
 - Supabase anon key: in `wrangler.toml` `NEXT_PUBLIC_SUPABASE_ANON_KEY`

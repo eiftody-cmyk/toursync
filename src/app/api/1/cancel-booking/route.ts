@@ -6,6 +6,7 @@ import { gygJson } from "@/lib/gyg/response";
 import { sendEmail } from "@/lib/email/client";
 import { cancellationOperatorNotificationEmail } from "@/lib/email/cancellation-operator-notification";
 import type { GygEmptySuccessResponse, GygErrorResponse } from "@/lib/gyg/types";
+import { filterBySlot } from "@/lib/core/slot";
 
 export async function POST(req: NextRequest) {
   const reqStart = Date.now();
@@ -50,16 +51,33 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
 
   const supabase = createServiceClient();
 
-  // Find booking directly by UUID (globally unique) — skip tour lookup for speed
+  // Find booking by UUID and verify it belongs to this GYG reference + product
   const { data: booking } = await supabase
     .from("bookings")
-    .select("id, tour_id, user_id, date, start_time, status, guest_count")
+    .select("id, tour_id, user_id, date, start_time, status, guest_count, gyg_booking_reference")
     .eq("id", requestData.bookingReference)
     .maybeSingle();
 
   if (!booking) {
     return gygJson(
       { errorCode: "INVALID_BOOKING", errorMessage: "Booking not found" },
+      { status: 200 }
+    );
+  }
+
+  if (booking.gyg_booking_reference !== requestData.gygBookingReference) {
+    return gygJson(
+      { errorCode: "INVALID_BOOKING", errorMessage: "Booking does not match the provided references" },
+      { status: 200 }
+    );
+  }
+
+  // productId must resolve to the same tour (handles T-1221780 and 1221780)
+  const { lookupTourByProductId } = await import("@/lib/gyg/lookup");
+  const productTour = await lookupTourByProductId(String(requestData.productId));
+  if (!productTour || productTour.tour.id !== booking.tour_id) {
+    return gygJson(
+      { errorCode: "INVALID_BOOKING", errorMessage: "Booking does not match the provided product" },
       { status: 200 }
     );
   }
@@ -125,26 +143,29 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
     .maybeSingle();
 
   // 1) Auto-block check: if slot is now below capacity, remove auto-block
-  const { data: remainingBookings } = await supabase
-    .from("bookings")
-    .select("guest_count")
-    .eq("tour_id", booking.tour_id)
-    .eq("date", booking.date)
-    .eq("start_time", booking.start_time || null)
-    .eq("status", "confirmed");
+  const { data: remainingBookings } = await filterBySlot(
+    supabase
+      .from("bookings")
+      .select("guest_count")
+      .eq("tour_id", booking.tour_id)
+      .eq("date", booking.date),
+    booking.start_time
+  ).eq("status", "confirmed");
 
   const totalBooked = (remainingBookings ?? []).reduce(
-    (sum, b) => sum + (b.guest_count ?? 0),
+    (sum: number, b: { guest_count?: number }) => sum + (b.guest_count ?? 0),
     0
   );
 
   if (tour && totalBooked < tour.capacity) {
-    const { data: autoBlock } = await supabase
-      .from("blocked_dates")
-      .select("id")
-      .eq("tour_id", booking.tour_id)
-      .eq("date", booking.date)
-      .eq("start_time", booking.start_time || null)
+    const { data: autoBlock } = await filterBySlot(
+      supabase
+        .from("blocked_dates")
+        .select("id")
+        .eq("tour_id", booking.tour_id)
+        .eq("date", booking.date),
+      booking.start_time
+    )
       .eq("is_auto_blocked", true)
       .maybeSingle();
 

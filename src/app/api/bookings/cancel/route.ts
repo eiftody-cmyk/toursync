@@ -4,6 +4,7 @@ import { sendEmail } from "@/lib/email/client";
 import { cancellationConfirmationEmail } from "@/lib/email/cancellation-confirmation";
 import { cancellationOperatorNotificationEmail } from "@/lib/email/cancellation-operator-notification";
 import { rateLimit, clientIp } from "@/lib/security/rateLimit";
+import { filterBySlot } from "@/lib/core/slot";
 
 export async function POST(req: NextRequest) {
   const rl = rateLimit(`cancel:${clientIp(req)}`, 5);
@@ -13,6 +14,8 @@ export async function POST(req: NextRequest) {
 
   const formData = await req.formData();
   const bookingId = formData.get("booking_id") as string;
+  const cancelToken = formData.get("token") as string | null;
+  const lookupEmail = formData.get("email") as string | null;
 
   if (!bookingId) {
     return NextResponse.json({ error: "booking_id required" }, { status: 400 });
@@ -31,31 +34,42 @@ export async function POST(req: NextRequest) {
     return NextResponse.redirect(new URL("/book/manage?error=not_found", req.url));
   }
 
+  // Require proof of ownership: valid cancel token or matching email
+  const { verifyCancelToken } = await import("@/lib/security/cancelToken");
+  const tokenOk = cancelToken ? verifyCancelToken(bookingId, cancelToken) : false;
+  const emailOk =
+    !!lookupEmail &&
+    !!booking.customer_email &&
+    lookupEmail.trim().toLowerCase() === booking.customer_email.trim().toLowerCase();
+  if (!tokenOk && !emailOk) {
+    return NextResponse.redirect(new URL(`/book/manage?id=${bookingId}&error=unauthorized`, req.url));
+  }
+
   if (booking.status !== "confirmed") {
     return NextResponse.redirect(new URL(`/book/manage?id=${bookingId}&error=already_cancelled`, req.url));
   }
 
-  // Check 24-hour cancellation policy
-  const [y, m, d] = booking.date.split("-").map(Number);
-  const startTime = booking.start_time || "00:00";
-  const [h, min] = startTime.split(":").map(Number);
-  const tourStart = new Date(y, m - 1, d, h, min);
-  const now = new Date();
+  // Check 24-hour cancellation policy (JST)
+  const startTime = (booking.start_time || "00:00").slice(0, 5);
+  const tourStartAbs = Date.parse(`${booking.date}T${startTime}:00+09:00`);
+  const now = Date.now();
 
-  if (tourStart.getTime() - now.getTime() <= 24 * 60 * 60 * 1000) {
+  if (Number.isNaN(tourStartAbs) || tourStartAbs - now <= 24 * 60 * 60 * 1000) {
     return NextResponse.redirect(
       new URL(`/book/manage?id=${bookingId}&error=too_late`, req.url)
     );
   }
 
-  // Cancel the booking (use service client to bypass RLS)
-  const { error } = await serviceClient
+  // Conditional cancel — only one concurrent request wins and triggers a refund
+  const { data: cancelledRows, error } = await serviceClient
     .from("bookings")
     .update({ status: "cancelled" })
-    .eq("id", bookingId);
+    .eq("id", bookingId)
+    .eq("status", "confirmed")
+    .select("id");
 
-  if (error) {
-    console.error("[Booking cancel] Failed:", error.message);
+  if (error || !cancelledRows || cancelledRows.length === 0) {
+    if (error) console.error("[Booking cancel] Failed:", error.message);
     return NextResponse.redirect(new URL(`/book/manage?id=${bookingId}&error=cancel_failed`, req.url));
   }
 
@@ -81,7 +95,7 @@ export async function POST(req: NextRequest) {
     try {
       const { getPaymentProvider } = await import("@/lib/payments");
       const provider = getPaymentProvider();
-      await provider.refundPayment(booking.paypal_capture_id, "Tour cancelled by operator");
+      await provider.refundPayment(booking.paypal_capture_id, "Customer cancelled");
       refundIssued = true;
       console.log(`[Booking cancel] Refund issued for capture ${booking.paypal_capture_id}`);
     } catch (e) {
@@ -144,26 +158,29 @@ export async function POST(req: NextRequest) {
 
   // Check if we should un-auto-block
   // If the date/time is now below capacity, remove the auto-block
-  const { data: remainingBookings } = await serviceClient
-    .from("bookings")
-    .select("guest_count")
-    .eq("tour_id", booking.tour_id)
-    .eq("date", booking.date)
-    .eq("start_time", booking.start_time || null)
-    .eq("status", "confirmed");
+  const { data: remainingBookings } = await filterBySlot(
+    serviceClient
+      .from("bookings")
+      .select("guest_count")
+      .eq("tour_id", booking.tour_id)
+      .eq("date", booking.date),
+    booking.start_time
+  ).eq("status", "confirmed");
 
   const totalBooked = (remainingBookings ?? []).reduce(
-    (sum, b) => sum + (b.guest_count ?? 0),
+    (sum: number, b: { guest_count?: number }) => sum + (b.guest_count ?? 0),
     0
   );
 
   if (tour && totalBooked < tour.capacity) {
-    const { data: autoBlock } = await serviceClient
-      .from("blocked_dates")
-      .select("id")
-      .eq("tour_id", booking.tour_id)
-      .eq("date", booking.date)
-      .eq("start_time", booking.start_time || null)
+    const { data: autoBlock } = await filterBySlot(
+      serviceClient
+        .from("blocked_dates")
+        .select("id")
+        .eq("tour_id", booking.tour_id)
+        .eq("date", booking.date),
+      booking.start_time
+    )
       .eq("is_auto_blocked", true)
       .maybeSingle();
 
@@ -179,8 +196,8 @@ export async function POST(req: NextRequest) {
             tour_id: booking.tour_id,
             date: booking.date,
             start_time: booking.start_time ?? undefined,
-            remaining_capacity: 1,
-          }).catch(() => {});
+            remaining_capacity: Math.max(0, tour.capacity - totalBooked),
+          }).catch((e) => console.error("[Booking cancel] Push availability failed:", e));
         } catch (e) {
           console.error("[Booking cancel] Push availability failed:", e);
         }

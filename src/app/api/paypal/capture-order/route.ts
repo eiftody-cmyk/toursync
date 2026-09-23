@@ -7,6 +7,7 @@ import { operatorNotificationEmail } from "@/lib/email/operator-notification";
 import { customTimeNotificationEmail } from "@/lib/email/custom-time-notification";
 import { rateLimit, clientIp } from "@/lib/security/rateLimit";
 import { blockSlot } from "@/lib/google/sync";
+import { checkCapacity } from "@/lib/core/availability";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -61,9 +62,27 @@ export async function POST(req: NextRequest) {
   const guestCount = parseInt(guestCountStr, 10);
   const isCustomTime = customFlag === "custom=true";
   const customerPhone = isCustomTime && parts[5] ? decodeURIComponent(parts[5]) : null;
+  const normalizedStart =
+    startTime && /^([01]\d|2[0-3]):[0-5]\d/.test(startTime) ? startTime.slice(0, 5) : startTime || null;
 
-  if (!tourId || !date || !guestCount || guestCount < 1) {
+  if (
+    !tourId ||
+    !date ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+    !Number.isInteger(guestCount) ||
+    guestCount < 1 ||
+    guestCount > 99
+  ) {
     console.error("[Payment] Invalid booking data:", customId);
+    // Funds already captured — auto-refund rather than leave a paid orphan
+    try {
+      if (captureResult.captureId) {
+        const provider = getPaymentProvider();
+        await provider.refundPayment(captureResult.captureId, "Invalid order data");
+      }
+    } catch (refundErr) {
+      console.error("[Payment] Auto-refund after invalid order failed:", refundErr);
+    }
     return NextResponse.json({ error: "Invalid order data" }, { status: 400 });
   }
 
@@ -88,7 +107,53 @@ export async function POST(req: NextRequest) {
       expected: expectedPaid,
       actual: paidValue,
     });
+    // Funds already captured — refund so the customer is not left charged with no booking
+    try {
+      if (captureResult.captureId) {
+        const provider = getPaymentProvider();
+        await provider.refundPayment(captureResult.captureId, "Amount mismatch");
+      }
+    } catch (refundErr) {
+      console.error("[Payment] Auto-refund after amount mismatch failed:", refundErr);
+    }
     return NextResponse.json({ error: "Amount does not match the paid order" }, { status: 400 });
+  }
+
+  if (orderDetails.amount?.currency_code && tour.currency && orderDetails.amount.currency_code !== tour.currency) {
+    console.warn("[Payment] currency mismatch — rejecting", {
+      expected: tour.currency,
+      actual: orderDetails.amount.currency_code,
+    });
+    try {
+      if (captureResult.captureId) {
+        const provider = getPaymentProvider();
+        await provider.refundPayment(captureResult.captureId, "Currency mismatch");
+      }
+    } catch (refundErr) {
+      console.error("[Payment] Auto-refund after currency mismatch failed:", refundErr);
+    }
+    return NextResponse.json({ error: "Currency does not match" }, { status: 400 });
+  }
+
+  // Re-check capacity before insert (TOCTOU guard after create-order)
+  if (!isCustomTime) {
+    try {
+      const capacity = await checkCapacity(tourId, date, normalizedStart);
+      if (capacity.remaining < guestCount) {
+        try {
+          if (captureResult.captureId) {
+            const provider = getPaymentProvider();
+            await provider.refundPayment(captureResult.captureId, "Tour no longer available");
+          }
+        } catch (refundErr) {
+          console.error("[Payment] Auto-refund after capacity failure failed:", refundErr);
+        }
+        return NextResponse.json({ error: "This tour time is no longer available" }, { status: 400 });
+      }
+    } catch (e) {
+      console.error("[Payment] capacity check failed:", e);
+      return NextResponse.json({ error: "Unable to verify availability" }, { status: 500 });
+    }
   }
 
   // Dedup: if a booking already references this PayPal order, don't create a second one.
@@ -120,7 +185,7 @@ export async function POST(req: NextRequest) {
       tour_id: tourId,
       user_id: tour.user_id,
       date,
-      start_time: startTime || null,
+      start_time: normalizedStart,
       guest_count: guestCount,
       source: isCustomTime ? "direct-custom" : "direct",
       customer_name: payerName ?? payerEmail,
@@ -139,8 +204,19 @@ export async function POST(req: NextRequest) {
     .single();
 
   if (error) {
+    // Race with webhook creating the same booking — treat as success
+    if (error.code === "23505") {
+      const { data: existingByOrder } = await supabase
+        .from("bookings")
+        .select("id")
+        .eq("paypal_order_id", orderId)
+        .limit(1);
+      if (existingByOrder && existingByOrder[0]) {
+        return NextResponse.json({ ok: true, bookingId: existingByOrder[0].id, duplicate: true });
+      }
+    }
     console.error("[Payment] Failed to create booking:", error.message);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: "Failed to create booking" }, { status: 500 });
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com";
@@ -229,42 +305,29 @@ export async function POST(req: NextRequest) {
     });
 
   if (!isCustomTime) {
-    const { data: tourCap } = await supabase
-      .from("tours")
-      .select("capacity")
-      .eq("id", tourId)
-      .single();
-
-    const { data: allBookings } = await supabase
-      .from("bookings")
-      .select("guest_count")
-      .eq("tour_id", tourId)
-      .eq("date", date)
-      .eq("start_time", startTime || null)
-      .eq("status", "confirmed");
-
-    const totalBooked = (allBookings ?? []).reduce((sum, b) => sum + (b.guest_count ?? 0), 0);
-
-    if (tourCap && totalBooked >= tourCap.capacity) {
-      try {
-        // Direct service-client push — no session cookie, so no HTTP hop / 401
-        await blockSlot({
+    try {
+      const capacity = await checkCapacity(tourId, date, normalizedStart);
+      if (capacity.remaining <= 0) {
+        const blockResult = await blockSlot({
           supabase,
           userId: tour.user_id,
           tourId,
           date,
-          startTime: startTime || null,
+          startTime: normalizedStart,
           reason: "Full — via PayPal booking",
           summary: "Full — via PayPal booking",
           description: "Auto-blocked: slot at capacity via PayPal booking",
           isAutoBlocked: true,
         });
-      } catch (e) {
-        console.error("[Payment] Auto-block failed:", e);
+        if (blockResult.error) {
+          console.error("[Payment] Auto-block failed:", blockResult.error);
+        }
       }
+    } catch (e) {
+      console.error("[Payment] Auto-block check failed:", e);
     }
   }
 
   console.log(`[Payment] Booking created: ${tourId} on ${date} for ${guestCount} guests | emails: ${emailResults.join(", ")}`);
-  return NextResponse.json({ ok: true, bookingId: booking.id, emails: emailResults });
+  return NextResponse.json({ ok: true, bookingId: booking.id, tourName: tour.name, emails: emailResults });
 }

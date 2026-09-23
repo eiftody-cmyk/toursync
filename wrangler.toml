@@ -1,5 +1,6 @@
 name = "toursync"
-main = ".open-next/worker.js"
+# Custom entry adds scheduled() for cron triggers (see custom-worker.ts)
+main = "custom-worker.ts"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 workers_dev = true
@@ -38,6 +39,7 @@ OTA_SYNC_ENABLED = "true"
 HIDDEN_TOUR_IDS = "1c2535d2-a946-4da6-ad35-5df42339323e,fda04737-d6b8-49d5-a2d1-573628bba088"
 
 # Daily Google token health check (src/app/api/cron/google-token-health)
+# Every-minute reservation expiry (src/app/api/cron/expire-reservations)
 # CRON_SECRET must be set as a Worker secret: wrangler secret put CRON_SECRET
 [triggers]
-crons = ["0 3 * * *"]
+crons = ["* * * * *", "0 3 * * *"]

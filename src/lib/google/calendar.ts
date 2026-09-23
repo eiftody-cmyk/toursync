@@ -3,7 +3,12 @@ import { nextDay } from "@/lib/time";
 
 const CALENDAR_API = "https://www.googleapis.com/calendar/v3";
 
-async function gcalFetch(path: string, accessToken: string, init?: RequestInit) {
+async function gcalFetch(
+  path: string,
+  accessToken: string,
+  init?: RequestInit,
+  okStatuses: number[] = []
+) {
   const res = await fetch(`${CALENDAR_API}${path}`, {
     ...init,
     headers: {
@@ -12,11 +17,16 @@ async function gcalFetch(path: string, accessToken: string, init?: RequestInit) 
       ...init?.headers,
     },
   });
-  if (!res.ok) {
+  if (!res.ok && !okStatuses.includes(res.status)) {
     const err = await res.text();
     throw new Error(`Google Calendar API error ${res.status}: ${err}`);
   }
-  return res.json();
+  if (res.status === 204 || res.headers.get("content-length") === "0") {
+    return null;
+  }
+  const text = await res.text();
+  if (!text) return null;
+  return JSON.parse(text);
 }
 
 /** Create a new Google Calendar for a specific tour */
@@ -129,10 +139,12 @@ export async function deleteCalendarEvent(params: {
   const calendarId = params.calendarId;
   if (!calendarId) throw new Error("calendarId required — cannot delete event without calendar");
 
+  // 404/410: event already gone — treat as success so unblock can proceed
   await gcalFetch(
     `/calendars/${encodeURIComponent(calendarId)}/events/${encodeURIComponent(params.eventId)}`,
     params.accessToken,
-    { method: "DELETE" }
+    { method: "DELETE" },
+    [404, 410]
   );
 }
 

@@ -19,6 +19,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "tour_id required — per-tour calendar needed" }, { status: 400 });
   }
 
+  // Ownership check — never block another operator's tour
+  const { data: tour } = await supabase
+    .from("tours")
+    .select("id, user_id")
+    .eq("id", tour_id)
+    .eq("user_id", user.id)
+    .single();
+  if (!tour) {
+    return NextResponse.json({ error: "Tour not found" }, { status: 404 });
+  }
+
   try {
     const result = await blockSlot({
       supabase,

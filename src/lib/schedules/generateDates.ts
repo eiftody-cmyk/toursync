@@ -163,11 +163,46 @@ export async function generateAvailableDates(
     .gte("date", earliestDate)
     .lte("date", latestDate);
 
-  // 7. Group bookings by date+time for fast lookup
+  // 6b. Active OTA holds (reservations + gyg_reservations) reserve inventory too
+  const [{ data: activeHolds }, { data: activeGygHolds }] = await Promise.all([
+    supabase
+      .from("reservations")
+      .select("date, start_time, booking_items")
+      .eq("tour_id", tourId)
+      .eq("status", "active")
+      .gt("expires_at", new Date().toISOString())
+      .gte("date", earliestDate)
+      .lte("date", latestDate),
+    supabase
+      .from("gyg_reservations")
+      .select("date, start_time, booking_items")
+      .eq("tour_id", tourId)
+      .gt("expires_at", new Date().toISOString())
+      .gte("date", earliestDate)
+      .lte("date", latestDate),
+  ]);
+
+  // 7. Group bookings + holds by date+time for fast lookup
   const bookedMap: Record<string, number> = {};
   for (const b of allBookings ?? []) {
     const key = `${b.date}_${normalizeTime(b.start_time)}`;
     bookedMap[key] = (bookedMap[key] ?? 0) + (b.guest_count ?? 0);
+  }
+  const sumHoldItems = (items: unknown): number => {
+    if (!Array.isArray(items)) return 0;
+    let sum = 0;
+    for (const item of items as Array<{ category?: string; count?: number; groupSize?: number }>) {
+      if (item.category === "GROUP") {
+        sum += (item.groupSize || 0) * (item.count || 0);
+      } else {
+        sum += item.count || 0;
+      }
+    }
+    return sum;
+  };
+  for (const h of [...(activeHolds ?? []), ...(activeGygHolds ?? [])]) {
+    const key = `${h.date}_${normalizeTime(h.start_time)}`;
+    bookedMap[key] = (bookedMap[key] ?? 0) + sumHoldItems(h.booking_items);
   }
 
   // 8. Build available dates and identify full dates

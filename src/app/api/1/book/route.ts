@@ -7,7 +7,8 @@ import { operatorNotificationEmail } from "@/lib/email/operator-notification";
 import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import { gygJson } from "@/lib/gyg/response";
 import { lookupTourByProductId } from "@/lib/gyg/lookup";
-import { blockSlot } from "@/lib/google/sync";
+import { blockSlot, unblockSlot } from "@/lib/google/sync";
+import { filterBySlot } from "@/lib/core/slot";
 import type { GygBookingResponse, GygErrorResponse, GygTicket } from "@/lib/gyg/types";
 
 function normalizeTime(t: string | null): string {
@@ -216,45 +217,37 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
       const oldStartTime = oldBooking.start_time;
 
       // Check remaining capacity for the old slot
-      const { data: oldSlotBookings } = await supabase
-        .from("bookings")
-        .select("guest_count")
-        .eq("tour_id", oldBooking.tour_id)
-        .eq("date", oldDate)
-        .eq("start_time", oldStartTime || null)
-        .eq("status", "confirmed");
+      const { data: oldSlotBookings } = await filterBySlot(
+        supabase
+          .from("bookings")
+          .select("guest_count")
+          .eq("tour_id", oldBooking.tour_id)
+          .eq("date", oldDate),
+        oldStartTime
+      ).eq("status", "confirmed");
 
       const oldSlotTotal = (oldSlotBookings ?? []).reduce(
-        (sum, b) => sum + (b.guest_count ?? 0),
+        (sum: number, b: { guest_count?: number }) => sum + (b.guest_count ?? 0),
         0
       );
 
-      // If below capacity and an auto-block exists, remove it
+      // If below capacity and an auto-block exists, remove it (Google first, then DB)
       if (oldSlotTotal < tour.capacity) {
-        const { data: autoBlock } = await supabase
-          .from("blocked_dates")
-          .select("id, google_calendar_event_id, calendar_id")
-          .eq("tour_id", oldBooking.tour_id)
-          .eq("date", oldDate)
-          .eq("start_time", oldStartTime || null)
+        const { data: autoBlock } = await filterBySlot(
+          supabase
+            .from("blocked_dates")
+            .select("id")
+            .eq("tour_id", oldBooking.tour_id)
+            .eq("date", oldDate),
+          oldStartTime
+        )
           .eq("is_auto_blocked", true)
           .maybeSingle();
 
         if (autoBlock) {
-          await supabase.from("blocked_dates").delete().eq("id", autoBlock.id);
-
-          if (autoBlock.google_calendar_event_id && autoBlock.calendar_id && tour.user_id) {
-            try {
-              const { getValidAccessTokenWithClient, deleteCalendarEvent } = await import("@/lib/google/calendar");
-              const { accessToken } = await getValidAccessTokenWithClient(supabase, tour.user_id);
-              await deleteCalendarEvent({
-                accessToken,
-                calendarId: autoBlock.calendar_id,
-                eventId: autoBlock.google_calendar_event_id,
-              });
-            } catch (e) {
-              console.error("[GYG book] Modify: Google Calendar event cleanup failed:", e);
-            }
+          const unblockResult = await unblockSlot({ supabase, blockedId: autoBlock.id });
+          if (!unblockResult.ok) {
+            console.error("[GYG book] Modify: unblock failed (row kept):", unblockResult.error);
           }
         }
       }
@@ -291,12 +284,18 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
 
   // Parallelize: capacity check (bookings + active reservations)
   const [bookingsResult, reservationsResult] = await Promise.all([
-    supabase.from("bookings").select("guest_count").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", startTime).eq("status", "confirmed"),
-    supabase.from("gyg_reservations").select("booking_items").eq("tour_id", tour.id).eq("date", dateStr).is("start_time", startTime).gt("expires_at", new Date().toISOString()).neq("reservation_reference", requestData.reservationReference),
+    filterBySlot(
+      supabase.from("bookings").select("guest_count").eq("tour_id", tour.id).eq("date", dateStr),
+      startTime
+    ).eq("status", "confirmed"),
+    filterBySlot(
+      supabase.from("gyg_reservations").select("booking_items").eq("tour_id", tour.id).eq("date", dateStr),
+      startTime
+    ).gt("expires_at", new Date().toISOString()).neq("reservation_reference", requestData.reservationReference),
   ]);
 
   let totalBooked = (bookingsResult.data ?? []).reduce(
-    (sum, b) => sum + (b.guest_count ?? 0),
+    (sum: number, b: { guest_count?: number }) => sum + (b.guest_count ?? 0),
     0
   );
 
@@ -433,20 +432,19 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
   // Awaited so Cloudflare Workers doesn't kill the push when the response returns.
   const totalForSlot = totalBooked + totalGuests;
   if (totalForSlot >= tour.capacity) {
-    try {
-      await blockSlot({
-        supabase: createServiceClient(),
-        userId: tour.user_id,
-        tourId: tour.id,
-        date: dateStr,
-        startTime,
-        reason: "Full — via GYG booking",
-        summary: "Full — via GYG booking",
-        description: "Auto-blocked: slot at capacity via GYG booking",
-        isAutoBlocked: true,
-      });
-    } catch (e) {
-      console.error("[GYG book] Auto-block failed:", e);
+    const blockResult = await blockSlot({
+      supabase: createServiceClient(),
+      userId: tour.user_id,
+      tourId: tour.id,
+      date: dateStr,
+      startTime,
+      reason: "Full — via GYG booking",
+      summary: "Full — via GYG booking",
+      description: "Auto-blocked: slot at capacity via GYG booking",
+      isAutoBlocked: true,
+    });
+    if (blockResult.error) {
+      console.error("[GYG book] Auto-block failed:", blockResult.error);
     }
   }
 

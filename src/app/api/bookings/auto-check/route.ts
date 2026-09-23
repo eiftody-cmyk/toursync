@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { blockSlot, unblockSlot } from "@/lib/google/sync";
 import { pushAvailability } from "@/lib/ota/pushAvailability";
+import { filterBySlot } from "@/lib/core/slot";
 
 function slotEnd(time?: string | null) {
   if (!time) return undefined;
@@ -27,38 +28,31 @@ export async function POST(request: Request) {
 
   const normalizedStartTime = start_time ? String(start_time) : null;
 
-  let bookingsQuery = supabase
-    .from("bookings")
-    .select("guest_count")
-    .eq("tour_id", tour_id)
-    .eq("date", date)
-    .eq("status", "confirmed");
+  const { data: bookings, error: bookingsError } = await filterBySlot(
+    supabase
+      .from("bookings")
+      .select("guest_count")
+      .eq("tour_id", tour_id)
+      .eq("date", date),
+    normalizedStartTime
+  ).eq("status", "confirmed");
 
-  if (normalizedStartTime) {
-    bookingsQuery = bookingsQuery.eq("start_time", normalizedStartTime);
-  } else {
-    bookingsQuery = bookingsQuery.is("start_time", null);
+  if (bookingsError) {
+    return NextResponse.json({ error: "Failed to count bookings" }, { status: 500 });
   }
-
-  const { data: bookings } = await bookingsQuery;
 
   const booked = (bookings ?? []).reduce((s: number, b: { guest_count: number }) => s + b.guest_count, 0);
   const remaining = tour.capacity - booked;
 
-  let existingBlockForSlotQuery = supabase
-    .from("blocked_dates")
-    .select("*")
-    .eq("tour_id", tour_id)
-    .eq("date", date)
-    .eq("user_id", user.id);
-
-  if (normalizedStartTime) {
-    existingBlockForSlotQuery = existingBlockForSlotQuery.eq("start_time", normalizedStartTime);
-  } else {
-    existingBlockForSlotQuery = existingBlockForSlotQuery.is("start_time", null);
-  }
-
-  const { data: existingBlockForSlot } = await existingBlockForSlotQuery.maybeSingle();
+  const { data: existingBlockForSlot } = await filterBySlot(
+    supabase
+      .from("blocked_dates")
+      .select("*")
+      .eq("tour_id", tour_id)
+      .eq("date", date)
+      .eq("user_id", user.id),
+    normalizedStartTime
+  ).maybeSingle();
 
   if (remaining <= 0 && !existingBlockForSlot) {
     const endTime = slotEnd(normalizedStartTime);
@@ -94,20 +88,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ autoBlocked: true, booked, remaining, warning: result.warning });
   }
 
-  let existingBlockForSlotUnblockQuery = supabase
-    .from("blocked_dates")
-    .select("*")
-    .eq("tour_id", tour_id)
-    .eq("date", date)
-    .eq("user_id", user.id);
-
-  if (normalizedStartTime) {
-    existingBlockForSlotUnblockQuery = existingBlockForSlotUnblockQuery.eq("start_time", normalizedStartTime);
-  } else {
-    existingBlockForSlotUnblockQuery = existingBlockForSlotUnblockQuery.is("start_time", null);
-  }
-
-  const { data: existingBlockForSlotRow } = await existingBlockForSlotUnblockQuery.maybeSingle();
+  const { data: existingBlockForSlotRow } = await filterBySlot(
+    supabase
+      .from("blocked_dates")
+      .select("*")
+      .eq("tour_id", tour_id)
+      .eq("date", date)
+      .eq("user_id", user.id),
+    normalizedStartTime
+  ).maybeSingle();
 
   if (remaining > 0 && existingBlockForSlotRow && existingBlockForSlotRow.is_auto_blocked) {
     const result = await unblockSlot({ supabase, blockedId: existingBlockForSlotRow.id });

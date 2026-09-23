@@ -42,7 +42,7 @@ Test all 5 products:
 ```bash
 for code in T-1221780 T-1216886 T-1218058 T-1216978 T-1258476; do
   curl -sL "https://toursync1.vercel.app/1/get-availabilities?productId=$code&fromDateTime=2026-09-06T00:00:00%2B09:00&toDateTime=2026-09-07T00:00:00%2B09:00" \
-    -H "Authorization: Basic $(echo -n 'ExperienceRelay:P421105x#' | base64)"
+    -H "Authorization: Basic $(echo -n "$GYG_INBOUND_USERNAME:$GYG_INBOUND_PASSWORD" | base64)"
 done
 ```
 

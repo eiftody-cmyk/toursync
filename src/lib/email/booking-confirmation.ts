@@ -1,3 +1,5 @@
+import { createCancelToken } from "@/lib/security/cancelToken";
+
 interface BookingConfirmationEmailParams {
   tourName: string;
   date: string;
@@ -38,7 +40,13 @@ export function bookingConfirmationEmail(params: BookingConfirmationEmailParams)
 
   const currencySymbol = currency === "JPY" ? "¥" : currency + " ";
   const total = pricePerGuest * guestCount;
-  const manageUrl = `${baseUrl}/book/manage?id=${bookingId}`;
+  let manageUrl = `${baseUrl}/book/manage?id=${bookingId}`;
+  try {
+    const { token } = createCancelToken(bookingId);
+    manageUrl += `&token=${encodeURIComponent(token)}`;
+  } catch {
+    // Token secret missing in this env — cancel API still accepts email proof
+  }
 
   const meetingPointSection = meetingPointAddress
     ? `

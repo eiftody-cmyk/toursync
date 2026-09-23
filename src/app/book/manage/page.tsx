@@ -1,5 +1,6 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import { formatTime } from "@/lib/time";
+import { verifyCancelToken } from "@/lib/security/cancelToken";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -27,13 +28,43 @@ function formatDate(dateStr: string): string {
   });
 }
 
+function canCancelByDate(date: string, startTime: string | null): boolean {
+  const start = (startTime ?? "00:00").slice(0, 5);
+  const startAbs = Date.parse(`${date}T${start}:00+09:00`);
+  if (Number.isNaN(startAbs)) return false;
+  return startAbs - Date.now() > 24 * 60 * 60 * 1000;
+}
+
+function manageHref(opts: {
+  id?: string;
+  email?: string;
+  token?: string | null;
+  action?: string;
+}): string {
+  const qs = new URLSearchParams();
+  if (opts.id) qs.set("id", opts.id);
+  if (opts.email) qs.set("email", opts.email);
+  if (opts.token) qs.set("token", opts.token);
+  if (opts.action) qs.set("action", opts.action);
+  const s = qs.toString();
+  return s ? `/book/manage?${s}` : "/book/manage";
+}
+
 export default async function BookingManagePage({
   searchParams,
 }: {
-  searchParams: Promise<{ id?: string; email?: string; action?: string; cancelled?: string; error?: string }>;
+  searchParams: Promise<{
+    id?: string;
+    email?: string;
+    token?: string;
+    action?: string;
+    cancelled?: string;
+    error?: string;
+  }>;
 }) {
   const params = await searchParams;
   const supabase = createServiceClient();
+  const token = params.token?.trim() || null;
 
   // Single booking view
   if (params.id) {
@@ -58,22 +89,24 @@ export default async function BookingManagePage({
       );
     }
 
+    const tokenOk = token ? verifyCancelToken(booking.id, token) : false;
+    const emailOk =
+      !!params.email &&
+      !!booking.customer_email &&
+      params.email.trim().toLowerCase() === booking.customer_email.trim().toLowerCase();
+    const authorized = tokenOk || emailOk;
+
     const { data: tour } = await supabase
       .from("tours")
       .select("name, price, currency")
       .eq("id", booking.tour_id)
       .single();
 
-    const canCancel =
-      booking.status === "confirmed" &&
-      (() => {
-        const [y, m, d] = booking.date.split("-").map(Number);
-        const startTime = booking.start_time || "00:00";
-        const [h, min] = startTime.split(":").map(Number);
-        const tourStart = new Date(y, m - 1, d, h, min);
-        const now = new Date();
-        return tourStart.getTime() - now.getTime() > 24 * 60 * 60 * 1000;
-      })();
+    const cancelable =
+      booking.status === "confirmed" && canCancelByDate(booking.date, booking.start_time);
+
+    const detailHref = manageHref({ id: booking.id, email: params.email, token });
+    const cancelHref = manageHref({ id: booking.id, email: params.email, token, action: "cancel" });
 
     return (
       <div className="min-h-screen bg-muted/20">
@@ -83,7 +116,7 @@ export default async function BookingManagePage({
           </div>
         </header>
         <main className="max-w-4xl mx-auto px-4 py-8">
-          {params.action === "cancel" && booking.status === "confirmed" ? (
+          {params.action === "cancel" && booking.status === "confirmed" && authorized ? (
             <Card className="border-amber-300">
               <CardHeader>
                 <CardTitle className="text-base">Cancel Booking</CardTitle>
@@ -106,14 +139,34 @@ export default async function BookingManagePage({
                     method="POST"
                   >
                     <input type="hidden" name="booking_id" value={booking.id} />
+                    {token && tokenOk ? (
+                      <input type="hidden" name="token" value={token} />
+                    ) : booking.customer_email ? (
+                      <input type="hidden" name="email" value={booking.customer_email} />
+                    ) : null}
                     <Button variant="destructive" size="sm" type="submit">
                       Yes, Cancel
                     </Button>
                   </form>
                   <Button asChild size="sm" variant="outline">
-                    <Link href={`/book/manage?id=${booking.id}`}>Keep Booking</Link>
+                    <Link href={detailHref}>Keep Booking</Link>
                   </Button>
                 </div>
+              </CardContent>
+            </Card>
+          ) : params.action === "cancel" && booking.status === "confirmed" && !authorized ? (
+            <Card className="border-amber-300">
+              <CardHeader>
+                <CardTitle className="text-base">Confirm It&apos;s You</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm">
+                  Open the manage link from your confirmation email (with its access token),
+                  or look up this booking with the email you booked with.
+                </p>
+                <Button asChild size="sm" variant="outline">
+                  <Link href="/book/manage">Look up by email</Link>
+                </Button>
               </CardContent>
             </Card>
           ) : (
@@ -138,6 +191,7 @@ export default async function BookingManagePage({
                     {params.error === "already_cancelled" && "This booking is already cancelled."}
                     {params.error === "cancel_failed" && "Failed to cancel booking. Please try again."}
                     {params.error === "not_found" && "Booking not found."}
+                    {params.error === "unauthorized" && "We couldn't verify this booking. Use the link from your email or look it up by email."}
                   </div>
                 )}
                 <div className="rounded-lg bg-muted p-3 text-sm space-y-1">
@@ -157,15 +211,24 @@ export default async function BookingManagePage({
                   )}
                 </div>
 
-                {booking.status === "confirmed" && canCancel && (
+                {booking.status === "confirmed" && cancelable && authorized && (
                   <Button asChild size="sm" variant="destructive">
-                    <Link href={`/book/manage?id=${booking.id}&action=cancel`}>
-                      Cancel Booking
-                    </Link>
+                    <Link href={cancelHref}>Cancel Booking</Link>
                   </Button>
                 )}
 
-                {booking.status === "confirmed" && !canCancel && (
+                {booking.status === "confirmed" && cancelable && !authorized && (
+                  <div className="space-y-2">
+                    <Button asChild size="sm" variant="destructive">
+                      <Link href={cancelHref}>Cancel Booking</Link>
+                    </Button>
+                    <p className="text-xs text-muted-foreground">
+                      You&apos;ll need the link from your confirmation email or your booking email to confirm.
+                    </p>
+                  </div>
+                )}
+
+                {booking.status === "confirmed" && !cancelable && (
                   <p className="text-xs text-muted-foreground">
                     This booking cannot be cancelled (less than 24 hours until tour start).
                   </p>
@@ -184,13 +247,13 @@ export default async function BookingManagePage({
 
   // Email lookup view
   if (params.email) {
+    const email = params.email.trim();
     const { data: bookings } = await supabase
       .from("bookings")
       .select("*")
-      .eq("customer_email", params.email)
+      .eq("customer_email", email)
       .order("date", { ascending: true });
 
-    // Fetch tour names for each booking
     const tourIds = [...new Set((bookings ?? []).map((b) => b.tour_id))];
     const { data: tours } = tourIds.length > 0
       ? await supabase.from("tours").select("id, name, price, currency").in("id", tourIds)
@@ -207,7 +270,7 @@ export default async function BookingManagePage({
         <main className="max-w-4xl mx-auto px-4 py-8 space-y-6">
           <h1 className="text-2xl font-bold">Your Bookings</h1>
           <p className="text-sm text-muted-foreground">
-            Bookings for: {params.email}
+            Bookings for: {email}
           </p>
 
           {!bookings || bookings.length === 0 ? (
@@ -238,7 +301,7 @@ export default async function BookingManagePage({
                       </div>
                       <div className="mt-3">
                         <Button asChild size="sm" variant="outline">
-                          <Link href={`/book/manage?id=${b.id}`}>View Details</Link>
+                          <Link href={manageHref({ id: b.id, email })}>View Details</Link>
                         </Button>
                       </div>
                     </CardContent>
