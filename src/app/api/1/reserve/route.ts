@@ -5,7 +5,7 @@ import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import { gygJson } from "@/lib/gyg/response";
 import { lookupTourByProductId } from "@/lib/gyg/lookup";
 import type { GygReservationResponse, GygErrorResponse } from "@/lib/gyg/types";
-import { clusterBlockRows, manualBlockedForTour } from "@/lib/schedules/blockOverlap";
+import { clusterBlockRows, manualBlockedForTour, manualBlockCoversStart, timeToMinutes } from "@/lib/schedules/blockOverlap";
 import { filterBySlot } from "@/lib/core/slot";
 
 function normalizeTime(t: string | null): string {
@@ -140,15 +140,20 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
     }
   }
 
-  // Validate blocked dates — an all-day block, a manual block overlapping the
-  // tour's operating window (time_period) or any slot (time_point), or an exact
-  // auto full-capacity block makes this date/time unavailable.
+  // Validate blocked dates — an all-day block, a manual block covering the
+  // requested slot start (time_point) or overlapping the operating window
+  // (time_period), or an exact auto full-capacity block → unavailable.
   const blockedRows = blockedDateResult.data ?? [];
   if (blockedRows.length > 0) {
     const { allDayDates, manualRows, autoTimeSet } = clusterBlockRows(blockedRows);
-    const scheduleSpans = (scheduleResult.data ?? []) as Parameters<typeof manualBlockedForTour>[3];
-    const manualBlocked = manualBlockedForTour(manualRows, tour, dateStr, scheduleSpans);
     const autoExact = autoTimeSet.has(`${dateStr}_${normalizeTime(tourStartTime)}`);
+    let manualBlocked: boolean;
+    if (tour.product_type === "time_point") {
+      manualBlocked = manualBlockCoversStart(manualRows, dateStr, timeToMinutes(tourStartTime));
+    } else {
+      const scheduleSpans = (scheduleResult.data ?? []) as Parameters<typeof manualBlockedForTour>[3];
+      manualBlocked = manualBlockedForTour(manualRows, tour, dateStr, scheduleSpans);
+    }
     if (allDayDates.has(dateStr) || manualBlocked || autoExact) {
       return gygJson(
         { errorCode: "NO_AVAILABILITY", errorMessage: `No availability for ${dateStr}` },

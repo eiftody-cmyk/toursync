@@ -69,14 +69,6 @@ export async function POST(req: NextRequest) {
 
     if (manualRows.length > 0) {
       if (tour.product_type === "time_point") {
-        const { data: schedules } = await supabase
-          .from("tour_schedules")
-          .select("day_of_week, start_time, duration_minutes, start_date, end_date, is_active")
-          .eq("tour_id", tour_id)
-          .eq("is_active", true);
-        if (manualBlockedForTour(manualRows, tour, date, schedules)) {
-          return NextResponse.json({ error: "Edward is not available at this time. Please choose a different time or date." }, { status: 400 });
-        }
         if (start_time && manualBlockCoversStart(manualRows, date, timeToMinutes(start_time))) {
           return NextResponse.json({ error: "Edward is not available at this time. Please choose a different time or date." }, { status: 400 });
         }

@@ -1,0 +1,57 @@
+import { NextRequest, NextResponse } from "next/server";
+import { createServiceClient } from "@/lib/supabase/service";
+import { generateAvailableDates } from "@/lib/schedules/generateDates";
+
+function isHiddenTour(tourId: string): boolean {
+  const hidden = process.env.HIDDEN_TOUR_IDS ?? "";
+  return hidden.split(",").map((s) => s.trim()).filter(Boolean).includes(tourId);
+}
+
+export async function GET(req: NextRequest) {
+  const date = req.nextUrl.searchParams.get("date");
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return NextResponse.json({ error: "date required (YYYY-MM-DD)" }, { status: 400 });
+  }
+
+  const supabase = createServiceClient();
+
+  const { data: tours, error } = await supabase
+    .from("tours")
+    .select("id, name, price, currency, capacity")
+    .order("name");
+
+  if (error) {
+    return NextResponse.json({ error: "Unable to load tours" }, { status: 500 });
+  }
+
+  const visible = (tours ?? []).filter((t) => !isHiddenTour(t.id));
+
+  const results = await Promise.all(
+    visible.map(async (tour) => {
+      const availability = await generateAvailableDates(supabase, tour.id);
+      const slots = availability.available.filter((a) => a.date === date);
+      if (slots.length === 0) return null;
+      return {
+        tour_id: tour.id,
+        name: tour.name,
+        price: tour.price,
+        currency: tour.currency,
+        capacity: tour.capacity,
+        slots: slots.map((s) => ({
+          start_time: s.start_time,
+          duration_minutes: s.duration_minutes,
+          remaining: s.remaining,
+        })),
+      };
+    })
+  );
+
+  const onDate = results.filter((r): r is NonNullable<typeof r> => r !== null);
+  onDate.sort((a, b) => {
+    const t = a.slots[0]?.start_time ?? "";
+    const u = b.slots[0]?.start_time ?? "";
+    return t.localeCompare(u) || a.name.localeCompare(b.name);
+  });
+
+  return NextResponse.json({ date, tours: onDate });
+}

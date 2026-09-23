@@ -24,6 +24,8 @@ interface BookingPageClientProps {
   tour: Tour;
   companyName: string | null;
   paypalClientId: string;
+  initialDate?: string | null;
+  initialTime?: string | null;
 }
 
 function toDateStr(date: Date): string {
@@ -54,7 +56,13 @@ function getMonthDays(year: number, month: number): Date[] {
   return days;
 }
 
-export function BookingPageClient({ tour, companyName, paypalClientId }: BookingPageClientProps) {
+export function BookingPageClient({
+  tour,
+  companyName,
+  paypalClientId,
+  initialDate = null,
+  initialTime = null,
+}: BookingPageClientProps) {
   const [dateData, setDateData] = useState<DateData>({ available: [], blocked: [], full: [] });
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -117,6 +125,32 @@ export function BookingPageClient({ tour, companyName, paypalClientId }: Booking
   const blockedSet = useMemo(() => new Set(dateData.blocked), [dateData]);
   const fullSet = useMemo(() => new Set(dateData.full), [dateData]);
   const todayStr = toDateStr(now);
+
+  // Preselect date (+ slot) when landing with ?date=&time= from the date-first picker.
+  const preselectKey = `${initialDate}|${initialTime}|${dateData.available.length}`;
+  const [preselectDone, setPreselectDone] = useState(false);
+  useEffect(() => {
+    if (preselectDone || !initialDate || dateData.available.length === 0) return;
+    const match = dateData.available.filter((d) => d.date === initialDate);
+    if (match.length === 0) return;
+    if (initialTime) {
+      const slot = match.find((d) => d.start_time === initialTime);
+      if (slot) {
+        setSelectedDate(initialDate);
+        setSelectedSlot(slot);
+        const pd = parseDateStr(initialDate);
+        setViewMonth(pd.getMonth());
+        setViewYear(pd.getFullYear());
+        setPreselectDone(true);
+        return;
+      }
+    }
+    setSelectedDate(initialDate);
+    const pd = parseDateStr(initialDate);
+    setViewMonth(pd.getMonth());
+    setViewYear(pd.getFullYear());
+    setPreselectDone(true);
+  }, [preselectDone, initialDate, initialTime, dateData.available, preselectKey]);
 
   const slotsForDate = useMemo(() => {
     if (!selectedDate) return [];

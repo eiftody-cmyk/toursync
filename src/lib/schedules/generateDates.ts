@@ -1,5 +1,10 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { clusterBlockRows, manualBlockedForTour } from "./blockOverlap";
+import {
+  clusterBlockRows,
+  manualBlockedForTour,
+  manualBlockCoversStart,
+  timeToMinutes,
+} from "./blockOverlap";
 
 export interface AvailableDate {
   date: string; // YYYY-MM-DD
@@ -131,11 +136,20 @@ export async function generateAvailableDates(
       // Skip exceptions
       if (exceptionDates.has(dateStr)) continue;
 
-      const tourDayBlocked =
-        !!(tour && manualBlockedForTour(manualRows, tour, dateStr, schedules));
-      // Skip blocked days (all-day or manual overlap) and exact auto-blocked slots
+      // All-day blocks close the whole date.
       if (allDayBlockedDates.has(dateStr)) continue;
-      if (tourDayBlocked) continue;
+
+      // Manual timed blocks: time_point closes only the covered slot start;
+      // time_period closes the day when the block overlaps the operating window.
+      if (tour) {
+        if (tour.product_type === "time_point") {
+          if (manualBlockCoversStart(manualRows, dateStr, timeToMinutes(schedule.start_time))) {
+            continue;
+          }
+        } else if (manualBlockedForTour(manualRows, tour, dateStr, schedules)) {
+          continue;
+        }
+      }
 
       const blockKey = `${dateStr}_${normalizeTime(schedule.start_time)}`;
       if (autoTimeSet.has(blockKey)) continue;
@@ -211,16 +225,23 @@ export async function generateAvailableDates(
   const blockedDates: string[] = [];
 
   // Find fully blocked dates (all time slots for a date are blocked)
+  const isTimePoint = tour?.product_type === "time_point";
   for (const dateStr of allScheduledDates) {
     const slotsForDate = schedules.filter((s) => jstDayOfWeek(dateStr) === s.day_of_week);
 
-    const dateManualBlocked = !!(tour && manualBlockedForTour(manualRows, tour, dateStr, schedules));
-    const allSlotsBlocked = slotsForDate.every((s) => {
-      const key = `${dateStr}_${normalizeTime(s.start_time)}`;
-      return autoTimeSet.has(key) || allDayBlockedDates.has(dateStr) || dateManualBlocked || exceptionDates.has(dateStr);
-    });
+    const allSlotsBlocked =
+      slotsForDate.length > 0 &&
+      slotsForDate.every((s) => {
+        if (allDayBlockedDates.has(dateStr) || exceptionDates.has(dateStr)) return true;
+        const key = `${dateStr}_${normalizeTime(s.start_time)}`;
+        if (autoTimeSet.has(key)) return true;
+        if (isTimePoint) {
+          return manualBlockCoversStart(manualRows, dateStr, timeToMinutes(s.start_time));
+        }
+        return !!(tour && manualBlockedForTour(manualRows, tour, dateStr, schedules));
+      });
 
-    if (allSlotsBlocked && slotsForDate.length > 0) {
+    if (allSlotsBlocked) {
       blockedDates.push(dateStr);
     }
   }

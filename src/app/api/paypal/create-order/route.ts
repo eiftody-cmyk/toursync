@@ -125,17 +125,9 @@ export async function POST(req: NextRequest) {
     }
 
     if (manualRows.length > 0) {
-      // time_point: whole tour-day is unavailable if any manual block overlaps
-      // any of that date's slots; time_period: overlap against the operating window.
+      // time_point: only the requested slot start — other slots that day stay open.
+      // time_period: overlap against the operating window closes the day.
       if (tour.product_type === "time_point") {
-        const { data: schedules } = await supabase
-          .from("tour_schedules")
-          .select("day_of_week, start_time, duration_minutes, start_date, end_date, is_active")
-          .eq("tour_id", tour_id)
-          .eq("is_active", true);
-        if (manualBlockedForTour(manualRows, tour, date, schedules)) {
-          return NextResponse.json({ error: "This date/time is not available" }, { status: 400 });
-        }
         if (normalizedStart && manualBlockCoversStart(manualRows, date, timeToMinutes(normalizedStart))) {
           return NextResponse.json({ error: "This date/time is not available" }, { status: 400 });
         }

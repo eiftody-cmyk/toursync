@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { BookingPageClient } from "./BookingPageClient";
-import { TourPicker } from "./TourPicker";
+import { DatePickerClient } from "./DatePickerClient";
 import type { Tour } from "@/types";
 import type { Metadata } from "next";
 
@@ -25,11 +25,11 @@ function isHiddenTour(tourId: string): boolean {
 export default async function BookingPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tour?: string; slug?: string }>;
+  searchParams: Promise<{ tour?: string; slug?: string; date?: string; time?: string }>;
 }) {
   const params = await searchParams;
   const tourParam = params.tour;
-  if (!tourParam) return <TourPicker mode="instant" />;
+  if (!tourParam) return <DatePickerClient />;
 
   const supabase = await createClient();
 
@@ -71,6 +71,8 @@ export default async function BookingPage({
       tour={tour as Tour}
       companyName={profile?.company_name ?? null}
       paypalClientId={paypalClientId}
+      initialDate={typeof params.date === "string" ? params.date : null}
+      initialTime={typeof params.time === "string" ? params.time : null}
     />
   );
 }

@@ -5,7 +5,7 @@ import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import { gygJson } from "@/lib/gyg/response";
 import { lookupTourByProductId } from "@/lib/gyg/lookup";
 import type { GygAvailabilityResponse, GygAvailability } from "@/lib/gyg/types";
-import { clusterBlockRows, manualBlockedForTour } from "@/lib/schedules/blockOverlap";
+import { clusterBlockRows, manualBlockedForTour, manualBlockCoversStart, timeToMinutes } from "@/lib/schedules/blockOverlap";
 
 function normalizeTime(t: string | null): string {
   if (!t) return "00:00";
@@ -221,10 +221,6 @@ async function GET_inner(req: NextRequest, startTime: number, ctx: ReturnType<ty
         current.setDate(current.getDate() + 1);
         continue;
       }
-      if (manualBlockedForTour(manualRows, tour, dateStr, daySchedules)) {
-        current.setDate(current.getDate() + 1);
-        continue;
-      }
 
       for (const schedule of daySchedules) {
         if (exceptionDates.has(dateStr)) continue;
@@ -233,6 +229,8 @@ async function GET_inner(req: NextRequest, startTime: number, ctx: ReturnType<ty
         if (autoTimeSet.has(blockKey)) continue;
 
         const startTime = normalizeTime(schedule.start_time);
+        if (manualBlockCoversStart(manualRows, dateStr, timeToMinutes(startTime))) continue;
+
         const dateTime = `${dateStr}T${startTime}:00+09:00`;
 
         const slotTime = new Date(dateTime);
@@ -479,10 +477,6 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
         current.setDate(current.getDate() + 1);
         continue;
       }
-      if (manualBlockedForTour(manualRows, tour, dateStr, daySchedules)) {
-        current.setDate(current.getDate() + 1);
-        continue;
-      }
 
       for (const schedule of daySchedules) {
         if (exceptionDates.has(dateStr)) continue;
@@ -491,6 +485,8 @@ async function POST_inner(req: NextRequest, startTime: number, ctx: ReturnType<t
         if (autoTimeSet.has(blockKey)) continue;
 
         const startTime = normalizeTime(schedule.start_time);
+        if (manualBlockCoversStart(manualRows, dateStr, timeToMinutes(startTime))) continue;
+
         const dateTime = `${dateStr}T${startTime}:00+09:00`;
 
         const slotTime = new Date(dateTime);
