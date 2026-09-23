@@ -93,7 +93,7 @@ export function TourBookings({
         channelBreakdown,
         nextDate,
         lastDate,
-        bookings: tourBookings.sort((a, b) => a.date.localeCompare(b.date)),
+        bookings: [...tourBookings].sort((a, b) => b.date.localeCompare(a.date)),
       };
     });
   }, [confirmed, tours, commissionRates, todayStr]);
@@ -103,11 +103,11 @@ export function TourBookings({
 
     if (filterMode === "upcoming") {
       list = list.filter((t) => t.nextDate !== null);
-      list.sort((a, b) => a.nextDate!.localeCompare(b.nextDate!));
+      list.sort((a, b) => b.nextDate!.localeCompare(a.nextDate!));
     } else {
       const withUpcoming = list.filter((t) => t.nextDate !== null);
       const withoutUpcoming = list.filter((t) => t.nextDate === null);
-      withUpcoming.sort((a, b) => a.nextDate!.localeCompare(b.nextDate!));
+      withUpcoming.sort((a, b) => b.nextDate!.localeCompare(a.nextDate!));
       withoutUpcoming.sort((a, b) => (b.lastDate ?? "").localeCompare(a.lastDate ?? ""));
       list = [...withUpcoming, ...withoutUpcoming];
     }
@@ -175,7 +175,7 @@ export function TourBookings({
             <Table>
               <TableBody>
                 {filteredTours.map((td) => (
-                  <TourGroup key={td.tour.id} data={td} />
+                  <TourGroup key={td.tour.id} data={td} todayStr={todayStr} />
                 ))}
               </TableBody>
             </Table>
@@ -188,6 +188,7 @@ export function TourBookings({
 
 function TourGroup({
   data,
+  todayStr,
 }: {
   data: {
     tour: Tour;
@@ -199,12 +200,20 @@ function TourGroup({
     lastDate: string | null;
     bookings: Booking[];
   };
+  todayStr: string;
 }) {
   const { tour, net, recentCount, channelBreakdown, nextDate, lastDate, bookings } = data;
+  const hasUpcoming = nextDate !== null;
 
   return (
     <>
-      <TableRow className="bg-muted/30 hover:bg-muted/40">
+      <TableRow
+        className={
+          hasUpcoming
+            ? "border-l-2 border-l-emerald-500 bg-emerald-50/60 hover:bg-emerald-50/80 dark:bg-emerald-950/20 dark:hover:bg-emerald-950/30"
+            : "bg-muted/30 hover:bg-muted/40"
+        }
+      >
         <TableCell colSpan={5} className="py-2 px-3">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0">
@@ -257,32 +266,47 @@ function TourGroup({
           </TableCell>
         </TableRow>
       ) : (
-        bookings.map((b) => (
-          <Link
-            key={b.id}
-            href={`/calendar?tour=${b.tour_id}&date=${b.date}`}
-            className="contents"
-          >
-            <TableRow className="cursor-pointer hover:bg-muted/50">
-              <TableCell className="py-1.5 px-3 text-xs">{b.date}</TableCell>
-              <TableCell className="py-1.5 px-3 text-xs">+{b.guest_count}</TableCell>
-              <TableCell className="py-1.5 px-3">
-                {b.source && (
-                  <Badge
-                    variant="secondary"
-                    className={`text-[10px] px-1.5 py-0 ${SOURCE_COLORS[b.source] ?? ""}`}
-                  >
-                    {b.source.toUpperCase()}
-                  </Badge>
-                )}
-              </TableCell>
-              <TableCell className="py-1.5 px-3 text-xs text-muted-foreground">
-                {b.customer_name ?? ""}
-              </TableCell>
-              <TableCell className="py-1.5 px-3" />
-            </TableRow>
-          </Link>
-        ))
+        bookings.map((b) => {
+          const isFuture = b.date >= todayStr;
+          return (
+            <Link
+              key={b.id}
+              href={`/calendar?tour=${b.tour_id}&date=${b.date}`}
+              className="contents"
+            >
+              <TableRow
+                className={
+                  isFuture
+                    ? "cursor-pointer bg-emerald-50/50 hover:bg-emerald-50/80 dark:bg-emerald-950/20 dark:hover:bg-emerald-950/30"
+                    : "cursor-pointer hover:bg-muted/50"
+                }
+              >
+                <TableCell className="py-1.5 px-3 text-xs">
+                  {isFuture ? (
+                    <span className="font-medium text-emerald-700 dark:text-emerald-400">{b.date}</span>
+                  ) : (
+                    b.date
+                  )}
+                </TableCell>
+                <TableCell className="py-1.5 px-3 text-xs">+{b.guest_count}</TableCell>
+                <TableCell className="py-1.5 px-3">
+                  {b.source && (
+                    <Badge
+                      variant="secondary"
+                      className={`text-[10px] px-1.5 py-0 ${SOURCE_COLORS[b.source] ?? ""}`}
+                    >
+                      {b.source.toUpperCase()}
+                    </Badge>
+                  )}
+                </TableCell>
+                <TableCell className="py-1.5 px-3 text-xs text-muted-foreground">
+                  {b.customer_name ?? ""}
+                </TableCell>
+                <TableCell className="py-1.5 px-3" />
+              </TableRow>
+            </Link>
+          );
+        })
       )}
     </>
   );
