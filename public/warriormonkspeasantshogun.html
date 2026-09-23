@@ -55,24 +55,7 @@
       },
       "sameAs": [
         "https://maps.app.goo.gl/TBynqCL4ixf9RHVb7"
-      ],
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5.0",
-        "reviewCount": "1"
-      },
-      "review": {
-        "@type": "Review",
-        "author": {
-          "@type": "Person",
-          "name": "David"
-        },
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "5"
-        },
-        "reviewBody": "We had the most incredible experience with Edward exploring Osaka Castle. Edward was incredibly knowledgable and so friendly. Seeing Osaka Castle through Edward's historical lens was an absolute highlight of our trip to Japan."
-      }
+      ]
     },
     {
         "@type": "Person",
@@ -377,7 +360,6 @@
         "url": "https://osakacastletours.com/aboutme.html"
       },
       "datePublished": "2026-08-31",
-      "dateModified": "2026-08-31",
       "publisher": {
         "@type": "Organization",
         "name": "Osaka Castle Walks with Edward",
@@ -387,7 +369,14 @@
         }
       },
       "url": "https://osakacastletours.com/warriormonkspeasantshogun",
-      "image": "https://osakacastletours.com/toyotomihideyoshi.webp"
+      "image": "https://osakacastletours.com/toyotomihideyoshi.webp",
+      "dateModified": "2026-09-23",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "#speakable-summary"
+        ]
+      }
     }
 ]
 }
@@ -732,7 +721,7 @@
     <h1>Osaka Castle:<br>Warrior Monks, a Peasant, and a Shogun</h1>
     <div class="hero-divider"></div>
     <p class="hero-tagline">An Osaka Castle Park tour for Shogun-series fans looking for accurate, accessible history.</p>
-    <p class="hero-sub">Warrior monks fortified it. A peasant rebuilt it. A shogun buried it. Walk the remains of three fortresses, each one burying the last. Discover why Osaka became home to Japan’s most powerful castle.</p><br><br>
+    <p class="hero-sub" id="speakable-summary">Warrior monks fortified it. A peasant rebuilt it. A shogun buried it. Walk the remains of three fortresses, each one burying the last. Discover why Osaka became home to Japan’s most powerful castle.</p><br><br>
     <p class="scroll-cue">Discover the stops ↓</p>
   </div>
 </section>

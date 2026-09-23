@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --webpack",
-    "preview": "opennextjs-cloudflare build && wrangler dev",
-    "deploy": "bash scripts/sync-timeline.sh && opennextjs-cloudflare build && wrangler deploy",
+    "build": "node scripts/sync-review-schema.mjs && next build --webpack",
+    "preview": "node scripts/sync-review-schema.mjs && opennextjs-cloudflare build && wrangler dev",
+    "deploy": "bash scripts/sync-timeline.sh && node scripts/sync-review-schema.mjs && opennextjs-cloudflare build && wrangler deploy",
+    "sync-reviews": "node scripts/sync-review-schema.mjs",
     "start": "next start",
     "lint": "eslint"
   },
