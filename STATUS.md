@@ -107,6 +107,16 @@
 2. Viator — When API key arrives → set secret → test endpoints
 3. Calendar auto-check — verify auto-block/unblock works correctly with confirmed-only filter
 
+## ⏰ REMINDERS (do these when the trigger happens)
+
+### 🔑 Rotate GYG passwords — AFTER API integration is finished
+- **Trigger:** GYG API integration / live testing is fully done and working
+- **Why:** Old passwords were committed to git history earlier (now scrubbed from docs, but still in history)
+- **What to do:**
+  1. Change password in GYG supplier portal
+  2. Update `GYG_PASSWORD` / `GYG_INBOUND_PASSWORD` / `GYG_PROD_PASSWORD` in Cloudflare secrets (`wrangler secret put …`) and any Vercel/secrets manager
+  3. Optionally rewrite git history with `git-filter-repo` to purge the old values (deferred — not urgent)
+
 ## Relevant Files
 - `src/app/book/BookingPageClient.tsx`: Instant book page — restyled, PayPal SDK, calendar grid, logo, non-clickable logo
 - `src/app/book/custom/CustomBookingClient.tsx`: Custom time booking form — restyled, PayPal SDK, no name/email, time dropdown, logo
