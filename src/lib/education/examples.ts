@@ -44,7 +44,7 @@ export const investigationExamples: InvestigationExample[] = [
       "Osaka-jo",
     ],
     sitesJa: [
-      "塁釣倉庫",
+      "法円坂倉庫",
       "難波宮",
       "石山本願寺",
       "大阪城",
@@ -68,7 +68,7 @@ export const investigationExamples: InvestigationExample[] = [
     subject: "Social Studies — History",
     subjectJa: "社会 — 歴史",
     title: "Warrior Monks, Peasants & the Siege of Osaka",
-    titleJa: "武者団、百姓、そして大坂の包囲戦",
+    titleJa: "僧兵、百姓、そして大坂の包囲戦",
     angle: "Why did Nobunaga spend 10 years attacking a religious fortress?",
     angleJa: "なぜ信長は10年かけて宗教要塞を包囲したのか？",
     question:
@@ -124,7 +124,7 @@ export const investigationExamples: InvestigationExample[] = [
     discovery:
       "Students investigate why multiple emperors chose the same location across centuries, evaluating whether geography, trade access, or political symbolism best explains the pattern.",
     discoveryJa:
-      "生徒はなぜ複数の天皇が世紀をかけて同じ場所を選んだのかを調査し、地理、貿易アクセス、政治的象徴のいずれがそのパターンを最もよく説明するかを評価する。",
+      "生徒はなぜ複数の天皇が世紀にわたって同じ場所を選び続けたのかを調査し、地理、貿易アクセス、政治的象徴のいずれがそのパターンを最もよく説明するかを評価する。",
     feedback:
       "I had no idea Osaka was this old. The geography makes it obvious in hindsight.",
     feedbackJa:
@@ -154,7 +154,7 @@ export const investigationExamples: InvestigationExample[] = [
       "Osaka-jo",
     ],
     sitesJa: [
-      "塁釣倉庫",
+      "法円坂倉庫",
       "難波宮",
       "石山本願寺",
       "大阪城",
@@ -196,7 +196,7 @@ export const investigationExamples: InvestigationExample[] = [
       "Osaka-jo",
     ],
     sitesJa: [
-      "塁釣倉庫",
+      "法円坂倉庫",
       "難波宮",
       "石山本願寺",
       "大阪城",
@@ -234,7 +234,7 @@ export const investigationExamples: InvestigationExample[] = [
       "Osaka-jo",
     ],
     sitesJa: [
-      "塁釣倉庫",
+      "法円坂倉庫",
       "難波宮",
       "石山本願寺",
       "大阪城",
@@ -276,7 +276,7 @@ export const investigationExamples: InvestigationExample[] = [
       "Osaka-jo",
     ],
     sitesJa: [
-      "塁釣倉庫",
+      "法円坂倉庫",
       "難波宮",
       "石山本願寺",
       "大阪城",
@@ -319,7 +319,7 @@ export const investigationExamples: InvestigationExample[] = [
       "Osaka-jo",
     ],
     sitesJa: [
-      "塁釣倉庫",
+      "法円坂倉庫",
       "難波宮",
       "石山本願寺",
       "大阪城",
@@ -362,7 +362,7 @@ export const investigationExamples: InvestigationExample[] = [
       "Osaka-jo",
     ],
     sitesJa: [
-      "塁釣倉庫",
+      "法円坂倉庫",
       "難波宮",
       "石山本願寺",
       "大阪城",

@@ -31,11 +31,11 @@ export async function generateMetadata({
     return {
       title: "高校 — 大阪城での歴史探究",
       description:
-        "高校生向け歴史フィールド探究 — 歴史総合、日本史探究、探究に対応したカリキュラム連動型の探究形式。IB・AP対応。",
+        "高校生向けフィールド探究 — 歴史総合・日本史探究・探究の時間に対応したカリキュラム接続型の探究形式。IB・AP対応。",
       openGraph: {
         title: "高校 — 大阪城での歴史探究",
         description:
-          "高校生向け歴史フィールド探究 — 歴史総合、日本史探究に対応。",
+          "高校生向けフィールド探究 — 歴史総合・日本史探究に対応。",
         url: BASE,
         siteName: "大阪城ウォークス with Edward",
         locale: "ja_JP",
@@ -45,7 +45,7 @@ export async function generateMetadata({
       twitter: {
         card: "summary_large_image",
         title: "高校 — 大阪城での歴史探究",
-        description: "高校生向け歴史フィールド探究 — 歴史総合、日本史探究に対応。",
+        description: "高校生向けフィールド探究 — 歴史総合・日本史探究に対応。",
         images: [IMG],
       },
       alternates: {
@@ -105,7 +105,7 @@ export default async function HighSchoolPage({
     descriptionEn:
       "History field investigations for high school students at Osaka Castle.",
     descriptionJa:
-      "高校生向け歴史フィールド探究 — 歴史総合、日本史探究に対応。",
+      "高校生向けフィールド探究 — 歴史総合・日本史探究に対応。",
     url: `${SITE}/education/high-school`,
     urlJa: `${SITE}/ja/education/high-school`,
     image: IMG,

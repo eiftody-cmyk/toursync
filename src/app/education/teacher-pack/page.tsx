@@ -214,7 +214,7 @@ export default async function TeacherPackPage({
         name: locale === "ja" ? "訪問後" : "After the Visit",
         text:
           locale === "ja"
-            ? "生徒と教師はデジタル調査コンパニオン（写真、歴史のまとめ、訪問後の活動、評価教材）を受け取ります。"
+            ? "生徒と教師はデジタル探究コンパニオン（写真、歴史のまとめ、訪問後の活動、評価教材）を受け取ります。"
             : "Students and teachers receive a Digital Investigation Companion with photographs, historical recap, post-visit activities, and assessment materials.",
       },
     ],

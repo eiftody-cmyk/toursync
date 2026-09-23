@@ -23,11 +23,11 @@ export async function generateMetadata(): Promise<Metadata> {
         default: "大阪歴史フィールド探究 — 学校向けフィールドセミナー",
       },
       description:
-        "歴史家が指導する大阪城でのフィールド探究。中学校・高等学校・大学のカリキュラムに連動した探究型学習。",
+        "大阪城での歴史フィールド探究。中学校・高等学校・大学のカリキュラムと接続した探究型学習。",
       openGraph: {
         title: "大阪歴史フィールド探究",
         description:
-          "歴史家が指導する大阪城でのフィールド探究。学校・大学向け。",
+          "大阪城での歴史フィールド探究。学校・大学向け。",
         url: `${SITE}/ja/education`,
         siteName: "大阪城ウォークス with Edward",
         locale: "ja_JP",
@@ -93,7 +93,7 @@ export default async function EducationLayout({
     url: locale === "ja" ? `${SITE}/ja/education` : `${SITE}/education`,
     logo: `${SITE}/images/osaka-history-investigations.webp`,
     description:
-      "Historian-led field investigations at Osaka Castle for schools and universities. 歴史家が指導する大阪城でのフィールド探究。中学校・高等学校・大学のカリキュラムに連動した探究型学習。",
+      "Historian-led field investigations at Osaka Castle for schools and universities. 大阪城での歴史フィールド探究。中学校・高等学校・大学のカリキュラムと接続した探究型学習。",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Osaka",

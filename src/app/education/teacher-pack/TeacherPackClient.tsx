@@ -24,7 +24,7 @@ export default function TeacherPackPage() {
             {t.nav.cta}
           </a>
           <Link href={`${prefix}/education`} className="edu-cta-btn secondary">
-            {locale === "ja" ? "全体概要に戻る" : "Back to Overview"}
+            {locale === "ja" ? "概要に戻る" : "Back to Overview"}
           </Link>
         </div>
       </section>
@@ -148,7 +148,7 @@ export default function TeacherPackPage() {
           }}
         >
           {locale === "ja"
-            ? "フィールド探究はコア製品です。評価と拡張教室教材は必要に応じて追加できます。"
+            ? "中核はフィールド探究です。評価用教材や発展的な教室活動は、必要に応じて追加できます。"
             : "The field investigation is the core product. Assessment and extended classroom materials can be added when useful."}
         </p>
         <div className="mockup-assessment">
@@ -201,7 +201,7 @@ export default function TeacherPackPage() {
           }}
         >
           {locale === "ja"
-            ? "フィールド探究の前後に生徒が必要なものすべてがオンラインで利用可能です。デジタルで回答することも、ウェブサイトから直接印刷して教室で使用することもできます。"
+            ? "フィールド探究の前後に生徒が必要なものすべてがオンラインで利用できます。デジタルで取り組んでも、ウェブサイトから直接印刷して教室で使っても構いません。"
             : "Everything your students need before and after the field investigation is available online. Activities can be completed digitally or printed directly from the website for classroom use."}
         </p>
       </section>

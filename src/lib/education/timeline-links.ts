@@ -77,7 +77,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     descriptionEn:
       "Three competing accounts of Emperor Ōjin's succession crisis reveal how legitimacy was constructed.",
     descriptionJa:
-      "応神天皇の継承危機の三つの对立する説明が、正統性がどう構築されたかを明らかにする。",
+      "応神天皇の皇位継承をめぐる三つの競合する記述が、正統性がどう作られてきたかを示す。",
     period: "Ancient",
     periodJa: "古代",
     levels: ["university"],
@@ -189,7 +189,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     descriptionEn:
       "Why Oda Nobunaga spent a decade besieging Osaka's warrior-monk fortress.",
     descriptionJa:
-      "なぜ織田信長は10年かけて大坂の武者団要塞を包囲したのか。",
+      "なぜ織田信長は10年もかけて大坂の僧兵の要塞を包囲したのか。",
     period: "Sengoku",
     periodJa: "戦国",
     levels: ["jhs", "hs", "university"],
@@ -231,7 +231,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     descriptionEn:
       "The hidden story of Osaka Castle — Toyotomi Hideyoshi's vision, the two sieges, and how the Tokugawa buried his legacy.",
     descriptionJa:
-      "大阪城の裏側の物語 — 豊臣秀吉のvision、二度の大坂の陣、そして徳川が豊臣の遺産をどう埋めたか。",
+      "大阪城の裏側の物語 — 豊臣秀吉の構想、二度の大坂の陣、そして徳川が豊臣の遺産をどう埋め葬ったか。",
     period: "Sengoku–Tokugawa",
     periodJa: "戦国〜江戸",
     levels: ["jhs", "hs", "university"],

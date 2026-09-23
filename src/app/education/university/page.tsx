@@ -31,7 +31,7 @@ export async function generateMetadata({
     return {
       title: "大学フィールドセミナー — 大阪の歴史と考古学",
       description:
-        "歴史家エドワード・イフティが率いる大阪城での大学フィールドゼミ。歴史、考古学、歴史地理学、政治学の野外調査。一次史料・二次史料の分析。",
+        "歴史家イフトウデイ　エドワードが率いる大阪城での大学フィールドゼミ。歴史・考古学・歴史地理学・政治学のフィールドワーク。一次史料・二次史料の分析。",
       openGraph: {
         title: "大学フィールドセミナー — 大阪の歴史と考古学",
         description:
@@ -150,7 +150,7 @@ export default async function UniversityPage({
     description:
       "Mobile university seminars at Osaka Castle led by historian Edward Iftody across history, archaeology, historical geography, and political science.",
     descriptionJa:
-      "歴史家エドワード・イフティが率いる大阪城での大学フィールドゼミ。歴史、考古学、歴史地理学、政治学。",
+      "歴史家イフトウデイ　エドワードが率いる大阪城での大学フィールドゼミ。歴史・考古学・歴史地理学・政治学。",
     url: `${SITE}/education/university`,
     urlJa: `${SITE}/ja/education/university`,
     locale,

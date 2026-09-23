@@ -7,7 +7,7 @@ const INVESTIGATION_STOPS = [
   {
     label: "1",
     name: "Hoenzaka Warehouse",
-    nameJa: "塁釣倉庫",
+    nameJa: "法円坂倉庫",
     date: "c. 450 AD",
     lat: 34.68188,
     lng: 135.52021,

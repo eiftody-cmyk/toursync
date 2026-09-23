@@ -110,13 +110,13 @@ function Footer() {
       />
       <p>
         {locale === "ja"
-          ? "大阪歴史フィールド探究 — 大阪城ウォークス with Edward の一部門"
+          ? "大阪歴史フィールド探究 — 大阪城ウォークス with イフトウデイ　エドワードの一部門"
           : "The Osaka History Investigation — A division of Osaka Castle Walks with Edward"}
       </p>
       <div className="edu-footer-links">
         <a href="https://osakacastletours.com">Osaka Castle Walks</a>
         <a href="https://osakacastletours.com/aboutme">
-          {locale === "ja" ? "エドワードについて" : "About Edward"}
+          {locale === "ja" ? "イフトウデイ　エドワードについて" : "About Edward"}
         </a>
         <a href="https://osakacastletours.com/faq">FAQ</a>
       </div>

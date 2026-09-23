@@ -31,11 +31,11 @@ export async function generateMetadata({
     return {
       title: "中学校 — 大阪歴史フィールド探究",
       description:
-        "中学生向けのカリキュラム連動型歴史フィールド探究。社会科の内容と連動（戦国、秀吉、徳川、明治）。構造化された英語練習付き。",
+        "中学生向けのカリキュラム接続型フィールド探究。社会科の内容と接続（戦国・秀吉・徳川・明治）。構造化された英語運用の機会付き。",
       openGraph: {
         title: "中学校 — 大阪歴史フィールド探究",
         description:
-          "中学生向けのカリキュラム連動型歴史フィールド探究。",
+"中学生向けのカリキュラム接続型フィールド探究。社会科の内容と接続（戦国・秀吉・徳川・明治）。構造化された英語運用の機会付き。",
         url: BASE,
         siteName: "大阪城ウォークス with Edward",
         locale: "ja_JP",
@@ -45,7 +45,7 @@ export async function generateMetadata({
       twitter: {
         card: "summary_large_image",
         title: "中学校 — 大阪歴史フィールド探究",
-        description: "中学生向けのカリキュラム連動型歴史フィールド探究。",
+        description: "中学生向けのカリキュラム接続型フィールド探究。",
         images: [IMG],
       },
       alternates: {
@@ -105,7 +105,7 @@ export default async function JuniorHighPage({
     descriptionEn:
       "Curriculum-aligned history field investigations for junior high school students at Osaka Castle.",
     descriptionJa:
-      "中学生向けのカリキュラム連動型歴史フィールド探究。社会科の内容と連動。",
+      "中学生向けのカリキュラム接続型フィールド探究。社会科の内容と接続（戦国・秀吉・徳川・明治）。構造化された英語運用の機会付き。",
     url: `${SITE}/education/junior-high`,
     urlJa: `${SITE}/ja/education/junior-high`,
     image: IMG,
@@ -150,7 +150,7 @@ export default async function JuniorHighPage({
     description:
       "Curriculum-aligned history field investigations for junior high school students at Osaka Castle, led by historian Edward Iftody.",
     descriptionJa:
-      "歴史家エドワード・イフティが指導する中学生向けのカリキュラム連動型歴史フィールド探究。",
+      "歴史家イフトウデイ　エドワードが指導する中学生向けのカリキュラム接続型フィールド探究。",
     url: `${SITE}/education/junior-high`,
     urlJa: `${SITE}/ja/education/junior-high`,
     locale,

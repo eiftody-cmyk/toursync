@@ -104,7 +104,7 @@ export default function HighSchoolPage() {
                   marginBottom: "0.5rem",
                 }}
               >
-                Step {i + 1}
+                {locale === "ja" ? `ステップ${i + 1}` : `Step ${i + 1}`}
               </div>
               <div
                 style={{
@@ -227,7 +227,7 @@ export default function HighSchoolPage() {
           }}
         >
           {locale === "ja"
-            ? "フィールド探究の前後に生徒が必要なものすべてがオンラインで利用可能です。デジタルで回答することも、ウェブサイトから直接印刷して教室で使用することもできます。"
+            ? "フィールド探究の前後に生徒が必要なものすべてがオンラインで利用できます。デジタルで取り組んでも、ウェブサイトから直接印刷して教室で使っても構いません。"
             : "Everything your students need before and after the field investigation is available online. Activities can be completed digitally or printed directly from the website for classroom use."}
         </p>
 

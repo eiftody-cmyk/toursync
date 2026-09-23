@@ -31,7 +31,7 @@ export async function generateMetadata({
     return {
       title: "大阪歴史フィールド探究 — 学校向けフィールドセミナー",
       description:
-        "歴史家エドワード・イフティが指導する大阪城でのフィールド探究。中学校・高等学校・大学のカリキュラムに連動した探究型学習。",
+        "歴史家イフトウデイ　エドワードが指導する大阪城でのフィールド探究。中学校・高等学校・大学のカリキュラムと接続した探究型学習。",
       openGraph: {
         title: "大阪歴史フィールド探究 — 学校向けフィールドセミナー",
         description:
@@ -106,7 +106,7 @@ export default async function EducationPage({
     descriptionEn:
       "Structured historical investigations at Osaka Castle for junior high, high school, and university students. Curriculum-aligned inquiry-based learning.",
     descriptionJa:
-      "歴史家が指導する大阪城でのフィールド探究。中学校・高等学校・大学のカリキュラムに連動した探究型学習。",
+      "大阪城での歴史フィールド探究。中学校・高等学校・大学向けのカリキュラム接続型探究学習。",
     url: `${SITE}/education`,
     urlJa: `${SITE}/ja/education`,
     image: IMG,
@@ -145,7 +145,7 @@ export default async function EducationPage({
     description:
       "Structured historical investigations at Osaka Castle for junior high, high school, and university students, led by historian Edward Iftody.",
     descriptionJa:
-      "歴史家エドワード・イフティが指導する大阪城での構造化された歴史探究。中学校・高等学校・大学向け。",
+      "歴史家イフトウデイ　エドワードが指導する大阪城での構造化された歴史探究。中学校・高等学校・大学向け。",
     url: `${SITE}/education`,
     urlJa: `${SITE}/ja/education`,
     locale,
@@ -206,7 +206,7 @@ export default async function EducationPage({
           locale === "ja" ? "生徒が大阪を探究" : "Students investigate Osaka",
         text:
           locale === "ja"
-            ? "景観を調べ、証拠を検討し、競合する解釈を議論し、自分たちの結論を弁護します。"
+            ? "景観を読み解き、証拠を検討し、競合する解釈を討議し、自分たちの結論を論じて守ります。"
             : "Students examine the landscape, consider the evidence, debate competing interpretations, and defend their own conclusions.",
       },
       {
@@ -218,7 +218,7 @@ export default async function EducationPage({
             : "Continue in the classroom",
         text:
           locale === "ja"
-            ? "デジタル調査コンパニオンを受け取り、訪問後の教材、ディスカッションのプロンプト、評価オプションを活用。"
+            ? "デジタル探究コンパニオンを受け取り、訪問後の教材、討議のための問い、評価の選択肢を活用します。"
             : "Receive a Digital Investigation Companion with post-visit materials, discussion prompts, and assessment options.",
       },
     ],
