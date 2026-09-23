@@ -16,14 +16,9 @@ fi
 echo "Syncing from: $OSAKA_TIMELINE"
 echo "Syncing to:   $TOURSYNC_PUBLIC"
 
-# EN HTML files (root level)
-echo "→ Copying EN HTML files..."
-cp "$OSAKA_TIMELINE"/*.html "$TOURSYNC_PUBLIC/"
-
-# JA HTML files
-echo "→ Copying JA HTML files..."
-mkdir -p "$TOURSYNC_PUBLIC/ja"
-cp "$OSAKA_TIMELINE"/ja/*.html "$TOURSYNC_PUBLIC/ja/"
+# toursync/public is the source of truth for HTML deployed to osakacastletours.com.
+# Only pull CSS/images from the sibling repo so local HTML fixes (NCP CTAs, JSON-LD,
+# Home links) are not overwritten on deploy.
 
 # CSS
 echo "→ Copying CSS..."
@@ -51,29 +46,24 @@ if [ -f "$OSAKA_TIMELINE/images/osaka-history-investigations.png" ]; then
 fi
 
 # Fix before-the-castle path (it's in articles/ subdir in osaka-timeline)
-if [ -f "$OSAKA_TIMELINE/articles/before-the-castle-prehistoric-osaka.html" ]; then
+if [ -f "$OSAKA_TIMELINE/articles/before-the-castle-prehistoric-osaka.html" ] && [ ! -f "$TOURSYNC_PUBLIC/before-the-castle-prehistoric-osaka.html" ]; then
   echo "→ Fixing before-the-castle path..."
   cp "$OSAKA_TIMELINE/articles/before-the-castle-prehistoric-osaka.html" "$TOURSYNC_PUBLIC/"
 fi
 
-# Also sync articles/ subdir if it exists
+# Articles: only copy files that don't exist yet (do not clobber local fixes)
 if [ -d "$OSAKA_TIMELINE/articles" ]; then
-  echo "→ Copying articles/..."
+  echo "→ Syncing articles (new files only)..."
   mkdir -p "$TOURSYNC_PUBLIC/articles"
-  cp "$OSAKA_TIMELINE"/articles/*.html "$TOURSYNC_PUBLIC/articles/" 2>/dev/null || true
+  for f in "$OSAKA_TIMELINE"/articles/*.html; do
+    base=$(basename "$f")
+    if [ ! -f "$TOURSYNC_PUBLIC/articles/$base" ]; then
+      cp "$f" "$TOURSYNC_PUBLIC/articles/"
+    fi
+  done
 fi
 
-echo "✓ Sync complete."
+echo "✓ Sync complete (HTML not overwritten)."
 echo "  EN HTML: $(ls "$TOURSYNC_PUBLIC"/*.html | wc -l | tr -d ' ') files"
 echo "  JA HTML: $(ls "$TOURSYNC_PUBLIC"/ja/*.html | wc -l | tr -d ' ') files"
 echo "  Images:  $(ls "$TOURSYNC_PUBLIC"/*.webp | wc -l | tr -d ' ') files"
-
-# Replace old logo in JA timeline files with new investigations logo
-echo "→ Updating logo in JA timeline files..."
-if [ -f "$TOURSYNC_PUBLIC/images/osaka-history-investigations.webp" ]; then
-  for f in "$TOURSYNC_PUBLIC"/ja/*.html; do
-    sed -i '' 's|\.\./images/logo\.webp|../images/osaka-history-investigations.webp|g' "$f"
-    sed -i '' 's|osakacastletours\.com/images/logo\.webp|osakacastletours.com/images/osaka-history-investigations.webp|g' "$f"
-  done
-  echo "  ✓ JA logos updated"
-fi

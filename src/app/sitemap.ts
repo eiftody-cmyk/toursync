@@ -90,6 +90,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
+  const articleSlugs = [
+    "before-the-castle-prehistoric-osaka",
+    "capital-redundancy",
+    "kobayashi-interview",
+    "transcript-oc-2026",
+    "yuteki-tenmoku-tea-bowl",
+  ];
+
+  const articlePages: MetadataRoute.Sitemap = articleSlugs.map((slug) => ({
+    url: `https://osakacastletours.com/articles/${slug}.html`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.5,
+  }));
+
   const jaPages: MetadataRoute.Sitemap = jaSlugs.map((slug) => ({
     url: `https://osakacastletours.com/ja/${slug}.html`,
     lastModified: now,
@@ -97,5 +112,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...sitePages, ...educationPages, ...enPages, ...jaPages];
+  return [...sitePages, ...educationPages, ...enPages, ...articlePages, ...jaPages];
 }
