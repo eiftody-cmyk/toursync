@@ -49,7 +49,7 @@
         "aggregateRating": {
           "@type": "AggregateRating",
           "ratingValue": "5.0",
-          "reviewCount": "6",
+          "reviewCount": "5",
           "bestRating": "5",
           "worstRating": "1"
         },
@@ -58,8 +58,7 @@
           { "@id": "https://osakacastletours.com/testimonials#review-yuko" },
           { "@id": "https://osakacastletours.com/testimonials#review-timi" },
           { "@id": "https://osakacastletours.com/testimonials#review-david" },
-          { "@id": "https://osakacastletours.com/testimonials#review-sharon" },
-          { "@id": "https://osakacastletours.com/testimonials#review-jason" }
+          { "@id": "https://osakacastletours.com/testimonials#review-sharon" }
         ],
         "sameAs": [
           "https://maps.app.goo.gl/TBynqCL4ixf9RHVb7"
@@ -100,14 +99,6 @@
         "reviewRating": { "@type": "Rating", "ratingValue": "5" },
         "reviewBody": "Walking around Osaka Castle with an interpreter by my side was a whole different experience! Many would visit Osaka Castle, snapping photos and admire the surface beauty without understanding the history behind it. But today, Edward's explainations brought everything to life. Through his storytelling, I felt transported back in time, imagining what it must have been like in those ancient days."
       },
-      {
-        "@type": "Review",
-        "@id": "https://osakacastletours.com/testimonials#review-jason",
-        "author": { "@type": "Person", "name": "Jason" },
-        "reviewRating": { "@type": "Rating", "ratingValue": "5" },
-        "reviewBody": "Very thorough and well thought out—which made a lot of connections when we went inside Osaka Castle; we already had the back story!"
-      }
-    ,
     {
       "@type": "Article",
       "headline": "Guest Reviews | Osaka Castle Walks with Edward",
@@ -118,7 +109,7 @@
         "url": "https://osakacastletours.com/aboutme.html"
       },
       "datePublished": "2026-08-31",
-      "dateModified": "2026-09-22",
+      "dateModified": "2026-09-23",
       "publisher": {
         "@type": "Organization",
         "name": "Osaka Castle Walks with Edward",
@@ -218,6 +209,15 @@
     color: var(--parchment-dim);
     opacity: 0.7;
     margin-left: 0.25rem;
+  }
+  .review-date {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--parchment-dim);
+    opacity: 0.75;
+    margin-top: 0.35rem;
+    font-family: "Cinzel", serif;
   }
   .review-translation {
     font-size: 0.95rem;
@@ -328,18 +328,6 @@
     </div>
 
   </div>
-
-  <div class="reviews-grid" style="margin-top: 1.5rem;">
-
-    <!-- Jason -->
-    <div class="review-card">
-      <p class="review-text">
-        "Very thorough and well thought out — which made a lot of connections when we went inside Osaka Castle; we already had the back story!"
-      </p>
-      <p class="review-author">— Jason, Hawaii, USA</p>
-    </div>
-
-  </div>
 </section>
 
 <div style="text-align: center; padding: 3rem 0 1rem;">
@@ -351,42 +339,20 @@
 <section class="t-grid">
   <div class="reviews-grid">
 
+    <!-- Kat — GYG -->
+    <div class="review-card">
+      <p class="review-text">
+        "This is not an ordinary walking tour. To start of, our guide Edward sent us an interactive map and photos and material before our tour had even started. Gave us the exact location to meet and gave us enough time to settle and get coffee. We had a light chat and continued towards Osaka castle. Along the way he informed us about all the important information that surrounded this area. We didn't go inside Osaka castle as it is a museum but we started chronologically and finished at where historians research concludes so far. We learned so many things that we wouldn't possibly know if we had done the castle ourselves and we were pleasantly surprised by how knowledgeable our guide was. Overall, this is an experience I'd do again if I came back to OSAKA"
+      </p>
+      <p class="review-author">— Kat, Greece • Warrior Monks, a Peasant, and a Shogun <span class="platform-badge">via GetYourGuide</span><span class="review-date">Sep 22, 2026</span></p>
+    </div>
+
     <!-- Maria — Airbnb -->
     <div class="review-card">
       <p class="review-text">
         "Edward's tour is excellent, especially for someone who is interested in the history of Osaka and Japan in its formative periods. Edward has a deep knowledge of the dynamics and people that shaped the beginnings of Japan, as well as the history of Osaka Castle. His tour is both fun and highly informative. Edward himself is personable, thoughtful and kind. Communication was easy and prompt. Edward provided informational materials both before and after the tour, including photos that he took during the tour. A wonderful experience overall!"
       </p>
-      <p class="review-author">— Maria, San Diego, CA • Before Japan Had a Name <span class="platform-badge">via Airbnb</span></p>
-    </div>
-
-    <!-- Bruce, Kevin, Simon & Bernie — Airbnb -->
-    <div class="review-card">
-      <p class="review-text">
-        "The tour and insights left us with much to consider and discuss afterwards. Not often have we a tour that was so comprehensive and informed, and left us with a much altered view of both Osaka and Japan. Placing Osaka at the historical centre of the Japan we see today was revelatory. The guide's knowledge and enthusiasm made for an exceptional experience for us."
-      </p>
-      <p class="review-author">— Bruce, Kevin, Simon &amp; Bernie, Australia • Before Japan Had a Name <span class="platform-badge">via Airbnb</span></p>
-    </div>
-
-  </div>
-
-  <div class="reviews-grid" style="margin-top: 1.5rem;">
-
-    <!-- Evan — Airbnb -->
-    <div class="review-card">
-      <p class="review-text">
-        "Edward was excellent, very knowledgeable and great at storytelling, recounting the history that led up to the construction of the castle, setting the stage for the conflicts that took place, and recounting the lives of the major players. If you love learning about history then this is definitely for you!"
-      </p>
-      <p class="review-author">— Evan, Chicago, IL • Warrior Monks <span class="platform-badge">via Airbnb</span></p>
-    </div>
-
-    <!-- Alessio — Airbnb (Italian + English) -->
-    <div class="review-card">
-      <p class="review-text">
-        "Prenotato giro privato per 3 partecipanti. Edward è stato davvero una guida incredibile e ci ha fatto vivere tutta la storia e gli intrecci politici del castello di Osaka come se fossimo all'interno di una puntata di Shogun. Davvero preparato e leggero nelle spiegazioni, adatte anche a chi, come noi, ne capisce poco o nulla. Vivere il castello in questa maniera è stato unico, anche grazie alla fioritura dei ciliegi di questo periodo (30 marzo). Ringraziamo ancora di cuore Edward e gli auguriamo il meglio! 5 stelle piene!!!"
-        <br><br>
-        <em class="review-translation">Booked a private tour for 3 participants. Edward was an incredible guide who made us live all the history and political intrigue of Osaka Castle as if we were inside an episode of Shogun. Truly prepared and light in his explanations, suitable even for those like us who understand little or nothing. Experiencing the castle in this way was unique, also thanks to the cherry blossoms in bloom during this period (March 30). We thank Edward again from the heart and wish him all the best! Full 5 stars!!!</em>
-      </p>
-      <p class="review-author">— Alessio, Italy • Warrior Monks <span class="platform-badge">via Airbnb</span></p>
+      <p class="review-author">— Maria, San Diego, CA • Before Japan Had a Name <span class="platform-badge">via Airbnb</span><span class="review-date">Sep 5, 2026</span></p>
     </div>
 
   </div>
@@ -398,7 +364,7 @@
       <p class="review-text">
         "A wonderful tour, a must if you like history!"
       </p>
-      <p class="review-author">— Stefan, Switzerland • Before Japan Had a Name <span class="platform-badge">via GetYourGuide</span></p>
+      <p class="review-author">— Stefan, Switzerland • Before Japan Had a Name <span class="platform-badge">via GetYourGuide</span><span class="review-date">Jun 8, 2026</span></p>
     </div>
 
     <!-- Andreas — GYG -->
@@ -406,51 +372,109 @@
       <p class="review-text">
         "What a great tour! Despite the pouring rain, we had an amazing tour with Edward. The way he connected each stop with the flow of history was truly impressive and kept us fully engaged the entire time. You can immediately feel how much knowledge, passion, and structure he brings to his tours. We also really appreciated the information we received before and after the tour, which helped us understand everything even better. A truly 5-star experience that we gladly and wholeheartedly recommend."
       </p>
-      <p class="review-author">— Andreas, Germany • Lord, Concubine, Shogun's Lie <span class="platform-badge">via GetYourGuide</span></p>
+      <p class="review-author">— Andreas, Germany • Lord, Concubine, Shogun's Lie <span class="platform-badge">via GetYourGuide</span><span class="review-date">Jun 7, 2026</span></p>
     </div>
 
   </div>
 
   <div class="reviews-grid" style="margin-top: 1.5rem;">
+
+    <!-- Napo — Airbnb -->
+    <div class="review-card">
+      <p class="review-text">
+        "the tour was fantastic. the Guide was extremely knowledgeable and made the tour super fun and interactive. he helped us take some Great pictures too. He was able to weave a compelling story of history an the back drop of Drama that surrounds historic events. highly recommend the tour. it was one of my highlights in Osaka."
+      </p>
+      <p class="review-author">— Napo, Phoenix, AZ • Before Japan Had a Name <span class="platform-badge">via Airbnb</span><span class="review-date">May 29, 2026</span></p>
+    </div>
+
+    <!-- Jason — Viator -->
+    <div class="review-card">
+      <p class="review-text">
+        "The Story before the castle museum — Very thorough and well thought out. Which made a lot of connections when we went inside the castle, we already had the back story!"
+      </p>
+      <p class="review-author">— Jason, Hawaii, USA • Warrior Monks, a Peasant, and a Shogun <span class="platform-badge">via Viator</span><span class="review-date">May 28, 2026</span></p>
+    </div>
+
+  </div>
+
+  <div class="reviews-grid" style="margin-top: 1.5rem;">
+
+    <!-- Bruce, Kevin, Simon & Bernie — Airbnb -->
+    <div class="review-card">
+      <p class="review-text">
+        "The tour and insights left us with much to consider and discuss afterwards. Not often have we a tour that was so comprehensive and informed, and left us with a much altered view of both Osaka and Japan. Placing Osaka at the historical centre of the Japan we see today was revelatory. The guide's knowledge and enthusiasm made for an exceptional experience for us."
+      </p>
+      <p class="review-author">— Bruce, Kevin, Simon &amp; Bernie, Australia • Before Japan Had a Name <span class="platform-badge">via Airbnb</span><span class="review-date">May 23, 2026</span></p>
+    </div>
 
     <!-- Claudia — GYG -->
     <div class="review-card">
       <p class="review-text">
         "This was one of the best guided tours we ever booked on GYG. If you are interested in Japan's history and getting into every little detail, then this tour is for you! Our guide Edward came absolutely prepared with pictures and maps. He offered me his sun-umbrella and made sure that we stood in the shade, whenever he stopped and explained something. You can feel that he is very passionate and knowledgeable about historical facts. He encouraged us to ask questions and exchange thoughts. It felt like a conversation, not like a monologue. It was very fun!"
       </p>
-      <p class="review-author">— Claudia, Germany • Before Japan Had a Name <span class="platform-badge">via GetYourGuide</span></p>
+      <p class="review-author">— Claudia, Germany • Before Japan Had a Name <span class="platform-badge">via GetYourGuide</span><span class="review-date">May 10, 2026</span></p>
     </div>
+
+  </div>
+
+  <div class="reviews-grid" style="margin-top: 1.5rem;">
 
     <!-- Andrew — GYG -->
     <div class="review-card">
       <p class="review-text">
         "We thoroughly enjoyed the Osaka Castle walking tour. Edward's knowledge is superb and he transformed the Osaka Castle townsite walk into a history lesson and mystery who-dunnit, highlighting many places we would have just walked by. Edward's passion for this area and the stories of the 3 Unifiers truly painted a picture of what this place used to be and what happened in the era. We would highly recommend this tour for all who wish to look at the stories and history behind this amazing castle."
       </p>
-      <p class="review-author">— Andrew, Australia • Lord, Concubine, Shogun's Lie <span class="platform-badge">via GetYourGuide</span></p>
+      <p class="review-author">— Andrew, Australia • Lord, Concubine, Shogun's Lie <span class="platform-badge">via GetYourGuide</span><span class="review-date">Apr 22, 2026</span></p>
     </div>
-
-  </div>
-
-  <div class="reviews-grid" style="margin-top: 1.5rem;">
 
     <!-- Lars Hunger — GYG -->
     <div class="review-card">
       <p class="review-text">
         "Awesome"
       </p>
-      <p class="review-author">— Lars Hunger, Germany • Lord, Concubine, Shogun's Lie <span class="platform-badge">via GetYourGuide</span></p>
+      <p class="review-author">— Lars Hunger, Germany • Lord, Concubine, Shogun's Lie <span class="platform-badge">via GetYourGuide</span><span class="review-date">Apr 5, 2026</span></p>
     </div>
 
   </div>
 
   <div class="reviews-grid" style="margin-top: 1.5rem;">
 
-    <!-- Kat — GYG -->
+    <!-- Evan — Airbnb -->
     <div class="review-card">
       <p class="review-text">
-        "This is not an ordinary walking tour. To start of, our guide Edward sent us an interactive map and photos and material before our tour had even started. Gave us the exact location to meet and gave us enough time to settle and get coffee. We had a light chat and continued towards Osaka castle. Along the way he informed us about all the important information that surrounded this area. We didn't go inside Osaka castle as it is a museum but we started chronologically and finished at where historians research concludes so far. We learned so many things that we wouldn't possibly know if we had done the castle ourselves and we were pleasantly surprised by how knowledgeable our guide was. Overall, this is an experience I'd do again if I came back to OSAKA"
+        "Edward was excellent, very knowledgeable and great at storytelling, recounting the history that led up to the construction of the castle, setting the stage for the conflicts that took place, and recounting the lives of the major players. If you love learning about history then this is definitely for you!"
       </p>
-      <p class="review-author">— Kat, Greece • Warrior Monks, a Peasant, and a Shogun <span class="platform-badge">via GetYourGuide</span></p>
+      <p class="review-author">— Evan, Chicago, IL • Warrior Monks, a Peasant, and a Shogun <span class="platform-badge">via Airbnb</span><span class="review-date">Apr 5, 2026</span></p>
+    </div>
+
+    <!-- Alessio — Airbnb (Italian + English) -->
+    <div class="review-card">
+      <p class="review-text">
+        "Prenotato giro privato per 3 partecipanti. Edward è stato davvero una guida incredibile e ci ha fatto vivere tutta la storia e gli intrecci politici del castello di Osaka come se fossimo all'interno di una puntata di Shogun. Davvero preparato e leggero nelle spiegazioni, adatte anche a chi, come noi, ne capisce poco o nulla. Vivere il castello in questa maniera è stato unico, anche grazie alla fioritura dei ciliegi di questo periodo (30 marzo). Ringraziamo ancora di cuore Edward e gli auguriamo il meglio! 5 stelle piene!!!"
+        <br><br>
+        <em class="review-translation">Booked a private tour for 3 participants. Edward was an incredible guide who made us live all the history and political intrigue of Osaka Castle as if we were inside an episode of Shogun. Truly prepared and light in his explanations, suitable even for those like us who understand little or nothing. Experiencing the castle in this way was unique, also thanks to the cherry blossoms in bloom during this period (March 30). We thank Edward again from the heart and wish him all the best! Full 5 stars!!!</em>
+      </p>
+      <p class="review-author">— Alessio, Italy • Before Japan Had a Name <span class="platform-badge">via Airbnb</span><span class="review-date">Mar 30, 2026</span></p>
+    </div>
+
+  </div>
+
+  <div class="reviews-grid" style="margin-top: 1.5rem;">
+
+    <!-- Alexander — GYG -->
+    <div class="review-card">
+      <p class="review-text">
+        "The night photography of Osaka Castle was wonderful. We were able to take our time with the photos, and there were some truly beautiful spots. He was very friendly, and we had great conversations. Communication was also good and easy to understand."
+      </p>
+      <p class="review-author">— Alexander, Germany • Warrior Monks, a Peasant, and a Shogun <span class="platform-badge">via GetYourGuide</span><span class="review-date">Mar 16, 2026</span></p>
+    </div>
+
+    <!-- Robert — Airbnb -->
+    <div class="review-card">
+      <p class="review-text">
+        "Good detailed tour with all of the tour time focused on the history and 1614 siege of the Castle. Edward gave context and history of the site over the previous 1000 years. My wife and I are history buffs and enjoyed our time on the tour!"
+      </p>
+      <p class="review-author">— Robert, San Francisco, CA • Before Japan Had a Name <span class="platform-badge">via Airbnb</span><span class="review-date">Mar 8, 2026</span></p>
     </div>
 
   </div>
