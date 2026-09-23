@@ -88,7 +88,7 @@ export const investigationExamples: InvestigationExample[] = [
     discovery:
       "Students investigate how religion, geography, trade, and political power interacted during the conflict, then test competing explanations against the evidence.",
     discoveryJa:
-      "生徒は紛争中に宗教、地理、貿易、政治的権力がどのように相互作用したかを調査し、競合する説明を証拠に照らして検証する。",
+      "生徒は紛争中に宗教、地理、貿易、政治的権力がどのように相互作用したかを調査し、異なる説明を証拠に照らして検証する。",
     feedback:
       "Osaka's rivers were once Japan's highways.",
     feedbackJa:
@@ -162,7 +162,7 @@ export const investigationExamples: InvestigationExample[] = [
     discovery:
       "Students examine competing interpretations of why the Tokugawa rebuilt Osaka Castle and what the reconstruction communicated about legitimacy, power, and historical memory.",
     discoveryJa:
-      "生徒はなぜ徳川が大阪城を再建し、その再建が正統性、権力、歴史的記憶について何を伝えたかについての競合する解釈を検証する。",
+      "生徒はなぜ徳川が大阪城を再建し、その再建が正統性、権力、歴史的記憶について何を伝えたかについての異なる解釈を検証する。",
     feedback:
       "This was the first time my students understood that 'rebuilding' can be an act of political destruction.",
     feedbackJa:

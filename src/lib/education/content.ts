@@ -536,7 +536,7 @@ export const en = {
       evidence:
         "The remains and commemorative markers of the great fortified temple-city swallowed by Osaka Castle, alongside the contemporary accounts that explain why the seven-year war was so hard to win.",
       evidenceJa:
-        "大阪城に飲み込まれた巨大な要塞寺院の遺構と記念碑、そして七年に及ぶ戦争がなぜ勝ちにくかったのかを説明する同時代の記録。",
+        "大阪城に飲み込まれた巨大な要塞寺院の遺構と記念碑、そして、なぜ七年に及ぶ戦いが勝ちにくかったのかを説明する同時代の記録。",
       whyHere:
         "Osaka Castle now stands on the ground where a self-governing religious city once defied Oda Nobunaga — the same rivers, the same plateau, a complete change of power.",
       whyHereJa:
@@ -564,7 +564,7 @@ export const en = {
       whyHere:
         "The castle is the culmination of every layer below it: the granaries, the palace, and the fortress all gave Hideyoshi a reason to build on this plateau — and a stage for his ambition.",
       whyHereJa:
-        "大阪城はその下にあるすべての層の到達点です —— 倉庫、宮殿、要塞、そのすべてが秀吉にこの台地を選ぶ理由と、彼の野心の舞台を与えました。",
+        "大阪城は、その下に積み重なるすべての層の集大成です —— 倉庫、宮殿、要塞、そのすべてが秀吉にこの台地を選ぶ理由と、彼の野心の舞台を与えました。",
       timelineSlugs: [
         "toyotomihideyoshi",
         "osaka-castle-history",

@@ -37,7 +37,7 @@ export async function generateMetadata({
         description:
           "歴史家が率いる大阪城での大学フィールドゼミ。",
         url: BASE,
-        siteName: "大阪城ウォークス with Edward",
+        siteName: "大阪城ウォークス with イフトウデイ　エドワード",
         locale: "ja_JP",
         type: "website",
         images: [{ url: IMG, width: 1672, height: 941 }],

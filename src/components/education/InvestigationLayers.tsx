@@ -24,7 +24,7 @@ export function InvestigationLayers() {
       </h2>
       <p className="section-subtitle">
         {locale === "ja"
-          ? "大阪城一つに、倉庫、宮殿、要塞、そして城 —— 700年以上にわたる権力の層が重なっています。それぞれの層を、実際の証拠から探究するのがフィールドレッスンです。"
+          ? "大阪城の一帯には、倉庫、宮殿、要塞、そして城という、700年以上にわたる権力の層が重なっています。それぞれの層を、実際の証拠から探究するのがフィールド探究です。"
           : "Beneath one castle lie the granaries, the palace, the fortress, and the castle itself — over seven hundred years of power stacked on a single plateau. Each layer is a field investigation in its own right."}
       </p>
       <div className="investigation-layers-grid">

@@ -221,18 +221,6 @@ export default function EducationHub() {
           >
             {t.hub.companion.note}
           </p>
-          <p
-            style={{
-              fontSize: "0.9rem",
-              color: "var(--edu-ink)",
-              lineHeight: 1.6,
-              marginTop: "1rem",
-            }}
-          >
-            {locale === "ja"
-              ? "フィールド探究の前後に生徒が必要なものすべてがオンラインで利用できます。デジタルで取り組んでも、ウェブサイトから直接印刷して教室で使っても構いません。"
-              : "Everything your students need before and after the field investigation is available online. Activities can be completed digitally or printed directly from the website for classroom use."}
-          </p>
         </div>
       </section>
 
@@ -243,7 +231,7 @@ export default function EducationHub() {
         </h2>
         <p className="section-subtitle">
           {locale === "ja"
-            ? "これらは固定されたツアーではありません。全ての探究はあなたのコース、生徒、学習目標に合わせて適応されます。"
+            ? "これらは固定されたプログラムではありません。すべての探究はあなたのコース、生徒、学習目標に合わせて適応されます。"
             : "These are examples, not fixed tours. Every investigation is adapted to your course, students, and learning objectives."}
         </p>
         <div className="example-cards">

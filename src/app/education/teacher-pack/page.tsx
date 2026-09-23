@@ -37,7 +37,7 @@ export async function generateMetadata({
         description:
           "完全なフィールド探究の授業計画。秀吉、大阪城と政治的権力の例。",
         url: BASE,
-        siteName: "大阪城ウォークス with Edward",
+        siteName: "大阪城ウォークス with イフトウデイ　エドワード",
         locale: "ja_JP",
         type: "website",
         images: [{ url: IMG, width: 1536, height: 1024 }],

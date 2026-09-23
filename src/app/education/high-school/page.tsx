@@ -29,22 +29,22 @@ export async function generateMetadata({
 
   if (locale === "ja") {
     return {
-      title: "高校 — 大阪城での歴史探究",
+      title: "高校 — 大阪歴史フィールド探究",
       description:
-        "高校生向けフィールド探究 — 歴史総合・日本史探究・探究の時間に対応したカリキュラム接続型の探究形式。IB・AP対応。",
+        "高校生向けフィールド探究 — 歴史総合・日本史探究・探究の時間に対応したカリキュラム接続型のフィールド探究。IB・AP対応。",
       openGraph: {
-        title: "高校 — 大阪城での歴史探究",
+        title: "高校 — 大阪歴史フィールド探究",
         description:
           "高校生向けフィールド探究 — 歴史総合・日本史探究に対応。",
         url: BASE,
-        siteName: "大阪城ウォークス with Edward",
+        siteName: "大阪城ウォークス with イフトウデイ　エドワード",
         locale: "ja_JP",
         type: "website",
         images: [{ url: IMG, width: 1536, height: 1024 }],
       },
       twitter: {
         card: "summary_large_image",
-        title: "高校 — 大阪城での歴史探究",
+        title: "高校 — 大阪歴史フィールド探究",
         description: "高校生向けフィールド探究 — 歴史総合・日本史探究に対応。",
         images: [IMG],
       },
@@ -101,7 +101,7 @@ export default async function HighSchoolPage({
 
   const articleJsonLd = buildArticleJsonLd({
     titleEn: "High School — Historical Inquiry at Osaka Castle",
-    titleJa: "高校 — 大阪城での歴史探究",
+    titleJa: "高校 — 大阪歴史フィールド探究",
     descriptionEn:
       "History field investigations for high school students at Osaka Castle.",
     descriptionJa:

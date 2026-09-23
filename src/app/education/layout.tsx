@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
         description:
           "大阪城での歴史フィールド探究。学校・大学向け。",
         url: `${SITE}/ja/education`,
-        siteName: "大阪城ウォークス with Edward",
+        siteName: "大阪城ウォークス with イフトウデイ　エドワード",
         locale: "ja_JP",
         type: "website",
       },

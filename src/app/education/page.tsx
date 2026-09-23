@@ -37,7 +37,7 @@ export async function generateMetadata({
         description:
           "歴史家が指導する大阪城でのフィールド探究。中学校・高等学校・大学向け。",
         url: BASE,
-        siteName: "大阪城ウォークス with Edward",
+        siteName: "大阪城ウォークス with イフトウデイ　エドワード",
         locale: "ja_JP",
         type: "website",
         images: [{ url: IMG, width: 1408, height: 768 }],
@@ -206,7 +206,7 @@ export default async function EducationPage({
           locale === "ja" ? "生徒が大阪を探究" : "Students investigate Osaka",
         text:
           locale === "ja"
-            ? "景観を読み解き、証拠を検討し、競合する解釈を討議し、自分たちの結論を論じて守ります。"
+            ? "景観を読み解き、証拠を検討し、異なる解釈を討議し、自分たちの結論を論じて守ります。"
             : "Students examine the landscape, consider the evidence, debate competing interpretations, and defend their own conclusions.",
       },
       {

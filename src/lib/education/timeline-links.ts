@@ -77,7 +77,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     descriptionEn:
       "Three competing accounts of Emperor Ōjin's succession crisis reveal how legitimacy was constructed.",
     descriptionJa:
-      "応神天皇の皇位継承をめぐる三つの競合する記述が、正統性がどう作られてきたかを示す。",
+      "応神天皇の皇位継承をめぐる三つの異なる記述が、正統性がどう作られてきたかを示す。",
     period: "Ancient",
     periodJa: "古代",
     levels: ["university"],
@@ -213,7 +213,7 @@ export const educationTimelineLinks: TimelineLink[] = [
   {
     slug: "three-unifiers",
     titleEn: "Three Unifiers — Osaka Castle Walks with Edward",
-    titleJa: "三人の統一者 — 大阪城ウォークス",
+    titleJa: "三人の統一者",
     descriptionEn:
       "Oda Nobunaga, Toyotomi Hideyoshi, and Tokugawa Ieyasu — three men, one castle, sixty years.",
     descriptionJa:
@@ -231,7 +231,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     descriptionEn:
       "The hidden story of Osaka Castle — Toyotomi Hideyoshi's vision, the two sieges, and how the Tokugawa buried his legacy.",
     descriptionJa:
-      "大阪城の裏側の物語 — 豊臣秀吉の構想、二度の大坂の陣、そして徳川が豊臣の遺産をどう埋め葬ったか。",
+      "大阪城の裏側の物語 — 豊臣秀吉の構想、二度の大坂の陣、そして徳川が豊臣の遺産をどのように覆い隠したか。",
     period: "Sengoku–Tokugawa",
     periodJa: "戦国〜江戸",
     levels: ["jhs", "hs", "university"],
@@ -274,7 +274,7 @@ export const educationTimelineLinks: TimelineLink[] = [
   {
     slug: "tokugawa-ieyasu-timeline",
     titleEn: "The Sleeping Dragon — A Tokugawa Ieyasu Timeline",
-    titleJa: "睡龍 — 徳川家康の年表",
+    titleJa: "徳川家康の年表",
     descriptionEn:
       "Tokugawa Ieyasu's patience, betrayal, and the sieges of Osaka that established the shogunate.",
     descriptionJa:

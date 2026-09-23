@@ -21,7 +21,7 @@ const jhsFilters: FilterDef[] = [
   { key: "rekishSogo", label: "Historical Studies", labelJa: "歴史総合" },
   { key: "nihonshiTankyu", label: "Japanese History Studies", labelJa: "日本史探究" },
   { key: "tankyu", label: "Inquiry", labelJa: "探究" },
-  { key: "english", label: "English", labelJa: "English" },
+  { key: "english", label: "English", labelJa: "英語" },
   { key: "ib", label: "IB", labelJa: "IB" },
   { key: "ap", label: "AP", labelJa: "AP" },
 ];
@@ -31,7 +31,7 @@ const hsFilters: FilterDef[] = [
   { key: "rekishSogo", label: "Historical Studies", labelJa: "歴史総合" },
   { key: "nihonshiTankyu", label: "Japanese History Studies", labelJa: "日本史探究" },
   { key: "tankyu", label: "Inquiry", labelJa: "探究" },
-  { key: "english", label: "English", labelJa: "English" },
+  { key: "english", label: "English", labelJa: "英語" },
   { key: "ib", label: "IB", labelJa: "IB" },
   { key: "ap", label: "AP", labelJa: "AP" },
 ];
@@ -103,7 +103,7 @@ export function CurriculumMatrix({ variant }: CurriculumMatrixProps) {
       : "すべてのフィールド・セミナーは、授業内容・研究テーマ・学習目標に合わせてカスタマイズします。"
     : isEn
       ? "Every investigation is customized to your curriculum unit."
-      : "すべてのフィールド・インベスティゲーションは、授業単元・学習目標・生徒のレベルに合わせてカスタマイズします。";
+      : "すべてのフィールド探究は、授業単元・学習目標・生徒のレベルに合わせてカスタマイズします。";
 
   const jhsHeadersEn = [
     { key: "jhsSocialEn", label: "JHS Social Studies" },
@@ -120,7 +120,7 @@ export function CurriculumMatrix({ variant }: CurriculumMatrixProps) {
     { key: "rekishSogo", label: "歴史総合" },
     { key: "nihonshiTankyu", label: "日本史探究" },
     { key: "tankyu", label: "探究" },
-    { key: "english", label: "English" },
+    { key: "english", label: "英語" },
     { key: "ib", label: "IB" },
     { key: "ap", label: "AP" },
   ];
@@ -138,7 +138,7 @@ export function CurriculumMatrix({ variant }: CurriculumMatrixProps) {
     { key: "rekishSogo", label: "歴史総合" },
     { key: "nihonshiTankyu", label: "日本史探究" },
     { key: "tankyu", label: "探究" },
-    { key: "english", label: "English" },
+    { key: "english", label: "英語" },
     { key: "ib", label: "IB" },
     { key: "ap", label: "AP" },
   ];

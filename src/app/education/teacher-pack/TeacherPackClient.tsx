@@ -188,22 +188,6 @@ export default function TeacherPackPage() {
             </div>
           ))}
         </div>
-        <p
-          style={{
-            fontSize: "1.05rem",
-            color: "var(--edu-navy)",
-            lineHeight: 1.7,
-            marginTop: "1rem",
-            fontWeight: 600,
-            padding: "0.75rem 1rem",
-            borderLeft: "3px solid var(--edu-navy)",
-            background: "rgba(0,0,0,0.03)",
-          }}
-        >
-          {locale === "ja"
-            ? "フィールド探究の前後に生徒が必要なものすべてがオンラインで利用できます。デジタルで取り組んでも、ウェブサイトから直接印刷して教室で使っても構いません。"
-            : "Everything your students need before and after the field investigation is available online. Activities can be completed digitally or printed directly from the website for classroom use."}
-        </p>
       </section>
 
       {/* FAQ */}
