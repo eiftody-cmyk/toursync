@@ -14,11 +14,25 @@ interface AvailableDate {
   remaining: number;
 }
 
+interface JoinTarget {
+  tour_id: string;
+  name: string;
+  start_time: string;
+  duration_minutes: number;
+  remaining: number;
+  booked: number;
+  price: number | null;
+  currency: string;
+}
+
 interface DateData {
   available: AvailableDate[];
   blocked: string[];
   full: string[];
   otherTourSpots: Record<string, number>;
+  dayBooked: Record<string, number>;
+  joinTargets: Record<string, JoinTarget[]>;
+  daySpots: Record<string, number>;
 }
 
 interface AltTour {
@@ -90,6 +104,9 @@ export function BookingPageClient({
     blocked: [],
     full: [],
     otherTourSpots: {},
+    dayBooked: {},
+    joinTargets: {},
+    daySpots: {},
   });
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -113,9 +130,12 @@ export function BookingPageClient({
         blocked: d.blocked ?? [],
         full: d.full ?? [],
         otherTourSpots: d.otherTourSpots ?? {},
+        dayBooked: d.dayBooked ?? {},
+        joinTargets: d.joinTargets ?? {},
+        daySpots: d.daySpots ?? {},
       });
     } catch {
-      setDateData({ available: [], blocked: [], full: [], otherTourSpots: {} });
+      setDateData({ available: [], blocked: [], full: [], otherTourSpots: {}, dayBooked: {}, joinTargets: {}, daySpots: {} });
     } finally {
       setLoading(false);
     }
@@ -159,6 +179,9 @@ export function BookingPageClient({
   const blockedSet = useMemo(() => new Set(dateData.blocked), [dateData]);
   const fullSet = useMemo(() => new Set(dateData.full), [dateData]);
   const otherSpots = dateData.otherTourSpots;
+  const dayBooked = dateData.dayBooked;
+  const joinTargets = dateData.joinTargets;
+  const daySpots = dateData.daySpots;
   const todayStr = toDateStr(now);
 
   // Preselect date (+ slot) when landing with ?date=&time= from the date-first picker.
@@ -218,6 +241,7 @@ export function BookingPageClient({
     if (dateStr < todayStr) return;
     const hasOwn = dateAvailability.has(dateStr);
     const hasOther = otherSpots[dateStr] != null;
+    const hasJoin = (joinTargets[dateStr]?.length ?? 0) > 0;
     if (!hasOwn && !hasOther) return;
 
     setSelectedDate(dateStr);
@@ -225,16 +249,21 @@ export function BookingPageClient({
     setGuestCount("2");
     setError(null);
     setAltTours([]);
-    if (!hasOwn) {
+    // Load join cards when this tour has no slots, or when another tour has a booked slot.
+    if (!hasOwn || hasJoin) {
       loadAlts(dateStr);
     }
   }
 
-  // Load alternates when preselect lands on a date without this tour's slots.
+  // Load alternates when preselect lands on a date without this tour's slots,
+  // or when another tour has a booked slot we can join.
   useEffect(() => {
-    if (!selectedDate || slotsForDate.length > 0 || altTours.length > 0 || loadingAlts) return;
-    if (!dateAvailability.has(selectedDate)) {
-      loadAlts(selectedDate);
+    if (!selectedDate || altTours.length > 0 || loadingAlts) return;
+    const hasJoin = (joinTargets[selectedDate]?.length ?? 0) > 0;
+    if (slotsForDate.length === 0 || hasJoin) {
+      if (!dateAvailability.has(selectedDate) || hasJoin) {
+        loadAlts(selectedDate);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDate, slotsForDate.length, dateAvailability]);
@@ -317,7 +346,7 @@ export function BookingPageClient({
 
         {loading ? (
           <p style={{ color: "var(--parchment-dim)" }}>Loading available dates...</p>
-        ) : dateData.available.length === 0 && dateData.blocked.length === 0 && dateData.full.length === 0 && Object.keys(otherSpots).length === 0 ? (
+        ) : dateData.available.length === 0 && dateData.blocked.length === 0 && dateData.full.length === 0 && Object.keys(otherSpots).length === 0 && Object.keys(joinTargets).length === 0 ? (
           <p style={{ color: "var(--parchment-dim)" }}>
             No available dates at this time. Check back later or contact us.
           </p>
@@ -354,11 +383,14 @@ export function BookingPageClient({
                   const isFull = fullSet.has(dateStr) || blockedSet.has(dateStr);
                   const hasOwn = !!availability;
                   const hasOther = otherCount != null;
+                  const hasJoin = (joinTargets[dateStr]?.length ?? 0) > 0;
                   // Full only when no tour has room that day.
-                  const isUnavailable = isFull && !hasOwn && !hasOther;
-                  const isAvailable = hasOwn || hasOther;
+                  const isUnavailable = isFull && !hasOwn && !hasOther && !hasJoin;
+                  const isAvailable = hasOwn || hasOther || hasJoin;
                   const isSelected = selectedDate === dateStr;
-                  const spotCount = hasOwn ? availability!.totalRemaining : otherCount;
+                  // Prefer join remaining (other tour has a booking), else own/other.
+                  const spotCount = daySpots[dateStr] ?? (hasOwn ? availability!.totalRemaining : otherCount);
+                  const bookedCount = dayBooked[dateStr] ?? 0;
 
                   let className = "calendar-day";
                   if (isPast) className += " past";
@@ -376,8 +408,8 @@ export function BookingPageClient({
                       {isAvailable && spotCount != null && (
                         <>
                           <span className="day-spots">{spotCount} spots</span>
-                          {hasOwn && availability && availability.booked > 0 && (
-                            <span className="day-booked">{availability.booked} booked</span>
+                          {bookedCount > 0 && (
+                            <span className="day-booked">{bookedCount} booked</span>
                           )}
                         </>
                       )}
@@ -421,8 +453,8 @@ export function BookingPageClient({
                 </div>
               )}
 
-              {/* Alternate tours when this tour has no slots */}
-              {selectedDate && slotsForDate.length === 0 && (
+              {/* Join cards: full alt panel when this tour has no slots, or join targets alongside own slots */}
+              {selectedDate && (slotsForDate.length === 0 || (joinTargets[selectedDate]?.length ?? 0) > 0) && (
                 <div style={{ marginTop: "1rem" }}>
                   {loadingAlts && (
                     <p style={{ color: "var(--parchment-dim)", fontSize: "0.9rem" }}>
@@ -431,30 +463,50 @@ export function BookingPageClient({
                   )}
                   {!loadingAlts && altTours.length > 0 && (
                     <div className="existing-tours-section">
-                      <label>This tour is full on this date — Edward has a tour:</label>
+                      <label>
+                        {slotsForDate.length === 0
+                          ? "This tour is full on this date — Edward has a tour:"
+                          : "Edward has a tour on this date:"}
+                      </label>
                       {altTours.map((alt) =>
-                        alt.slots.map((slot) => {
-                          const end = addMinutesToTime(slot.start_time, slot.duration_minutes);
-                          return (
-                            <div key={`${alt.tour_id}_${slot.start_time}`} className="existing-tour-card">
-                              <div className="tour-time">{slot.start_time} — {end}</div>
-                              <div className="tour-name">{alt.name}</div>
-                              <div className="spots-left">
-                                {slot.remaining} spot{slot.remaining === 1 ? "" : "s"} left
+                        alt.slots
+                          .filter((slot) => {
+                            // When this tour has its own slots, only show join targets
+                            // (other tours with confirmed guests that date).
+                            if (slotsForDate.length === 0) return true;
+                            const targets = joinTargets[selectedDate] ?? [];
+                            return targets.some(
+                              (t) => t.tour_id === alt.tour_id && t.start_time === slot.start_time
+                            );
+                          })
+                          .map((slot) => {
+                            const end = addMinutesToTime(slot.start_time, slot.duration_minutes);
+                            const joinMeta = (joinTargets[selectedDate] ?? []).find(
+                              (t) => t.tour_id === alt.tour_id && t.start_time === slot.start_time
+                            );
+                            return (
+                              <div key={`${alt.tour_id}_${slot.start_time}`} className="existing-tour-card">
+                                <div className="tour-time">{slot.start_time} — {end}</div>
+                                <div className="tour-name">{alt.name}</div>
+                                <div className="spots-left">
+                                  {slot.remaining} spot{slot.remaining === 1 ? "" : "s"} left
+                                  {joinMeta && joinMeta.booked > 0 && (
+                                    <span> · {joinMeta.booked} booked</span>
+                                  )}
+                                </div>
+                                <Link
+                                  href={`/book?tour=${alt.tour_id}&date=${selectedDate}&time=${slot.start_time}`}
+                                  className="join-tour-link"
+                                >
+                                  Join this tour →
+                                </Link>
                               </div>
-                              <Link
-                                href={`/book?tour=${alt.tour_id}&date=${selectedDate}&time=${slot.start_time}`}
-                                className="join-tour-link"
-                              >
-                                Join this tour →
-                              </Link>
-                            </div>
-                          );
-                        })
+                            );
+                          })
                       )}
                     </div>
                   )}
-                  {!loadingAlts && altTours.length === 0 && (
+                  {!loadingAlts && altTours.length === 0 && slotsForDate.length === 0 && (
                     <p style={{ color: "var(--parchment-dim)", fontSize: "0.9rem" }}>
                       No times available for this date. Try another date.
                     </p>

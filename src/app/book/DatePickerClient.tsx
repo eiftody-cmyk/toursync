@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import "./styles.css";
@@ -9,6 +9,8 @@ interface DayTourSlot {
   start_time: string;
   duration_minutes: number;
   remaining: number;
+  booked: number;
+  has_bookings: boolean;
 }
 
 interface DayTour {
@@ -23,6 +25,11 @@ interface DayTour {
 interface DateData {
   date: string;
   tours: DayTour[];
+}
+
+interface DaySummary {
+  spots: number | null;
+  booked: number;
 }
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -56,6 +63,28 @@ export function DatePickerClient() {
   const [dayData, setDayData] = useState<DateData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [daySummaries, setDaySummaries] = useState<Record<string, DaySummary>>({});
+
+  // Cross-tour spots/booked for each day cell in the viewed month.
+  useEffect(() => {
+    let cancelled = false;
+    const from = `${viewYear}-${String(viewMonth + 1).padStart(2, "0")}-01`;
+    const last = new Date(viewYear, viewMonth + 1, 0).getDate();
+    const to = `${viewYear}-${String(viewMonth + 1).padStart(2, "0")}-${String(last).padStart(2, "0")}`;
+    (async () => {
+      try {
+        const r = await fetch(`/api/book/day-summary?from=${from}&to=${to}&t=${Date.now()}`);
+        if (!r.ok) throw new Error("failed");
+        const d: { days?: Record<string, DaySummary> } = await r.json();
+        if (!cancelled) setDaySummaries(d.days ?? {});
+      } catch {
+        if (!cancelled) setDaySummaries({});
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [viewMonth, viewYear]);
 
   const loadDay = useCallback(async (dateStr: string) => {
     setLoading(true);
@@ -154,6 +183,8 @@ export function DatePickerClient() {
                 const dateStr = toDateStr(date);
                 const isPast = dateStr < todayStr;
                 const isSelected = selectedDate === dateStr;
+                const summary = daySummaries[dateStr];
+                const hasSummary = summary != null && (summary.spots != null || summary.booked > 0);
 
                 let className = "calendar-day";
                 if (isPast) className += " past";
@@ -167,6 +198,14 @@ export function DatePickerClient() {
                     onClick={() => !isPast && handleDayClick(date)}
                   >
                     <span className="day-number">{date.getDate()}</span>
+                    {hasSummary && summary.spots != null && (
+                      <>
+                        <span className="day-spots">{summary.spots} spots</span>
+                        {summary.booked > 0 && (
+                          <span className="day-booked">{summary.booked} booked</span>
+                        )}
+                      </>
+                    )}
                   </div>
                 );
               })}
@@ -220,6 +259,9 @@ export function DatePickerClient() {
                           </span>
                           <span className={`slot-spots ${slot.remaining <= 2 ? "low" : ""}`}>
                             {slot.remaining} spot{slot.remaining === 1 ? "" : "s"}
+                            {slot.booked > 0 && (
+                              <span className="slot-booked"> · {slot.booked} booked</span>
+                            )}
                             {tour.price != null && (
                               <span className="slot-booked">
                                 {" "}· ¥{tour.price.toLocaleString()}
