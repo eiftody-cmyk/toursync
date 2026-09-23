@@ -48,6 +48,12 @@ function jstDayOfWeek(dateStr: string): number {
   return new Date(`${dateStr}T12:00:00+09:00`).getUTCDay();
 }
 
+const DEFAULT_TOUR_MINUTES = 150;
+
+function intervalsOverlap(aStart: number, aEnd: number, bStart: number, bEnd: number): boolean {
+  return aStart < bEnd && bStart < aEnd;
+}
+
 /**
  * Generate available dates for a tour based on its schedule.
  * Returns available dates, blocked dates, and full dates for calendar display.
@@ -219,6 +225,54 @@ export async function generateAvailableDates(
     bookedMap[key] = (bookedMap[key] ?? 0) + sumHoldItems(h.booking_items);
   }
 
+  // 6c. Confirmed bookings on OTHER tours — Edward can only guide one at a time.
+  // Close this tour's free slots when they overlap a foreign confirmed window.
+  // If this slot already has its own guests, keep selling the remainder.
+  const [{ data: foreignBookings }, { data: allSchedules }] = await Promise.all([
+    supabase
+      .from("bookings")
+      .select("date, tour_id, start_time, end_time")
+      .neq("tour_id", tourId)
+      .eq("status", "confirmed")
+      .gte("date", earliestDate)
+      .lte("date", latestDate),
+    supabase
+      .from("tour_schedules")
+      .select("tour_id, day_of_week, start_time, duration_minutes")
+      .eq("is_active", true),
+  ]);
+
+  const foreignDuration = new Map<string, number>();
+  for (const s of allSchedules ?? []) {
+    if (s.tour_id === tourId) continue;
+    const key = `${s.tour_id}|${s.day_of_week}|${normalizeTime(s.start_time)}`;
+    if (!foreignDuration.has(key)) {
+      foreignDuration.set(key, s.duration_minutes ?? DEFAULT_TOUR_MINUTES);
+    }
+  }
+
+  const busyByDate = new Map<string, Array<{ start: number; end: number }>>();
+  for (const b of foreignBookings ?? []) {
+    const start = timeToMinutes(b.start_time);
+    let end: number;
+    if (b.end_time) {
+      end = timeToMinutes(b.end_time);
+      if (end <= start) end = start + DEFAULT_TOUR_MINUTES;
+    } else {
+      const key = `${b.tour_id}|${jstDayOfWeek(b.date)}|${normalizeTime(b.start_time)}`;
+      end = start + (foreignDuration.get(key) ?? DEFAULT_TOUR_MINUTES);
+    }
+    const list = busyByDate.get(b.date) ?? [];
+    list.push({ start, end });
+    busyByDate.set(b.date, list);
+  }
+
+  const guideBusyElsewhere = (dateStr: string, startMin: number, endMin: number): boolean => {
+    const windows = busyByDate.get(dateStr);
+    if (!windows?.length) return false;
+    return windows.some((w) => intervalsOverlap(startMin, endMin, w.start, w.end));
+  };
+
   // 8. Build available dates and identify full dates
   const available: AvailableDate[] = [];
   const fullDates: string[] = [];
@@ -261,6 +315,13 @@ export async function generateAvailableDates(
     }
 
     if (remaining > 0) {
+      // Edward is on another tour during this window and nobody is on this
+      // slot yet — close it. Own guests already on the slot stay bookable.
+      const slotStartMin = timeToMinutes(schedule.start_time);
+      const slotEndMin = slotStartMin + (schedule.duration_minutes ?? DEFAULT_TOUR_MINUTES);
+      if (booked === 0 && guideBusyElsewhere(date, slotStartMin, slotEndMin)) {
+        continue;
+      }
       available.push({
         date,
         start_time: normalizeTime(schedule.start_time),
