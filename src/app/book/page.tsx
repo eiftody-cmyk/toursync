@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { BookingPageClient } from "./BookingPageClient";
+import { TourPicker } from "./TourPicker";
 import type { Tour } from "@/types";
 import type { Metadata } from "next";
 
@@ -28,7 +29,7 @@ export default async function BookingPage({
 }) {
   const params = await searchParams;
   const tourParam = params.tour;
-  if (!tourParam) notFound();
+  if (!tourParam) return <TourPicker mode="instant" />;
 
   const supabase = await createClient();
 
