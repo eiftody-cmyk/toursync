@@ -115,6 +115,16 @@ body {
   font-family: "Cormorant Garamond", serif;
 }
 
+.site-footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.site-footer a:hover {
+  color: var(--china-red, #c8a96e);
+}
+
 
 /* ============================================================
    HERO
