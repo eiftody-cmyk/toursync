@@ -57,7 +57,7 @@ export const en = {
           title: "Context",
           subtitle: "Edward teaches",
           description:
-            "At four archaeological sites, I explain the historical background, the evidence, and what you're looking at.",
+            "At four archaeological sites, Edward explains the historical background, the evidence, and what the students are looking at.",
         },
         {
           number: 2,
@@ -95,7 +95,7 @@ export const en = {
       ],
       positioning:
         "From Jōmon Osaka to the end of the Sengoku period, each investigation connects historical evidence and the physical landscape to your students\u2019 curriculum and learning objectives.",
-      closing: "Not a field trip.",
+      closing: "Not a field trip — an encounter with how history is done.",
     },
     companion: {
       title: "Digital Investigation Companion",
@@ -289,7 +289,7 @@ export const en = {
           title: "Context",
           subtitle: "Edward establishes the problem",
           description:
-            "At four archaeological sites, I introduce the historical problem, the physical evidence, and the documentary record.",
+            "At four archaeological sites, Edward introduces the historical problem, the physical evidence, and the documentary record.",
         },
         {
           number: 2,
@@ -332,7 +332,7 @@ export const en = {
         "Architecture, Propaganda & Legitimacy — How does political architecture manufacture legitimacy?",
         "Osaka and the Geography of State Power — Why have successive regimes competed for control of the same landscape?",
         "Reconstructing Ancient Naniwa — What can archaeology tell us when the documentary record is incomplete?",
-        "Historical Memory and the Erasure of Osaka — How do victorious regimes reshape the physical and historical memory of defeated powers?",
+        "Historical Memory and the Erasure of Osaka — How do victorious regimes reshape the physical remains and historical memory of defeated powers?",
         "The Landscape as Historical Evidence — What can physical geography reveal that written sources conceal?",
         "Gender, Succession & the Imperial Court — How were female rulers constructed, remembered, and erased by the political record?",
       ],
