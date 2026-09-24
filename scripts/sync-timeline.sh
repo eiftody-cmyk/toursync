@@ -70,6 +70,7 @@ if [ -d "$OSAKA_TIMELINE/articles/images" ]; then
   for f in "$OSAKA_TIMELINE"/articles/images/*; do
     [ -f "$f" ] || continue
     base=$(basename "$f")
+    [ "$base" = "place" ] && continue
     if [ ! -f "$TOURSYNC_PUBLIC/articles/images/$base" ]; then
       cp "$f" "$TOURSYNC_PUBLIC/articles/images/"
     fi
