@@ -47,50 +47,58 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "LocalBusiness",
-        "@id": "https://osakacastletours.com/#business",
-        "name": "Osaka Castle Walks with Edward",
-        "description": "Small-group, in-depth historical walking tours at Osaka Castle, focused on politics, warfare, and the overlooked figures who shaped early Japan.",
-        "url": "https://osakacastletours.com/",
-        "image": "https://osakacastletours.com/images/groupphoto.webp",
-        "priceRange": "¥9500 - ¥28000",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Osaka",
-          "addressRegion": "Osaka",
-          "addressCountry": "JP"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 34.6873,
-          "longitude": 135.5259
-        },
-        "telephone": "+81-90-1247-4069",
-        "areaServed": {
-          "@type": "City",
-          "name": "Osaka"
-        },
-        "sameAs": [
-          "https://maps.app.goo.gl/TBynqCL4ixf9RHVb7"
-        ]
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://osakacastletours.com/#business",
+      "name": "Osaka Castle Walks with Edward",
+      "description": "Small-group, in-depth historical walking tours at Osaka Castle, focused on politics, warfare, and the overlooked figures who shaped early Japan.",
+      "url": "https://osakacastletours.com/",
+      "image": "https://osakacastletours.com/images/groupphoto.webp",
+      "priceRange": "¥9500 - ¥28000",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Osaka",
+        "addressRegion": "Osaka",
+        "addressCountry": "JP"
       },
-      {
-        "@type": "Person",
-        "@id": "https://osakacastletours.com/#edward-iftody",
-        "name": "Edward Iftody",
-        "description": "Edward Iftody is an independent researcher of early Japanese state formation, historical geography, and the political evolution of the imperial institution. He is based in Osaka.",
-        "jobTitle": "Independent Researcher \u0026 Resident Historian",
-        "worksFor": { "@id": "https://osakacastletours.com/#business" },
-        "sameAs": [
-          "https://osakacastletours.com/aboutme",
-          "https://www.japantimes.co.jp/commentary/2026/07/22/japan/japan-new-imperial-house-law/"
-        ],
-        "knowsAbout": [
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 34.6873,
+        "longitude": 135.5259
+      },
+      "telephone": "+81-90-1247-4069",
+      "areaServed": {
+        "@type": "City",
+        "name": "Osaka"
+      },
+      "sameAs": [
+        "https://maps.app.goo.gl/TBynqCL4ixf9RHVb7"
+      ],
+      "alternateName": [
+        "大阪城ウォークス with イフトウデイ　エドワード"
+      ],
+      "founder": {
+        "@id": "https://osakacastletours.com/#edward-iftody"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://osakacastletours.com/#edward-iftody",
+      "name": "Edward Iftody",
+      "description": "Edward Iftody is an independent researcher of early Japanese state formation, historical geography, and the political evolution of the imperial institution. He is based in Osaka.",
+      "jobTitle": "Independent Researcher & Resident Historian",
+      "worksFor": {
+        "@id": "https://osakacastletours.com/#business"
+      },
+      "sameAs": [
+        "https://osakacastletours.com/aboutme",
+        "https://www.japantimes.co.jp/commentary/2026/07/22/japan/japan-new-imperial-house-law/",
+        "https://osakacastletours.com/education"
+      ],
+      "knowsAbout": [
         "Osaka Castle history",
         "Early Japanese state formation",
         "Sengoku period politics and the Toyotomi-Tokugawa transition",
@@ -100,163 +108,235 @@
         "Empress Kogyoku/Saimei and the Taika Reforms",
         "Queen Himiko and Yamatai state formation",
         "Imperial succession and the Imperial House Law"
+      ],
+      "alternateName": [
+        "イフトウデイ　エドワード"
+      ]
+    },
+    {
+      "@type": "TouristAttraction",
+      "@id": "https://osakacastletours.com/#osaka-castle",
+      "name": "Osaka Castle",
+      "description": "Osaka Castle, a major Japanese castle and historic site in Osaka, Japan.",
+      "url": "https://www.osakacastle.net/",
+      "image": "https://osakacastletours.com/images/toyotomicastle.webp",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Osaka",
+        "addressRegion": "Osaka",
+        "addressCountry": "JP"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 34.6873,
+        "longitude": 135.5259
+      }
+    },
+    {
+      "@type": "TouristTrip",
+      "@id": "https://osakacastletours.com/lordconcubineshogunlie#tour",
+      "name": "A Lord, A Concubine and a Shogun's Lie: Hidden Histories of Osaka Castle",
+      "description": "An investigative 150-minute history tour treating the Osaka Castle grounds as a historical crime scene. Trace 1,500 years of power, from the consolidation of early Japan by overlooked female rulers to the ultimate geopolitical destruction of the Toyotomi clan.",
+      "url": "https://osakacastletours.com/lordconcubineshogunlie",
+      "touristType": [
+        "Sengoku Period Buffs",
+        "Ancient Japan & Archaeology Enthusiasts",
+        "Deep History Seekers",
+        "Travellers looking for a narrative true-crime approach",
+        "People fascinated by political deception and overlooked historical figures"
+      ],
+      "inLanguage": "en",
+      "itineraryDuration": "PT150M",
+      "itinerary": {
+        "@type": "ItemList",
+        "numberOfItems": 10,
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Climb the Uemachi Plateau"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Explore ancient Hōenzaka"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Walk the Naniwa Palace site"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Rediscover a warrior-monk fortress"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Uncover the buried fortress"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Meet the woman betrayed"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 7,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Consider Chacha’s terrible dilemma"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 8,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Examine a crime scene"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 9,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Stand in the Aoyamon Gate"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 10,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Inspect the outer defenses"
+            }
+          }
         ]
       },
-      {
-        "@type": "TouristAttraction",
-        "@id": "https://osakacastletours.com/#osaka-castle",
-        "name": "Osaka Castle",
-        "description": "Osaka Castle, a major Japanese castle and historic site in Osaka, Japan.",
-        "url": "https://www.osakacastle.net/",
-        "image": "https://osakacastletours.com/images/toyotomicastle.webp",
+      "image": [
+        "https://osakacastletours.com/images/sanadamaru.webp",
+        "https://osakacastletours.com/images/toyotomicastle.webp"
+      ],
+      "provider": {
+        "@id": "https://osakacastletours.com/#business"
+      },
+      "touristAttraction": {
+        "@id": "https://osakacastletours.com/#osaka-castle"
+      },
+      "tourGuide": {
+        "@id": "https://osakacastletours.com/#edward-iftody"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "9500",
+        "priceCurrency": "JPY",
+        "availability": "https://schema.org/InStock",
+        "url": "https://osakacastletours.com/lordconcubineshogunlie",
+        "description": "¥9500 per person. Children 15 and under are free when accompanied by a paying adult."
+      },
+      "meetingPoint": {
+        "@type": "Place",
+        "name": "Osaka Castle Park",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Osaka",
           "addressRegion": "Osaka",
           "addressCountry": "JP"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 34.6873,
-          "longitude": 135.5259
         }
-      },
-      {
-        "@type": "TouristTrip",
-        "@id": "https://osakacastletours.com/lordconcubineshogunlie#tour",
-        "name": "A Lord, A Concubine and a Shogun's Lie: Hidden Histories of Osaka Castle",
-        "description": "An investigative 150-minute history tour treating the Osaka Castle grounds as a historical crime scene. Trace 1,500 years of power, from the consolidation of early Japan by overlooked female rulers to the ultimate geopolitical destruction of the Toyotomi clan.",
-        "url": "https://osakacastletours.com/lordconcubineshogunlie",
-        "touristType": [
-          "Sengoku Period Buffs",
-          "Ancient Japan & Archaeology Enthusiasts",
-          "Deep History Seekers",
-          "Travellers looking for a narrative true-crime approach",
-          "People fascinated by political deception and overlooked historical figures"
-        ],
-        "inLanguage": "en",
-        "itineraryDuration": "PT150M",
-        "itinerary": {
-          "@type": "ItemList",
-        "numberOfItems": 10,
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "item": { "@type": "TouristAttraction", "name": "Climb the Uemachi Plateau" } },
-            { "@type": "ListItem", "position": 2, "item": { "@type": "TouristAttraction", "name": "Explore ancient H\u014Denzaka" } },
-            { "@type": "ListItem", "position": 3, "item": { "@type": "TouristAttraction", "name": "Walk the Naniwa Palace site" } },
-            { "@type": "ListItem", "position": 4, "item": { "@type": "TouristAttraction", "name": "Rediscover a warrior-monk fortress" } },
-            { "@type": "ListItem", "position": 5, "item": { "@type": "TouristAttraction", "name": "Uncover the buried fortress" } },
-            { "@type": "ListItem", "position": 6, "item": { "@type": "TouristAttraction", "name": "Meet the woman betrayed" } },
-            { "@type": "ListItem", "position": 7, "item": { "@type": "TouristAttraction", "name": "Consider Chacha\u2019s terrible dilemma" } },
-            { "@type": "ListItem", "position": 8, "item": { "@type": "TouristAttraction", "name": "Examine a crime scene" } },
-            { "@type": "ListItem", "position": 9, "item": { "@type": "TouristAttraction", "name": "Stand in the Aoyamon Gate" } },
-            { "@type": "ListItem", "position": 10, "item": { "@type": "TouristAttraction", "name": "Inspect the outer defenses" } }
-          ]
-        },
-        "image": [
-          "https://osakacastletours.com/images/sanadamaru.webp",
-          "https://osakacastletours.com/images/toyotomicastle.webp"
-        ],
-        "provider": {
-          "@id": "https://osakacastletours.com/#business"
-        },
-        "touristAttraction": {
-          "@id": "https://osakacastletours.com/#osaka-castle"
-        },
-        "tourGuide": {
-          "@id": "https://osakacastletours.com/#edward-iftody"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "9500",
-          "priceCurrency": "JPY",
-          "availability": "https://schema.org/InStock",
-          "url": "https://osakacastletours.com/lordconcubineshogunlie",
-          "description": "¥9500 per person. Children 15 and under are free when accompanied by a paying adult."
-        },
-        "meetingPoint": {
-          "@type": "Place",
-          "name": "Osaka Castle Park",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Osaka",
-            "addressRegion": "Osaka",
-            "addressCountry": "JP"
-          }
-        }
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://osakacastletours.com/lordconcubineshogunlie#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Why is this the best Osaka Castle political history tour?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Because it investigates the defining power struggle of early modern Japan: how the victorious Tokugawa shogunate manufactured a state-sanctioned story to justify seizing Osaka Castle and erasing the Toyotomi. Guests examine the politics of propaganda, the weaponization of history, and the real influence of Yodo-dono, the brilliant woman in command of the castle. For travelers interested in political intrigue rather than surface-level castle facts, it is the most political tour at Osaka Castle."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Why is this considered the best Osaka Castle tour for fans of historical dramas like Shogun and deep history seekers?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Because we abandon the sanitized, textbook version of events to investigate Osaka's greatest unsolved historical mysteries. This experience is tailor-made for guests interested in political intrigue, the real influence of women of power in medieval Japan, and fans of the Shogun series who want to stand on the exact ground where massive public lies were manufactured to reshape Japanese history."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What is the lie surrounding the Lord, the Concubine, and the Shogun?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The defining lie of Osaka Castle's history is the Tokugawa shogunate's state-sanctioned propaganda. The victorious Tokugawa painted the young lord Toyotomi Hideyori as weak and his mother Yodo-dono as an irrational woman, when she was in reality the brilliant de facto commander of the castle who posed an existential threat to the new regime."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What was the climax of this historical conflict?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The tension culminated in the brutal Winter and Summer Sieges of Osaka (1614-1615), the largest samurai battles in Japanese history. We examine the exact grounds where Tokugawa Ieyasu deployed deception, psychological warfare, and massive artillery to dismantle the Toyotomi defenses and eradicate their bloodline."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is anything left of the original castle today?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Very little is visible to the untrained eye, and that was intentional. The Tokugawa physically buried the original Toyotomi castle under several meters of earth and built their own fortress on top of it. We treat the park as an active archaeological site, reading the topography, surviving earthworks, and stonework to reveal the erased Toyotomi layers."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How does this experience differ from a standard Osaka Castle tour?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Standard tours focus on the concrete, post-war reconstructed interior of the castle keep. This walk is an intellectual investigation personally led by Edward Iftody, examining the raw historical layers on the grounds, the brutal transition of power, and the weaponization of history."
-            }
-          }
-        ]
-      },
-      {
-        "@type": "BreadcrumbList",
-        "@id": "https://osakacastletours.com/lordconcubineshogunlie#breadcrumbs",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://osakacastletours.com/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "A Lord, A Concubine and a Shogun's Lie",
-            "item": "https://osakacastletours.com/lordconcubineshogunlie"
-          }
-        ]
       }
-    ,
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://osakacastletours.com/lordconcubineshogunlie#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why is this the best Osaka Castle political history tour?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because it investigates the defining power struggle of early modern Japan: how the victorious Tokugawa shogunate manufactured a state-sanctioned story to justify seizing Osaka Castle and erasing the Toyotomi. Guests examine the politics of propaganda, the weaponization of history, and the real influence of Yodo-dono, the brilliant woman in command of the castle. For travelers interested in political intrigue rather than surface-level castle facts, it is the most political tour at Osaka Castle."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is this considered the best Osaka Castle tour for fans of historical dramas like Shogun and deep history seekers?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because we abandon the sanitized, textbook version of events to investigate Osaka's greatest unsolved historical mysteries. This experience is tailor-made for guests interested in political intrigue, the real influence of women of power in medieval Japan, and fans of the Shogun series who want to stand on the exact ground where massive public lies were manufactured to reshape Japanese history."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the lie surrounding the Lord, the Concubine, and the Shogun?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The defining lie of Osaka Castle's history is the Tokugawa shogunate's state-sanctioned propaganda. The victorious Tokugawa painted the young lord Toyotomi Hideyori as weak and his mother Yodo-dono as an irrational woman, when she was in reality the brilliant de facto commander of the castle who posed an existential threat to the new regime."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What was the climax of this historical conflict?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The tension culminated in the brutal Winter and Summer Sieges of Osaka (1614-1615), the largest samurai battles in Japanese history. We examine the exact grounds where Tokugawa Ieyasu deployed deception, psychological warfare, and massive artillery to dismantle the Toyotomi defenses and eradicate their bloodline."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is anything left of the original castle today?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Very little is visible to the untrained eye, and that was intentional. The Tokugawa physically buried the original Toyotomi castle under several meters of earth and built their own fortress on top of it. We treat the park as an active archaeological site, reading the topography, surviving earthworks, and stonework to reveal the erased Toyotomi layers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does this experience differ from a standard Osaka Castle tour?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Standard tours focus on the concrete, post-war reconstructed interior of the castle keep. This walk is an intellectual investigation personally led by Edward Iftody, examining the raw historical layers on the grounds, the brutal transition of power, and the weaponization of history."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://osakacastletours.com/lordconcubineshogunlie#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://osakacastletours.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "A Lord, A Concubine and a Shogun's Lie",
+          "item": "https://osakacastletours.com/lordconcubineshogunlie"
+        }
+      ]
+    },
     {
       "@type": "Article",
       "headline": "Private Osaka Castle History Tour | A Lord, a Concubine and a Shogun's Lie",
@@ -285,9 +365,8 @@
         ]
       }
     }
-]
-  }
-  </script>
+  ]
+}</script>
 <meta name="robots" content="index, follow">
 </head>
 

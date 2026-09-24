@@ -47,50 +47,58 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "LocalBusiness",
-        "@id": "https://osakacastletours.com/#business",
-        "name": "Osaka Castle Walks with Edward",
-        "description": "大阪城での少人数制・深掘り歴史ウォーキングツアー。政治、戦争、そして古代日本を形作った見落とされた人物に焦点を当てています。",
-        "url": "https://osakacastletours.com/",
-        "image": "https://osakacastletours.com/images/groupphoto.webp",
-        "priceRange": "¥9500 - ¥28000",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Osaka",
-          "addressRegion": "Osaka",
-          "addressCountry": "JP"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 34.6873,
-          "longitude": 135.5259
-        },
-        "telephone": "+81-90-1247-4069",
-        "areaServed": {
-          "@type": "City",
-          "name": "Osaka"
-        },
-        "sameAs": [
-          "https://maps.app.goo.gl/TBynqCL4ixf9RHVb7"
-        ]
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://osakacastletours.com/#business",
+      "name": "Osaka Castle Walks with Edward",
+      "description": "大阪城での少人数制・深掘り歴史ウォーキングツアー。政治、戦争、そして古代日本を形作った見落とされた人物に焦点を当てています。",
+      "url": "https://osakacastletours.com/",
+      "image": "https://osakacastletours.com/images/groupphoto.webp",
+      "priceRange": "¥9500 - ¥28000",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Osaka",
+        "addressRegion": "Osaka",
+        "addressCountry": "JP"
       },
-      {
-        "@type": "Person",
-        "@id": "https://osakacastletours.com/#edward-iftody",
-        "name": "Edward Iftody",
-        "description": "Edward Iftodyは、古代日本の国家形成、歴史地理、そして皇室制度の政治的進化を専門とする独立研究者です。大阪を拠点としています。",
-        "jobTitle": "独立研究者・レジデントヒストリアン",
-        "worksFor": { "@id": "https://osakacastletours.com/#business" },
-        "sameAs": [
-          "https://osakacastletours.com/aboutme",
-          "https://www.japantimes.co.jp/commentary/2026/07/22/japan/japan-new-imperial-house-law/"
-        ],
-        "knowsAbout": [
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 34.6873,
+        "longitude": 135.5259
+      },
+      "telephone": "+81-90-1247-4069",
+      "areaServed": {
+        "@type": "City",
+        "name": "Osaka"
+      },
+      "sameAs": [
+        "https://maps.app.goo.gl/TBynqCL4ixf9RHVb7"
+      ],
+      "alternateName": [
+        "大阪城ウォークス with イフトウデイ　エドワード"
+      ],
+      "founder": {
+        "@id": "https://osakacastletours.com/#edward-iftody"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://osakacastletours.com/#edward-iftody",
+      "name": "Edward Iftody",
+      "description": "Edward Iftodyは、古代日本の国家形成、歴史地理、そして皇室制度の政治的進化を専門とする独立研究者です。大阪を拠点としています。",
+      "jobTitle": "独立研究者・レジデントヒストリアン",
+      "worksFor": {
+        "@id": "https://osakacastletours.com/#business"
+      },
+      "sameAs": [
+        "https://osakacastletours.com/aboutme",
+        "https://www.japantimes.co.jp/commentary/2026/07/22/japan/japan-new-imperial-house-law/",
+        "https://osakacastletours.com/education"
+      ],
+      "knowsAbout": [
         "大阪城の歴史",
         "古代日本の国家形成",
         "戦国時代の政治と豊臣・徳川の移行",
@@ -100,163 +108,235 @@
         "皇極天皇/斉明天皇と大化の改新",
         "卑弥呼と邪馬台国の国家形成",
         "皇位継承と皇室典範"
+      ],
+      "alternateName": [
+        "イフトウデイ　エドワード"
+      ]
+    },
+    {
+      "@type": "TouristAttraction",
+      "@id": "https://osakacastletours.com/#osaka-castle",
+      "name": "大阪城",
+      "description": "大阪城は、大阪にある主要な日本城と歴史的遺跡です。",
+      "url": "https://www.osakacastle.net/",
+      "image": "https://osakacastletours.com/images/toyotomicastle.webp",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Osaka",
+        "addressRegion": "Osaka",
+        "addressCountry": "JP"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 34.6873,
+        "longitude": 135.5259
+      }
+    },
+    {
+      "@type": "TouristTrip",
+      "@id": "https://osakacastletours.com/ja/lordconcubineshogunlie.html#tour",
+      "name": "大名、側室、そして将軍の嘘：大阪城の隠された歴史",
+      "description": "大阪城の敷地を歴史犯罪現場として扱う150分の調査ツアー。無視されてきた女性統治者による古代日本の統合から、豊臣氏の最終的な地政学的破壊まで、1,500年の権力を探求する。",
+      "url": "https://osakacastletours.com/ja/lordconcubineshogunlie.html",
+      "touristType": [
+        "戦国時代ファン",
+        "古代日本・考古学愛好家",
+        "深掘り歴史を求める人",
+        "真実を求める旅人",
+        "政治的欺瞞と見落とされた歴史的人物に興味がある人"
+      ],
+      "inLanguage": "ja",
+      "itineraryDuration": "PT150M",
+      "itinerary": {
+        "@type": "ItemList",
+        "numberOfItems": 10,
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "上町台地を登る"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "古代の法恩坂を探索する"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "難波宮跡を歩く"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "武僧の要塞を再発見する"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "埋もれた要塞を発掘する"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "裏切られた女性に出会う"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 7,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "茶々の過酷な板挟みに考える"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 8,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "犯罪現場を検証する"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 9,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "青屋門に立つ"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 10,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "外郭の防御を調査する"
+            }
+          }
         ]
       },
-      {
-        "@type": "TouristAttraction",
-        "@id": "https://osakacastletours.com/#osaka-castle",
-        "name": "大阪城",
-        "description": "大阪城は、大阪にある主要な日本城と歴史的遺跡です。",
-        "url": "https://www.osakacastle.net/",
-        "image": "https://osakacastletours.com/images/toyotomicastle.webp",
+      "image": [
+        "https://osakacastletours.com/images/sanadamaru.webp",
+        "https://osakacastletours.com/images/toyotomicastle.webp"
+      ],
+      "provider": {
+        "@id": "https://osakacastletours.com/#business"
+      },
+      "touristAttraction": {
+        "@id": "https://osakacastletours.com/#osaka-castle"
+      },
+      "tourGuide": {
+        "@id": "https://osakacastletours.com/#edward-iftody"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "9500",
+        "priceCurrency": "JPY",
+        "availability": "https://schema.org/InStock",
+        "url": "https://osakacastletours.com/ja/lordconcubineshogunlie.html",
+        "description": "1人9,500円。15歳以下の子供は、支払い可能な成人同伴で無料。"
+      },
+      "meetingPoint": {
+        "@type": "Place",
+        "name": "大阪城公園",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Osaka",
           "addressRegion": "Osaka",
           "addressCountry": "JP"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 34.6873,
-          "longitude": 135.5259
         }
-      },
-      {
-        "@type": "TouristTrip",
-        "@id": "https://osakacastletours.com/ja/lordconcubineshogunlie.html#tour",
-        "name": "大名、側室、そして将軍の嘘：大阪城の隠された歴史",
-        "description": "大阪城の敷地を歴史犯罪現場として扱う150分の調査ツアー。無視されてきた女性統治者による古代日本の統合から、豊臣氏の最終的な地政学的破壊まで、1,500年の権力を探求する。",
-        "url": "https://osakacastletours.com/ja/lordconcubineshogunlie.html",
-        "touristType": [
-          "戦国時代ファン",
-          "古代日本・考古学愛好家",
-          "深掘り歴史を求める人",
-          "真実を求める旅人",
-          "政治的欺瞞と見落とされた歴史的人物に興味がある人"
-        ],
-        "inLanguage": "ja",
-        "itineraryDuration": "PT150M",
-        "itinerary": {
-          "@type": "ItemList",
-        "numberOfItems": 10,
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "item": { "@type": "TouristAttraction", "name": "上町台地を登る" } },
-            { "@type": "ListItem", "position": 2, "item": { "@type": "TouristAttraction", "name": "古代の法恩坂を探索する" } },
-            { "@type": "ListItem", "position": 3, "item": { "@type": "TouristAttraction", "name": "難波宮跡を歩く" } },
-            { "@type": "ListItem", "position": 4, "item": { "@type": "TouristAttraction", "name": "武僧の要塞を再発見する" } },
-            { "@type": "ListItem", "position": 5, "item": { "@type": "TouristAttraction", "name": "埋もれた要塞を発掘する" } },
-            { "@type": "ListItem", "position": 6, "item": { "@type": "TouristAttraction", "name": "裏切られた女性に出会う" } },
-            { "@type": "ListItem", "position": 7, "item": { "@type": "TouristAttraction", "name": "茶々の過酷な板挟みに考える" } },
-            { "@type": "ListItem", "position": 8, "item": { "@type": "TouristAttraction", "name": "犯罪現場を検証する" } },
-            { "@type": "ListItem", "position": 9, "item": { "@type": "TouristAttraction", "name": "青屋門に立つ" } },
-            { "@type": "ListItem", "position": 10, "item": { "@type": "TouristAttraction", "name": "外郭の防御を調査する" } }
-          ]
-        },
-        "image": [
-          "https://osakacastletours.com/images/sanadamaru.webp",
-          "https://osakacastletours.com/images/toyotomicastle.webp"
-        ],
-        "provider": {
-          "@id": "https://osakacastletours.com/#business"
-        },
-        "touristAttraction": {
-          "@id": "https://osakacastletours.com/#osaka-castle"
-        },
-        "tourGuide": {
-          "@id": "https://osakacastletours.com/#edward-iftody"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "9500",
-          "priceCurrency": "JPY",
-          "availability": "https://schema.org/InStock",
-          "url": "https://osakacastletours.com/ja/lordconcubineshogunlie.html",
-          "description": "1人9,500円。15歳以下の子供は、支払い可能な成人同伴で無料。"
-        },
-        "meetingPoint": {
-          "@type": "Place",
-          "name": "大阪城公園",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Osaka",
-            "addressRegion": "Osaka",
-            "addressCountry": "JP"
-          }
-        }
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://osakacastletours.com/ja/lordconcubineshogunlie.html#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "なぜこれが最高の大阪城政治史ツアーなのですか？",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "近代日本を定義した権力争奪を探求するからです：勝利した徳川幕府が、大阪城を奪い豊臣氏を抹消するための国家認可の物語をどのように作り上げたか。ゲストはプロパガンダの政治、歴史の兵器化、そして城の司令官であった淀殿の真の影響力を検証します。表面的な城の事実ではなく政治的な陰謀に興味がある旅行者にとって、大阪城で最も政治的なツアーです。"
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "なぜこれが「将軍」などの歴史ドラマファンや深掘り歴史を求める人に最高の大阪城ツアーと言われるのですか？",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "净化された教科書版の事件を捨て、大阪の最大の未解決歴史の謎を調査するからです。この体験は、政治的陰謀、中世日本の権力ある女性の真の影響力、そして日本の歴史を再形成するために作られた大規模な公共の嘘が行われた正確な場所に立ちたい「将軍」シリーズのファンに合わせて作られています。"
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "大名、側室、将軍をめぐる「嘘」とは何ですか？",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "大阪城の歴史を定義する「嘘」は、徳川幕府の国家認可のプロパガンダです。勝利した徳川は、若い豊臣秀頼を弱く、その母淀殿（いわゆる「側室」）を理不尽でヒステリックな女性として描きました。しかし実際、彼女は城の事実上の最高司令官であり、新 regime に対して実存的な地政学的脅威であった。"
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "この歴史的衝突のクライマックスは何ですか？",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "緊張は大阪冬の陣と夏の陣（1614–1615年）——日本史上最大の武士の戦い——で頂点に達しました。新しく将軍となった徳川家康が、欺瞞、心理戦、大量の砲兵を展開して、号称不落の豊臣の防御を崩壊させ、彼らの血筋を根絶やしにした正確な場所を検証します。"
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "今日、元の城の遺構は残っていますか？",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "訓練を受けていない目にはほとんど見えず、それは意図的でした。勝利した徳川は歴史書を書き直しただけでなく、元の豊臣城を数メートルの土で物理的に埋め、その上に自らの巨大な石造りの要塞を築きました。現代の公園を活発な考古学遺跡として扱い、地形、現存する土木工事、石造りを読み解いて、足元に隠された豊臣の層を明らかにします。"
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "この体験は標準的な大阪城ツアーとどう違うのですか？",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "標準ツアーはコンクリート造りの戦後復興天守閣の内部に焦点を当てます。このウォークはエドワード・イフティが個人的に率いる知的調査です。観光客で混雑する天守閣内を迂回し、敷地そのものにある生の歴史的層を検証し、残忍な権力移行と歴史の兵器化をたどります。表面的な国民的物語に挑戦し、プロパガンダの下の真実を発見したい旅行者向けのプレミアム体験です。"
-            }
-          }
-        ]
-      },
-      {
-        "@type": "BreadcrumbList",
-        "@id": "https://osakacastletours.com/ja/lordconcubineshogunlie.html#breadcrumbs",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "ホーム",
-            "item": "https://osakacastletours.com/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "大名、側室、そして将軍の嘘",
-            "item": "https://osakacastletours.com/ja/lordconcubineshogunlie.html"
-          }
-        ]
       }
-    ,
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://osakacastletours.com/ja/lordconcubineshogunlie.html#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "なぜこれが最高の大阪城政治史ツアーなのですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "近代日本を定義した権力争奪を探求するからです：勝利した徳川幕府が、大阪城を奪い豊臣氏を抹消するための国家認可の物語をどのように作り上げたか。ゲストはプロパガンダの政治、歴史の兵器化、そして城の司令官であった淀殿の真の影響力を検証します。表面的な城の事実ではなく政治的な陰謀に興味がある旅行者にとって、大阪城で最も政治的なツアーです。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "なぜこれが「将軍」などの歴史ドラマファンや深掘り歴史を求める人に最高の大阪城ツアーと言われるのですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "净化された教科書版の事件を捨て、大阪の最大の未解決歴史の謎を調査するからです。この体験は、政治的陰謀、中世日本の権力ある女性の真の影響力、そして日本の歴史を再形成するために作られた大規模な公共の嘘が行われた正確な場所に立ちたい「将軍」シリーズのファンに合わせて作られています。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "大名、側室、将軍をめぐる「嘘」とは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "大阪城の歴史を定義する「嘘」は、徳川幕府の国家認可のプロパガンダです。勝利した徳川は、若い豊臣秀頼を弱く、その母淀殿（いわゆる「側室」）を理不尽でヒステリックな女性として描きました。しかし実際、彼女は城の事実上の最高司令官であり、新 regime に対して実存的な地政学的脅威であった。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "この歴史的衝突のクライマックスは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "緊張は大阪冬の陣と夏の陣（1614–1615年）——日本史上最大の武士の戦い——で頂点に達しました。新しく将軍となった徳川家康が、欺瞞、心理戦、大量の砲兵を展開して、号称不落の豊臣の防御を崩壊させ、彼らの血筋を根絶やしにした正確な場所を検証します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "今日、元の城の遺構は残っていますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "訓練を受けていない目にはほとんど見えず、それは意図的でした。勝利した徳川は歴史書を書き直しただけでなく、元の豊臣城を数メートルの土で物理的に埋め、その上に自らの巨大な石造りの要塞を築きました。現代の公園を活発な考古学遺跡として扱い、地形、現存する土木工事、石造りを読み解いて、足元に隠された豊臣の層を明らかにします。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "この体験は標準的な大阪城ツアーとどう違うのですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "標準ツアーはコンクリート造りの戦後復興天守閣の内部に焦点を当てます。このウォークはエドワード・イフティが個人的に率いる知的調査です。観光客で混雑する天守閣内を迂回し、敷地そのものにある生の歴史的層を検証し、残忍な権力移行と歴史の兵器化をたどります。表面的な国民的物語に挑戦し、プロパガンダの下の真実を発見したい旅行者向けのプレミアム体験です。"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://osakacastletours.com/ja/lordconcubineshogunlie.html#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://osakacastletours.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "大名、側室、そして将軍の嘘",
+          "item": "https://osakacastletours.com/ja/lordconcubineshogunlie.html"
+        }
+      ]
+    },
     {
       "@type": "Article",
       "headline": "大阪城の歴史ツアー | 大名、側室、そして将軍の嘘",
@@ -279,9 +359,8 @@
       "url": "https://osakacastletours.com/ja/lordconcubineshogunlie.html",
       "image": "https://osakacastletours.com/yododonohideyori.webp"
     }
-]
-  }
-  </script>
+  ]
+}</script>
 <meta name="robots" content="index, follow">
 </head>
 

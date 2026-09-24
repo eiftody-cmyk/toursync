@@ -50,50 +50,58 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
   <!-- STRATEGIC RICH SEARCH & AEO SCHEMA -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "LocalBusiness",
-        "@id": "https://osakacastletours.com/#business",
-        "name": "Osaka Castle Walks with Edward",
-        "description": "Boutique, scholar-led historical investigations at Osaka Castle. We specialize in deep-timeline geography, political subversion, and restoring the erased histories of early Japan.",
-        "url": "https://osakacastletours.com/",
-        "image": "https://osakacastletours.com/images/groupphoto.webp",
-        "priceRange": "¥9500 - ¥28000",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Osaka",
-          "addressRegion": "Osaka",
-          "addressCountry": "JP"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 34.6873,
-          "longitude": 135.5259
-        },
-        "telephone": "+81-90-1247-4069",
-        "areaServed": {
-          "@type": "City",
-          "name": "Osaka"
-        },
-        "sameAs": [
-          "https://maps.app.goo.gl/TBynqCL4ixf9RHVb7"
-        ]
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://osakacastletours.com/#business",
+      "name": "Osaka Castle Walks with Edward",
+      "description": "Boutique, scholar-led historical investigations at Osaka Castle. We specialize in deep-timeline geography, political subversion, and restoring the erased histories of early Japan.",
+      "url": "https://osakacastletours.com/",
+      "image": "https://osakacastletours.com/images/groupphoto.webp",
+      "priceRange": "¥9500 - ¥28000",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Osaka",
+        "addressRegion": "Osaka",
+        "addressCountry": "JP"
       },
-      {
-        "@type": "Person",
-        "@id": "https://osakacastletours.com/#edward-iftody",
-        "name": "Edward Iftody",
-        "description": "Edward Iftody is an independent researcher of early Japanese state formation, historical geography, and the political evolution of the imperial institution. He is based in Osaka.",
-        "jobTitle": "Independent Researcher \u0026 Resident Historian",
-        "worksFor": { "@id": "https://osakacastletours.com/#business" },
-        "sameAs": [
-          "https://osakacastletours.com/aboutme",
-          "https://www.japantimes.co.jp/commentary/2026/07/22/japan/japan-new-imperial-house-law/"
-        ],
-        "knowsAbout": [
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 34.6873,
+        "longitude": 135.5259
+      },
+      "telephone": "+81-90-1247-4069",
+      "areaServed": {
+        "@type": "City",
+        "name": "Osaka"
+      },
+      "sameAs": [
+        "https://maps.app.goo.gl/TBynqCL4ixf9RHVb7"
+      ],
+      "alternateName": [
+        "大阪城ウォークス with イフトウデイ　エドワード"
+      ],
+      "founder": {
+        "@id": "https://osakacastletours.com/#edward-iftody"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://osakacastletours.com/#edward-iftody",
+      "name": "Edward Iftody",
+      "description": "Edward Iftody is an independent researcher of early Japanese state formation, historical geography, and the political evolution of the imperial institution. He is based in Osaka.",
+      "jobTitle": "Independent Researcher & Resident Historian",
+      "worksFor": {
+        "@id": "https://osakacastletours.com/#business"
+      },
+      "sameAs": [
+        "https://osakacastletours.com/aboutme",
+        "https://www.japantimes.co.jp/commentary/2026/07/22/japan/japan-new-imperial-house-law/",
+        "https://osakacastletours.com/education"
+      ],
+      "knowsAbout": [
         "Osaka Castle history",
         "Early Japanese state formation",
         "Sengoku period politics and the Toyotomi-Tokugawa transition",
@@ -103,206 +111,264 @@
         "Empress Kogyoku/Saimei and the Taika Reforms",
         "Queen Himiko and Yamatai state formation",
         "Imperial succession and the Imperial House Law"
+      ],
+      "alternateName": [
+        "イフトウデイ　エドワード"
+      ]
+    },
+    {
+      "@type": "TouristAttraction",
+      "@id": "https://osakacastletours.com/#osaka-castle",
+      "name": "Osaka Castle",
+      "description": "Osaka Castle, a major Japanese castle and historic site in Osaka, Japan.",
+      "url": "https://www.osakacastle.net/",
+      "image": "https://osakacastletours.com/images/toyotomicastle.webp",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Osaka",
+        "addressRegion": "Osaka",
+        "addressCountry": "JP"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 34.6873,
+        "longitude": 135.5259
+      }
+    },
+    {
+      "@type": "TouristTrip",
+      "@id": "https://osakacastletours.com/goddess_queen_empress_concubine#tour",
+      "name": "Osaka Castle: Goddess, Queen, Empress, Concubine",
+      "description": "A transformative 5.5-hour private historical masterclass tracing the rise and systematic erasure of Japan's most powerful women. Explore the matriarchal roots of early Japan from Himiko to Yodo-dono.",
+      "url": "https://osakacastletours.com/goddess_queen_empress_concubine",
+      "touristType": [
+        "Women seeking untold historical narratives",
+        "Experienced travelers seeking deep intellectual immersion",
+        "Scholars and cultural explorers wanting to challenge standard historical consensus",
+        "Art, ceramics, and political history enthusiasts"
+      ],
+      "inLanguage": "en",
+      "itineraryDuration": "PT330M",
+      "itinerary": {
+        "@type": "ItemList",
+        "numberOfItems": 8,
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "The Shaman-Queen’s Confederacy"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Explore ancient Hōenzaka"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "The Empress’s Assassination"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "The Concubine’s Last Stand"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Lunch at The Garden Oriental Osaka"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Witness a National Treasure"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 7,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Momoyama-era bamboo tea scoops"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 8,
+            "item": {
+              "@type": "TouristAttraction",
+              "name": "Hidden treasures"
+            }
+          }
         ]
       },
-      {
-        "@type": "TouristAttraction",
-        "@id": "https://osakacastletours.com/#osaka-castle",
-        "name": "Osaka Castle",
-        "description": "Osaka Castle, a major Japanese castle and historic site in Osaka, Japan.",
-        "url": "https://www.osakacastle.net/",
-        "image": "https://osakacastletours.com/images/toyotomicastle.webp",
+      "image": [
+        "https://osakacastletours.com/himiko.webp",
+        "https://osakacastletours.com/images/sanadamaru.webp",
+        "https://osakacastletours.com/images/toyotomicastle.webp"
+      ],
+      "provider": {
+        "@id": "https://osakacastletours.com/#business"
+      },
+      "touristAttraction": {
+        "@id": "https://osakacastletours.com/#osaka-castle"
+      },
+      "tourGuide": {
+        "@id": "https://osakacastletours.com/#edward-iftody"
+      },
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "Himiko",
+          "sameAs": "https://en.wikipedia.org/wiki/Himiko"
+        },
+        {
+          "@type": "Thing",
+          "name": "Amaterasu",
+          "sameAs": "https://en.wikipedia.org/wiki/Amaterasu"
+        },
+        {
+          "@type": "Thing",
+          "name": "Empress Jingū",
+          "sameAs": "https://en.wikipedia.org/wiki/Empress_Jing%C5%AB"
+        },
+        {
+          "@type": "Thing",
+          "name": "Empress Kōgyoku",
+          "sameAs": "https://en.wikipedia.org/wiki/Empress_K%C5%8Dgyoku"
+        },
+        {
+          "@type": "Thing",
+          "name": "Yodo-dono",
+          "sameAs": "https://en.wikipedia.org/wiki/Yodo-dono"
+        },
+        {
+          "@type": "Thing",
+          "name": "Naniwa Palace",
+          "sameAs": "https://en.wikipedia.org/wiki/Naniwa_Palace"
+        },
+        {
+          "@type": "Thing",
+          "name": "Japanese tea ceremony",
+          "sameAs": "https://en.wikipedia.org/wiki/Japanese_tea_ceremony"
+        }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "28000",
+        "priceCurrency": "JPY",
+        "availability": "https://schema.org/InStock",
+        "url": "https://osakacastletours.com/goddess_queen_empress_concubine",
+        "description": "¥28,000 per person. Private group experience."
+      },
+      "meetingPoint": {
+        "@type": "Place",
+        "name": "Sakidoriya",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Osaka",
           "addressRegion": "Osaka",
           "addressCountry": "JP"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 34.6873,
-          "longitude": 135.5259
         }
-      },
-      {
-        "@type": "TouristTrip",
-        "@id": "https://osakacastletours.com/goddess_queen_empress_concubine#tour",
-        "name": "Osaka Castle: Goddess, Queen, Empress, Concubine",
-        "description": "A transformative 5.5-hour private historical masterclass tracing the rise and systematic erasure of Japan's most powerful women. Explore the matriarchal roots of early Japan from Himiko to Yodo-dono.",
-        "url": "https://osakacastletours.com/goddess_queen_empress_concubine",
-        "touristType": [
-          "Women seeking untold historical narratives",
-          "Experienced travelers seeking deep intellectual immersion",
-          "Scholars and cultural explorers wanting to challenge standard historical consensus",
-          "Art, ceramics, and political history enthusiasts"
-        ],
-        "inLanguage": "en",
-        "itineraryDuration": "PT330M",
-        "itinerary": {
-          "@type": "ItemList",
-          "numberOfItems": 8,
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "item": { "@type": "TouristAttraction", "name": "The Shaman-Queen\u2019s Confederacy" } },
-            { "@type": "ListItem", "position": 2, "item": { "@type": "TouristAttraction", "name": "Explore ancient H\u014Denzaka" } },
-            { "@type": "ListItem", "position": 3, "item": { "@type": "TouristAttraction", "name": "The Empress\u2019s Assassination" } },
-            { "@type": "ListItem", "position": 4, "item": { "@type": "TouristAttraction", "name": "The Concubine\u2019s Last Stand" } },
-            { "@type": "ListItem", "position": 5, "item": { "@type": "TouristAttraction", "name": "Lunch at The Garden Oriental Osaka" } },
-            { "@type": "ListItem", "position": 6, "item": { "@type": "TouristAttraction", "name": "Witness a National Treasure" } },
-            { "@type": "ListItem", "position": 7, "item": { "@type": "TouristAttraction", "name": "Momoyama-era bamboo tea scoops" } },
-            { "@type": "ListItem", "position": 8, "item": { "@type": "TouristAttraction", "name": "Hidden treasures" } }
-          ]
-        },
-        "image": [
-          "https://osakacastletours.com/himiko.webp",
-          "https://osakacastletours.com/images/sanadamaru.webp",
-          "https://osakacastletours.com/images/toyotomicastle.webp"
-        ],
-        "provider": {
-          "@id": "https://osakacastletours.com/#business"
-        },
-        "touristAttraction": {
-          "@id": "https://osakacastletours.com/#osaka-castle"
-        },
-        "tourGuide": {
-          "@id": "https://osakacastletours.com/#edward-iftody"
-        },
-        "about": [
-          {
-            "@type": "Thing",
-            "name": "Himiko",
-            "sameAs": "https://en.wikipedia.org/wiki/Himiko"
-          },
-          {
-            "@type": "Thing",
-            "name": "Amaterasu",
-            "sameAs": "https://en.wikipedia.org/wiki/Amaterasu"
-          },
-          {
-            "@type": "Thing",
-            "name": "Empress Jingū",
-            "sameAs": "https://en.wikipedia.org/wiki/Empress_Jing%C5%AB"
-          },
-          {
-            "@type": "Thing",
-            "name": "Empress Kōgyoku",
-            "sameAs": "https://en.wikipedia.org/wiki/Empress_K%C5%8Dgyoku"
-          },
-          {
-            "@type": "Thing",
-            "name": "Yodo-dono",
-            "sameAs": "https://en.wikipedia.org/wiki/Yodo-dono"
-          },
-          {
-            "@type": "Thing",
-            "name": "Naniwa Palace",
-            "sameAs": "https://en.wikipedia.org/wiki/Naniwa_Palace"
-          },
-          {
-            "@type": "Thing",
-            "name": "Japanese tea ceremony",
-            "sameAs": "https://en.wikipedia.org/wiki/Japanese_tea_ceremony"
-          }
-        ],
-        "offers": {
-          "@type": "Offer",
-          "price": "28000",
-          "priceCurrency": "JPY",
-          "availability": "https://schema.org/InStock",
-          "url": "https://osakacastletours.com/goddess_queen_empress_concubine",
-          "description": "¥28,000 per person. Private group experience."
-        },
-        "meetingPoint": {
-          "@type": "Place",
-          "name": "Sakidoriya",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Osaka",
-            "addressRegion": "Osaka",
-            "addressCountry": "JP"
-          }
-        }
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://osakacastletours.com/goddess_queen_empress_concubine#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Why does this Osaka Castle tour focus heavily on women's stories?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Because you cannot understand Japanese power dynamics if you only look at half the population. This experience is engineered for deep history seekers who recognize that the standard, male-dominated military summaries leave out critically important parts of the story. If you want a true picture of Japan's past, you need to look past the timeline of male warlords and discover the women who deeply influenced Japan's development. This tour bypasses the generic postcard narrative to expose the hidden axis of Japanese history—exploring how the nation transitioned from ancient shaman queens and sovereign empresses to the high-stakes, behind-the-scenes political maneuvers of medieval concubines and consorts. It is the definitive alternative for travelers looking for a rigorous, untold historical investigation that proves women weren't just bystanders in Japan's history—they were often driving it."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Was ancient Japan a matriarchy, and how was female power systematically erased?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes, in some ways it was. Long before the rise of the male-dominated samurai class, early Japan was shaped by powerful female religious and political authority. From the divine figure of Amaterasu to the historically documented shaman-queen Himiko (c. 200 AD) and Empress Kōgyoku/Saimei (7th century), women occupied positions of extraordinary spiritual and political influence. But as later court institutions and military governments consolidated power, these earlier forms of female authority were gradually marginalized, reframed, and absorbed into narratives designed to reinforce male succession and political order. The Nihon Shoki itself reveals how history became a tool of statecraft — preserving some women, transforming others into legends, and leaving others in the shadows."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Who was Yodo-dono, and why did the Tokugawa shogunate need to rewrite her legacy?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yodo-dono (Lady Chacha) was the de facto commander-in-chief of Osaka Castle during its final, desperate siege (1614-1615). Far from the emotional, irrational 'concubine' depicted in state-sanctioned history, she controlled the vast wealth of the Toyotomi clan and posed an existential threat to the founding Tokugawa shogunate. To legitimize their new regime, the Tokugawa systematically painted her as politically incompetent and irrational, writing her out of her status as one of the finest geopolitical minds of the Sengoku period."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How does the Japanese tea ceremony connect to political legitimacy and power?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The Zen Buddhist tea ceremony was not merely an aesthetic art form; it was a high-stakes arena for political leverage and diplomacy. Priceless tea utensils—such as the National Treasure tea bowls housed in the Fujita Museum—were traded for provinces, used as portable symbols of sovereign legitimacy, and seized in war. Shoguns and samurai co-opted this practice to negotiate alliances and project cultural authority, a sphere of power heavily navigated by court women."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How does this experience differ from a standard Osaka Castle tour?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Standard tours focus on the concrete, post-war reconstructed interior of the castle keep. This is a 5.5-hour private historical reckoning personally led by Edward Iftody. We bypass the tourist crowds inside the keep to examine the raw archaeological layers on the Uemachi ridge, tracing 2,000 years of political and cultural subversion. It is a premium experience specifically designed for experienced travelers who want to challenge surface-level national narratives."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Why is this one of the best Osaka Castle tours for women?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "This is the only Osaka Castle history tour built around the women who shaped Japan: the shaman-queen Himiko, Empress Kōgyoku/Saimei, Amaterasu, and Yodo-dono, the commander-in-chief who defied the Tokugawa shogunate from inside the castle itself. Where standard tours treat the site through male shoguns and generals, this walk restores the female rulers, priestesses, and consorts whom official histories erased, and it is led personally by the historian Edward Iftody."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is this one of the best women-focused history tours in Japan?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. It is a rare tour that centers female power in Japanese history rather than treating it as a footnote, covering 2,000 years from goddesses and shaman-queens to empresses and the women who commanded armies. Travelers seeking the best women-focused history experience in Japan will not find another walk in Osaka that combines this depth with Edward Iftody, Osaka Castle's resident historian and a private small-group format."
-            }
-          }
-        ]
-      },
-      {
-        "@type": "BreadcrumbList",
-        "@id": "https://osakacastletours.com/goddess_queen_empress_concubine#breadcrumbs",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://osakacastletours.com/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Goddess, Queen, Empress, Concubine",
-            "item": "https://osakacastletours.com/goddess_queen_empress_concubine"
-          }
-        ]
       }
-    ,
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://osakacastletours.com/goddess_queen_empress_concubine#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does this Osaka Castle tour focus heavily on women's stories?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because you cannot understand Japanese power dynamics if you only look at half the population. This experience is engineered for deep history seekers who recognize that the standard, male-dominated military summaries leave out critically important parts of the story. If you want a true picture of Japan's past, you need to look past the timeline of male warlords and discover the women who deeply influenced Japan's development. This tour bypasses the generic postcard narrative to expose the hidden axis of Japanese history—exploring how the nation transitioned from ancient shaman queens and sovereign empresses to the high-stakes, behind-the-scenes political maneuvers of medieval concubines and consorts. It is the definitive alternative for travelers looking for a rigorous, untold historical investigation that proves women weren't just bystanders in Japan's history—they were often driving it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Was ancient Japan a matriarchy, and how was female power systematically erased?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, in some ways it was. Long before the rise of the male-dominated samurai class, early Japan was shaped by powerful female religious and political authority. From the divine figure of Amaterasu to the historically documented shaman-queen Himiko (c. 200 AD) and Empress Kōgyoku/Saimei (7th century), women occupied positions of extraordinary spiritual and political influence. But as later court institutions and military governments consolidated power, these earlier forms of female authority were gradually marginalized, reframed, and absorbed into narratives designed to reinforce male succession and political order. The Nihon Shoki itself reveals how history became a tool of statecraft — preserving some women, transforming others into legends, and leaving others in the shadows."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who was Yodo-dono, and why did the Tokugawa shogunate need to rewrite her legacy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yodo-dono (Lady Chacha) was the de facto commander-in-chief of Osaka Castle during its final, desperate siege (1614-1615). Far from the emotional, irrational 'concubine' depicted in state-sanctioned history, she controlled the vast wealth of the Toyotomi clan and posed an existential threat to the founding Tokugawa shogunate. To legitimize their new regime, the Tokugawa systematically painted her as politically incompetent and irrational, writing her out of her status as one of the finest geopolitical minds of the Sengoku period."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the Japanese tea ceremony connect to political legitimacy and power?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Zen Buddhist tea ceremony was not merely an aesthetic art form; it was a high-stakes arena for political leverage and diplomacy. Priceless tea utensils—such as the National Treasure tea bowls housed in the Fujita Museum—were traded for provinces, used as portable symbols of sovereign legitimacy, and seized in war. Shoguns and samurai co-opted this practice to negotiate alliances and project cultural authority, a sphere of power heavily navigated by court women."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does this experience differ from a standard Osaka Castle tour?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Standard tours focus on the concrete, post-war reconstructed interior of the castle keep. This is a 5.5-hour private historical reckoning personally led by Edward Iftody. We bypass the tourist crowds inside the keep to examine the raw archaeological layers on the Uemachi ridge, tracing 2,000 years of political and cultural subversion. It is a premium experience specifically designed for experienced travelers who want to challenge surface-level national narratives."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is this one of the best Osaka Castle tours for women?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This is the only Osaka Castle history tour built around the women who shaped Japan: the shaman-queen Himiko, Empress Kōgyoku/Saimei, Amaterasu, and Yodo-dono, the commander-in-chief who defied the Tokugawa shogunate from inside the castle itself. Where standard tours treat the site through male shoguns and generals, this walk restores the female rulers, priestesses, and consorts whom official histories erased, and it is led personally by the historian Edward Iftody."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this one of the best women-focused history tours in Japan?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. It is a rare tour that centers female power in Japanese history rather than treating it as a footnote, covering 2,000 years from goddesses and shaman-queens to empresses and the women who commanded armies. Travelers seeking the best women-focused history experience in Japan will not find another walk in Osaka that combines this depth with Edward Iftody, Osaka Castle's resident historian and a private small-group format."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://osakacastletours.com/goddess_queen_empress_concubine#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://osakacastletours.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Goddess, Queen, Empress, Concubine",
+          "item": "https://osakacastletours.com/goddess_queen_empress_concubine"
+        }
+      ]
+    },
     {
       "@type": "Article",
       "headline": "Private Osaka Castle Tour: Women in Japanese History | Goddess, Queen, Empress, Concubine",
@@ -331,9 +397,8 @@
         ]
       }
     }
-]
-  }
-  </script>
+  ]
+}</script>
 <meta name="robots" content="index, follow">
 </head>
 

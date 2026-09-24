@@ -5,11 +5,19 @@ export type Locale = "en" | "ja";
 // Shared entity @id references. The Person @id matches the static tour site's
 // knowledge graph (https://osakacastletours.com/#edward-iftody) so the two
 // codebases merge into one interconnected knowledge graph.
+export const EDWARD_PERSON_ID = `${SITE}/#edward-iftody`;
+
 export const EDWARD = {
   "@type": "Person",
-  "@id": `${SITE}/#edward-iftody`,
+  "@id": EDWARD_PERSON_ID,
   name: "Edward Iftody",
+  alternateName: ["イフトウデイ　エドワード"],
   url: `${SITE}/aboutme`,
+  sameAs: [
+    `${SITE}/aboutme`,
+    `${SITE}/education`,
+    "https://www.japantimes.co.jp/commentary/2026/07/22/japan/japan-new-imperial-house-law/",
+  ],
   jobTitle: "Historian, Educator & Course Developer",
 };
 

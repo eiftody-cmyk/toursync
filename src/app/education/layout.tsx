@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import ClientLayout from "./ClientLayout";
+import { EDWARD_PERSON_ID } from "@/lib/education/json-ld";
 import "./education.css";
 
 const SITE = "https://osakacastletours.com";
@@ -89,6 +90,7 @@ export default async function EducationLayout({
       "大阪歴史フィールド探究",
       "大阪城フィールド探究",
       "歴史フィールド学習",
+      "大阪城ウォークス with イフトウデイ　エドワード",
     ],
     url: locale === "ja" ? `${SITE}/ja/education` : `${SITE}/education`,
     logo: `${SITE}/images/osaka-history-investigations.webp`,
@@ -100,10 +102,7 @@ export default async function EducationLayout({
       addressCountry: "JP",
     },
     founder: {
-      "@type": "Person",
-      name: "Edward Iftody",
-      url: `${SITE}/aboutme`,
-      jobTitle: "Historian, Educator & Course Developer",
+      "@id": EDWARD_PERSON_ID,
     },
     knowsAbout: [
       "大阪城",

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { LanguageProvider, useLocale } from "@/lib/education/language-context";
 import { en } from "@/lib/education/content";
 import { ja } from "@/lib/education/content-ja";
+import { withJaName } from "@/lib/education/ja-name";
 
 function Header() {
   const pathname = usePathname();
@@ -31,7 +32,7 @@ function Header() {
     <header className="edu-header">
       <div className="edu-header-inner">
         <Link href={`${prefix}/education`} className="edu-brand">
-          <span className="edu-brand-name">{t.meta.siteName}</span>
+          <span className="edu-brand-name">{withJaName(t.meta.siteName)}</span>
           <span className="edu-brand-tagline">{t.meta.tagline}</span>
         </Link>
 
@@ -110,13 +111,17 @@ function Footer() {
       />
       <p>
         {locale === "ja"
-          ? "大阪歴史フィールド探究 — 大阪城ウォークス with イフトウデイ　エドワードの一部門"
+          ? withJaName(
+              "大阪歴史フィールド探究 — 大阪城ウォークス with イフトウデイ　エドワードの一部門"
+            )
           : "The Osaka History Investigation — A division of Osaka Castle Walks with Edward"}
       </p>
       <div className="edu-footer-links">
         <a href="https://osakacastletours.com">Osaka Castle Walks</a>
         <a href="https://osakacastletours.com/aboutme">
-          {locale === "ja" ? "イフトウデイ　エドワードについて" : "About Edward"}
+          {locale === "ja"
+            ? withJaName("イフトウデイ　エドワードについて")
+            : "About Edward"}
         </a>
         <a href="https://osakacastletours.com/faq">FAQ</a>
       </div>

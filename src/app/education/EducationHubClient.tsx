@@ -13,6 +13,7 @@ import { InquiryForm } from "@/components/education/InquiryForm";
 import { InvestigationMap } from "@/components/education/InvestigationMap";
 import { InvestigationLayers } from "@/components/education/InvestigationLayers";
 import { investigationExamples } from "@/lib/education/examples";
+import { withJaName } from "@/lib/education/ja-name";
 import type { CurriculumLevel } from "@/lib/education/timeline-links";
 
 const TABS: { key: CurriculumLevel | "all"; label: string; labelJa: string }[] = [
@@ -40,7 +41,7 @@ export default function EducationHub() {
             </span>
           ))}
         </h1>
-        <p className="subtitle" style={{ whiteSpace: "pre-line" }}>{t.hub.hero.subtitle}</p>
+        <p className="subtitle" style={{ whiteSpace: "pre-line" }}>{withJaName(t.hub.hero.subtitle)}</p>
         <p
           style={{
             fontFamily: '"Cinzel", serif',
@@ -82,7 +83,7 @@ export default function EducationHub() {
             </span>
             <span className="authority-note">
               {locale === "ja"
-                ? "イフトウデイ　エドワード — 日本の皇室継承と伝統の発明"
+                ? withJaName("イフトウデイ　エドワード — 日本の皇室継承と伝統の発明")
                 : "Edward Iftody — Japan's imperial succession and the invention of tradition"}
             </span>
             <span className="authority-cta">{locale === "ja" ? "記事を読む →" : "Read the article →"}</span>
@@ -261,12 +262,12 @@ export default function EducationHub() {
 
       {/* About */}
       <section className="edu-section alt-bg">
-        <h2>{t.hub.about.title}</h2>
+        <h2>{withJaName(t.hub.about.title)}</h2>
         <div className="about-card">
           <div className="about-text">
             {t.hub.about.paragraphs.map((p, i) => (
               <p key={i} style={{ marginBottom: i < t.hub.about.paragraphs.length - 1 ? "0.75rem" : 0 }}>
-                {p}
+                {withJaName(p)}
               </p>
             ))}
             <div className="about-credentials">

@@ -1296,6 +1296,10 @@ a:hover {
 }
 
 /* ── ABOUT ── */
+.ja-name {
+  white-space: nowrap;
+}
+
 .about-card {
   display: flex;
   gap: 2rem;
