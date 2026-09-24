@@ -1,0 +1,270 @@
+{
+  "site": "https://osakacastletours.com",
+  "generated": "2026-09-24",
+  "version": 1,
+  "entity": {
+    "name": "Osaka Castle Walks with Edward",
+    "nameJa": "大阪城ウォークス with イフトウデイ　エドワード",
+    "operator": "Edward Iftody — resident historian, Osaka",
+    "description": "Historian-led private walking tours at Osaka Castle (EN) and curriculum-aligned field investigations for schools (EN/JA).",
+    "languages": ["en", "ja"],
+    "contact": {
+      "email": "edward@osakacastletours.com",
+      "tel": "+819012474069",
+      "whatsapp": "https://wa.me/819012474069"
+    },
+    "meetingPoint": "Tanimachi 4-chome Station Exit 1A (90 seconds walk)"
+  },
+  "architecture": {
+    "static_html": "public/**/*.html served as /<slug>.html, /ja/<slug>.html, /articles/*.html",
+    "nextjs_app": "src/app/**/page.tsx: /, /book*, /education*, /landscape, /login, /dashboard",
+    "llms_txt": "/llms.txt",
+    "site_graph": "/site-graph.json",
+    "sitemap": "/sitemap.xml",
+    "robots": "/robots.txt",
+    "api": ["/api/education/inquiry"]
+  },
+  "sections": {
+    "home": {
+      "path": "/",
+      "canonical_static": "/index.html",
+      "title": "Osaka Castle Walks with Edward — Private History Tours",
+      "role": "Primary marketing homepage; introduces 4 tours, hub, key timelines. Served from static index.html (ExperienceRelay marketing route removed).",
+      "links_to": [
+        "/beforejapanhadaname.html",
+        "/warriormonkspeasantshogun.html",
+        "/goddess_queen_empress_concubine.html",
+        "/lordconcubineshogunlie.html",
+        "/book?tour=4f8c6a5e-19a0-4014-af2a-16b4acf06069",
+        "/book/custom",
+        "/osaka_history_things_to_do.html",
+        "/tenjin-matsuri-history.html",
+        "/shitennojihistory.html",
+        "/osaka-castle-entry-tickets-guide.html"
+      ]
+    },
+    "en_tours": {
+      "role": "Sales pages for private walking tours; funnel → booking",
+      "language": "en",
+      "global_footer_links": [
+        "/index.html",
+        "/beforejapanhadaname.html",
+        "/warriormonkspeasantshogun.html",
+        "/lordconcubineshogunlie.html",
+        "/goddess_queen_empress_concubine.html",
+        "/testimonials.html",
+        "/aboutme.html",
+        "/history-beyond-the-postcard.html",
+        "/faq.html",
+        "/book/custom"
+      ],
+      "pages": [
+        {
+          "slug": "beforejapanhadaname",
+          "path": "/beforejapanhadaname.html",
+          "title": "Before Japan Had a Name",
+          "duration": "2.5 hours",
+          "price": "¥9,500 per person",
+          "book": "/book?tour=Before%20Japan%20Had%20a%20Name",
+          "related_content": ["/deeptimeline.html", "/yayoi_timeline.html", "/osaka_history_things_to_do.html"]
+        },
+        {
+          "slug": "warriormonkspeasantshogun",
+          "path": "/warriormonkspeasantshogun.html",
+          "title": "Warrior Monks, a Peasant, and a Shogun",
+          "duration": "2.5 hours",
+          "price": "¥9,500 per person",
+          "book": "/book?tour=Warrior%20Monks%2C%20a%20Peasant%2C%20and%20a%20Shogun",
+          "related_content": ["/osaka-castle-history.html", "/ishiyama-timeline.html", "/toyotomihideyoshi.html", "/tokugawa-ieyasu-timeline.html"]
+        },
+        {
+          "slug": "goddess_queen_empress_concubine",
+          "path": "/goddess_queen_empress_concubine.html",
+          "title": "Goddess, Queen, Empress, Concubine",
+          "duration": "5.5 hours",
+          "price": "¥28,000 per person",
+          "book": "/book?tour=Goddess%2C%20Queen%2C%20Empress%2C%20Concubine",
+          "related_content": ["/empress_jingu_timeline.html", "/empress-shotoku.html", "/fujiwara-shadow-politics.html", "/ojinsuccession.html"]
+        },
+        {
+          "slug": "lordconcubineshogunlie",
+          "path": "/lordconcubineshogunlie.html",
+          "title": "A Lord, a Concubine, and a Shogun's Lie",
+          "duration": "2.5 hours",
+          "price": "¥9,500 per person",
+          "book": "/book?tour=A%20Lord%2C%20a%20Concubine%20and%20a%20Shogun%27s%20Lie",
+          "also_timeline": true,
+          "ja": "/ja/lordconcubineshogunlie.html"
+        }
+      ]
+    },
+    "en_timelines": {
+      "role": "SEO/AEO history content; primary organic inbound; funnel → booking",
+      "language": "en",
+      "count": 20,
+      "hub": "/osaka_history_things_to_do.html",
+      "funnel": ["/book?tour=…", "/book/custom", "tel:+819012474069", "https://wa.me/819012474069"],
+      "pages": [
+        {"slug": "deeptimeline", "path": "/deeptimeline.html", "title": "The Uemachi Plateau — A Deep Time Timeline", "ja": "/ja/deeptimeline.html", "period": "Prehistoric–Modern"},
+        {"slug": "before-the-castle-prehistoric-osaka", "path": "/before-the-castle-prehistoric-osaka.html", "title": "Before the Castle: When Osaka was a Prehistoric Lagoon", "ja": "/ja/before-the-castle-prehistoric-osaka.html", "period": "Ancient"},
+        {"slug": "yayoi_timeline", "path": "/yayoi_timeline.html", "title": "The Yayoi Age in Japan — Parallel Histories", "ja": "/ja/yayoi_timeline.html", "period": "Ancient"},
+        {"slug": "empress_jingu_timeline", "path": "/empress_jingu_timeline.html", "title": "Empress Jingū: Sifting Fact From Folklore", "ja": "/ja/empress_jingu_timeline.html", "period": "Ancient"},
+        {"slug": "ojinsuccession", "path": "/ojinsuccession.html", "title": "The Ōjin Succession — Three Versions of the Same Story", "ja": "/ja/ojinsuccession.html", "period": "Ancient"},
+        {"slug": "empress-shotoku", "path": "/empress-shotoku.html", "title": "Empress Shōtoku, Dōkyō & Naniwa Dynamics", "ja": "/ja/empress-shotoku.html", "period": "Ancient"},
+        {"slug": "shitennojihistory", "path": "/shitennojihistory.html", "title": "Shitenno-ji History | 1,400 Years of Power, Faith, and Survival", "ja": "/ja/shitennojihistory.html", "period": "Ancient"},
+        {"slug": "soga-fujiwara-timeline", "path": "/soga-fujiwara-timeline.html", "title": "Soga, Fujiwara & The Imperial Line", "ja": "/ja/soga-fujiwara-timeline.html", "period": "Ancient–Heian"},
+        {"slug": "fujiwara-shadow-politics", "path": "/fujiwara-shadow-politics.html", "title": "The Fujiwara Regency — Shadow Politics of the Imperial Throne", "ja": "/ja/fujiwara-shadow-politics.html", "period": "Heian"},
+        {"slug": "tenjin-matsuri-history", "path": "/tenjin-matsuri-history.html", "title": "Tenjin Matsuri History — Osaka's Greatest Water Festival", "ja": "/ja/tenjin-matsuri-history.html", "period": "Heian–Modern"},
+        {"slug": "genpei-timeline", "path": "/genpei-timeline.html", "title": "Taira, Minamoto & the First Shogunate", "ja": "/ja/genpei-timeline.html", "period": "Kamakura"},
+        {"slug": "azaiclanbetrayal", "path": "/azaiclanbetrayal.html", "title": "The Oda-Azai Betrayal — A Sengoku Timeline", "ja": "/ja/azaiclanbetrayal.html", "period": "Sengoku"},
+        {"slug": "ishiyama-timeline", "path": "/ishiyama-timeline.html", "title": "The Ishiyama Honganji War (1570–1580)", "ja": "/ja/ishiyama-timeline.html", "period": "Sengoku"},
+        {"slug": "toyotomihideyoshi", "path": "/toyotomihideyoshi.html", "title": "The Taikō's Path — Toyotomi Hideyoshi Timeline", "ja": "/ja/toyotomihideyoshi.html", "period": "Sengoku"},
+        {"slug": "three-unifiers", "path": "/three-unifiers.html", "title": "Three Unifiers", "ja": "/ja/three-unifiers.html", "period": "Sengoku–Tokugawa"},
+        {"slug": "osaka-castle-history", "path": "/osaka-castle-history.html", "title": "Osaka Castle: Toyotomi Hideyoshi, the Siege & the Erasure", "ja": "/ja/osaka-castle-history.html", "period": "Sengoku–Tokugawa"},
+        {"slug": "toyotomi_hideyori", "path": "/toyotomi_hideyori.html", "title": "Toyotomi Hideyori: Heir to Osaka Castle's Fall", "ja": "/ja/toyotomi_hideyori.html", "period": "Sengoku–Tokugawa"},
+        {"slug": "sanada_nobushige", "path": "/sanada_nobushige.html", "title": "The Crimson Path — Sanada Nobushige Timeline", "ja": "/ja/sanada_nobushige.html", "period": "Sengoku–Edo"},
+        {"slug": "tokugawa-ieyasu-timeline", "path": "/tokugawa-ieyasu-timeline.html", "title": "The Sleeping Dragon — Tokugawa Ieyasu Timeline", "ja": "/ja/tokugawa-ieyasu-timeline.html", "period": "Tokugawa"},
+        {"slug": "lordconcubineshogunlie", "path": "/lordconcubineshogunlie.html", "title": "Private Osaka Castle History Tour | A Lord, a Concubine and a Shogun's Lie", "ja": "/ja/lordconcubineshogunlie.html", "type": "tour_page"}
+      ]
+    },
+    "ja_timelines": {
+      "role": "Japanese twins of all EN timeline/tour pages; hreflang x-default → EN",
+      "language": "ja",
+      "count": 20,
+      "funnel": ["/ja/education"],
+      "funnel_note": "Intentional split: JA pages funnel to school inquiries, never to /book",
+      "global_nav": ["/", "all 20 /ja/*.html", "/ja/education", "EN twin", "tel:+819012474069", "https://wa.me/819012474069"],
+      "pages": [
+        {"slug": "deeptimeline", "path": "/ja/deeptimeline.html", "en": "/deeptimeline.html", "title": "上町台地 ── ディープタイム・タイムライン"},
+        {"slug": "before-the-castle-prehistoric-osaka", "path": "/ja/before-the-castle-prehistoric-osaka.html", "en": "/before-the-castle-prehistoric-osaka.html", "title": "城の前：大坂が先史時代の潟であった頃"},
+        {"slug": "yayoi_timeline", "path": "/ja/yayoi_timeline.html", "en": "/yayoi_timeline.html", "title": "弥生時代 — 並行する歴史"},
+        {"slug": "empress_jingu_timeline", "path": "/ja/empress_jingu_timeline.html", "en": "/empress_jingu_timeline.html", "title": "神功皇后：伝説と史実を分かつ"},
+        {"slug": "ojinsuccession", "path": "/ja/ojinsuccession.html", "en": "/ojinsuccession.html", "title": "応神天皇の皇位継承 — 三つの物語"},
+        {"slug": "empress-shotoku", "path": "/ja/empress-shotoku.html", "en": "/empress-shotoku.html", "title": "稱徳天皇、道鏡、難波の力学"},
+        {"slug": "shitennojihistory", "path": "/ja/shitennojihistory.html", "en": "/shitennojihistory.html", "title": "四天王寺：1,400年の権力、信仰、生存"},
+        {"slug": "soga-fujiwara-timeline", "path": "/ja/soga-fujiwara-timeline.html", "en": "/soga-fujiwara-timeline.html", "title": "蘇我氏、藤原氏と皇室 — 朝廷政治タイムライン"},
+        {"slug": "fujiwara-shadow-politics", "path": "/ja/fujiwara-shadow-politics.html", "en": "/fujiwara-shadow-politics.html", "title": "藤原摂関政治 — 五百年にわたる影の支配"},
+        {"slug": "tenjin-matsuri-history", "path": "/ja/tenjin-matsuri-history.html", "en": "/tenjin-matsuri-history.html", "title": "天神祭 — 大阪最大の祭礼"},
+        {"slug": "genpei-timeline", "path": "/ja/genpei-timeline.html", "en": "/genpei-timeline.html", "title": "平氏、源氏と最初の幕府"},
+        {"slug": "azaiclanbetrayal", "path": "/ja/azaiclanbetrayal.html", "en": "/azaiclanbetrayal.html", "title": "織田・浅井の裏切り — 戦国タイムライン"},
+        {"slug": "ishiyama-timeline", "path": "/ja/ishiyama-timeline.html", "en": "/ishiyama-timeline.html", "title": "石山本願寺戦争（1570〜1580）"},
+        {"slug": "toyotomihideyoshi", "path": "/ja/toyotomihideyoshi.html", "en": "/toyotomihideyoshi.html", "title": "太閤の道 — 豊臣秀吉の年表"},
+        {"slug": "three-unifiers", "path": "/ja/three-unifiers.html", "en": "/three-unifiers.html", "title": "三人の統一者"},
+        {"slug": "osaka-castle-history", "path": "/ja/osaka-castle-history.html", "en": "/osaka-castle-history.html", "title": "大阪城：豊臣秀吉、大坂の陣、そして埋もれた歴史"},
+        {"slug": "toyotomi_hideyori", "path": "/ja/toyotomi_hideyori.html", "en": "/toyotomi_hideyori.html", "title": "豊臣秀頼：大阪城の崩壊に直面した継承者"},
+        {"slug": "sanada_nobushige", "path": "/ja/sanada_nobushige.html", "en": "/sanada_nobushige.html", "title": "真田信繁 — 日本最強の武将"},
+        {"slug": "tokugawa-ieyasu-timeline", "path": "/ja/tokugawa-ieyasu-timeline.html", "en": "/tokugawa-ieyasu-timeline.html", "title": "徳川家康の年表"},
+        {"slug": "lordconcubineshogunlie", "path": "/ja/lordconcubineshogunlie.html", "en": "/lordconcubineshogunlie.html", "title": "歴史家が案内する大阪城プライベートツアー"}
+      ]
+    },
+    "hub_and_guides": {
+      "role": "Editorial hubs and practical visitor guides; internal link equity distributors",
+      "pages": [
+        {
+          "path": "/osaka_history_things_to_do.html",
+          "title": "Things to Do in Osaka: 19 Stories from a Historian",
+          "role": "Main content hub",
+          "links_to": "16 timelines/guides + about/testimonials + external booking (GetYourGuide, Viator, Airbnb)"
+        },
+        {"path": "/osaka-castle-entry-tickets-guide.html", "title": "Osaka Castle Tickets, Prices & Queues", "links_to": ["/osaka-castle-vs-himeji-castle.html", "/photography-guide.html", "/book/custom"]},
+        {"path": "/osaka-castle-vs-himeji-castle.html", "title": "Osaka Castle or Himeji Castle?", "links_to": ["/osaka-castle-entry-tickets-guide.html", "/photography-guide.html", "/book/custom"]},
+        {"path": "/photography-guide.html", "title": "Best Osaka Castle Photo Spots", "links_to": ["/osaka-castle-entry-tickets-guide.html", "/osaka-castle-vs-himeji-castle.html"]},
+        {"path": "/history-beyond-the-postcard.html", "title": "History Beyond the Postcard", "role": "Essays hub", "links_to": ["/articles/before-the-castle-prehistoric-osaka.html", "/articles/capital-redundancy.html", "/articles/yuteki-tenmoku-tea-bowl.html"]}
+      ]
+    },
+    "trust_pages": {
+      "role": "Credibility and conversion support",
+      "pages": [
+        {"path": "/aboutme.html", "title": "About the Resident Historian"},
+        {"path": "/faq.html", "title": "Osaka Castle Tours — Frequently Asked Questions"},
+        {"path": "/testimonials.html", "title": "Guest Reviews"},
+        {"path": "/in_the_media.html", "title": "In the Media — Edward Iftody"}
+      ]
+    },
+    "articles": {
+      "base": "/articles/",
+      "language": "en",
+      "hub": "/history-beyond-the-postcard.html",
+      "live": [
+        {"path": "/articles/before-the-castle-prehistoric-osaka.html", "title": "Before the Castle… (essay)"},
+        {"path": "/articles/capital-redundancy.html", "title": "Capital Redundancy: Japan's 1,300-Year Instinct"},
+        {"path": "/articles/yuteki-tenmoku-tea-bowl.html", "title": "What the Museum Label Can't Say…"}
+      ],
+      "orphans": [
+        {"path": "/articles/transcript-oc-2026.html", "title": "Interview with Hitoshi Kobayashi (transcript)"},
+        {"path": "/articles/kobayashi-interview.html", "note": "dead 'Page Removed' stub, still in sitemap"}
+      ]
+    },
+    "education": {
+      "role": "B2B/school funnel; historian-led field investigations",
+      "languages": ["en", "ja"],
+      "ja_mechanism": "/ja/education* rewrites via middleware to EN routes with locale=ja",
+      "cta": "#inquiry-form",
+      "form": {
+        "endpoint": "POST /api/education/inquiry",
+        "storage": "Supabase table education_inquiries (service-role only)",
+        "notification": "Resend email → edward@osakacastletours.com",
+        "reply_sla": "2 business days"
+      },
+      "pricing": "¥50,000–¥140,000 depending on class size and format",
+      "pages": [
+        {"path": "/education", "title": "Osaka History Investigations", "ja": "/ja/education"},
+        {"path": "/education/junior-high", "title": "Junior High — Field Investigations", "ja": "/ja/education/junior-high"},
+        {"path": "/education/high-school", "title": "High School — Historical Inquiry at Osaka Castle", "ja": "/ja/education/high-school"},
+        {"path": "/education/university", "title": "University Field Seminars", "ja": "/ja/education/university"},
+        {"path": "/education/teacher-pack", "title": "Sample Lesson — Field Investigation in Action", "ja": "/ja/education/teacher-pack"}
+      ],
+      "links_to": "static timelines via src/lib/education/timeline-links.ts (19 slugs)",
+      "footer_links": ["/", "/aboutme", "/faq"]
+    },
+    "booking": {
+      "role": "PayPal checkout flow",
+      "pages": [
+        {"path": "/book", "title": "Book a Tour", "inbound": "20 EN static pages via /book?tour=…"},
+        {"path": "/book/custom", "title": "Custom Tour Booking", "inbound": "~10 static pages + 8 EN footers"},
+        {"path": "/book/confirm", "title": "Booking Confirmation", "role": "flow step"},
+        {"path": "/book/manage", "title": "Manage Your Booking", "role": "reached via booking/cancel emails only"}
+      ],
+      "external_channels": ["PayPal", "GetYourGuide", "Airbnb Experiences 2443083"]
+    },
+    "operator_app": {
+      "role": "Operator console; auth-protected; excluded from sitemap",
+      "pages": ["/login", "/dashboard", "/calendar", "/tours", "/settings"]
+    },
+    "misc": [
+      {"path": "/landscape", "title": "Osaka's Lost Landscapes", "note": "in sitemap; no internal inbound links"}
+    ]
+  },
+  "hreflang": {
+    "static_pairs": 20,
+    "static_rule": "EN ↔ JA for all timeline/tour pages; x-default → EN on both sides",
+    "app_pairs": "/education* ↔ /ja/education* via Next.js metadata alternates",
+    "en_only": "all other EN marketing/guides/articles have no JA twins"
+  },
+  "funnels": [
+    {"from": "EN static pages", "to": ["/book?tour=…", "/book/custom", "tel:", "wa.me"], "intent": "booking"},
+    {"from": "JA static pages", "to": ["/ja/education"], "intent": "school inquiry", "note": "intentional: no booking links on JA pages"},
+    {"from": "education pages", "to": ["#inquiry-form → POST /api/education/inquiry → email to edward@osakacastletours.com"], "intent": "B2B lead"},
+    {"from": "hub osaka_history_things_to_do", "to": ["timelines", "GetYourGuide", "Viator", "Airbnb"], "intent": "content → booking"},
+    {"from": "operator app", "to": ["/login"], "intent": "operator auth"}
+  ],
+  "global_navigation": {
+    "en_static_footer": [
+      "/index.html", "/beforejapanhadaname.html", "/warriormonkspeasantshogun.html",
+      "/lordconcubineshogunlie.html", "/goddess_queen_empress_concubine.html",
+      "/testimonials.html", "/aboutme.html", "/history-beyond-the-postcard.html",
+      "/faq.html", "/book/custom", "tel:+819012474069", "https://wa.me/819012474069"
+    ],
+    "ja_static_nav": ["/", "all 20 /ja/*.html", "/ja/education", "EN twin", "tel:+819012474069", "https://wa.me/819012474069"],
+    "education_header": ["/education", "/education/junior-high", "/education/high-school", "/education/university", "/education/teacher-pack", "EN/日本語 toggle", "#inquiry-form CTA"],
+    "education_footer": ["/", "/aboutme", "/faq"]
+  },
+  "known_issues": [
+    "Orphan by curator request (do not link): /articles/transcript-oc-2026.html",
+    "Dead stub still exists on disk but removed from sitemap: /articles/kobayashi-interview.html",
+    "Weak inbound: /landscape (no internal links)",
+    "ja/toyotomi_hideyori.html missing standard /ja/education CTA",
+    "API rate-limit comment says 5/hour but window is 60s; notification email HTML not escaped",
+    "Backlinks not yet actively pursued (future work)"
+  ]
+}

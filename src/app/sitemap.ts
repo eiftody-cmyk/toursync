@@ -93,7 +93,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const articleSlugs = [
     "before-the-castle-prehistoric-osaka",
     "capital-redundancy",
-    "kobayashi-interview",
     "transcript-oc-2026",
     "yuteki-tenmoku-tea-bowl",
   ];

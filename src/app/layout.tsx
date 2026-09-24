@@ -4,9 +4,9 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: "ExperienceRelay - Block dates once. Sync everywhere.",
+  title: "Osaka Castle Walks with Edward",
   description:
-    "For small tour operators who sell on multiple platforms. Block a date and it sync to Airbnb automatically. Track capacity and never oversell.",
+    "Historian-led private walking tours at Osaka Castle and curriculum-aligned field investigations for schools in Osaka, Japan.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "32x32" },

@@ -63,6 +63,30 @@ if [ -d "$OSAKA_TIMELINE/articles" ]; then
   done
 fi
 
+# Article media: images + audio referenced by article HTML (og:image, heroes, JSON-LD)
+if [ -d "$OSAKA_TIMELINE/articles/images" ]; then
+  echo "→ Syncing article images (new files only)..."
+  mkdir -p "$TOURSYNC_PUBLIC/articles/images"
+  for f in "$OSAKA_TIMELINE"/articles/images/*; do
+    [ -f "$f" ] || continue
+    base=$(basename "$f")
+    if [ ! -f "$TOURSYNC_PUBLIC/articles/images/$base" ]; then
+      cp "$f" "$TOURSYNC_PUBLIC/articles/images/"
+    fi
+  done
+fi
+if [ -d "$OSAKA_TIMELINE/articles/audio" ]; then
+  echo "→ Syncing article audio (new files only)..."
+  mkdir -p "$TOURSYNC_PUBLIC/articles/audio"
+  for f in "$OSAKA_TIMELINE"/articles/audio/*; do
+    [ -f "$f" ] || continue
+    base=$(basename "$f")
+    if [ ! -f "$TOURSYNC_PUBLIC/articles/audio/$base" ]; then
+      cp "$f" "$TOURSYNC_PUBLIC/articles/audio/"
+    fi
+  done
+fi
+
 echo "✓ Sync complete (HTML not overwritten)."
 echo "  EN HTML: $(ls "$TOURSYNC_PUBLIC"/*.html | wc -l | tr -d ' ') files"
 echo "  JA HTML: $(ls "$TOURSYNC_PUBLIC"/ja/*.html | wc -l | tr -d ' ') files"
