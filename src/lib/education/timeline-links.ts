@@ -194,7 +194,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     periodJa: "戦国",
     levels: ["jhs", "hs", "university"],
     relevantThemes: ["warrior-monks", "geography-power"],
-    heroImage: "images/ishiyama.webp",
+    heroImage: "ishiyamahonganji.webp",
   },
   {
     slug: "toyotomihideyoshi",
