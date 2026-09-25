@@ -218,8 +218,25 @@
     pointer-events: none;
   }
 
+  .hero-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    padding: 30px 40px 20px;
+    background: linear-gradient(transparent, rgba(26,20,16,0.85));
+    font-family: 'Cinzel', serif;
+    font-size: 0.81rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.7);
+    text-align: center;
+  }
+
   @media (max-width: 768px) {
     .hero { background-attachment: scroll; }
+    .hero-caption { font-size: 0.7rem; padding: 20px 16px 12px; }
   }
 
   /* HEADER */
@@ -414,6 +431,7 @@
 
 <!-- HERO IMAGE -->
 <div class="hero" style="background-image: url('ishiyamahonganji.webp');">
+  <div class="hero-caption">Ishiyama Hongan-ji reimagined as it may have looked in the mid 1500s.</div>
 </div>
 
 <!-- HEADER -->
