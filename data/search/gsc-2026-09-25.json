@@ -1,22 +1,69 @@
 {
-  "generatedAt": "2026-09-26T13:33:38.241Z",
+  "generatedAt": "2026-09-26T13:46:25.124Z",
   "property": "sc-domain:osakacastletours.com",
   "window": {
     "startDate": "2026-08-29",
     "endDate": "2026-09-25"
   },
   "totals": {
+    "impressions": 11834,
+    "clicks": 94,
+    "ctr": 0.79,
+    "avgPosition": 7.4
+  },
+  "disclosedQueries": {
     "impressions": 4347,
     "clicks": 11,
-    "ctr": 0.25,
-    "avgPosition": 8.9
+    "impressionShare": 37
   },
+  "topQueries": [
+    {
+      "query": "toyotomi hideyori",
+      "impressions": 1841
+    },
+    {
+      "query": "hideyori",
+      "impressions": 871
+    },
+    {
+      "query": "hideyori toyotomi",
+      "impressions": 277
+    },
+    {
+      "query": "ishiyama honganji",
+      "impressions": 86
+    },
+    {
+      "query": "toyotomi hideyori cause of death",
+      "impressions": 70
+    },
+    {
+      "query": "osaka castle photo spot",
+      "impressions": 69
+    },
+    {
+      "query": "sanada nobushige",
+      "impressions": 63
+    },
+    {
+      "query": "what happened to toyotomi hideyori",
+      "impressions": 60
+    },
+    {
+      "query": "heian period official 84 years sessho kampaku daughter empress 16 year reign",
+      "impressions": 42
+    },
+    {
+      "query": "taikō",
+      "impressions": 42
+    }
+  ],
   "buckets": {
     "other": {
-      "impressions": 4343,
-      "clicks": 11,
-      "pageCount": 29,
-      "avgPosition": 8.9,
+      "impressions": 11858,
+      "clicks": 93,
+      "pageCount": 53,
+      "avgPosition": 7.4,
       "topQueries": [
         {
           "query": "toyotomi hideyori",
@@ -71,10 +118,10 @@
       ]
     },
     "jaOther": {
-      "impressions": 4,
-      "clicks": 0,
-      "pageCount": 3,
-      "avgPosition": 25.3,
+      "impressions": 116,
+      "clicks": 1,
+      "pageCount": 10,
+      "avgPosition": 9,
       "topQueries": [
         {
           "query": "大阪城 天下統一",
@@ -97,6 +144,13 @@
           "clicks": 0
         }
       ]
+    },
+    "enEducation": {
+      "impressions": 6,
+      "clicks": 0,
+      "pageCount": 2,
+      "avgPosition": 4.2,
+      "topQueries": []
     }
   },
   "sitemaps": [
@@ -118,30 +172,5 @@
       ]
     }
   ],
-  "inspections": [
-    {
-      "url": "https://osakacastletours.com/",
-      "verdict": "PASS",
-      "coverageState": "Submitted and indexed",
-      "lastCrawlTime": "2026-09-25T15:40:03Z"
-    },
-    {
-      "url": "https://osakacastletours.com/education",
-      "verdict": "PASS",
-      "coverageState": "Submitted and indexed",
-      "lastCrawlTime": "2026-09-24T06:52:01Z"
-    },
-    {
-      "url": "https://osakacastletours.com/ja/three-unifiers.html",
-      "verdict": "PASS",
-      "coverageState": "Submitted and indexed",
-      "lastCrawlTime": "2026-09-18T15:48:13Z"
-    },
-    {
-      "url": "https://osakacastletours.com/osaka_history_things_to_do",
-      "verdict": "PASS",
-      "coverageState": "Submitted and indexed",
-      "lastCrawlTime": "2026-09-14T11:42:45Z"
-    }
-  ]
+  "inspections": null
 }

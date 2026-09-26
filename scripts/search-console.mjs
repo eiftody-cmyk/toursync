@@ -113,20 +113,30 @@ function classifyPage(page) {
   return "other";
 }
 
-function bucketize(rows) {
+function bucketize(pageRows) {
   const buckets = {};
-  const newBucket = () => ({ pages: new Set(), impressions: 0, clicks: 0, posWeighted: 0 });
-  for (const row of rows) {
-    const page = row.keys[row.keys.length - 1];
-    const query = row.keys.length > 1 ? row.keys[0] : "(total)";
+  for (const row of pageRows) {
+    const page = row.keys[0];
     const name = classifyPage(page);
-    if (!buckets[name]) buckets[name] = { ...newBucket(), queries: [] };
+    if (!buckets[name]) {
+      buckets[name] = { pages: new Set(), impressions: 0, clicks: 0, posWeighted: 0, queries: [] };
+    }
     const b = buckets[name];
     b.pages.add(page);
     b.impressions += row.impressions || 0;
     b.clicks += row.clicks || 0;
     b.posWeighted += (row.position || 0) * (row.impressions || 0);
-    if (row.impressions > 0) b.queries.push({ query, impressions: row.impressions, clicks: row.clicks || 0 });
+  }
+  return buckets;
+}
+
+function attachQueries(buckets, queryPageRows) {
+  for (const row of queryPageRows) {
+    const query = row.keys[0];
+    const page = row.keys[1] || "";
+    const b = buckets[classifyPage(page)];
+    if (!b || !(row.impressions > 0)) continue;
+    b.queries.push({ query, impressions: row.impressions, clicks: row.clicks || 0 });
   }
   for (const b of Object.values(buckets)) {
     b.pageCount = b.pages.size;
@@ -138,21 +148,6 @@ function bucketize(rows) {
     delete b.queries;
   }
   return buckets;
-}
-
-function totals(rows) {
-  let impressions = 0, clicks = 0, posWeighted = 0;
-  for (const row of rows) {
-    impressions += row.impressions || 0;
-    clicks += row.clicks || 0;
-    posWeighted += (row.position || 0) * (row.impressions || 0);
-  }
-  return {
-    impressions,
-    clicks,
-    ctr: impressions > 0 ? Math.round((clicks / impressions) * 10000) / 100 : null,
-    avgPosition: impressions > 0 ? Math.round((posWeighted / impressions) * 10) / 10 : null,
-  };
 }
 
 async function inspectUrls(token, property, urls) {
@@ -197,7 +192,7 @@ function fmt(n) {
   return n === null || n === undefined ? "—" : String(n);
 }
 
-function printMarkdown({ property, startDate, endDate, totals: t, buckets, sitemaps, inspections }) {
+function printMarkdown({ property, startDate, endDate, totals: t, disclosed, topQueries, buckets, sitemaps, inspections }) {
   const line = (label, value) => `| ${label} | ${value} |`;
   console.log("");
   console.log(`## Search Console — ${startDate} → ${endDate} (${property})`);
@@ -207,6 +202,7 @@ function printMarkdown({ property, startDate, endDate, totals: t, buckets, sitem
   console.log(line("Total impressions (28d)", fmt(t.impressions)));
   console.log(line("Total clicks (28d)", fmt(t.clicks)));
   console.log(line("CTR / avg position", `${fmt(t.ctr)}% / ${fmt(t.avgPosition)}`));
+  console.log(line("Disclosed queries (impressions)", `${fmt(disclosed.impressions)} / ${fmt(t.impressions)} (${fmt(disclosed.impressionShare)}%)`));
   const ja = buckets.jaOther, je = buckets.jaEducation, ee = buckets.enEducation;
   console.log(line("JA pages with impressions (/ja/*)", fmt((ja?.pageCount ?? 0) + (je?.pageCount ?? 0))));
   console.log(line("JA chronicles (/ja/*.html, excl. education)", fmt(ja?.pageCount ?? 0)));
@@ -220,6 +216,9 @@ function printMarkdown({ property, startDate, endDate, totals: t, buckets, sitem
   console.log("");
   console.log(q("Top JA education queries", je));
   console.log(q("Top EN education queries", ee));
+  if (topQueries.length > 0) {
+    console.log("**Top disclosed queries (overall):** " + topQueries.map((x) => `${x.query} (${x.impressions})`).join(" · "));
+  }
   console.log("");
   for (const s of sitemaps) {
     console.log(`Sitemap: ${s.path} (submitted ${fmt(s.lastSubmitted)})`);
@@ -247,22 +246,50 @@ async function main() {
   const endDate = isoDaysAgo(1);
   const startDate = isoDaysAgo(28);
 
-  const analytics = await gscFetch(
-    `${GSC_BASE}/sites/${encoded}/searchAnalytics/query`,
-    token,
-    {
+  const query = (dimensions) =>
+    gscFetch(`${GSC_BASE}/sites/${encoded}/searchAnalytics/query`, token, {
       method: "POST",
       body: JSON.stringify({
         startDate,
         endDate,
-        dimensions: ["query", "page"],
+        ...(dimensions ? { dimensions } : {}),
         rowLimit: 25000,
       }),
-    }
-  );
-  const rows = analytics.rows || [];
-  const t = totals(rows);
-  const buckets = bucketize(rows);
+    });
+
+  const totalsData = await query(null);
+  const pageData = await query(["page"]);
+  const qpData = await query(["query", "page"]);
+
+  const totalsRow = (totalsData.rows || [])[0] || { impressions: 0, clicks: 0, ctr: 0, position: 0 };
+  const t = {
+    impressions: totalsRow.impressions,
+    clicks: totalsRow.clicks,
+    ctr: Math.round((totalsRow.ctr || 0) * 10000) / 100,
+    avgPosition: Math.round((totalsRow.position || 0) * 10) / 10,
+  };
+
+  const pageRows = pageData.rows || [];
+  const qpRows = qpData.rows || [];
+  const disclosedImpressions = qpRows.reduce((a, r) => a + (r.impressions || 0), 0);
+  const disclosedClicks = qpRows.reduce((a, r) => a + (r.clicks || 0), 0);
+  const disclosed = {
+    impressions: disclosedImpressions,
+    clicks: disclosedClicks,
+    impressionShare: t.impressions > 0 ? Math.round((disclosedImpressions / t.impressions) * 100) : 0,
+  };
+
+  const buckets = attachQueries(bucketize(pageRows), qpRows);
+
+  const qMap = new Map();
+  for (const r of qpRows) {
+    const q = r.keys[0];
+    qMap.set(q, Math.max(qMap.get(q) || 0, r.impressions || 0));
+  }
+  const topQueries = [...qMap.entries()]
+    .map(([query, impressions]) => ({ query, impressions }))
+    .sort((a, b) => b.impressions - a.impressions)
+    .slice(0, 10);
 
   const sm = await gscFetch(`${GSC_BASE}/sites/${encoded}/sitemaps`, token);
   const sitemaps = sm.sitemap || [];
@@ -272,7 +299,7 @@ async function main() {
     const origin = property.startsWith("sc-domain:")
       ? "https://osakacastletours.com"
       : property.replace(/\/$/, "");
-    const pages = [...new Set(rows.map((r) => r.keys[r.keys.length - 1]))];
+    const pages = [...new Set(pageRows.map((r) => r.keys[0]))];
     const pick = (fn) => pages.find(fn);
     const urls = [
       `${origin}/`,
@@ -280,15 +307,17 @@ async function main() {
       pick((p) => /\/ja\/education/.test(p)),
       pick((p) => /\/ja\//.test(p) && !/\/ja\/education/.test(p)),
       pick((p) => !/\/ja\/|\/education/.test(p)),
-      ].filter(Boolean);
-      inspections = await inspectUrls(token, property, [...new Set(urls)].slice(0, 5));
-    }
+    ].filter(Boolean);
+    inspections = await inspectUrls(token, property, [...new Set(urls)].slice(0, 5));
+  }
 
   const snapshot = {
     generatedAt: new Date().toISOString(),
     property,
     window: { startDate, endDate },
     totals: t,
+    disclosedQueries: disclosed,
+    topQueries,
     buckets,
     sitemaps,
     inspections,
@@ -298,7 +327,7 @@ async function main() {
   const outFile = path.join(outDir, `gsc-${endDate}.json`);
   fs.writeFileSync(outFile, JSON.stringify(snapshot, null, 2) + "\n");
 
-  printMarkdown({ property, startDate, endDate, totals: t, buckets, sitemaps, inspections });
+  printMarkdown({ property, startDate, endDate, totals: t, disclosed, topQueries, buckets, sitemaps, inspections });
   console.log(`Snapshot: ${path.relative(process.cwd(), outFile)}`);
 }
 
