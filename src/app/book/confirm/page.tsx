@@ -4,10 +4,6 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Booking Confirmation — Osaka Castle Walks with Edward",
-  icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
-  },
 };
 
 export default async function ConfirmPage({

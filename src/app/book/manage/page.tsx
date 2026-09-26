@@ -9,10 +9,6 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Manage Your Booking — Osaka Castle Walks with Edward",
-  icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
-  },
   other: {
     referrer: "no-referrer",
   },
