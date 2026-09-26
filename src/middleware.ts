@@ -11,6 +11,33 @@ const GYG_CORS_HEADERS: Record<string, string> = {
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
+  // Canonical URL hygiene: every .html URL 301s to its extensionless twin.
+  if (pathname.endsWith(".html")) {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname === "/index.html" ? "/" : pathname.slice(0, -5);
+    return NextResponse.redirect(url, 301);
+  }
+
+  // Legacy 404 repairs: external links pointing at URLs that never existed.
+  const REDIRECTS: Record<string, string> = {
+    "/osaka-castle-vs-osaka-castle": "/osaka-castle-vs-himeji-castle",
+    "/toyotomi_hideyort": "/toyotomi_hideyori",
+    "/toyotomi_hideyoshi": "/toyotomihideyoshi",
+    "/osaka-castle": "/osaka-castle-history",
+    "/osakacastletours.com": "/",
+  };
+  const target = REDIRECTS[pathname] ?? REDIRECTS[pathname.replace(/\/$/, "")];
+  if (target) {
+    const url = request.nextUrl.clone();
+    url.pathname = target;
+    return NextResponse.redirect(url, 301);
+  }
+  if (/^\/toyotomi[-_]hideyori-heir-to-/.test(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/toyotomi_hideyori";
+    return NextResponse.redirect(url, 301);
+  }
+
   // Locale routing for /ja/education paths
   if (pathname.startsWith("/ja/education")) {
     const url = request.nextUrl.clone();

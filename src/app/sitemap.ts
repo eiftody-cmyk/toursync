@@ -84,7 +84,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const enPages: MetadataRoute.Sitemap = enSlugs.map((slug) => ({
-    url: `https://osakacastletours.com/${slug}.html`,
+    url: `https://osakacastletours.com/${slug}`,
     lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.6,
@@ -98,14 +98,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const articlePages: MetadataRoute.Sitemap = articleSlugs.map((slug) => ({
-    url: `https://osakacastletours.com/articles/${slug}.html`,
+    url: `https://osakacastletours.com/articles/${slug}`,
     lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.5,
   }));
 
   const jaPages: MetadataRoute.Sitemap = jaSlugs.map((slug) => ({
-    url: `https://osakacastletours.com/ja/${slug}.html`,
+    url: `https://osakacastletours.com/ja/${slug}`,
     lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.6,
