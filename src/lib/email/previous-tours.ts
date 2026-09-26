@@ -46,7 +46,12 @@ export async function getPreviousTours(
       return [];
     }
     return (data ?? []).map((row) => {
-      const tour = row.tours as { name: string | null } | null;
+      // FK embed is a to-one object at runtime; supabase-js types it as an array
+      const embedded = row.tours as unknown as
+        | { name?: string | null }
+        | { name?: string | null }[]
+        | null;
+      const tour = Array.isArray(embedded) ? embedded[0] : embedded;
       return {
         date: row.date as string,
         tourName: tour?.name ?? "Unknown tour",
