@@ -164,13 +164,27 @@ async function inspectUrls(token, urls) {
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify({ url }),
       });
-      const body = await res.json();
-      const s = body.inspectionResult?.indexStatusResult;
+      const text = await res.text();
+      let body = null;
+      try {
+        body = JSON.parse(text);
+      } catch {
+        body = null;
+      }
+      const s = body?.inspectionResult?.indexStatusResult;
+      if (!res.ok || !s) {
+        out.push({
+          url,
+          verdict: `HTTP ${res.status}`,
+          detail: body?.error?.message || text.slice(0, 120) || "empty response",
+        });
+        continue;
+      }
       out.push({
         url,
-        verdict: s?.verdict || "UNKNOWN",
-        coverageState: s?.coverageState || null,
-        lastCrawlTime: s?.lastCrawlTime || null,
+        verdict: s.verdict || "UNKNOWN",
+        coverageState: s.coverageState || null,
+        lastCrawlTime: s.lastCrawlTime || null,
       });
     } catch (e) {
       out.push({ url, verdict: "ERROR", detail: e.message });
@@ -214,7 +228,9 @@ function printMarkdown({ property, startDate, endDate, totals: t, buckets, sitem
     console.log("");
     console.log("### URL inspection");
     for (const i of inspections) {
-      console.log(`- ${i.verdict} — ${i.url}${i.coverageState ? ` (${i.coverageState})` : ""}`);
+      console.log(
+        `- ${i.verdict} — ${i.url}${i.coverageState ? ` (${i.coverageState})` : ""}${i.detail ? ` — ${i.detail}` : ""}`
+      );
     }
   }
   console.log("");
