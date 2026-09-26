@@ -4,6 +4,7 @@ import { getPaymentProvider } from "@/lib/payments";
 import { sendEmail } from "@/lib/email/client";
 import { bookingConfirmationEmail } from "@/lib/email/booking-confirmation";
 import { operatorNotificationEmail } from "@/lib/email/operator-notification";
+import { getPreviousTours } from "@/lib/email/previous-tours";
 import { customTimeNotificationEmail } from "@/lib/email/custom-time-notification";
 import { rateLimit, clientIp } from "@/lib/security/rateLimit";
 import { blockSlot } from "@/lib/google/sync";
@@ -268,6 +269,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (operatorProfile?.email) {
+      const previousTours = await getPreviousTours(supabase, payerEmail);
       const notificationEmail = operatorNotificationEmail({
         operatorEmail: operatorProfile.email,
         tourName: tour.name,
@@ -277,6 +279,7 @@ export async function POST(req: NextRequest) {
         customerName: payerName,
         customerEmail: payerEmail,
         baseUrl,
+        previousTours,
       });
 
       const result = await sendEmail({

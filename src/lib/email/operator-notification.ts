@@ -1,3 +1,5 @@
+import { sourceLabel, type PreviousTour } from "./previous-tours";
+
 interface OperatorNotificationEmailParams {
   operatorEmail: string;
   tourName: string;
@@ -7,6 +9,7 @@ interface OperatorNotificationEmailParams {
   customerName: string | null;
   customerEmail: string | null;
   baseUrl: string;
+  previousTours?: PreviousTour[];
 }
 
 function formatDate(dateStr: string): string {
@@ -33,7 +36,24 @@ export function operatorNotificationEmail(params: OperatorNotificationEmailParam
     customerName,
     customerEmail,
     baseUrl,
+    previousTours,
   } = params;
+
+  const returningGuestBox =
+    previousTours && previousTours.length > 0
+      ? `
+  <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+    <p style="margin: 0 0 8px 0;"><strong>&#9888; Returning guest</strong> — toured with you before:</p>
+    <ul style="margin: 0; padding-left: 20px;">
+      ${previousTours
+        .map((t) => {
+          const via = sourceLabel(t.source);
+          return `<li style="margin: 0 0 4px 0;"><strong>${t.tourName}</strong> — ${formatDate(t.date)}${via ? ` (via ${via})` : ""}</li>`;
+        })
+        .join("\n      ")}
+    </ul>
+  </div>`
+      : "";
 
   return {
     to: operatorEmail,
@@ -56,7 +76,7 @@ export function operatorNotificationEmail(params: OperatorNotificationEmailParam
     ${customerName ? `<p style="margin: 0 0 4px 0;"><strong>Name:</strong> ${customerName}</p>` : ""}
     ${customerEmail ? `<p style="margin: 0;"><strong>Email:</strong> ${customerEmail}</p>` : ""}
   </div>
-
+  ${returningGuestBox}
   <a href="${baseUrl}/dashboard" style="display: inline-block; background: #000; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 500;">View in Dashboard</a>
 </body>
 </html>`,

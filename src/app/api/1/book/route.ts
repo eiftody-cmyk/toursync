@@ -4,6 +4,7 @@ import { verifyGygAuth } from "@/lib/gyg/auth";
 import { sendEmail } from "@/lib/email/client";
 import { bookingConfirmationEmail } from "@/lib/email/booking-confirmation";
 import { operatorNotificationEmail } from "@/lib/email/operator-notification";
+import { getPreviousTours } from "@/lib/email/previous-tours";
 import { createGygLogger, logResponse } from "@/lib/gyg/logger";
 import { gygJson } from "@/lib/gyg/response";
 import { lookupTourByProductId } from "@/lib/gyg/lookup";
@@ -393,6 +394,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
   // Send notification email to operator
   const operatorProfile = operatorProfileResult.data;
   if (operatorProfile?.email) {
+    const previousTours = await getPreviousTours(supabase, customerEmail);
     const notificationEmail = operatorNotificationEmail({
       operatorEmail: operatorProfile.email,
       tourName: tour.name,
@@ -402,6 +404,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
       customerName,
       customerEmail,
       baseUrl: process.env.NEXT_PUBLIC_BASE_URL || "https://osakacastletours.com",
+      previousTours,
     });
     sendEmail({
       to: notificationEmail.to,
