@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-26T13:22:53.626Z",
+  "generatedAt": "2026-09-26T13:33:38.241Z",
   "property": "sc-domain:osakacastletours.com",
   "window": {
     "startDate": "2026-08-29",
@@ -118,5 +118,30 @@
       ]
     }
   ],
-  "inspections": null
+  "inspections": [
+    {
+      "url": "https://osakacastletours.com/",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-09-25T15:40:03Z"
+    },
+    {
+      "url": "https://osakacastletours.com/education",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-09-24T06:52:01Z"
+    },
+    {
+      "url": "https://osakacastletours.com/ja/three-unifiers.html",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-09-18T15:48:13Z"
+    },
+    {
+      "url": "https://osakacastletours.com/osaka_history_things_to_do",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-09-14T11:42:45Z"
+    }
+  ]
 }

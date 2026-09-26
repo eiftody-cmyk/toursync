@@ -5,9 +5,9 @@ import os from "node:os";
 import crypto from "node:crypto";
 
 const SCOPE = "https://www.googleapis.com/auth/webmasters.readonly";
-const INDEXING_SCOPE = "https://www.googleapis.com/auth/indexing";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const GSC_BASE = "https://www.googleapis.com/webmasters/v3";
+const INSPECT_URL = "https://searchconsole.googleapis.com/v1/urlInspection/index:inspect";
 
 function loadDotEnv() {
   const p = path.join(process.cwd(), ".env.local");
@@ -155,14 +155,14 @@ function totals(rows) {
   };
 }
 
-async function inspectUrls(token, urls) {
+async function inspectUrls(token, property, urls) {
   const out = [];
   for (const url of urls) {
     try {
-      const res = await fetch("https://urlinspection.googleapis.com/v1/urlInspection:inspect", {
+      const res = await fetch(INSPECT_URL, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ inspectionUrl: url, siteUrl: property, languageCode: "en-US" }),
       });
       const text = await res.text();
       let body = null;
@@ -280,10 +280,9 @@ async function main() {
       pick((p) => /\/ja\/education/.test(p)),
       pick((p) => /\/ja\//.test(p) && !/\/ja\/education/.test(p)),
       pick((p) => !/\/ja\/|\/education/.test(p)),
-    ].filter(Boolean);
-    const idxToken = await getAccessToken(keyJson, INDEXING_SCOPE);
-    inspections = await inspectUrls(idxToken, [...new Set(urls)].slice(0, 5));
-  }
+      ].filter(Boolean);
+      inspections = await inspectUrls(token, property, [...new Set(urls)].slice(0, 5));
+    }
 
   const snapshot = {
     generatedAt: new Date().toISOString(),
