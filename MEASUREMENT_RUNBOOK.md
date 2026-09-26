@@ -65,6 +65,23 @@ and this ritual is followed identically every week.
 
 Capture at each round; compare against Round 0. Property: osakacastletours.com.
 
+### Automated capture (read-only APIs, run locally)
+
+```bash
+npm run report:gsc      # Search Console: fills the rows below + top queries
+npm run report:bing     # Bing Webmaster: 28d traffic + top queries
+npm run report:search   # both
+node scripts/search-console.mjs --inspect   # + URL-level indexing verdicts (small daily quota)
+```
+
+- Credentials (never committed): `~/.config/toursync/gsc-sa.json` (override path with
+  `GSC_SERVICE_ACCOUNT_FILE` in `.env.local`) and `BING_WEBMASTER_API_KEY` in `.env.local`.
+- Property auto-detected: `sc-domain:osakacastletours.com` (service account has Full access).
+- Each run writes a raw snapshot to `data/search/<engine>-YYYY-MM-DD.json` — keep them;
+  they are the round record backing the table below.
+- Caveats: GSC data lags 2–3 days; "pages with impressions" is a proxy, not a true index
+  count — use `--inspect` for per-URL indexing verdicts when a row looks off.
+
 | Metric | Round 0 | R1 (2w) | R2 (4w) | R3 (8w) | Notes |
 |---|---|---|---|---|---|
 | JA pages indexed | | | | | Expect → growth from round 2; baseline captured in SC |

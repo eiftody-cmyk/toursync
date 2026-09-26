@@ -1,0 +1,122 @@
+{
+  "generatedAt": "2026-09-26T13:19:26.813Z",
+  "property": "sc-domain:osakacastletours.com",
+  "window": {
+    "startDate": "2026-08-29",
+    "endDate": "2026-09-25"
+  },
+  "totals": {
+    "impressions": 4347,
+    "clicks": 11,
+    "ctr": 0.25,
+    "avgPosition": 8.9
+  },
+  "buckets": {
+    "other": {
+      "impressions": 4343,
+      "clicks": 11,
+      "pageCount": 29,
+      "avgPosition": 8.9,
+      "topQueries": [
+        {
+          "query": "toyotomi hideyori",
+          "impressions": 1841,
+          "clicks": 1
+        },
+        {
+          "query": "hideyori",
+          "impressions": 871,
+          "clicks": 1
+        },
+        {
+          "query": "hideyori toyotomi",
+          "impressions": 277,
+          "clicks": 1
+        },
+        {
+          "query": "ishiyama honganji",
+          "impressions": 86,
+          "clicks": 1
+        },
+        {
+          "query": "toyotomi hideyori cause of death",
+          "impressions": 70,
+          "clicks": 0
+        },
+        {
+          "query": "osaka castle photo spot",
+          "impressions": 69,
+          "clicks": 0
+        },
+        {
+          "query": "sanada nobushige",
+          "impressions": 63,
+          "clicks": 0
+        },
+        {
+          "query": "what happened to toyotomi hideyori",
+          "impressions": 60,
+          "clicks": 0
+        },
+        {
+          "query": "heian period official 84 years sessho kampaku daughter empress 16 year reign",
+          "impressions": 42,
+          "clicks": 0
+        },
+        {
+          "query": "taikō",
+          "impressions": 42,
+          "clicks": 0
+        }
+      ]
+    },
+    "jaOther": {
+      "impressions": 4,
+      "clicks": 0,
+      "pageCount": 3,
+      "avgPosition": 25.3,
+      "topQueries": [
+        {
+          "query": "大阪城 天下統一",
+          "impressions": 1,
+          "clicks": 0
+        },
+        {
+          "query": "大阪城 歴史",
+          "impressions": 1,
+          "clicks": 0
+        },
+        {
+          "query": "弥生時代について",
+          "impressions": 1,
+          "clicks": 0
+        },
+        {
+          "query": "豊臣秀吉 大阪の陣",
+          "impressions": 1,
+          "clicks": 0
+        }
+      ]
+    }
+  },
+  "sitemaps": [
+    {
+      "path": "https://osakacastletours.com/sitemap.xml",
+      "lastSubmitted": "2026-09-24T08:42:09.576Z",
+      "isPending": false,
+      "isSitemapsIndex": false,
+      "type": "sitemap",
+      "lastDownloaded": "2026-09-24T08:42:11.682Z",
+      "warnings": "0",
+      "errors": "0",
+      "contents": [
+        {
+          "type": "web",
+          "submitted": "70",
+          "indexed": "0"
+        }
+      ]
+    }
+  ],
+  "inspections": null
+}

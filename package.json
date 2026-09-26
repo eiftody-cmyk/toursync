@@ -8,6 +8,9 @@
     "preview": "node scripts/sync-review-schema.mjs && opennextjs-cloudflare build && wrangler dev",
     "deploy": "bash scripts/sync-timeline.sh && node scripts/sync-review-schema.mjs && opennextjs-cloudflare build && wrangler deploy",
     "sync-reviews": "node scripts/sync-review-schema.mjs",
+    "report:gsc": "node scripts/search-console.mjs",
+    "report:bing": "node scripts/bing-report.mjs",
+    "report:search": "node scripts/search-console.mjs && node scripts/bing-report.mjs",
     "start": "next start",
     "lint": "eslint"
   },
