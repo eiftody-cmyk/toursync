@@ -92,6 +92,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const articleSlugs = [
     "before-the-castle-prehistoric-osaka",
+    "bene-gesserit-heian-japan",
     "capital-redundancy",
     "transcript-oc-2026",
     "yuteki-tenmoku-tea-bowl",
