@@ -1,6 +1,6 @@
 {
   "site": "https://osakacastletours.com",
-  "generated": "2026-09-24",
+  "generated": "2026-09-27",
   "version": 1,
   "entity": {
     "name": "Osaka Castle Walks with Edward",
@@ -169,7 +169,7 @@
         {"path": "/osaka-castle-entry-tickets-guide.html", "title": "Osaka Castle Tickets, Prices & Queues", "links_to": ["/osaka-castle-vs-himeji-castle.html", "/photography-guide.html", "/book/custom"]},
         {"path": "/osaka-castle-vs-himeji-castle.html", "title": "Osaka Castle or Himeji Castle?", "links_to": ["/osaka-castle-entry-tickets-guide.html", "/photography-guide.html", "/book/custom"]},
         {"path": "/photography-guide.html", "title": "Best Osaka Castle Photo Spots", "links_to": ["/osaka-castle-entry-tickets-guide.html", "/osaka-castle-vs-himeji-castle.html"]},
-        {"path": "/history-beyond-the-postcard.html", "title": "History Beyond the Postcard", "role": "Essays hub", "links_to": ["/articles/before-the-castle-prehistoric-osaka.html", "/articles/capital-redundancy.html", "/articles/yuteki-tenmoku-tea-bowl.html"]}
+        {"path": "/history-beyond-the-postcard.html", "title": "History Beyond the Postcard", "role": "Essays hub", "links_to": ["/articles/before-the-castle-prehistoric-osaka.html", "/articles/capital-redundancy.html", "/articles/yuteki-tenmoku-tea-bowl.html", "/articles/bene-gesserit-heian-japan.html"]}
       ]
     },
     "trust_pages": {
@@ -188,7 +188,8 @@
       "live": [
         {"path": "/articles/before-the-castle-prehistoric-osaka.html", "title": "Before the Castle… (essay)"},
         {"path": "/articles/capital-redundancy.html", "title": "Capital Redundancy: Japan's 1,300-Year Instinct"},
-        {"path": "/articles/yuteki-tenmoku-tea-bowl.html", "title": "What the Museum Label Can't Say…"}
+        {"path": "/articles/yuteki-tenmoku-tea-bowl.html", "title": "What the Museum Label Can't Say…"},
+        {"path": "/articles/bene-gesserit-heian-japan.html", "title": "The Real-Life Bene Gesserit: How Heian Japan Perfected Dune's Shadow Politics"}
       ],
       "orphans": [
         {"path": "/articles/transcript-oc-2026.html", "title": "Interview with Hitoshi Kobayashi (transcript)"},

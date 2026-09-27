@@ -34,6 +34,15 @@
 - /ja/deeptimeline.html — 上町台地 ── ディープタイム・タイムライン
 - /osaka_history_things_to_do — 大阪城の見学ガイド（歴史家の視点） / Osaka Castle visitor guide
 
+## エッセイ / Essays & Research (English)
+
+Hub: /history-beyond-the-postcard — essays and journalism by Edward Iftody
+
+- /articles/bene-gesserit-heian-japan — The Real-Life Bene Gesserit: how Heian Japan's Fujiwara clan anticipated Dune's shadow politics — court coups, consort clans, and five centuries of rule from behind the throne
+- /articles/before-the-castle-prehistoric-osaka — Before the Castle: when Osaka was a prehistoric lagoon, and what sits beneath the castle today
+- /articles/capital-redundancy — Capital Redundancy: Japan's 1,300-year instinct for backup capitals, from Tenmu's fukuto-sei to the 2026 secondary-capital law
+- /articles/yuteki-tenmoku-tea-bowl — What the Museum Label Can't Say: the National Treasure Yuteki tenmoku, its Toyotomi provenance, and how a curator weighs evidence
+
 ## ツアー / Tours
 
 Osaka Castle Walks with Edward — 歴史家が案内する大阪城の探究型ウォーキングツアー。日本史の専門家エドワード・イフティ（大阪城常駐歴史家）が運営。英語のみ、最大6名。
