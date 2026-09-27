@@ -7,6 +7,10 @@
 // AFTER the normal pipeline, so auth/rate limits are untouched; non-GETs,
 // redirects, errors and non-HTML responses pass through unchanged.
 //
+// Discovery: /.well-known/api-catalog, /auth.md, /api/openapi.json, /api/docs
+// and /api/ are served here (content in worker-discovery.ts), and HTML
+// responses get RFC 8288 Link headers for those resources.
+//
 // crons in wrangler.toml:
 //  - "* * * * *"     → expire Reservations holds
 //  - "0 3 * * *"     → Google token health check + pending block backfill
@@ -15,6 +19,7 @@
 import { default as handler } from "./.open-next/worker.js";
 import TurndownService from "turndown";
 import { createDocument } from "@mixmark-io/domino";
+import { discoveryResponse, DISCOVERY_LINK_HEADER } from "./worker-discovery";
 
 // HTMLRewriter is a Workers runtime global; @cloudflare/workers-types is not
 // installed (it clashes with the DOM lib in tsconfig), so declare it locally.
@@ -103,15 +108,34 @@ async function callCron(
   }
 }
 
+// RFC 8288: advertise machine-readable resources on HTML responses (the
+// homepage Link header). Rebuilds the response because ASSETS-sourced
+// headers can be immutable.
+function withDiscoveryLink(res: Response): Response {
+  const headers = new Headers(res.headers);
+  headers.append("link", DISCOVERY_LINK_HEADER);
+  return new Response(res.body, { status: res.status, statusText: res.statusText, headers });
+}
+
 const worker = {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const h = handler as any;
-    if (!wantsMarkdown(request)) {
-      return h.fetch(request, env, ctx);
+
+    const discovery = discoveryResponse(request);
+    if (discovery) return discovery;
+
+    const wantsMd = wantsMarkdown(request);
+    const res0: Response = await h.fetch(request, env, ctx);
+    const ct = res0.headers.get("content-type") ?? "";
+    const res =
+      ct.includes("text/html") && (request.method === "GET" || request.method === "HEAD")
+        ? withDiscoveryLink(res0)
+        : res0;
+
+    if (!wantsMd) {
+      return res;
     }
-    const res: Response = await h.fetch(request, env, ctx);
-    const ct = res.headers.get("content-type") ?? "";
     if (!res.ok || !ct.includes("text/html")) {
       return res;
     }
