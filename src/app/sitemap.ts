@@ -27,7 +27,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const enSlugs = [
     "aboutme",
     "azaiclanbetrayal",
-    "before-the-castle-prehistoric-osaka",
     "beforejapanhadaname",
     "deeptimeline",
     "empress-shotoku",

@@ -101,12 +101,11 @@
     "en_timelines": {
       "role": "SEO/AEO history content; primary organic inbound; funnel → booking",
       "language": "en",
-      "count": 20,
+      "count": 19,
       "hub": "/osaka_history_things_to_do.html",
       "funnel": ["/book?tour=…", "/book/custom", "tel:+819012474069", "https://wa.me/819012474069"],
       "pages": [
         {"slug": "deeptimeline", "path": "/deeptimeline.html", "title": "The Uemachi Plateau — A Deep Time Timeline", "ja": "/ja/deeptimeline.html", "period": "Prehistoric–Modern"},
-        {"slug": "before-the-castle-prehistoric-osaka", "path": "/before-the-castle-prehistoric-osaka.html", "title": "Before the Castle: When Osaka was a Prehistoric Lagoon", "ja": "/ja/before-the-castle-prehistoric-osaka.html", "period": "Ancient"},
         {"slug": "yayoi_timeline", "path": "/yayoi_timeline.html", "title": "The Yayoi Age in Japan — Parallel Histories", "ja": "/ja/yayoi_timeline.html", "period": "Ancient"},
         {"slug": "empress_jingu_timeline", "path": "/empress_jingu_timeline.html", "title": "Empress Jingū: Sifting Fact From Folklore", "ja": "/ja/empress_jingu_timeline.html", "period": "Ancient"},
         {"slug": "ojinsuccession", "path": "/ojinsuccession.html", "title": "The Ōjin Succession — Three Versions of the Same Story", "ja": "/ja/ojinsuccession.html", "period": "Ancient"},
@@ -136,7 +135,7 @@
       "global_nav": ["/", "all 20 /ja/*.html", "/ja/education", "EN twin", "tel:+819012474069", "https://wa.me/819012474069"],
       "pages": [
         {"slug": "deeptimeline", "path": "/ja/deeptimeline.html", "en": "/deeptimeline.html", "title": "上町台地 ── ディープタイム・タイムライン"},
-        {"slug": "before-the-castle-prehistoric-osaka", "path": "/ja/before-the-castle-prehistoric-osaka.html", "en": "/before-the-castle-prehistoric-osaka.html", "title": "城の前：大坂が先史時代の潟であった頃"},
+        {"slug": "before-the-castle-prehistoric-osaka", "path": "/ja/before-the-castle-prehistoric-osaka.html", "en": "/articles/before-the-castle-prehistoric-osaka", "title": "城の前：大坂が先史時代の潟であった頃"},
         {"slug": "yayoi_timeline", "path": "/ja/yayoi_timeline.html", "en": "/yayoi_timeline.html", "title": "弥生時代 — 並行する歴史"},
         {"slug": "empress_jingu_timeline", "path": "/ja/empress_jingu_timeline.html", "en": "/empress_jingu_timeline.html", "title": "神功皇后：伝説と史実を分かつ"},
         {"slug": "ojinsuccession", "path": "/ja/ojinsuccession.html", "en": "/ojinsuccession.html", "title": "応神天皇の皇位継承 — 三つの物語"},
@@ -169,7 +168,7 @@
         {"path": "/osaka-castle-entry-tickets-guide.html", "title": "Osaka Castle Tickets, Prices & Queues", "links_to": ["/osaka-castle-vs-himeji-castle.html", "/photography-guide.html", "/book/custom"]},
         {"path": "/osaka-castle-vs-himeji-castle.html", "title": "Osaka Castle or Himeji Castle?", "links_to": ["/osaka-castle-entry-tickets-guide.html", "/photography-guide.html", "/book/custom"]},
         {"path": "/photography-guide.html", "title": "Best Osaka Castle Photo Spots", "links_to": ["/osaka-castle-entry-tickets-guide.html", "/osaka-castle-vs-himeji-castle.html"]},
-        {"path": "/history-beyond-the-postcard.html", "title": "History Beyond the Postcard", "role": "Essays hub", "links_to": ["/articles/before-the-castle-prehistoric-osaka.html", "/articles/capital-redundancy.html", "/articles/yuteki-tenmoku-tea-bowl.html", "/articles/bene-gesserit-heian-japan.html"]}
+        {"path": "/history-beyond-the-postcard.html", "title": "History Beyond the Postcard", "role": "Essays hub", "links_to": ["/articles/before-the-castle-prehistoric-osaka", "/articles/capital-redundancy", "/articles/yuteki-tenmoku-tea-bowl", "/articles/bene-gesserit-heian-japan"]}
       ]
     },
     "trust_pages": {
@@ -186,10 +185,10 @@
       "language": "en",
       "hub": "/history-beyond-the-postcard.html",
       "live": [
-        {"path": "/articles/before-the-castle-prehistoric-osaka.html", "title": "Before the Castle… (essay)"},
-        {"path": "/articles/capital-redundancy.html", "title": "Capital Redundancy: Japan's 1,300-Year Instinct"},
-        {"path": "/articles/yuteki-tenmoku-tea-bowl.html", "title": "What the Museum Label Can't Say…"},
-        {"path": "/articles/bene-gesserit-heian-japan.html", "title": "The Real-Life Bene Gesserit: How Heian Japan Perfected Dune's Shadow Politics"}
+        {"path": "/articles/before-the-castle-prehistoric-osaka", "title": "Before the Castle… (essay)"},
+        {"path": "/articles/capital-redundancy", "title": "Capital Redundancy: Japan's 1,300-Year Instinct"},
+        {"path": "/articles/yuteki-tenmoku-tea-bowl", "title": "What the Museum Label Can't Say…"},
+        {"path": "/articles/bene-gesserit-heian-japan", "title": "The Real-Life Bene Gesserit: How Heian Japan Perfected Dune's Shadow Politics"}
       ],
       "orphans": [
         {"path": "/articles/transcript-oc-2026.html", "title": "Interview with Hitoshi Kobayashi (transcript)"},
