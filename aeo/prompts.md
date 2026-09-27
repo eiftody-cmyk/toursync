@@ -100,6 +100,9 @@ promote winners (or useful misses) into the monthly core.
 | D-18 | 大阪城 歴史 深い 体験 |
 | D-19 | 大阪城 ツアー 予約 |
 | D-20 | Osaka castle tour for families and kids |
+| D-21 | 大阪城 校外学習 プログラム 学校向け |
+| D-22 | 中学校 歴史 現地学習 大阪城 |
+| D-23 | 修学旅行 大阪 歴史 体験 学校 |
 
 ---
 

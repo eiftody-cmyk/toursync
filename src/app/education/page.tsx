@@ -31,7 +31,7 @@ export async function generateMetadata({
     return {
       title: "大阪歴史フィールド探究 — 学校向けフィールドセミナー",
       description:
-        "歴史家イフトウデイ　エドワードが指導する大阪城でのフィールド探究。中学校・高等学校・大学のカリキュラムと接続した探究型学習。",
+        "歴史家イフトウデイ　エドワードが指導する大阪城での校外学習・現地授業（フィールド探究）。中学校・高等学校・大学のカリキュラムと接続した探究型学習。",
       openGraph: {
         title: "大阪歴史フィールド探究 — 学校向けフィールドセミナー",
         description:
@@ -106,7 +106,7 @@ export default async function EducationPage({
     descriptionEn:
       "Structured historical investigations at Osaka Castle for junior high, high school, and university students. Curriculum-aligned inquiry-based learning.",
     descriptionJa:
-      "大阪城での歴史フィールド探究。中学校・高等学校・大学向けのカリキュラム接続型探究学習。",
+      "大阪城での校外学習・現地授業としての歴史フィールド探究。中学校・高等学校・大学向けのカリキュラム接続型探究学習。",
     url: `${SITE}/education`,
     urlJa: `${SITE}/ja/education`,
     image: IMG,
