@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Content-Signal: ai-train=yes, search=yes, ai-input=yes, use=reference
 
 Sitemap: https://osakacastletours.com/sitemap.xml
 LLMs: /llms.txt

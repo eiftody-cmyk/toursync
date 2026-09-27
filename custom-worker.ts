@@ -1,12 +1,89 @@
 // Custom Worker entry: OpenNext only ships a fetch handler.
 // Cron triggers call scheduled(); we fan out to the protected cron routes.
 //
+// Markdown for Agents (content negotiation): GETs with
+// `Accept: text/markdown` get a converted markdown response — Cloudflare's
+// edge content_converter is Pro-only, so we do it here. Conversion runs
+// AFTER the normal pipeline, so auth/rate limits are untouched; non-GETs,
+// redirects, errors and non-HTML responses pass through unchanged.
+//
 // crons in wrangler.toml:
 //  - "* * * * *"     → expire Reservations holds
 //  - "0 3 * * *"     → Google token health check + pending block backfill
 
 // @ts-expect-error `.open-next/worker.js` is generated at build time
 import { default as handler } from "./.open-next/worker.js";
+import TurndownService from "turndown";
+import { createDocument } from "@mixmark-io/domino";
+
+// HTMLRewriter is a Workers runtime global; @cloudflare/workers-types is not
+// installed (it clashes with the DOM lib in tsconfig), so declare it locally.
+interface WorkerHTMLRewriter {
+  on(selector: string, handlers: { element(el: { remove(): void }): void }): WorkerHTMLRewriter;
+  transform(response: Response): Response;
+}
+declare const HTMLRewriter: { new (): WorkerHTMLRewriter };
+
+const JSONLD_RE = /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+const STRIP_SELECTOR = "script, style, noscript, svg, iframe, nav, footer";
+
+function wantsMarkdown(request: Request): boolean {
+  if (request.method !== "GET") return false;
+  const accept = request.headers.get("accept");
+  return !!accept && accept.toLowerCase().includes("text/markdown");
+}
+
+async function toMarkdownResponse(res: Response, html: string): Promise<Response> {
+  // JSON-LD is extracted before stripping <script> so agents keep the
+  // structured data Cloudflare's converter would have preserved.
+  const jsonld: string[] = [];
+  for (const m of html.matchAll(JSONLD_RE)) {
+    const body = m[1].trim();
+    if (body) jsonld.push(body);
+  }
+
+  const cleaned = await new HTMLRewriter()
+    .on(STRIP_SELECTOR, {
+      element(el) {
+        el.remove();
+      },
+    })
+    .transform(new Response(html))
+    .text();
+
+  const td = new TurndownService({ headingStyle: "atx", codeBlockStyle: "fenced" });
+  // Turndown's browser build (esbuild platform=browser picks it) parses string
+  // input via `document`, which Workers lack — so we parse with domino and pass
+  // the document node, which takes the cloneNode path instead.
+  let md = td.turndown(createDocument(cleaned));
+  if (jsonld.length > 0) {
+    md += `\n\n\`\`\`json\n${jsonld.join("\n")}\n\`\`\``;
+  }
+
+  const headers = new Headers(res.headers);
+  // Body-specific headers no longer match the converted response.
+  for (const h of [
+    "etag",
+    "last-modified",
+    "content-encoding",
+    "content-range",
+    "transfer-encoding",
+    "content-length",
+  ]) {
+    headers.delete(h);
+  }
+  headers.set("content-type", "text/markdown; charset=utf-8");
+  // no-store: never let a cached markdown variant leak to browsers.
+  headers.set("cache-control", "no-store");
+  const vary = headers.get("vary");
+  headers.set(
+    "vary",
+    vary && !vary.toLowerCase().includes("accept") ? `${vary}, accept` : "accept"
+  );
+  headers.set("x-markdown-tokens", String(Math.ceil(md.length / 4)));
+  headers.set("x-original-tokens", String(Math.ceil(html.length / 4)));
+  return new Response(md, { status: res.status, statusText: res.statusText, headers });
+}
 
 async function callCron(
   env: { NEXT_PUBLIC_BASE_URL?: string; CRON_SECRET?: string },
@@ -22,14 +99,38 @@ async function callCron(
     headers: { Authorization: `Bearer ${secret}` },
   });
   if (!res.ok) {
-    console.error(`[cron] ${path} failed:`, res.status, await res.text());
+    console.error(`[cron] ${path} failed: ${res.status}`, await res.text());
   }
 }
 
 const worker = {
-  fetch(request: Request, env: unknown, ctx: unknown) {
+  async fetch(request: Request, env: unknown, ctx: unknown) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (handler as any).fetch(request, env, ctx);
+    const h = handler as any;
+    if (!wantsMarkdown(request)) {
+      return h.fetch(request, env, ctx);
+    }
+    const res: Response = await h.fetch(request, env, ctx);
+    const ct = res.headers.get("content-type") ?? "";
+    if (!res.ok || !ct.includes("text/html")) {
+      return res;
+    }
+    let html: string;
+    try {
+      html = await res.text();
+    } catch {
+      return res;
+    }
+    try {
+      return await toMarkdownResponse(res, html);
+    } catch (e) {
+      console.error("[markdown] conversion failed:", e instanceof Error ? e.message : e);
+      return new Response(html, {
+        status: res.status,
+        statusText: res.statusText,
+        headers: res.headers,
+      });
+    }
   },
   async scheduled(
     event: { cron: string },
