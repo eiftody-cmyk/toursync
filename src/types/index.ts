@@ -34,6 +34,7 @@ export type Booking = {
   date: string; // YYYY-MM-DD
   guest_count: number;
   source: string | null;
+  referrer_staff: string | null;
   customer_name: string | null;
   customer_email: string | null;
   status: string;
@@ -141,6 +142,7 @@ export const BOOKING_SOURCES = [
   "travelio",
   "direct",
   "walk-in",
+  "misaki",
   "other",
 ] as const;
 

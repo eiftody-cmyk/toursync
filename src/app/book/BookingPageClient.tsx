@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { PayPalPayment } from "@/components/PayPalPayment";
+import { track } from "@/lib/analytics";
+import { MISAKI_COOKIE } from "@/lib/referral/misaki";
 import type { Tour } from "@/types";
 import "./styles.css";
 
@@ -54,6 +56,7 @@ interface BookingPageClientProps {
   paypalClientId: string;
   initialDate?: string | null;
   initialTime?: string | null;
+  referral?: { source: string; staff: string } | null;
 }
 
 function toDateStr(date: Date): string {
@@ -98,6 +101,7 @@ export function BookingPageClient({
   paypalClientId,
   initialDate = null,
   initialTime = null,
+  referral = null,
 }: BookingPageClientProps) {
   const [dateData, setDateData] = useState<DateData>({
     available: [],
@@ -158,6 +162,28 @@ export function BookingPageClient({
       document.removeEventListener("visibilitychange", refresh);
     };
   }, [tour.id, load]);
+
+  // --- MISAKI referral session ---
+  const misaki = referral?.source === "misaki" && referral.staff ? referral : null;
+  const availabilityTracked = useRef(false);
+
+  // Persist attribution server-round-trip-independent (cookie is read by
+  // create-order as a fallback) so it survives back-navigation.
+  useEffect(() => {
+    if (!misaki) return;
+    document.cookie = `${MISAKI_COOKIE}=${encodeURIComponent(misaki.staff)}; max-age=31536000; path=/; SameSite=Lax`;
+  }, [misaki]);
+
+  // misaki_availability_checked — once the availability payload lands.
+  useEffect(() => {
+    if (!misaki || availabilityTracked.current || loading) return;
+    availabilityTracked.current = true;
+    track("misaki_availability_checked", {
+      staff_name: misaki.staff,
+      tour: tour.name,
+      tour_id: tour.id,
+    });
+  }, [misaki, loading, tour.name, tour.id]);
 
   // Availability lookup: date -> max remaining across all slots (+ total booked)
   const dateAvailability = useMemo(() => {
@@ -272,6 +298,15 @@ export function BookingPageClient({
     setSelectedSlot(slot);
     setGuestCount("2");
     setError(null);
+    if (misaki) {
+      track("misaki_booking_started", {
+        staff_name: misaki.staff,
+        tour: tour.name,
+        tour_id: tour.id,
+        date: slot.date,
+        time: slot.start_time,
+      });
+    }
   }
 
   function prevMonth() {
@@ -562,7 +597,21 @@ export function BookingPageClient({
               guestCount={guests}
               amount={totalAmount}
               currency={tour.currency || "JPY"}
-              onSuccess={() => setPaymentSuccess(true)}
+              referral={misaki}
+              onSuccess={() => {
+                if (misaki) {
+                  track("misaki_booking_completed", {
+                    staff_name: misaki.staff,
+                    tour: tour.name,
+                    tour_id: tour.id,
+                    date: selectedSlot.date,
+                    time: selectedSlot.start_time,
+                    guest_count: guests,
+                    value: totalAmount,
+                  });
+                }
+                setPaymentSuccess(true);
+              }}
               onError={setError}
             />
           </div>

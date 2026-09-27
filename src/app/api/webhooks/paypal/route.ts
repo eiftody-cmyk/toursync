@@ -8,6 +8,7 @@ import { getPreviousTours } from "@/lib/email/previous-tours";
 import { customTimeNotificationEmail } from "@/lib/email/custom-time-notification";
 import { blockSlot } from "@/lib/google/sync";
 import { checkCapacity } from "@/lib/core/availability";
+import { parseReferralParts } from "@/lib/referral/misaki";
 
 // --- PayPal webhook signature verification ---
 // PayPal signs: transmissionId|timeStamp|webhookId|crc32(body)
@@ -285,10 +286,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, skipped: true });
   }
 
-  const [tourId, date, startTime, guestCountStr, customFlag] = parts;
+  const [tourId, date, startTime, guestCountStr] = parts;
   const guestCount = parseInt(guestCountStr, 10);
-  const isCustomTime = customFlag === "custom=true";
-  const customerPhone = isCustomTime && parts[5] ? decodeURIComponent(parts[5]) : null;
+  const referral = parseReferralParts(parts);
+  const customIdx = parts.indexOf("custom=true");
+  const isCustomTime = customIdx >= 0;
+  const phonePart = isCustomTime ? parts[customIdx + 1] : undefined;
+  const customerPhone = phonePart ? decodeURIComponent(phonePart) : null;
   const normalizedStart = startTime && /^([01]\d|2[0-3]):[0-5]\d/.test(startTime) ? startTime.slice(0, 5) : startTime || null;
 
   if (
@@ -395,30 +399,44 @@ export async function POST(req: NextRequest) {
     ? `${resource.payer.name.given_name} ${resource.payer.name.surname ?? ""}`.trim()
     : null;
 
-  const { data: booking, error } = await supabase
+  const bookingRow: Record<string, unknown> = {
+    tour_id: tourId,
+    user_id: tour.user_id,
+    date,
+    start_time: normalizedStart,
+    guest_count: guestCount,
+    source: referral ? referral.source : isCustomTime ? "direct-custom" : "direct",
+    referrer_staff: referral?.staff ?? null,
+    customer_name: payerName ?? payerEmail,
+    customer_email: payerEmail,
+    customer_country: resource?.payer?.address?.country_code ?? null,
+    paypal_order_id: relatedOrderId ?? null,
+    paypal_capture_id: captureId ?? null,
+    notes: isCustomTime
+      ? JSON.stringify({
+          custom_time: true,
+          customer_phone: customerPhone,
+          paypal_order: relatedOrderId ?? "unknown",
+        })
+      : `PayPal order: ${relatedOrderId ?? "unknown"}`,
+  };
+
+  let { data: booking, error } = await supabase
     .from("bookings")
-    .insert({
-      tour_id: tourId,
-      user_id: tour.user_id,
-      date,
-      start_time: normalizedStart,
-      guest_count: guestCount,
-      source: isCustomTime ? "direct-custom" : "direct",
-      customer_name: payerName ?? payerEmail,
-      customer_email: payerEmail,
-      customer_country: resource?.payer?.address?.country_code ?? null,
-      paypal_order_id: relatedOrderId ?? null,
-      paypal_capture_id: captureId ?? null,
-      notes: isCustomTime
-        ? JSON.stringify({
-            custom_time: true,
-            customer_phone: customerPhone,
-            paypal_order: relatedOrderId ?? "unknown",
-          })
-        : `PayPal order: ${relatedOrderId ?? "unknown"}`,
-    })
+    .insert(bookingRow)
     .select("id")
     .single();
+
+  if (error && error.code === "42703" && "referrer_staff" in bookingRow) {
+    console.warn("[PayPal webhook] bookings.referrer_staff missing — run migration 032_misaki_referral.sql");
+    const fallback = { ...bookingRow };
+    delete fallback.referrer_staff;
+    ({ data: booking, error } = await supabase
+      .from("bookings")
+      .insert(fallback)
+      .select("id")
+      .single());
+  }
 
   if (error) {
     // P23505 = unique_violation — race condition with capture-order creating same booking
@@ -427,6 +445,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true, skipped: "race-condition-dedup" });
     }
     console.error("[PayPal webhook] Failed to create booking:", error.message);
+    return NextResponse.json({ error: "Failed to create booking" }, { status: 500 });
+  }
+
+  if (!booking) {
+    console.error("[PayPal webhook] Booking insert returned no row", captureId, relatedOrderId);
     return NextResponse.json({ error: "Failed to create booking" }, { status: 500 });
   }
 

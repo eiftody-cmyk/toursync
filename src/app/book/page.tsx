@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { BookingPageClient } from "./BookingPageClient";
 import { DatePickerClient } from "./DatePickerClient";
+import { MISAKI_SOURCE, sanitizeStaffName } from "@/lib/referral/misaki";
 import type { Tour } from "@/types";
 import type { Metadata } from "next";
 
@@ -21,10 +22,19 @@ function isHiddenTour(tourId: string): boolean {
 export default async function BookingPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tour?: string; slug?: string; date?: string; time?: string }>;
+  searchParams: Promise<{
+    tour?: string;
+    slug?: string;
+    date?: string;
+    time?: string;
+    ref?: string;
+    staff?: string;
+  }>;
 }) {
   const params = await searchParams;
   const tourParam = params.tour;
+  const referralStaff = params.ref === MISAKI_SOURCE ? sanitizeStaffName(params.staff) : null;
+  const referral = referralStaff ? { source: MISAKI_SOURCE, staff: referralStaff } : null;
   if (!tourParam) return <DatePickerClient />;
 
   const supabase = await createClient();
@@ -69,6 +79,7 @@ export default async function BookingPage({
       paypalClientId={paypalClientId}
       initialDate={typeof params.date === "string" ? params.date : null}
       initialTime={typeof params.time === "string" ? params.time : null}
+      referral={referral}
     />
   );
 }

@@ -28,6 +28,7 @@ const SOURCE_COLORS: Record<string, string> = {
   gyg: "bg-blue-100 text-blue-800",
   viator: "bg-purple-100 text-purple-800",
   airbnb: "bg-rose-100 text-rose-800",
+  misaki: "bg-amber-100 text-amber-800",
 };
 
 export function TourBookings({
@@ -297,6 +298,11 @@ function TourGroup({
                     >
                       {b.source.toUpperCase()}
                     </Badge>
+                  )}
+                  {b.referrer_staff && (
+                    <span className="block text-[10px] text-muted-foreground">
+                      via {b.referrer_staff}
+                    </span>
                   )}
                 </TableCell>
                 <TableCell className="py-1.5 px-3 text-xs text-muted-foreground">

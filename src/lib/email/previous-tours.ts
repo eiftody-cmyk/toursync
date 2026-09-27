@@ -14,6 +14,7 @@ const SOURCE_LABELS: Record<string, string | null> = {
   airbnb: "Airbnb",
   direct: null,
   "direct-custom": null,
+  misaki: "MISAKI Kimono Rental",
 };
 
 export function sourceLabel(source: string | null): string | null {

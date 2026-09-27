@@ -6,6 +6,7 @@ import {
   PayPalButtons,
   type PayPalButtonsComponentProps,
 } from "@paypal/react-paypal-js";
+import { track } from "@/lib/analytics";
 
 interface PayPalPaymentProps {
   paypalClientId: string;
@@ -18,6 +19,7 @@ interface PayPalPaymentProps {
   currency: string;
   custom?: boolean;
   customerPhone?: string;
+  referral?: { source: string; staff: string } | null;
   onSuccess?: () => void;
   onError?: (msg: string) => void;
 }
@@ -33,6 +35,7 @@ export function PayPalPayment({
   currency,
   custom,
   customerPhone,
+  referral,
   onSuccess,
   onError,
 }: PayPalPaymentProps) {
@@ -50,6 +53,18 @@ export function PayPalPayment({
     };
     if (custom) {
       body.customer_phone = customerPhone || null;
+    }
+    if (referral?.source && referral.staff) {
+      body.referral = referral;
+      track("misaki_payment_started", {
+        staff_name: referral.staff,
+        tour: tourName,
+        tour_id: tourId,
+        date,
+        time: startTime,
+        guest_count: guestCount,
+        value: amount,
+      });
     }
 
     const res = await fetch(endpoint, {

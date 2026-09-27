@@ -9,6 +9,7 @@ import { customTimeNotificationEmail } from "@/lib/email/custom-time-notificatio
 import { rateLimit, clientIp } from "@/lib/security/rateLimit";
 import { blockSlot } from "@/lib/google/sync";
 import { checkCapacity } from "@/lib/core/availability";
+import { parseReferralParts } from "@/lib/referral/misaki";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -46,7 +47,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Parse custom_id to derive booking details server-side.
-  // Format: tour_id|date|start_time|guest_count[|custom=true|customer_phone]
+  // Format: tour_id|date|start_time|guest_count[|custom=true|customer_phone][|ref=…|staff=…]
   const customId = orderDetails.custom_id;
   if (!customId) {
     console.error("[Payment] No custom_id in order", orderId);
@@ -59,10 +60,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid order data" }, { status: 400 });
   }
 
-  const [tourId, date, startTime, guestCountStr, customFlag] = parts;
+  const [tourId, date, startTime, guestCountStr] = parts;
   const guestCount = parseInt(guestCountStr, 10);
-  const isCustomTime = customFlag === "custom=true";
-  const customerPhone = isCustomTime && parts[5] ? decodeURIComponent(parts[5]) : null;
+  const referral = parseReferralParts(parts);
+  const customIdx = parts.indexOf("custom=true");
+  const isCustomTime = customIdx >= 0;
+  const phonePart = isCustomTime ? parts[customIdx + 1] : undefined;
+  const customerPhone = phonePart ? decodeURIComponent(phonePart) : null;
   const normalizedStart =
     startTime && /^([01]\d|2[0-3]):[0-5]\d/.test(startTime) ? startTime.slice(0, 5) : startTime || null;
 
@@ -181,30 +185,44 @@ export async function POST(req: NextRequest) {
     : null;
   const payerCountry = captureResult.payer?.address?.country_code ?? null;
 
-  const { data: booking, error } = await supabase
+  const bookingRow: Record<string, unknown> = {
+    tour_id: tourId,
+    user_id: tour.user_id,
+    date,
+    start_time: normalizedStart,
+    guest_count: guestCount,
+    source: referral ? referral.source : isCustomTime ? "direct-custom" : "direct",
+    referrer_staff: referral?.staff ?? null,
+    customer_name: payerName ?? payerEmail,
+    customer_email: payerEmail,
+    customer_country: payerCountry,
+    paypal_order_id: orderId,
+    paypal_capture_id: captureResult.captureId ?? null,
+    notes: isCustomTime
+      ? JSON.stringify({
+          custom_time: true,
+          customer_phone: customerPhone,
+          paypal_order: orderId,
+        })
+      : `PayPal order: ${orderId}`,
+  };
+
+  let { data: booking, error } = await supabase
     .from("bookings")
-    .insert({
-      tour_id: tourId,
-      user_id: tour.user_id,
-      date,
-      start_time: normalizedStart,
-      guest_count: guestCount,
-      source: isCustomTime ? "direct-custom" : "direct",
-      customer_name: payerName ?? payerEmail,
-      customer_email: payerEmail,
-      customer_country: payerCountry,
-      paypal_order_id: orderId,
-      paypal_capture_id: captureResult.captureId ?? null,
-      notes: isCustomTime
-        ? JSON.stringify({
-            custom_time: true,
-            customer_phone: customerPhone,
-            paypal_order: orderId,
-          })
-        : `PayPal order: ${orderId}`,
-    })
+    .insert(bookingRow)
     .select("id")
     .single();
+
+  if (error && error.code === "42703" && "referrer_staff" in bookingRow) {
+    console.warn("[Payment] bookings.referrer_staff missing — run migration 032_misaki_referral.sql");
+    const fallback = { ...bookingRow };
+    delete fallback.referrer_staff;
+    ({ data: booking, error } = await supabase
+      .from("bookings")
+      .insert(fallback)
+      .select("id")
+      .single());
+  }
 
   if (error) {
     // Race with webhook creating the same booking — treat as success
@@ -219,6 +237,11 @@ export async function POST(req: NextRequest) {
       }
     }
     console.error("[Payment] Failed to create booking:", error.message);
+    return NextResponse.json({ error: "Failed to create booking" }, { status: 500 });
+  }
+
+  if (!booking) {
+    console.error("[Payment] Booking insert returned no row", orderId);
     return NextResponse.json({ error: "Failed to create booking" }, { status: 500 });
   }
 

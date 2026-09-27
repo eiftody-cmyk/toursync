@@ -1,0 +1,655 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+  --gold: #c8a96e;
+  --gold-light: #e8d5a3;
+  --gold-mid: #a07840;
+  --ink: #0e0c09;
+  --parchment: #f5efe3;
+  --parchment-dim: #c8bfa8;
+  --stone: #1a1510;
+  --line: rgba(200, 169, 110, 0.25);
+}
+
+body {
+  background: var(--ink);
+  color: var(--parchment);
+}
+
+.misaki-page {
+  min-height: 100vh;
+  background: var(--ink);
+  color: var(--parchment);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.15rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.misaki-page h1,
+.misaki-page h2,
+.misaki-page h3,
+.misaki-page strong,
+.misaki-page .misaki-cta,
+.misaki-page .misaki-eyebrow,
+.misaki-page .misaki-meta,
+.misaki-page label {
+  font-family: 'Cinzel', serif;
+}
+
+.misaki-page h2 {
+  font-size: clamp(1.55rem, 5.5vw, 2.3rem);
+  font-weight: 600;
+  color: var(--parchment);
+  line-height: 1.2;
+  margin: 0.4rem 0 1.1rem;
+}
+
+.misaki-page h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 0.5rem;
+}
+
+.misaki-page a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.misaki-page p {
+  margin: 0 0 1rem;
+}
+
+/* ---------- 1. Referral bar ---------- */
+
+.misaki-referral {
+  background: var(--stone);
+  border-bottom: 1px solid var(--line);
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+
+.misaki-referral-inner {
+  max-width: 44rem;
+  margin: 0 auto;
+}
+
+.misaki-referred-by {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--parchment-dim);
+  margin: 0 0 0.75rem !important;
+}
+
+.misaki-referred-by strong {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.misaki-staff-label {
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  margin-bottom: 0.4rem;
+}
+
+.misaki-staff-input {
+  width: 100%;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.2rem;
+  color: var(--parchment);
+  background: rgba(14, 12, 9, 0.6);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.misaki-staff-input::placeholder {
+  color: rgba(200, 191, 168, 0.55);
+}
+
+.misaki-staff-input:focus {
+  border-color: var(--gold);
+}
+
+.misaki-staff-input.invalid {
+  border-color: #c0392b;
+}
+
+.misaki-staff-help {
+  font-size: 0.95rem;
+  color: var(--parchment-dim);
+  margin: 0.5rem 0 0 !important;
+}
+
+.misaki-staff-error {
+  font-size: 0.95rem;
+  color: #e08078;
+  margin: 0.4rem 0 0 !important;
+}
+
+/* ---------- 2. Hero ---------- */
+
+.misaki-hero {
+  position: relative;
+  min-height: 88svh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.misaki-hero-img {
+  object-fit: cover;
+}
+
+.misaki-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(14, 12, 9, 0.35) 0%,
+    rgba(14, 12, 9, 0.15) 35%,
+    rgba(14, 12, 9, 0.82) 78%,
+    rgba(14, 12, 9, 0.95) 100%
+  );
+}
+
+.misaki-hero-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 46rem;
+  padding: 3rem 1.25rem 3.25rem;
+}
+
+.misaki-hero-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.9rem !important;
+}
+
+.misaki-hero h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(2rem, 8.5vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  margin: 0 0 1rem;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+}
+
+.misaki-hero h1 span {
+  color: var(--gold);
+}
+
+.misaki-hero-sub {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.05rem, 4vw, 1.45rem);
+  font-weight: 400;
+  color: var(--gold-light);
+  margin-bottom: 1rem !important;
+}
+
+.misaki-hero-copy {
+  font-size: 1.2rem;
+  line-height: 1.55;
+  color: var(--parchment);
+  margin-bottom: 0.75rem !important;
+}
+
+.misaki-hero-alt {
+  font-style: italic;
+  font-size: 1.08rem;
+  color: var(--parchment-dim);
+  margin-bottom: 1.25rem !important;
+}
+
+.misaki-meta {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 1.5rem !important;
+}
+
+/* ---------- CTA ---------- */
+
+.misaki-cta {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink) !important;
+  background: linear-gradient(180deg, var(--gold-light), var(--gold));
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  padding: 1.05rem 2.4rem;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+.misaki-cta:hover,
+.misaki-cta:focus {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.misaki-cta-small {
+  font-size: 0.82rem;
+  padding: 0.8rem 1.3rem;
+}
+
+/* ---------- 3. Kimono section ---------- */
+
+.misaki-kimono {
+  position: relative;
+  overflow: hidden;
+}
+
+.misaki-kimono img {
+  object-fit: cover;
+}
+
+.misaki-kimono-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(14, 12, 9, 0.55),
+    rgba(14, 12, 9, 0.85)
+  );
+}
+
+.misaki-kimono-content {
+  position: relative;
+  z-index: 1;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: clamp(3.5rem, 12vw, 6rem) 1.25rem;
+  text-align: center;
+}
+
+.misaki-kimono-content h2 {
+  font-style: normal;
+}
+
+.misaki-kimono-content p {
+  font-size: 1.18rem;
+  color: var(--parchment);
+  margin-bottom: 0 !important;
+}
+
+/* ---------- Generic sections ---------- */
+
+.misaki-section {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: clamp(3rem, 9vw, 5.5rem) 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.misaki-section-wide {
+  max-width: 68rem;
+}
+
+.misaki-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.25rem !important;
+}
+
+.misaki-lead {
+  font-size: 1.2rem;
+  color: var(--parchment);
+  margin-bottom: 1.5rem !important;
+}
+
+.misaki-note {
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--parchment-dim);
+  border-left: 2px solid var(--gold);
+  padding-left: 1rem;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0 !important;
+}
+
+.misaki-facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.misaki-facts li {
+  position: relative;
+  padding: 0.9rem 0 0.9rem 1.4rem;
+  border-bottom: 1px solid rgba(200, 169, 110, 0.15);
+  font-size: 1.1rem;
+}
+
+.misaki-facts li::before {
+  content: "◆";
+  position: absolute;
+  left: 0;
+  top: 0.95rem;
+  font-size: 0.65rem;
+  color: var(--gold);
+}
+
+.misaki-facts strong {
+  color: var(--gold-light);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+}
+
+/* ---------- 9. Explore cards ---------- */
+
+.misaki-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.misaki-card {
+  background: var(--stone);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.misaki-card-img {
+  position: relative;
+  aspect-ratio: 16 / 10;
+}
+
+.misaki-card-img img {
+  object-fit: cover;
+}
+
+.misaki-card-body {
+  padding: 1.25rem 1.35rem 1.5rem;
+}
+
+.misaki-card-body p {
+  margin: 0;
+  font-size: 1.08rem;
+  color: var(--parchment-dim);
+}
+
+/* ---------- 10. Historian ---------- */
+
+.misaki-historian {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+  max-width: 64rem;
+}
+
+.misaki-historian-img {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.misaki-historian-img img {
+  object-fit: cover;
+}
+
+.misaki-historian-copy p {
+  font-size: 1.12rem;
+}
+
+/* ---------- 11. Reviews ---------- */
+
+.misaki-reviews {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.misaki-review {
+  margin: 0;
+  background: var(--stone);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  border-radius: 8px;
+  padding: 1.25rem 1.35rem;
+}
+
+.misaki-review.featured {
+  background: linear-gradient(160deg, rgba(200, 169, 110, 0.12), rgba(26, 21, 16, 0.9));
+}
+
+.misaki-review blockquote {
+  margin: 0 0 0.75rem;
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: var(--parchment);
+}
+
+.misaki-review.featured blockquote {
+  font-size: 1.15rem;
+}
+
+.misaki-review figcaption {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.misaki-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+}
+
+/* ---------- 12. Final CTA ---------- */
+
+.misaki-final {
+  text-align: center;
+  padding: clamp(3.5rem, 11vw, 6rem) 1.25rem;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(200, 169, 110, 0.16), transparent 65%),
+    var(--stone);
+  border-top: 1px solid var(--line);
+}
+
+.misaki-final h2 {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.misaki-final-sub {
+  font-size: 1.2rem;
+  color: var(--parchment-dim);
+}
+
+.misaki-tour-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.25rem !important;
+}
+
+.misaki-final .misaki-meta {
+  margin-top: 0.5rem;
+}
+
+.misaki-meeting {
+  font-size: 0.95rem;
+  color: var(--parchment-dim);
+  margin-top: 1.5rem !important;
+  margin-bottom: 0 !important;
+  max-width: 34rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------- Footer ---------- */
+
+.misaki-footer {
+  padding: 2.5rem 1.25rem calc(6rem + env(safe-area-inset-bottom));
+  text-align: center;
+  border-top: 1px solid var(--line);
+  background: var(--ink);
+}
+
+.misaki-footer p {
+  margin-bottom: 0.6rem;
+  font-size: 1rem;
+}
+
+.misaki-footer-brand {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--parchment-dim);
+}
+
+.misaki-footer a {
+  font-size: 1rem;
+}
+
+.misaki-disclaimer {
+  max-width: 36rem;
+  margin: 1.25rem auto 0 !important;
+  font-size: 0.82rem !important;
+  line-height: 1.5;
+  color: rgba(200, 191, 168, 0.65);
+}
+
+/* ---------- Sticky CTA ---------- */
+
+.misaki-sticky {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom));
+  background: rgba(14, 12, 9, 0.96);
+  border-top: 1px solid var(--gold);
+  backdrop-filter: blur(8px);
+  transform: translateY(110%);
+  transition: transform 0.25s ease;
+}
+
+.misaki-sticky.visible {
+  transform: translateY(0);
+}
+
+.misaki-sticky-meta {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--parchment-dim);
+}
+
+/* ---------- Desktop ---------- */
+
+@media (min-width: 768px) {
+  .misaki-page {
+    font-size: 1.2rem;
+  }
+
+  .misaki-referral {
+    padding: 1.25rem 2rem;
+  }
+
+  .misaki-referral-inner {
+    max-width: 46rem;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1rem;
+  }
+
+  .misaki-referred-by {
+    flex: 1 0 100%;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .misaki-staff-label {
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+
+  .misaki-staff-input {
+    max-width: 20rem;
+  }
+
+  .misaki-staff-help {
+    flex: 1 0 100%;
+  }
+
+  .misaki-staff-error {
+    flex: 1 0 100%;
+    margin-top: 0 !important;
+  }
+
+  .misaki-hero-content {
+    padding: 4rem 2.5rem 4.5rem;
+  }
+
+  .misaki-section {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .misaki-cards {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+  }
+
+  .misaki-historian {
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .misaki-reviews {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .misaki-review.featured {
+    grid-column: 1 / -1;
+  }
+}

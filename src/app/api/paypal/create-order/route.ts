@@ -11,6 +11,12 @@ import {
 } from "@/lib/schedules/blockOverlap";
 import { filterBySlot } from "@/lib/core/slot";
 import { checkCapacity } from "@/lib/core/availability";
+import {
+  MISAKI_COOKIE,
+  normalizeReferral,
+  referralFromCookieValue,
+  appendReferral,
+} from "@/lib/referral/misaki";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -152,7 +158,15 @@ export async function POST(req: NextRequest) {
   }
 
   // Encode booking info in custom_id: tour_id|date|start_time|guest_count
-  const customId = [tour_id, date, normalizedStart ?? "", guestCount].join("|");
+  // Referral (MISAKI) rides along in the same custom_id so capture/webhook
+  // can verify it server-side against PayPal's copy of the order.
+  const referral =
+    normalizeReferral(body.referral) ??
+    referralFromCookieValue(req.cookies.get(MISAKI_COOKIE)?.value);
+  const customId = appendReferral(
+    [tour_id, date, normalizedStart ?? "", guestCount].join("|"),
+    referral
+  );
 
   try {
     const provider = getPaymentProvider();
