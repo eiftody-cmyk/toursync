@@ -95,14 +95,21 @@ promote winners (or useful misses) into the monthly core.
 | D-13 | things most visitors miss at Osaka Castle |
 | D-14 | how to visit Osaka Castle like a historian |
 | D-15 | study abroad Japan history field trip Osaka |
-| D-16 | 大阪城 歴史 ツアー 案内人 |
-| D-17 | 大阪城 専用ガイド 予約 |
-| D-18 | 大阪城 歴史 深い 体験 |
+| D-16 | 大阪城 歴史 ガイド |
+| D-17 | 大阪城 プライベートガイド 予約 |
+| D-18 | 大阪城 歴史を深く学ぶ 体験 |
 | D-19 | 大阪城 ツアー 予約 |
 | D-20 | Osaka castle tour for families and kids |
 | D-21 | 大阪城 校外学習 プログラム 学校向け |
-| D-22 | 中学校 歴史 現地学習 大阪城 |
-| D-23 | 修学旅行 大阪 歴史 体験 学校 |
+| D-22 | 中学校 大阪城 歴史 校外学習 |
+| D-23 | 大阪 修学旅行 大阪城 歴史学習 |
+| D-24 | 大阪城 歴史 現地学習 |
+| D-25 | 大阪城 歴史 探究学習 |
+| D-26 | 大阪城 校外学習 歴史 |
+| D-27 | 大阪城 歴史学習 プログラム |
+| D-28 | 大阪城 フィールドワーク 歴史 |
+| D-29 | 中学校 大阪城 歴史学習 |
+| D-30 | 高校 大阪城 歴史 探究 |
 
 ---
 

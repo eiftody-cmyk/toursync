@@ -1,12 +1,18 @@
 type,id,japanese,reading,english,notes
-vocabulary,,校外学習,こうがいがくしゅう,off-campus / field study,"Hub+JHS+HS FAQ (question and answer); JA meta descriptions on all three pages; hub Article JSON-LD"
-vocabulary,,現地授業,げんちじゅぎょう,on-site class,"Hub+JHS+HS FAQ (question and answer); JA meta descriptions on all three pages"
+vocabulary,,校外学習,こうがいがくしゅう,off-campus / field study,"Primary school-activity term; FAQ (question and answer) on hub+JHS+HS, JA metas on all three pages, hub Article JSON-LD"
+vocabulary,,現地学習,げんちがくしゅう,on-site learning,"Secondary term in hub+JHS+HS FAQ answers and JHS/HS meta parentheticals"
 vocabulary,,修学旅行,しゅうがくりょこう,school trip,"Hub + JHS FAQ answers (one prior mention already existed on hub)"
-vocabulary,,現地学習,げんちがくしゅう,on-site learning,"Hub + JHS FAQ answers (synonym used inside answers)"
-aeo-prompt,D-16,大阪城 歴史 ツアー 案内人,,Osaka Castle history tour with guide,discovery bank
-aeo-prompt,D-17,大阪城 専用ガイド 予約,,private Osaka Castle guide booking,discovery bank
-aeo-prompt,D-18,大阪城 歴史 深い 体験,,deep Osaka Castle history experience,discovery bank
+aeo-prompt,D-16,大阪城 歴史 ガイド,,Osaka Castle history guide,discovery bank
+aeo-prompt,D-17,大阪城 プライベートガイド 予約,,Osaka Castle private guide booking,discovery bank
+aeo-prompt,D-18,大阪城 歴史を深く学ぶ 体験,,Osaka Castle deep history learning experience,discovery bank
 aeo-prompt,D-19,大阪城 ツアー 予約,,Osaka Castle tour booking,discovery bank
 aeo-prompt,D-21,大阪城 校外学習 プログラム 学校向け,,Osaka Castle field-study program for schools,discovery bank
-aeo-prompt,D-22,中学校 歴史 現地学習 大阪城,,junior-high history on-site learning at Osaka Castle,discovery bank
-aeo-prompt,D-23,修学旅行 大阪 歴史 体験 学校,,school-trip history experience in Osaka,discovery bank
+aeo-prompt,D-22,中学校 大阪城 歴史 校外学習,,junior-high Osaka Castle history field study,discovery bank
+aeo-prompt,D-23,大阪 修学旅行 大阪城 歴史学習,,Osaka school trip Osaka Castle history learning,discovery bank
+aeo-prompt,D-24,大阪城 歴史 現地学習,,Osaka Castle history on-site learning,discovery bank
+aeo-prompt,D-25,大阪城 歴史 探究学習,,Osaka Castle history inquiry-based learning,discovery bank
+aeo-prompt,D-26,大阪城 校外学習 歴史,,Osaka Castle field study history,discovery bank
+aeo-prompt,D-27,大阪城 歴史学習 プログラム,,Osaka Castle history learning program,discovery bank
+aeo-prompt,D-28,大阪城 フィールドワーク 歴史,,Osaka Castle fieldwork history,discovery bank
+aeo-prompt,D-29,中学校 大阪城 歴史学習,,junior-high Osaka Castle history learning,discovery bank
+aeo-prompt,D-30,高校 大阪城 歴史 探究,,high school Osaka Castle history inquiry,discovery bank

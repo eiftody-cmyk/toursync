@@ -31,11 +31,11 @@ export async function generateMetadata({
     return {
       title: "中学校 — 大阪歴史フィールド探究",
       description:
-        "中学生向けのカリキュラム接続型フィールド探究（校外学習・現地授業）。社会科の内容と接続（戦国・秀吉・徳川・明治）。構造化された英語運用の機会付き。",
+        "中学生向けのカリキュラム接続型フィールド探究（校外学習・現地学習）。社会科の内容と接続（戦国・秀吉・徳川・明治）。構造化された英語運用の機会付き。",
       openGraph: {
         title: "中学校 — 大阪歴史フィールド探究",
         description:
-"中学生向けのカリキュラム接続型フィールド探究（校外学習・現地授業）。社会科の内容と接続（戦国・秀吉・徳川・明治）。構造化された英語運用の機会付き。",
+"中学生向けのカリキュラム接続型フィールド探究（校外学習・現地学習）。社会科の内容と接続（戦国・秀吉・徳川・明治）。構造化された英語運用の機会付き。",
         url: BASE,
         siteName: "大阪城ウォークス with イフトウデイ　エドワード",
         locale: "ja_JP",
@@ -105,7 +105,7 @@ export default async function JuniorHighPage({
     descriptionEn:
       "Curriculum-aligned history field investigations for junior high school students at Osaka Castle.",
     descriptionJa:
-      "中学生向けのカリキュラム接続型フィールド探究（校外学習・現地授業）。社会科の内容と接続（戦国・秀吉・徳川・明治）。構造化された英語運用の機会付き。",
+      "中学生向けのカリキュラム接続型フィールド探究（校外学習・現地学習）。社会科の内容と接続（戦国・秀吉・徳川・明治）。構造化された英語運用の機会付き。",
     url: `${SITE}/education/junior-high`,
     urlJa: `${SITE}/ja/education/junior-high`,
     image: IMG,
