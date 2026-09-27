@@ -1,0 +1,12 @@
+type,id,japanese,reading,english,notes
+vocabulary,,校外学習,こうがいがくしゅう,off-campus / field study,"Hub+JHS+HS FAQ (question and answer); JA meta descriptions on all three pages; hub Article JSON-LD"
+vocabulary,,現地授業,げんちじゅぎょう,on-site class,"Hub+JHS+HS FAQ (question and answer); JA meta descriptions on all three pages"
+vocabulary,,修学旅行,しゅうがくりょこう,school trip,"Hub + JHS FAQ answers (one prior mention already existed on hub)"
+vocabulary,,現地学習,げんちがくしゅう,on-site learning,"Hub + JHS FAQ answers (synonym used inside answers)"
+aeo-prompt,D-16,大阪城 歴史 ツアー 案内人,,Osaka Castle history tour with guide,discovery bank
+aeo-prompt,D-17,大阪城 専用ガイド 予約,,private Osaka Castle guide booking,discovery bank
+aeo-prompt,D-18,大阪城 歴史 深い 体験,,deep Osaka Castle history experience,discovery bank
+aeo-prompt,D-19,大阪城 ツアー 予約,,Osaka Castle tour booking,discovery bank
+aeo-prompt,D-21,大阪城 校外学習 プログラム 学校向け,,Osaka Castle field-study program for schools,discovery bank
+aeo-prompt,D-22,中学校 歴史 現地学習 大阪城,,junior-high history on-site learning at Osaka Castle,discovery bank
+aeo-prompt,D-23,修学旅行 大阪 歴史 体験 学校,,school-trip history experience in Osaka,discovery bank
