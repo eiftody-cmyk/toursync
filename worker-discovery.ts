@@ -1,5 +1,8 @@
 // Agent-discovery documents served at the Worker edge:
 //  - /.well-known/api-catalog  (RFC 9727 linkset, RFC 9264 format)
+//  - /.well-known/mcp/server-card.json  (SEP-1649 MCP Server Card)
+//  - /.well-known/agent-skills/index.json (Agent Skills Discovery v0.2.0)
+//  - /skills/osaka-castle-tours/SKILL.md  (skill artifact; digest in the index)
 //  - /api/openapi.json         (OpenAPI 3.1 for the public REST endpoints)
 //  - /api/docs                 (service-doc target)
 //  - /auth.md                  (self-contained — no OAuth exists for agents)
@@ -461,7 +464,8 @@ Booking lookup is limited to 5 requests/min/IP (plus a Cloudflare WAF rate rule 
 
 ## Discovery
 
-\`/.well-known/api-catalog\` (RFC 9727) · \`/.well-known/oauth-protected-resource\` (RFC 9728) ·
+\`/.well-known/api-catalog\` (RFC 9727) · \`/.well-known/mcp/server-card.json\` ·
+\`/.well-known/agent-skills/index.json\` · \`/.well-known/oauth-protected-resource\` (RFC 9728) ·
 \`/.well-known/oauth-authorization-server\` (RFC 8414 + agent_auth) · \`/agent/auth\` ·
 \`/api/openapi.json\` · \`/api/docs\` · \`/llms.txt\`
 
@@ -531,6 +535,101 @@ export const AGENT_AUTH_INFO = {
 };
 
 // ---------------------------------------------------------------------------
+// /.well-known/mcp/server-card.json — SEP-1649 MCP Server Card for the
+// read-only MCP server already running at POST /api/mcp.
+// ---------------------------------------------------------------------------
+
+export const MCP_SERVER_CARD = {
+  serverInfo: { name: "toursync", version: "1.0.0" },
+  name: "toursync",
+  description:
+    "Osaka Castle Walks with Edward — read-only tour discovery: list/search tours, " +
+    "live availability, itinerary builder, and payment methods.",
+  endpoint: `${BASE}/api/mcp`,
+  transport: { type: "streamable-http", url: `${BASE}/api/mcp` },
+  capabilities: { tools: true, resources: false, prompts: false },
+  documentation_url: `${BASE}/api/docs`,
+};
+
+// ---------------------------------------------------------------------------
+// Agent Skills Discovery v0.2.0 (https://github.com/cloudflare/agent-skills-discovery-rfc)
+//
+// MAINTENANCE: SKILL_DIGEST must be the SHA-256 of the exact bytes of
+// TOUR_SKILL_MD as served. After editing the skill text:
+//   npx tsx -e "import('./worker-discovery.ts').then(m=>crypto.createHash('sha256').update(m.TOUR_SKILL_MD).digest('hex'))"
+// (or extract the string any other way) and update SKILL_DIGEST.
+// ---------------------------------------------------------------------------
+
+const SKILL_PATH = "/skills/osaka-castle-tours/SKILL.md";
+const SKILL_DIGEST =
+  "sha256:92bb99434266ad4eba4e044747855cbf5dc856bf0a6c3fe662d3ee9dea5d0d3c";
+
+export const TOUR_SKILL_MD = `---
+name: osaka-castle-tours
+description: Match travellers to Osaka Castle walking tours, check live availability, and build 1-3 day itineraries using the public osakacastletours.com API and MCP tools.
+---
+
+# Osaka Castle Tours — agent skill
+
+Guide a traveller from question to booked walk using the public, credential-free API at
+\`https://osakacastletours.com\`. No authentication is required (see \`/auth.md\`).
+
+## 1. Discover tours
+
+- \`GET /api/tours\` — all active tours: id, name, description, duration, price (JPY),
+  max guests, meeting point, themes, historical periods, traveller types, neighbourhood,
+  weekly schedules, availability endpoint, and booking URL.
+- Match on themes (castle history, hidden temples, periods), traveller type, duration
+  (typically 90-150 minutes), day/time schedules, and group size.
+- MCP alternative: \`POST /api/mcp\` with \`list_tours\` or \`search_tours\`.
+
+## 2. Check availability
+
+- \`GET /api/tours/{id}/availability\` returns
+  \`{ "tour_id": "…", "availability": { "available": [...], "blocked": [...], "full": [...] } }\`.
+- Each \`available\` item has \`date\` (YYYY-MM-DD), \`start_time\` (HH:MM JST),
+  \`duration_minutes\`, and \`remaining\` capacity. Report \`remaining\` honestly;
+  dates listed in \`blocked\` or \`full\` are not bookable.
+- MCP alternative: \`get_tour_availability\`.
+
+## 3. Build an itinerary
+
+- Use the MCP \`build_itinerary\` tool with the traveller's interests, trip dates, and
+  weather, or compose one manually from themes, weekly schedules, and neighbourhoods.
+  Keep walking distances realistic and leave rest time.
+- Site context: \`/llms.txt\` (inventory), \`/api/docs\` (endpoint reference),
+  \`/.well-known/api-catalog\` (RFC 9727), \`/.well-known/agent-skills/index.json\` (skills).
+
+## 4. Booking
+
+- Link humans to the tour's \`booking_url\` (or \`/book?tour=<uuid>\`) — checkout runs on
+  PayPal and GetYourGuide. Agents must not attempt to purchase or enumerate bookings.
+- Existing guests use \`/book/manage\`, reached only via the signed, time-limited link in
+  their confirmation email (Turnstile-protected; \`POST /api/bookings/lookup\` is a human
+  form flow and must not be called by agents).
+
+## Ground rules
+
+- Everything above is public; no credentials exist or are issued (\`/auth.md\`).
+- Cite tour names, JPY prices, and durations accurately; re-fetch rather than cache long.
+- Contact: edward@osakacastletours.com
+`;
+
+export const SKILLS_INDEX = {
+  $schema: "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  skills: [
+    {
+      name: "osaka-castle-tours",
+      type: "skill-md",
+      description:
+        "Match travellers to Osaka Castle walking tours, check live availability, and build 1-3 day itineraries via the public API and MCP tools.",
+      url: `${BASE}${SKILL_PATH}`,
+      digest: SKILL_DIGEST,
+    },
+  ],
+};
+
+// ---------------------------------------------------------------------------
 // Route table
 // ---------------------------------------------------------------------------
 
@@ -551,6 +650,15 @@ const DISCOVERY_ROUTES: Record<string, DiscoveryRoute> = {
     body: JSON.stringify(AUTHORIZATION_SERVER_METADATA),
   },
   "/agent/auth": { contentType: "application/json", body: JSON.stringify(AGENT_AUTH_INFO) },
+  "/.well-known/mcp/server-card.json": {
+    contentType: "application/json",
+    body: JSON.stringify(MCP_SERVER_CARD),
+  },
+  "/.well-known/agent-skills/index.json": {
+    contentType: "application/json",
+    body: JSON.stringify(SKILLS_INDEX),
+  },
+  [SKILL_PATH]: { contentType: "text/markdown; charset=utf-8", body: TOUR_SKILL_MD },
   "/api/openapi.json": { contentType: "application/openapi+json", body: JSON.stringify(OPENAPI) },
   "/api/docs": { contentType: "text/markdown; charset=utf-8", body: API_DOCS },
   "/api": { contentType: "application/json; charset=utf-8", body: JSON.stringify(API_INDEX) },
