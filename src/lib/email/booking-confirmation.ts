@@ -85,6 +85,12 @@ export function bookingConfirmationEmail(params: BookingConfirmationEmailParams)
   <p style="margin-top: 32px; font-size: 13px; color: #666;">
     You can view or cancel your booking (up to 24 hours before the tour) using the link above.
   </p>
+
+  <p style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #e5e7eb; font-size: 13px; color: #666;">
+    Osaka Castle Walks with Edward will never ask you for additional payment by email.
+    If a message asks you to pay more for this booking, it is a scam — forward it to
+    <a href="mailto:edward@osakacastletours.com" style="color: #1a6bb5;">edward@osakacastletours.com</a>.
+  </p>
 </body>
 </html>`,
   };

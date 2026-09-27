@@ -83,6 +83,9 @@ export interface PayPalCaptureResult {
     };
     email_address?: string;
     payer_id?: string;
+    address?: {
+      country_code?: string;
+    };
   };
   purchase_units?: Array<{
     payments?: {

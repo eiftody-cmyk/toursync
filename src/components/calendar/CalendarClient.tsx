@@ -206,6 +206,26 @@ export function CalendarClient({
     await refresh();
   }
 
+  async function handleSaveBookingNotes(id: string, guestNotes: string) {
+    const value = guestNotes || null;
+    const supabase = createClient();
+    const { error } = await supabase
+      .from("bookings")
+      .update({ guest_notes: value })
+      .eq("id", id);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    setBookings((prev) =>
+      prev.map((row) => (row.id === id ? { ...row, guest_notes: value } : row))
+    );
+    setSelectedBooking((prev) =>
+      prev && prev.id === id ? { ...prev, guest_notes: value } : prev
+    );
+    toast.success("Guest note saved");
+  }
+
   function eventPropGetter(event: CalEvent) {
     const isBooking = event.resource.type === "booking";
     if (isBooking) {
@@ -412,6 +432,7 @@ export function CalendarClient({
         booking={selectedBooking}
         tour={selectedBooking ? tours.find((t) => t.id === selectedBooking.tour_id) : undefined}
         onDelete={handleDeleteBooking}
+        onSaveNotes={handleSaveBookingNotes}
       />
       <BlockedList
         tours={tours}

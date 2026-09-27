@@ -394,7 +394,7 @@ async function POST_inner(req: NextRequest, reqStart: number, ctx: ReturnType<ty
   // Send notification email to operator
   const operatorProfile = operatorProfileResult.data;
   if (operatorProfile?.email) {
-    const previousTours = await getPreviousTours(supabase, customerEmail);
+    const previousTours = await getPreviousTours(supabase, customerName);
     const notificationEmail = operatorNotificationEmail({
       operatorEmail: operatorProfile.email,
       tourName: tour.name,

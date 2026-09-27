@@ -46,6 +46,12 @@ export function cancellationConfirmationEmail(params: CancellationConfirmationPa
   <p style="margin-bottom: 24px;">If this was a mistake, you can rebook your tour anytime.</p>
 
   <a href="${baseUrl}" style="display: inline-block; background: #000; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 500;">Rebook Tour</a>
+
+  <p style="margin-top: 32px; padding-top: 16px; border-top: 1px solid #e5e7eb; font-size: 13px; color: #666;">
+    Osaka Castle Walks with Edward will never ask you for additional payment by email.
+    If a message asks you to pay money for a booking, it is a scam — forward it to
+    <a href="mailto:edward@osakacastletours.com" style="color: #1a6bb5;">edward@osakacastletours.com</a>.
+  </p>
 </body>
 </html>`,
   };

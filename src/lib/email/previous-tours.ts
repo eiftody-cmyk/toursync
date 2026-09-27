@@ -1,9 +1,11 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { fetchGuestBookings } from "@/lib/crm/guest-history";
 
 export interface PreviousTour {
   date: string;
   tourName: string;
   source: string | null;
+  guestNotes: string | null;
 }
 
 const SOURCE_LABELS: Record<string, string | null> = {
@@ -20,46 +22,22 @@ export function sourceLabel(source: string | null): string | null {
   return source;
 }
 
-function todayInTokyo(): string {
-  return new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Tokyo" });
-}
-
 /**
- * Past tours taken by this guest (confirmed, date before today, newest first).
- * Returns [] when the email is missing or the lookup fails — never blocks booking.
+ * Past tours taken by this guest, matched by exact full name
+ * (case-insensitive, two+ words), newest first.
+ *
+ * Returns [] when the name is missing or the lookup fails —
+ * never blocks booking creation.
  */
 export async function getPreviousTours(
   supabase: SupabaseClient,
-  customerEmail: string | null | undefined
+  customerName: string | null | undefined
 ): Promise<PreviousTour[]> {
-  if (!customerEmail) return [];
-  try {
-    const { data, error } = await supabase
-      .from("bookings")
-      .select("date, source, tours(name)")
-      .ilike("customer_email", customerEmail)
-      .eq("status", "confirmed")
-      .lt("date", todayInTokyo())
-      .order("date", { ascending: false });
-    if (error) {
-      console.error("[PreviousTours] Lookup failed:", error.message);
-      return [];
-    }
-    return (data ?? []).map((row) => {
-      // FK embed is a to-one object at runtime; supabase-js types it as an array
-      const embedded = row.tours as unknown as
-        | { name?: string | null }
-        | { name?: string | null }[]
-        | null;
-      const tour = Array.isArray(embedded) ? embedded[0] : embedded;
-      return {
-        date: row.date as string,
-        tourName: tour?.name ?? "Unknown tour",
-        source: (row.source as string | null) ?? null,
-      };
-    });
-  } catch (e) {
-    console.error("[PreviousTours] Lookup threw:", e instanceof Error ? e.message : e);
-    return [];
-  }
+  const bookings = await fetchGuestBookings(supabase, customerName, { pastOnly: true });
+  return bookings.map((b) => ({
+    date: b.date,
+    tourName: b.tourName,
+    source: b.source,
+    guestNotes: b.guest_notes,
+  }));
 }

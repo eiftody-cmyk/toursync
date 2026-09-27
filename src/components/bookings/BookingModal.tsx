@@ -33,6 +33,7 @@ export function BookingModal({
   const [guestCount, setGuestCount] = useState("2");
   const [source, setSource] = useState<string>("viator");
   const [customerName, setCustomerName] = useState("");
+  const [guestNote, setGuestNote] = useState("");
   const [channelBookingRef, setChannelBookingRef] = useState("");
   const [loading, setLoading] = useState(false);
   const [remainingForSlot, setRemainingForSlot] = useState<number | null>(null);
@@ -51,6 +52,7 @@ export function BookingModal({
       setGuestCount("2");
       setSource("viator");
       setCustomerName("");
+      setGuestNote("");
       setChannelBookingRef("");
       setRemainingForSlot(null);
       if (filterTour !== "all" && tours.some((t) => t.id === filterTour)) {
@@ -118,6 +120,7 @@ export function BookingModal({
       guest_count: guests,
       source,
       customer_name: customerName.trim() || null,
+      guest_notes: guestNote.trim() || null,
       channel_booking_reference: channelBookingRef.trim() || null,
       start_time: startTime || null,
       end_time: endTime || null,
@@ -240,6 +243,16 @@ export function BookingModal({
               placeholder="Tanaka"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
+            />
+          </div>
+          <div>
+            <Label>Guest Note (optional)</Label>
+            <textarea
+              placeholder="e.g. Met at Sumiyoshi — tipped ¥10,000, wants the kokeshi shop tip"
+              value={guestNote}
+              onChange={(e) => setGuestNote(e.target.value)}
+              rows={2}
+              className="w-full border rounded-md px-3 py-2 text-sm bg-background"
             />
           </div>
           <div>

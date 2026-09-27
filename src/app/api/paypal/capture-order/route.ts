@@ -179,6 +179,7 @@ export async function POST(req: NextRequest) {
   const payerName = captureResult.payer?.name
     ? `${captureResult.payer.name.given_name ?? ""} ${captureResult.payer.name.surname ?? ""}`.trim() || null
     : null;
+  const payerCountry = captureResult.payer?.address?.country_code ?? null;
 
   const { data: booking, error } = await supabase
     .from("bookings")
@@ -191,6 +192,7 @@ export async function POST(req: NextRequest) {
       source: isCustomTime ? "direct-custom" : "direct",
       customer_name: payerName ?? payerEmail,
       customer_email: payerEmail,
+      customer_country: payerCountry,
       paypal_order_id: orderId,
       paypal_capture_id: captureResult.captureId ?? null,
       notes: isCustomTime
@@ -265,11 +267,11 @@ export async function POST(req: NextRequest) {
       });
       emailResults.push(`customer: ${result.ok ? "sent" : result.error}`);
     } else {
-      emailResults.push(`customer: skipped (email=${payerEmail}, price=${tour.price})`);
+      emailResults.push(`customer: skipped (missing email or price: ${tour.price})`);
     }
 
     if (operatorProfile?.email) {
-      const previousTours = await getPreviousTours(supabase, payerEmail);
+      const previousTours = await getPreviousTours(supabase, payerName ?? payerEmail);
       const notificationEmail = operatorNotificationEmail({
         operatorEmail: operatorProfile.email,
         tourName: tour.name,

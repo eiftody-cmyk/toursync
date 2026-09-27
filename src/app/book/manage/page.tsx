@@ -1,10 +1,11 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import { formatTime } from "@/lib/time";
-import { verifyCancelToken } from "@/lib/security/cancelToken";
+import { verifyCancelToken, verifyLookupToken } from "@/lib/security/cancelToken";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -52,6 +53,7 @@ export default async function BookingManagePage({
   searchParams: Promise<{
     id?: string;
     email?: string;
+    sig?: string;
     token?: string;
     action?: string;
     cancelled?: string;
@@ -241,9 +243,14 @@ export default async function BookingManagePage({
     );
   }
 
-  // Email lookup view
+  // Email lookup view — requires an HMAC signature issued by
+  // POST /api/bookings/lookup (rate limit + Turnstile). Blocks bots that try
+  // to enumerate bookings by probing ?email= directly.
   if (params.email) {
     const email = params.email.trim();
+    if (!verifyLookupToken(email, params.sig)) {
+      redirect("/book/manage");
+    }
     const { data: bookings } = await supabase
       .from("bookings")
       .select("*")
@@ -312,6 +319,15 @@ export default async function BookingManagePage({
   }
 
   // Default: email entry form
+  const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY ?? "";
+  const lookupError = params.error;
+  const lookupErrorMessage: Record<string, string> = {
+    invalid: "That doesn't look like a valid email address. Please try again.",
+    verify: "Verification failed. Please try again.",
+    too_many: "Too many attempts — please wait a minute and try again.",
+    unavailable: "Lookup is temporarily unavailable. Use the manage link from your confirmation email instead.",
+  };
+
   return (
     <div className="min-h-screen bg-muted/20 flex items-center justify-center">
       <Card className="max-w-md w-full">
@@ -319,9 +335,14 @@ export default async function BookingManagePage({
           <CardTitle className="text-base">Manage Your Booking</CardTitle>
         </CardHeader>
         <CardContent>
+          {lookupError && lookupErrorMessage[lookupError] && (
+            <div className="mb-4 rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-800">
+              {lookupErrorMessage[lookupError]}
+            </div>
+          )}
           <form
-            action="/book/manage"
-            method="GET"
+            action="/api/bookings/lookup"
+            method="POST"
             className="space-y-4"
           >
             <div>
@@ -334,6 +355,16 @@ export default async function BookingManagePage({
                 className="mt-1 w-full border rounded-md px-3 py-2 text-sm"
               />
             </div>
+            {turnstileSiteKey && (
+              <>
+                <script
+                  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                  async
+                  defer
+                />
+                <div className="cf-turnstile" data-sitekey={turnstileSiteKey} />
+              </>
+            )}
             <Button type="submit" className="w-full" size="sm">
               Find My Bookings
             </Button>

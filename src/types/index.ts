@@ -40,6 +40,8 @@ export type Booking = {
   start_time: string | null; // HH:MM (JST)
   end_time: string | null; // HH:MM (JST)
   notes: string | null;
+  guest_notes: string | null;
+  customer_country: string | null;
   created_at: string;
 };
 

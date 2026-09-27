@@ -12,6 +12,14 @@ interface OperatorNotificationEmailParams {
   previousTours?: PreviousTour[];
 }
 
+function esc(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function formatDate(dateStr: string): string {
   const [y, m, d] = dateStr.split("-").map(Number);
   return new Date(y, m - 1, d).toLocaleDateString("en-US", {
@@ -48,7 +56,8 @@ export function operatorNotificationEmail(params: OperatorNotificationEmailParam
       ${previousTours
         .map((t) => {
           const via = sourceLabel(t.source);
-          return `<li style="margin: 0 0 4px 0;"><strong>${t.tourName}</strong> — ${formatDate(t.date)}${via ? ` (via ${via})` : ""}</li>`;
+          const note = t.guestNotes ? `<br><em>Note:</em> ${esc(t.guestNotes)}` : "";
+          return `<li style="margin: 0 0 6px 0;"><strong>${esc(t.tourName)}</strong> — ${formatDate(t.date)}${via ? ` (via ${via})` : ""}${note}</li>`;
         })
         .join("\n      ")}
     </ul>

@@ -238,6 +238,7 @@ export async function POST(req: NextRequest) {
       payer?: {
         email_address?: string;
         name?: { given_name?: string; surname?: string };
+        address?: { country_code?: string };
       };
       supplementary_data?: {
         related_ids?: {
@@ -405,6 +406,7 @@ export async function POST(req: NextRequest) {
       source: isCustomTime ? "direct-custom" : "direct",
       customer_name: payerName ?? payerEmail,
       customer_email: payerEmail,
+      customer_country: resource?.payer?.address?.country_code ?? null,
       paypal_order_id: relatedOrderId ?? null,
       paypal_capture_id: captureId ?? null,
       notes: isCustomTime
@@ -471,7 +473,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (operatorProfile?.email) {
-      const previousTours = await getPreviousTours(supabase, payerEmail);
+      const previousTours = await getPreviousTours(supabase, payerName ?? payerEmail);
       const notificationEmail = operatorNotificationEmail({
         operatorEmail: operatorProfile.email,
         tourName: tour.name,
