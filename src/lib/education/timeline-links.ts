@@ -133,7 +133,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     descriptionEn:
       "How the Fujiwara clan dominated the throne for five centuries through regency offices and marriage alliances.",
     descriptionJa:
-      "藤原氏が摂関職と婚姻同盟を通じて500年にわたり帝座をどう支配したか。",
+      "藤原氏が摂関職と婚姻同盟を通じて500年にわたり、朝廷で権力を握った過程。",
     period: "Heian",
     periodJa: "平安",
     levels: ["jhs", "hs", "university"],

@@ -343,6 +343,19 @@
   text-align: center;
 }
 
+/* ── FACILITATOR BADGES — legible CJK chips ── */
+.about-credentials {
+  gap: 0.6rem;
+}
+
+.about-credentials .badge {
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  background: var(--edu-card);
+  border-color: var(--edu-border);
+  padding: 0.3rem 0.65rem;
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .corp-ladder,
