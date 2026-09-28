@@ -334,8 +334,8 @@ export function ReferralLanding({
           <article className="misaki-card">
             <div className="misaki-card-img">
               <Image
-                src="/Hoenzaka.webp"
-                alt="Reconstructed pit dwellings at an archaeological site"
+                src="/images/IMG20260523105640.webp"
+                alt="Guests listening to the guide on the tour in Osaka Castle Park"
                 fill
                 sizes="(min-width: 900px) 50vw, 100vw"
               />
@@ -355,8 +355,8 @@ export function ReferralLanding({
       <section className="misaki-section misaki-historian">
         <div className="misaki-historian-img">
           <Image
-            src="/images/IMG20260522110710.webp"
-            alt="Edward Iftody with guests at Osaka Castle"
+            src="/images/groupphoto.webp"
+            alt="Edward Iftody with guests in front of Osaka Castle"
             fill
             sizes="(min-width: 900px) 45vw, 100vw"
           />
@@ -365,7 +365,7 @@ export function ReferralLanding({
           <p className="misaki-eyebrow">Your guide</p>
           <h2>Meet Your Resident Historian</h2>
           <p>
-            <strong>Edward Iftody</strong> is a Canadian historian and
+            <strong>Edward Iftody</strong> is a historian and
             long-term resident of Japan. He has lived in Japan since 2012 and
             lives beside Osaka Castle.
           </p>
