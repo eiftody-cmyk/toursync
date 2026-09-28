@@ -33,6 +33,19 @@
   margin-top: 1rem;
 }
 
+/* Hero subtitle — bigger; one line on desktop, wraps on phones */
+.corp-hero .subtitle {
+  max-width: none;
+  font-size: clamp(1.3rem, 2.6vw, 2.1rem);
+  line-height: 1.35;
+}
+
+@media (min-width: 769px) {
+  html:not([lang="ja"]) .corp-hero .subtitle {
+    white-space: nowrap;
+  }
+}
+
 /* ── POSITIONING BAND ── */
 .corp-positioning {
   background: var(--edu-navy);
