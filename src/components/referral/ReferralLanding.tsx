@@ -200,7 +200,7 @@ export function ReferralLanding({
         <div className="misaki-hero-content">
           <p className="misaki-hero-eyebrow">{tour.name}</p>
           <h1>
-            Walk Through the World of <span>Shōgun</span>
+            Walk Through the Real World of <span>Shōgun</span>
           </h1>
           <p className="misaki-hero-sub">Explore Osaka Castle with a Resident Historian</p>
           <p className="misaki-hero-copy">
@@ -366,14 +366,13 @@ export function ReferralLanding({
           <h2>Meet Your Resident Historian</h2>
           <p>
             <strong>Edward Iftody</strong> is a historian and
-            long-term resident of Japan. He has lived in Japan since 2012 and
+            long-term resident of Japan. He has lived in Japan since 2009 and
             lives beside Osaka Castle.
           </p>
           <p>
             He researches Japanese political history, historical geography,
             archaeology, and the relationship between political institutions and
-            the physical landscape — and he has taught English in Japan since
-            2009.
+            the physical landscape.
           </p>
           <p className="misaki-note">
             This is not a scripted sightseeing tour. You walk the ground with
@@ -404,7 +403,7 @@ export function ReferralLanding({
 
       {/* 12. Final CTA */}
       <section className="misaki-final">
-        <h2>Walk through the world of Shōgun</h2>
+        <h2>Walk through the real world of Shōgun</h2>
         <p className="misaki-final-sub">
           At the real Osaka Castle, with a resident historian.
         </p>
