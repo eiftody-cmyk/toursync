@@ -1,6 +1,6 @@
 export const en = {
   meta: {
-    siteName: "Osaka Corporate Team Building",
+    siteName: "Osaka History Investigations",
     tagline: "Historical dilemmas for teams.",
   },
 
