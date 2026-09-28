@@ -17,12 +17,12 @@
   },
   "architecture": {
     "static_html": "public/**/*.html served as /<slug>.html, /ja/<slug>.html, /articles/*.html",
-    "nextjs_app": "src/app/**/page.tsx: /, /book*, /education*, /landscape, /login, /dashboard",
+    "nextjs_app": "src/app/**/page.tsx: /, /book*, /education*, /corporate, /landscape, /login, /dashboard",
     "llms_txt": "/llms.txt",
     "site_graph": "/site-graph.json",
     "sitemap": "/sitemap.xml",
     "robots": "/robots.txt",
-    "api": ["/api/education/inquiry"]
+    "api": ["/api/education/inquiry", "/api/corporate/inquiry"]
   },
   "sections": {
     "home": {
@@ -217,6 +217,24 @@
       "links_to": "static timelines via src/lib/education/timeline-links.ts (19 slugs)",
       "footer_links": ["/", "/aboutme", "/faq"]
     },
+    "corporate": {
+      "role": "B2B/company funnel; quote-based corporate team building built on historical dilemmas",
+      "languages": ["en", "ja"],
+      "ja_mechanism": "/ja/corporate rewrites via middleware to /corporate with locale=ja",
+      "cta": "#inquiry-form",
+      "form": {
+        "endpoint": "POST /api/corporate/inquiry",
+        "storage": "Supabase table corporate_inquiries (service-role only)",
+        "notification": "Resend email → edward@osakacastletours.com"
+      },
+      "pricing": "¥200,000 / ¥300,000 / ¥400,000 for up to 15 / 30 / 40 participants — capacity pricing only, no per-person figures",
+      "mechanic": "Investigate → Debate → Decide → Reveal → Reassess → Vote; historical outcome is evidence, never a correct answer",
+      "pages": [
+        {"path": "/corporate", "title": "Corporate Team Building: Osaka's Historical Dilemmas", "ja": "/ja/corporate"}
+      ],
+      "links_to": "era cards → /osaka-castle-history.html, /genpei-timeline.html, /soga-fujiwara-timeline.html; evidence cards → 6 more static timelines",
+      "footer_links": ["/", "/aboutme", "/faq"]
+    },
     "booking": {
       "role": "PayPal checkout flow",
       "pages": [
@@ -238,13 +256,14 @@
   "hreflang": {
     "static_pairs": 20,
     "static_rule": "EN ↔ JA for all timeline/tour pages; x-default → EN on both sides",
-    "app_pairs": "/education* ↔ /ja/education* via Next.js metadata alternates",
+    "app_pairs": "/education* ↔ /ja/education* and /corporate ↔ /ja/corporate via Next.js metadata alternates",
     "en_only": "all other EN marketing/guides/articles have no JA twins"
   },
   "funnels": [
     {"from": "EN static pages", "to": ["/book?tour=…", "/book/custom", "tel:", "wa.me"], "intent": "booking"},
     {"from": "JA static pages", "to": ["/ja/education"], "intent": "school inquiry", "note": "intentional: no booking links on JA pages"},
     {"from": "education pages", "to": ["#inquiry-form → POST /api/education/inquiry → email to edward@osakacastletours.com"], "intent": "B2B lead"},
+    {"from": "corporate pages", "to": ["#inquiry-form → POST /api/corporate/inquiry → email to edward@osakacastletours.com"], "intent": "B2B lead"},
     {"from": "hub osaka_history_things_to_do", "to": ["timelines", "GetYourGuide", "Viator", "Airbnb"], "intent": "content → booking"},
     {"from": "operator app", "to": ["/login"], "intent": "operator auth"}
   ],
@@ -257,6 +276,7 @@
     ],
     "ja_static_nav": ["/", "all 20 /ja/*.html", "/ja/education", "EN twin", "tel:+819012474069", "https://wa.me/819012474069"],
     "education_header": ["/education", "/education/junior-high", "/education/high-school", "/education/university", "/education/teacher-pack", "EN/日本語 toggle", "#inquiry-form CTA"],
+    "corporate_header": ["/corporate#experience", "/corporate#how-it-works", "/corporate#evidence", "/corporate#pricing", "/corporate#inquiry-form", "EN/日本語 toggle"],
     "education_footer": ["/", "/aboutme", "/faq"]
   },
   "known_issues": [

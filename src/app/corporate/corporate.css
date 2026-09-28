@@ -1,0 +1,308 @@
+/* ── CORPORATE TEAM BUILDING — thin layer over education.css ──
+   Palette: parchment / gold / navy — same design system as education. */
+
+/* ── HERO ── */
+
+/* ── HEADER GUARDS (long brand/tagline must not wrap out of the 64px bar) ── */
+.edu-brand-tagline {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.edu-header-actions .edu-cta-btn {
+  white-space: nowrap;
+  font-size: 0.62rem;
+}
+
+.corp-hero {
+  background-size: cover;
+  background-position: center;
+  background-image:
+    linear-gradient(rgba(26, 21, 16, 0.78), rgba(26, 21, 16, 0.78)),
+    url('/images/toyotomicastle.webp');
+}
+
+.corp-hero-facts {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--edu-gold);
+  margin-top: 1rem;
+}
+
+/* ── POSITIONING BAND ── */
+.corp-positioning {
+  background: var(--edu-navy);
+  color: var(--edu-parchment);
+  border-bottom: 3px solid var(--edu-gold);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.corp-positioning-lead {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.1rem, 2.6vw, 1.45rem);
+  letter-spacing: 0.04em;
+  color: var(--edu-parchment);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.corp-positioning-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+  color: var(--edu-gold-light);
+  max-width: 720px;
+  margin: 0.75rem auto 0;
+}
+
+/* ── SITUATION QUOTE ── */
+.corp-situation {
+  background: var(--edu-card);
+  border: 1px solid var(--edu-border);
+  border-left: 4px solid var(--edu-gold);
+  border-radius: 6px;
+  padding: 1.75rem 2rem;
+  max-width: 720px;
+  margin: 1.5rem 0 2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--edu-ink);
+}
+
+/* ── SIX-STEP LADDER ── */
+.corp-ladder {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin: 2rem 0 1.5rem;
+}
+
+.corp-ladder-step {
+  background: var(--edu-card);
+  border: 1px solid var(--edu-border);
+  border-radius: 6px;
+  padding: 1.5rem 1.4rem;
+  position: relative;
+}
+
+.corp-ladder-number {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: var(--edu-gold);
+  color: var(--edu-ink);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.85rem;
+}
+
+.corp-ladder-step h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--edu-navy);
+  margin-bottom: 0.5rem;
+}
+
+.corp-ladder-step p {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--edu-stone);
+}
+
+.corp-ladder-note {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--edu-navy);
+  max-width: 720px;
+}
+
+/* ── DILEMMA ERA CARDS ── */
+.corp-dilemma-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0 1.25rem;
+}
+
+.corp-dilemma-card {
+  background: var(--edu-card);
+  border: 1px solid var(--edu-border);
+  border-top: 3px solid var(--edu-gold);
+  border-radius: 6px;
+  padding: 2rem 1.75rem;
+  text-align: center;
+}
+
+.corp-dilemma-era {
+  font-family: 'Cinzel', serif;
+  font-size: 1.35rem;
+  color: var(--edu-navy);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.75rem;
+}
+
+.corp-dilemma-card p {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--edu-stone);
+  margin-bottom: 1.25rem;
+}
+
+.corp-dilemma-link {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--edu-navy);
+  text-decoration: none;
+}
+
+.corp-dilemma-link:hover {
+  color: var(--edu-navy-light);
+}
+
+.corp-dilemma-note {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--edu-muted);
+  max-width: 700px;
+}
+
+/* ── SETTING ── */
+.corp-setting-body {
+  max-width: 720px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--edu-ink);
+  margin-bottom: 1.25rem;
+}
+
+.corp-setting-list {
+  list-style: none;
+  max-width: 720px;
+  padding: 0;
+  margin: 0;
+}
+
+.corp-setting-list li {
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  color: var(--edu-ink);
+  border-bottom: 1px solid var(--edu-border);
+}
+
+.corp-setting-list li::before {
+  content: '→ ';
+  color: var(--edu-gold);
+  font-weight: 600;
+}
+
+/* ── AUDIENCE ── */
+.corp-audience-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  max-width: 760px;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.corp-audience-grid li {
+  background: var(--edu-card);
+  border: 1px solid var(--edu-border);
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--edu-ink);
+}
+
+/* ── EVIDENCE CARDS ── */
+.corp-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.corp-evidence-card {
+  display: block;
+  background: var(--edu-card);
+  border: 1px solid var(--edu-border);
+  border-radius: 6px;
+  padding: 1.5rem;
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.corp-evidence-card:hover {
+  border-color: var(--edu-gold);
+  transform: translateY(-2px);
+}
+
+.corp-evidence-period {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--edu-gold);
+  margin-bottom: 0.5rem;
+}
+
+.corp-evidence-card h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--edu-ink);
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+
+.corp-evidence-card p {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--edu-stone);
+}
+
+/* ── PRICING NOTE ── */
+.corp-price-note {
+  max-width: 720px;
+  margin: 1.5rem auto 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--edu-stone);
+  text-align: center;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .corp-ladder,
+  .corp-dilemma-grid,
+  .corp-evidence-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .corp-positioning {
+    padding: 2.25rem 1.5rem;
+  }
+
+  .corp-situation {
+    padding: 1.25rem 1.4rem;
+  }
+}

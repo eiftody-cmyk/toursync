@@ -23,6 +23,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "https://osakacastletours.com/ja/education/teacher-pack", lastModified: now, changeFrequency: "monthly", priority: 0.6 },
   ];
 
+  const corporatePages: MetadataRoute.Sitemap = [
+    { url: "https://osakacastletours.com/corporate", lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: "https://osakacastletours.com/ja/corporate", lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+  ];
+
   // All EN timeline/investigation/guide pages (scanned from public/)
   const enSlugs = [
     "aboutme",
@@ -111,5 +116,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...sitePages, ...educationPages, ...enPages, ...articlePages, ...jaPages];
+  return [...sitePages, ...educationPages, ...corporatePages, ...enPages, ...articlePages, ...jaPages];
 }

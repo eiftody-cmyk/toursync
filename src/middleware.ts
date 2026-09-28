@@ -38,8 +38,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
-  // Locale routing for /ja/education paths
-  if (pathname.startsWith("/ja/education")) {
+  // Locale routing for /ja/education and /ja/corporate paths
+  if (pathname.startsWith("/ja/education") || pathname.startsWith("/ja/corporate")) {
     const url = request.nextUrl.clone();
     url.pathname = pathname.replace(/^\/ja/, "");
     url.searchParams.set("locale", "ja");
