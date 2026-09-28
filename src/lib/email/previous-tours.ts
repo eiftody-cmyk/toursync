@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { fetchGuestBookings } from "@/lib/crm/guest-history";
+import { REFERRAL_PARTNERS } from "@/config/referral-partners";
 
 export interface PreviousTour {
   date: string;
@@ -14,7 +15,7 @@ const SOURCE_LABELS: Record<string, string | null> = {
   airbnb: "Airbnb",
   direct: null,
   "direct-custom": null,
-  misaki: "MISAKI Kimono Rental",
+  ...Object.fromEntries(REFERRAL_PARTNERS.map((p) => [p.slug, p.displayName])),
 };
 
 export function sourceLabel(source: string | null): string | null {

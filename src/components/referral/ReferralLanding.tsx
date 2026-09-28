@@ -3,17 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { track } from "@/lib/analytics";
-import { MISAKI_COOKIE, sanitizeStaffName } from "@/lib/referral/misaki";
-import "./misaki.css";
+import { sanitizeStaffName } from "@/lib/referral/misaki";
+import type { ReferralTour } from "@/lib/referral/tour";
+import "./referral.css";
 
-interface MisakiTour {
-  id: string;
-  name: string;
-  description: string | null;
-  price: number;
-  currency: string;
-  capacity: number;
-  meeting_point_address: string | null;
+interface PartnerInfo {
+  slug: string;
+  displayName: string;
+}
+
+export interface RegisteredStaff {
+  slug: string;
+  displayName: string;
 }
 
 const REVIEWS = [
@@ -34,48 +35,73 @@ const REVIEWS = [
   },
 ];
 
-export function MisakiLandingClient({
+/**
+ * Shared conversion page for /ref/{partner} and /ref/{partner}-{staff}
+ * (and the legacy /misaki wrapper).
+ *
+ * Attribution modes:
+ *   - registered staff QR → locked chip carrying the staff SLUG (guest can
+ *     clear it via "Not …?" to fall back to free text)
+ *   - partner QR (/ref/misaki, /misaki) → required typed staff name
+ */
+export function ReferralLanding({
   tour,
-  initialStaff,
+  partner,
+  registeredStaff = null,
+  initialStaff = null,
 }: {
-  tour: MisakiTour;
-  initialStaff: string | null;
+  tour: ReferralTour;
+  partner: PartnerInfo;
+  registeredStaff?: RegisteredStaff | null;
+  initialStaff?: string | null;
 }) {
-  const [staff, setStaff] = useState(initialStaff ?? "");
+  const [typed, setTyped] = useState(initialStaff ?? "");
+  const [cleared, setCleared] = useState(false);
   const [staffError, setStaffError] = useState(false);
   const [stickyVisible, setStickyVisible] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const pageTracked = useRef(false);
   const staffTracked = useRef(false);
 
-  const staffName = sanitizeStaffName(staff) ?? "";
-  const staffValid = staffName.length > 0;
+  // Locked until the guest explicitly clears it.
+  const lockedStaff = registeredStaff && !cleared ? registeredStaff : null;
+  const typedName = sanitizeStaffName(typed) ?? "";
+  const attribution = lockedStaff ? lockedStaff.slug : typedName;
+  const staffValid = attribution.length > 0;
+  // Human-readable name for analytics display.
+  const staffLabel = lockedStaff ? lockedStaff.displayName : typedName;
 
   useEffect(() => {
     if (pageTracked.current) return;
     pageTracked.current = true;
     track("misaki_page_view", {
-      staff_name: initialStaff ?? undefined,
+      partner: partner.slug,
+      staff_name: staffLabel || undefined,
       tour: tour.name,
       tour_id: tour.id,
     });
-  }, [initialStaff, tour.name, tour.id]);
+  }, [partner.slug, staffLabel, tour.name, tour.id]);
 
   // Keep the referral cookie fresh so attribution survives back-navigation.
+  // Format: "<partner>|<staff>" (legacy misaki_ref values are read as
+  // staff-only text for misaki by create-order).
   useEffect(() => {
     if (!staffValid) return;
-    document.cookie = `${MISAKI_COOKIE}=${encodeURIComponent(staffName)}; max-age=31536000; path=/; SameSite=Lax`;
-  }, [staffValid, staffName]);
+    document.cookie = `ref_attr=${encodeURIComponent(
+      `${partner.slug}|${attribution}`
+    )}; max-age=31536000; path=/; SameSite=Lax`;
+  }, [staffValid, attribution, partner.slug]);
 
   useEffect(() => {
     if (!staffValid || staffTracked.current) return;
     staffTracked.current = true;
     track("misaki_staff_identified", {
-      staff_name: staffName,
+      partner: partner.slug,
+      staff_name: staffLabel,
       tour: tour.name,
       tour_id: tour.id,
     });
-  }, [staffValid, staffName, tour.name, tour.id]);
+  }, [staffValid, staffLabel, partner.slug, tour.name, tour.id]);
 
   useEffect(() => {
     const onScroll = () => setStickyVisible(window.scrollY > 560);
@@ -84,7 +110,13 @@ export function MisakiLandingClient({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const bookingHref = `/book?tour=${tour.id}&ref=misaki&staff=${encodeURIComponent(staffName)}`;
+  const bookingHref = (() => {
+    const qs = new URLSearchParams({ tour: tour.id, ref: partner.slug });
+    if (attribution) qs.set("staff", attribution);
+    // Display-only: /book shows "Referred by …"; never used for payout.
+    if (lockedStaff) qs.set("name", lockedStaff.displayName);
+    return `/book?${qs.toString()}`;
+  })();
   const priceLabel = `¥${tour.price.toLocaleString()}`;
   const metaLine = `2.5 hours · English · ${priceLabel}/person · Small groups`;
 
@@ -97,36 +129,79 @@ export function MisakiLandingClient({
     }
   }
 
+  const clearReferral = () => {
+    setCleared(true);
+    setStaffError(false);
+    // Expire attribution cookies so a later direct /book visit (back-nav,
+    // typed URL) can't re-attribute to the staff the guest just cleared.
+    // Typing a replacement name re-sets ref_attr via the effect above.
+    document.cookie = "ref_attr=; max-age=0; path=/; SameSite=Lax";
+    document.cookie = "misaki_ref=; max-age=0; path=/; SameSite=Lax";
+    requestAnimationFrame(() => inputRef.current?.focus());
+  };
+
   return (
     <div className="misaki-page">
       {/* 1. Referral attribution */}
       <header className="misaki-referral">
         <div className="misaki-referral-inner">
           <p className="misaki-referred-by">
-            Recommended by <strong>KIMONO RENTAL MISAKI</strong>
+            Recommended by <strong>{partner.displayName}</strong>
           </p>
-          <label className="misaki-staff-label" htmlFor="misaki-staff">
-            Staff member&apos;s name
-          </label>
-          <input
-            id="misaki-staff"
-            ref={inputRef}
-            type="text"
-            className={`misaki-staff-input${staffError && !staffValid ? " invalid" : ""}`}
-            placeholder="Enter name"
-            value={staff}
-            maxLength={40}
-            autoComplete="off"
-            autoCapitalize="words"
-            onChange={(e) => {
-              setStaff(e.target.value);
-              if (staffError) setStaffError(false);
-            }}
-          />
-          <p className="misaki-staff-help">
-            Please enter the name of the MISAKI staff member who recommended
-            this experience.
-          </p>
+
+          {lockedStaff ? (
+            <>
+              <div className="misaki-chip-row">
+                <span className="misaki-chip">
+                  Referred by <strong>{lockedStaff.displayName}</strong>
+                </span>
+                <button
+                  type="button"
+                  className="misaki-chip-clear"
+                  aria-label={`Remove referral to ${lockedStaff.displayName}`}
+                  onClick={clearReferral}
+                >
+                  ×
+                </button>
+              </div>
+              <p className="misaki-staff-help">
+                Your booking is tracked to {lockedStaff.displayName}.{" "}
+                <button
+                  type="button"
+                  className="misaki-chip-change"
+                  onClick={clearReferral}
+                >
+                  Not {lockedStaff.displayName}?
+                </button>
+              </p>
+            </>
+          ) : (
+            <>
+              <label className="misaki-staff-label" htmlFor="referral-staff">
+                Staff member&apos;s name
+              </label>
+              <input
+                id="referral-staff"
+                ref={inputRef}
+                type="text"
+                className={`misaki-staff-input${staffError && !staffValid ? " invalid" : ""}`}
+                placeholder="Enter name"
+                value={typed}
+                maxLength={40}
+                autoComplete="off"
+                autoCapitalize="words"
+                onChange={(e) => {
+                  setTyped(e.target.value);
+                  if (staffError) setStaffError(false);
+                }}
+              />
+              <p className="misaki-staff-help">
+                Please enter the name of the {partner.displayName} staff member
+                who recommended this experience.
+              </p>
+            </>
+          )}
+
           {staffError && !staffValid && (
             <p className="misaki-staff-error">
               Please enter the staff member&apos;s name to continue.
@@ -147,7 +222,7 @@ export function MisakiLandingClient({
         />
         <div className="misaki-hero-overlay" />
         <div className="misaki-hero-content">
-          <p className="misaki-hero-eyebrow">Osaka Castle · with a Resident Historian</p>
+          <p className="misaki-hero-eyebrow">{tour.name}</p>
           <h1>
             Walk Through the World of <span>Shōgun</span>
           </h1>
@@ -382,7 +457,7 @@ export function MisakiLandingClient({
           </a>
         </p>
         <p className="misaki-disclaimer">
-          Recommended by KIMONO RENTAL MISAKI. SHŌGUN is a trademark of its
+          Recommended by {partner.displayName}. SHŌGUN is a trademark of its
           respective owners. This independent history tour is not affiliated
           with, endorsed by, or sponsored by the SHŌGUN television series.
         </p>
@@ -390,7 +465,10 @@ export function MisakiLandingClient({
 
       {/* Sticky mobile CTA */}
       <div className={`misaki-sticky${stickyVisible ? " visible" : ""}`}>
-        <span className="misaki-sticky-meta">2.5 hours · {priceLabel}/person</span>
+        <span className="misaki-sticky-meta">
+          2.5 hours · {priceLabel}/person
+          {lockedStaff ? ` · via ${lockedStaff.displayName}` : ""}
+        </span>
         <a
           href={bookingHref}
           onClick={handleCtaClick}

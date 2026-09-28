@@ -5,7 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { PayPalPayment } from "@/components/PayPalPayment";
 import { track } from "@/lib/analytics";
-import { MISAKI_COOKIE } from "@/lib/referral/misaki";
+import { ATTR_COOKIE } from "@/lib/referral/misaki";
+import { isPartner } from "@/config/referral-partners";
 import type { Tour } from "@/types";
 import "./styles.css";
 
@@ -57,6 +58,8 @@ interface BookingPageClientProps {
   initialDate?: string | null;
   initialTime?: string | null;
   referral?: { source: string; staff: string } | null;
+  /** Display-only "Referred by …" name (staff-QR path); never used for payout. */
+  referralDisplayName?: string | null;
 }
 
 function toDateStr(date: Date): string {
@@ -102,6 +105,7 @@ export function BookingPageClient({
   initialDate = null,
   initialTime = null,
   referral = null,
+  referralDisplayName = null,
 }: BookingPageClientProps) {
   const [dateData, setDateData] = useState<DateData>({
     available: [],
@@ -163,27 +167,33 @@ export function BookingPageClient({
     };
   }, [tour.id, load]);
 
-  // --- MISAKI referral session ---
-  const misaki = referral?.source === "misaki" && referral.staff ? referral : null;
+  // --- Referral session (any code-registry partner) ---
+  const referralSession =
+    referral && isPartner(referral.source) && referral.staff ? referral : null;
   const availabilityTracked = useRef(false);
 
   // Persist attribution server-round-trip-independent (cookie is read by
   // create-order as a fallback) so it survives back-navigation.
+  // Format: "<partner>|<staff>" — same as the referral landing pages.
   useEffect(() => {
-    if (!misaki) return;
-    document.cookie = `${MISAKI_COOKIE}=${encodeURIComponent(misaki.staff)}; max-age=31536000; path=/; SameSite=Lax`;
-  }, [misaki]);
+    if (!referralSession) return;
+    document.cookie = `${ATTR_COOKIE}=${encodeURIComponent(
+      `${referralSession.source}|${referralSession.staff}`
+    )}; max-age=31536000; path=/; SameSite=Lax`;
+  }, [referralSession]);
 
   // misaki_availability_checked — once the availability payload lands.
+  // (Event name kept for continuity; fires for every partner.)
   useEffect(() => {
-    if (!misaki || availabilityTracked.current || loading) return;
+    if (!referralSession || availabilityTracked.current || loading) return;
     availabilityTracked.current = true;
     track("misaki_availability_checked", {
-      staff_name: misaki.staff,
+      partner: referralSession.source,
+      staff_name: referralSession.staff,
       tour: tour.name,
       tour_id: tour.id,
     });
-  }, [misaki, loading, tour.name, tour.id]);
+  }, [referralSession, loading, tour.name, tour.id]);
 
   // Availability lookup: date -> max remaining across all slots (+ total booked)
   const dateAvailability = useMemo(() => {
@@ -298,9 +308,10 @@ export function BookingPageClient({
     setSelectedSlot(slot);
     setGuestCount("2");
     setError(null);
-    if (misaki) {
+    if (referralSession) {
       track("misaki_booking_started", {
-        staff_name: misaki.staff,
+        partner: referralSession.source,
+        staff_name: referralSession.staff,
         tour: tour.name,
         tour_id: tour.id,
         date: slot.date,
@@ -588,6 +599,12 @@ export function BookingPageClient({
 
             {error && <div className="booking-error">{error}</div>}
 
+            {referralDisplayName && (
+              <p style={{ fontSize: "0.85rem", color: "#888", textAlign: "center", margin: "0 0 0.75rem" }}>
+                Referred by {referralDisplayName}
+              </p>
+            )}
+
             <PayPalPayment
               paypalClientId={paypalClientId}
               tourId={tour.id}
@@ -597,11 +614,12 @@ export function BookingPageClient({
               guestCount={guests}
               amount={totalAmount}
               currency={tour.currency || "JPY"}
-              referral={misaki}
+              referral={referralSession}
               onSuccess={() => {
-                if (misaki) {
+                if (referralSession) {
                   track("misaki_booking_completed", {
-                    staff_name: misaki.staff,
+                    partner: referralSession.source,
+                    staff_name: referralSession.staff,
                     tour: tour.name,
                     tour_id: tour.id,
                     date: selectedSlot.date,

@@ -12,7 +12,8 @@ import {
 import { filterBySlot } from "@/lib/core/slot";
 import { checkCapacity } from "@/lib/core/availability";
 import {
-  MISAKI_COOKIE,
+  ATTR_COOKIE,
+  LEGACY_ATTR_COOKIE,
   normalizeReferral,
   referralFromCookieValue,
   appendReferral,
@@ -158,11 +159,13 @@ export async function POST(req: NextRequest) {
   }
 
   // Encode booking info in custom_id: tour_id|date|start_time|guest_count
-  // Referral (MISAKI) rides along in the same custom_id so capture/webhook
-  // can verify it server-side against PayPal's copy of the order.
+  // Referral rides along in the same custom_id so capture/webhook can verify
+  // it server-side against PayPal's copy of the order. Cookie formats:
+  // ref_attr="<partner>|<staff>" (current), misaki_ref="<staff>" (legacy).
   const referral =
     normalizeReferral(body.referral) ??
-    referralFromCookieValue(req.cookies.get(MISAKI_COOKIE)?.value);
+    referralFromCookieValue(req.cookies.get(ATTR_COOKIE)?.value) ??
+    referralFromCookieValue(req.cookies.get(LEGACY_ATTR_COOKIE)?.value);
   const customId = appendReferral(
     [tour_id, date, normalizedStart ?? "", guestCount].join("|"),
     referral

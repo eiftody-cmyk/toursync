@@ -2,7 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { BookingPageClient } from "./BookingPageClient";
 import { DatePickerClient } from "./DatePickerClient";
-import { MISAKI_SOURCE, sanitizeStaffName } from "@/lib/referral/misaki";
+import { isPartner } from "@/config/referral-partners";
+import { sanitizeStaffName } from "@/lib/referral/misaki";
 import type { Tour } from "@/types";
 import type { Metadata } from "next";
 
@@ -29,12 +30,23 @@ export default async function BookingPage({
     time?: string;
     ref?: string;
     staff?: string;
+    name?: string;
   }>;
 }) {
   const params = await searchParams;
   const tourParam = params.tour;
-  const referralStaff = params.ref === MISAKI_SOURCE ? sanitizeStaffName(params.staff) : null;
-  const referral = referralStaff ? { source: MISAKI_SOURCE, staff: referralStaff } : null;
+  // Unknown ref values are dropped (client can't mint a partner).
+  const referralSource = isPartner(params.ref) ? params.ref : null;
+  const referralStaff = referralSource ? sanitizeStaffName(params.staff) : null;
+  const referral =
+    referralSource && referralStaff
+      ? { source: referralSource, staff: referralStaff }
+      : null;
+  // Display-only checkout line ("Referred by Yuki") — never server-stored,
+  // never touches custom_id/payouts.
+  const referralDisplayName = referralSource
+    ? sanitizeStaffName(params.name)
+    : null;
   if (!tourParam) return <DatePickerClient />;
 
   const supabase = await createClient();
@@ -80,6 +92,7 @@ export default async function BookingPage({
       initialDate={typeof params.date === "string" ? params.date : null}
       initialTime={typeof params.time === "string" ? params.time : null}
       referral={referral}
+      referralDisplayName={referralDisplayName}
     />
   );
 }

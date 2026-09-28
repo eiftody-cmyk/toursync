@@ -57,6 +57,7 @@ export function PayPalPayment({
     if (referral?.source && referral.staff) {
       body.referral = referral;
       track("misaki_payment_started", {
+        partner: referral.source,
         staff_name: referral.staff,
         tour: tourName,
         tour_id: tourId,

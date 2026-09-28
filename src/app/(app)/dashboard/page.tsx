@@ -11,6 +11,7 @@ import { ActivityLog } from "@/components/dashboard/ActivityLog";
 import { DashboardKpis } from "@/components/dashboard/DashboardKpis";
 import { TourBookings } from "@/components/dashboard/TourBookings";
 import { RevenueExpandable } from "@/components/dashboard/RevenueExpandable";
+import { ReferralPayouts } from "@/components/dashboard/ReferralPayouts";
 import { UpcomingBlocksLink } from "@/components/dashboard/UpcomingBlocksLink";
 import { calcNet } from "@/lib/revenue";
 
@@ -25,30 +26,51 @@ export default async function DashboardPage() {
   const today = todayJST();
   const yearStart = startOfYear(new Date()).toISOString().split("T")[0];
 
-  const [toursResult, bookingsResult, blockedResult, tokensResult, settingsResult] =
-    await Promise.all([
-      supabase
-        .from("tours")
-        .select("*, tour_channel_listings(channel, is_active)")
-        .eq("user_id", user.id)
-        .order("created_at"),
-      supabase
-        .from("bookings")
-        .select("*, tours(name, price, currency)")
-        .eq("user_id", user.id)
-        .eq("status", "confirmed")
-        .gte("date", yearStart)
-        .order("date", { ascending: true }),
-      supabase.from("blocked_dates").select("*").eq("user_id", user.id).order("date", { ascending: true }),
-      supabase.from("google_tokens").select("calendar_id, token_expiry, refresh_token").eq("user_id", user.id).maybeSingle(),
-      supabase.from("operator_settings").select("commission_rates").eq("user_id", user.id).maybeSingle(),
-    ]);
+  const [
+    toursResult,
+    bookingsResult,
+    blockedResult,
+    tokensResult,
+    settingsResult,
+    staffResult,
+  ] = await Promise.all([
+    supabase
+      .from("tours")
+      .select("*, tour_channel_listings(channel, is_active)")
+      .eq("user_id", user.id)
+      .order("created_at"),
+    supabase
+      .from("bookings")
+      .select("*, tours(name, price, currency)")
+      .eq("user_id", user.id)
+      .eq("status", "confirmed")
+      .gte("date", yearStart)
+      .order("date", { ascending: true }),
+    supabase.from("blocked_dates").select("*").eq("user_id", user.id).order("date", { ascending: true }),
+    supabase.from("google_tokens").select("calendar_id, token_expiry, refresh_token").eq("user_id", user.id).maybeSingle(),
+    supabase.from("operator_settings").select("commission_rates").eq("user_id", user.id).maybeSingle(),
+    // Tolerant: 033 not applied yet → error + null data, degrade to [].
+    supabase
+      .from("referral_staff")
+      .select("partner, slug, display_name, contact")
+      .order("created_at"),
+  ]);
 
   const tours = toursResult.data ?? [];
   const bookings = bookingsResult.data ?? [];
   const blocked = blockedResult.data ?? [];
   const tokens = tokensResult.data;
   const commissionRates = (settingsResult.data?.commission_rates as Record<string, number>) ?? null;
+  const staffRows = (staffResult.data ?? []) as {
+    partner: string;
+    slug: string;
+    display_name: string;
+    contact: string | null;
+  }[];
+  // "partner:slug" → display name for "via …" labels in TourBookings.
+  const staffDisplay = Object.fromEntries(
+    staffRows.map((s) => [`${s.partner}:${s.slug}`, s.display_name])
+  );
 
   const monthPrefix = today.slice(0, 7);
   const monthBookings = bookings.filter((b) => b.date.startsWith(monthPrefix));
@@ -111,13 +133,20 @@ export default async function DashboardPage() {
 
       <ConnectionStatus tokens={tokens} tours={tours} />
 
-      <TourBookings bookings={bookings} tours={tours} commissionRates={commissionRates} />
+      <TourBookings
+        bookings={bookings}
+        tours={tours}
+        commissionRates={commissionRates}
+        staffDisplay={staffDisplay}
+      />
 
       <RevenueExpandable
         bookings={bookings}
         tours={tours}
         commissionRates={commissionRates}
       />
+
+      <ReferralPayouts bookings={bookings} staff={staffRows} />
 
       <ActivityLog />
 

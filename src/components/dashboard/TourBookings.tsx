@@ -35,10 +35,13 @@ export function TourBookings({
   bookings,
   tours,
   commissionRates,
+  staffDisplay = null,
 }: {
   bookings: Booking[];
   tours: Tour[];
   commissionRates: Record<string, number> | null;
+  /** "partner:slug" → display name (referral_staff rows), for "via …" labels. */
+  staffDisplay?: Record<string, string> | null;
 }) {
   const [filterMode, setFilterMode] = useState<FilterMode>("upcoming");
   const [filterSource, setFilterSource] = useState("all");
@@ -176,7 +179,12 @@ export function TourBookings({
             <Table>
               <TableBody>
                 {filteredTours.map((td) => (
-                  <TourGroup key={td.tour.id} data={td} todayStr={todayStr} />
+                  <TourGroup
+                    key={td.tour.id}
+                    data={td}
+                    todayStr={todayStr}
+                    staffDisplay={staffDisplay}
+                  />
                 ))}
               </TableBody>
             </Table>
@@ -190,6 +198,7 @@ export function TourBookings({
 function TourGroup({
   data,
   todayStr,
+  staffDisplay = null,
 }: {
   data: {
     tour: Tour;
@@ -202,6 +211,8 @@ function TourGroup({
     bookings: Booking[];
   };
   todayStr: string;
+  /** "partner:slug" → display name for "via …" labels. */
+  staffDisplay?: Record<string, string> | null;
 }) {
   const { tour, net, recentCount, channelBreakdown, nextDate, lastDate, bookings } = data;
   const hasUpcoming = nextDate !== null;
@@ -301,7 +312,10 @@ function TourGroup({
                   )}
                   {b.referrer_staff && (
                     <span className="block text-[10px] text-muted-foreground">
-                      via {b.referrer_staff}
+                      via{" "}
+                      {(b.source &&
+                        staffDisplay?.[`${b.source}:${b.referrer_staff}`]) ??
+                        b.referrer_staff}
                     </span>
                   )}
                 </TableCell>

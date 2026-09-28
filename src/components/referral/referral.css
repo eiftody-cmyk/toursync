@@ -136,6 +136,61 @@ body {
   margin: 0.4rem 0 0 !important;
 }
 
+/* ---------- Locked referral chip (staff QR path) ---------- */
+
+.misaki-chip-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.misaki-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.15rem;
+  color: var(--parchment);
+  background: rgba(14, 12, 9, 0.6);
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+}
+
+.misaki-chip strong {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.misaki-chip-clear {
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  line-height: 1;
+  font-size: 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--parchment-dim);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.misaki-chip-clear:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.misaki-chip-change {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--gold);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* ---------- 2. Hero ---------- */
 
 .misaki-hero {

@@ -1,4 +1,15 @@
-import { MISAKI_COMMISSION_PER_GUEST, MISAKI_SOURCE } from "@/lib/referral/misaki";
+import { isPartner, REFERRAL_PARTNERS } from "@/config/referral-partners";
+import { REFERRAL_COMMISSION_PER_GUEST } from "@/lib/referral/misaki";
+
+// Referral partners share one policy: flat ¥1,500/guest (handled in
+// calcCommission/calcNet, never as a percentage — 0 keeps getCommissionRate
+// from falling back to 25 if a partner ever misses the flat check).
+const PARTNER_RATES = Object.fromEntries(
+  REFERRAL_PARTNERS.map((p) => [p.slug, 0])
+);
+const PARTNER_LABELS = Object.fromEntries(
+  REFERRAL_PARTNERS.map((p) => [p.slug, p.displayName])
+);
 
 export const DEFAULT_COMMISSION_RATES: Record<string, number> = {
   airbnb: 25,
@@ -8,9 +19,7 @@ export const DEFAULT_COMMISSION_RATES: Record<string, number> = {
   direct: 0,
   walk_in: 0,
   other: 0,
-  // Flat ¥1,500/guest referral fee (handled in calcCommission/calcNet below,
-  // never as a percentage — 0 keeps getCommissionRate from falling back to 25).
-  [MISAKI_SOURCE]: 0,
+  ...PARTNER_RATES,
 };
 
 export const COMMISSION_LABELS: Record<string, string> = {
@@ -21,7 +30,7 @@ export const COMMISSION_LABELS: Record<string, string> = {
   direct: "Direct",
   walk_in: "Walk-in",
   other: "Other",
-  [MISAKI_SOURCE]: "MISAKI",
+  ...PARTNER_LABELS,
 };
 
 export function getCommissionRate(
@@ -35,9 +44,9 @@ export function calcGross(price: number, guests: number): number {
   return price * guests;
 }
 
-/** Flat per-guest referral fee (MISAKI staff), or null for percentage sources. */
+/** Flat per-guest referral fee (any partner), or null for percentage sources. */
 function flatCommission(source: string, guests: number): number | null {
-  return source === MISAKI_SOURCE ? MISAKI_COMMISSION_PER_GUEST * guests : null;
+  return isPartner(source) ? REFERRAL_COMMISSION_PER_GUEST * guests : null;
 }
 
 export function calcNet(
