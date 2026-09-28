@@ -89,7 +89,7 @@ function Footer() {
       <p>
         {locale === "ja"
           ? withJaName(
-              "大阪の法人向けチームビルディング — 大阪城ウォークス with イフトウデイ　エドワード"
+              "大阪の法人向けチームビルディング — 大阪城ウォークス with エドワード・イフトウデイ"
             )
           : "Corporate Team Building — Osaka Castle Walks with Edward"}
       </p>
@@ -97,7 +97,7 @@ function Footer() {
         <a href="https://osakacastletours.com">Osaka Castle Walks</a>
         <a href="https://osakacastletours.com/aboutme">
           {locale === "ja"
-            ? withJaName("イフトウデイ　エドワードについて")
+            ? withJaName("エドワード・イフトウデイについて")
             : "About Edward"}
         </a>
         <a href="https://osakacastletours.com/faq">FAQ</a>
