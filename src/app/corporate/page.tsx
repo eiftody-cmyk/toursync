@@ -12,7 +12,7 @@ import { en } from "@/lib/corporate/content";
 import { ja as jaContent } from "@/lib/corporate/content-ja";
 
 const SITE = "https://osakacastletours.com";
-const IMG = `${SITE}/images/toyotomihideyoshi.webp`;
+const IMG = `${SITE}/images/azaiclanbetrayal.webp`;
 
 const TITLE_EN = "Corporate Team Building: Osaka's Historical Dilemmas";
 const TITLE_JA = "法人向けチームビルディング：大阪の歴史的ジレンマ";
@@ -44,7 +44,7 @@ export async function generateMetadata({
         siteName: "大阪城ウォークス with イフトウデイ　エドワード",
         locale: "ja_JP",
         type: "website",
-        images: [{ url: IMG, width: 1408, height: 768 }],
+        images: [{ url: IMG, width: 2296, height: 1222 }],
       },
       twitter: {
         card: "summary_large_image",
@@ -73,7 +73,7 @@ export async function generateMetadata({
       siteName: "Osaka Castle Walks with Edward",
       locale: "en_US",
       type: "website",
-      images: [{ url: IMG, width: 1408, height: 768 }],
+      images: [{ url: IMG, width: 2296, height: 1222 }],
     },
     twitter: {
       card: "summary_large_image",
