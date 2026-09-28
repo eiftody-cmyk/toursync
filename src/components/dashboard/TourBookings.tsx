@@ -29,6 +29,7 @@ const SOURCE_COLORS: Record<string, string> = {
   viator: "bg-purple-100 text-purple-800",
   airbnb: "bg-rose-100 text-rose-800",
   misaki: "bg-amber-100 text-amber-800",
+  ryuterhua: "bg-teal-100 text-teal-800",
 };
 
 export function TourBookings({

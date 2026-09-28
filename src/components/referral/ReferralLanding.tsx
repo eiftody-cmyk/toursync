@@ -5,17 +5,19 @@ import Image from "next/image";
 import { track } from "@/lib/analytics";
 import { sanitizeStaffName } from "@/lib/referral/misaki";
 import type { ReferralTour } from "@/lib/referral/tour";
+import type { ReferralPartner } from "@/config/referral-partners";
 import "./referral.css";
-
-interface PartnerInfo {
-  slug: string;
-  displayName: string;
-}
 
 export interface RegisteredStaff {
   slug: string;
   displayName: string;
 }
+
+const DEFAULT_LANDING_SECTION = {
+  heading: "You've come for the castle. Now walk the ground.",
+  body:
+    "This experience takes you into the landscape around Osaka Castle — the ridge, the walls, and the ground the castle was built to control.",
+};
 
 const REVIEWS = [
   {
@@ -41,7 +43,7 @@ const REVIEWS = [
  *
  * Attribution modes:
  *   - registered staff QR → locked chip carrying the staff SLUG (guest can
- *     clear it via "Not …?" to fall back to free text)
+ *     clear it via the chip's × to fall back to free text)
  *   - partner QR (/ref/misaki, /misaki) → required typed staff name
  */
 export function ReferralLanding({
@@ -51,7 +53,7 @@ export function ReferralLanding({
   initialStaff = null,
 }: {
   tour: ReferralTour;
-  partner: PartnerInfo;
+  partner: ReferralPartner;
   registeredStaff?: RegisteredStaff | null;
   initialStaff?: string | null;
 }) {
@@ -150,31 +152,20 @@ export function ReferralLanding({
           </p>
 
           {lockedStaff ? (
-            <>
-              <div className="misaki-chip-row">
-                <span className="misaki-chip">
-                  Referred by <strong>{lockedStaff.displayName}</strong>
-                </span>
-                <button
-                  type="button"
-                  className="misaki-chip-clear"
-                  aria-label={`Remove referral to ${lockedStaff.displayName}`}
-                  onClick={clearReferral}
-                >
-                  ×
-                </button>
-              </div>
-              <p className="misaki-staff-help">
-                Your booking is tracked to {lockedStaff.displayName}.{" "}
-                <button
-                  type="button"
-                  className="misaki-chip-change"
-                  onClick={clearReferral}
-                >
-                  Not {lockedStaff.displayName}?
-                </button>
-              </p>
-            </>
+            <div className="misaki-chip-row">
+              <span className="misaki-chip">
+                Referred by <strong>{lockedStaff.displayName}</strong>
+              </span>
+              <button
+                type="button"
+                className="misaki-chip-clear"
+                aria-label={`Not ${lockedStaff.displayName}? Remove referral`}
+                title={`Not ${lockedStaff.displayName}?`}
+                onClick={clearReferral}
+              >
+                ×
+              </button>
+            </div>
           ) : (
             <>
               <label className="misaki-staff-label" htmlFor="referral-staff">
@@ -253,12 +244,8 @@ export function ReferralLanding({
         />
         <div className="misaki-kimono-overlay" />
         <div className="misaki-kimono-content">
-          <h2>You&apos;ve dressed for the history. Now walk through it.</h2>
-          <p>
-            Your kimono gives you a glimpse of Japan&apos;s past. This experience
-            takes you into the landscape where that past actually unfolded — the
-            ridge, the walls, and the ground the castle was built to control.
-          </p>
+          <h2>{partner.landing?.heading ?? DEFAULT_LANDING_SECTION.heading}</h2>
+          <p>{partner.landing?.body ?? DEFAULT_LANDING_SECTION.body}</p>
         </div>
       </section>
 

@@ -28,14 +28,17 @@ declare global {
 }
 
 export function JoinClient({
-  partner,
+  partners,
+  initialPartner,
   turnstileSiteKey,
 }: {
-  partner: ReferralPartner;
+  partners: readonly ReferralPartner[];
+  initialPartner: ReferralPartner | null;
   turnstileSiteKey: string;
 }) {
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
+  const [partnerSlug, setPartnerSlug] = useState(initialPartner?.slug ?? "");
   const [token, setToken] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -45,6 +48,10 @@ export function JoinClient({
 
   const turnstileDiv = useRef<HTMLDivElement>(null);
   const widgetId = useRef<number | null>(null);
+
+  // Company drives the "Recommended by" line and the POSTed partner; the
+  // server re-validates it against the allowlist (a client can't mint one).
+  const partner = partners.find((p) => p.slug === partnerSlug) ?? null;
 
   // Explicit Turnstile render (same site key as /book/manage).
   useEffect(() => {
@@ -92,13 +99,17 @@ export function JoinClient({
     e.preventDefault();
     if (submitting) return;
     setError(null);
+    if (!partnerSlug) {
+      setError("Please choose your company.");
+      return;
+    }
     setSubmitting(true);
     try {
       const res = await fetch("/api/ref/join", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          partner: partner.slug,
+          partner: partnerSlug,
           display_name: name,
           contact,
           token,
@@ -192,11 +203,17 @@ export function JoinClient({
     <Card className="border-border">
       <CardContent className="pt-6">
         <div className="text-center mb-6">
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">
-            Recommended by
-          </p>
-          <p className="font-bold text-lg">{partner.displayName}</p>
-          <h1 className="text-xl font-bold mt-4">Get your referral QR</h1>
+          {partner && (
+            <>
+              <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                Recommended by
+              </p>
+              <p className="font-bold text-lg">{partner.displayName}</p>
+            </>
+          )}
+          <h1 className={`text-xl font-bold${partner ? " mt-4" : ""}`}>
+            Get your referral QR
+          </h1>
           <p className="text-sm text-muted-foreground mt-1">
             Customers scan your personal QR, book the Osaka Castle tour — you get{" "}
             <strong>¥1,500 per guest</strong>. Takes about 10 seconds.
@@ -204,6 +221,23 @@ export function JoinClient({
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="ref-company">Company</Label>
+            <select
+              id="ref-company"
+              value={partnerSlug}
+              onChange={(e) => setPartnerSlug(e.target.value)}
+              className="h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm dark:bg-input/30"
+              required
+            >
+              <option value="">Select your company</option>
+              {partners.map((p) => (
+                <option key={p.slug} value={p.slug}>
+                  {p.displayName}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="space-y-1.5">
             <Label htmlFor="ref-name">Name</Label>
             <Input

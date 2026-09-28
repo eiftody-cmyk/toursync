@@ -20,7 +20,11 @@ import {
   appendReferral,
   parseReferralParts,
 } from "../src/lib/referral/misaki";
-import { parseReferralSlug, isPartner } from "../src/config/referral-partners";
+import {
+  parseReferralSlug,
+  isPartner,
+  REFERRAL_PARTNERS,
+} from "../src/config/referral-partners";
 import { calcCommission, calcNet } from "../src/lib/revenue";
 
 let pass = 0;
@@ -98,6 +102,27 @@ check("isPartner truthy", isPartner("misaki") === true);
 check("isPartner unknown", isPartner("evil") === false);
 check("isPartner non-string", isPartner(undefined) === false);
 
+// --- second partner (Ryu Ter Hua, Thai restaurant) ---
+check("parse ryuterhua partner", parseReferralSlug("ryuterhua")?.kind === "partner");
+check("parse ryuterhua staff", (() => {
+  const p = parseReferralSlug("ryuterhua-yuki");
+  return (
+    p?.kind === "staff" &&
+    p.kind === "staff" &&
+    p.partner.slug === "ryuterhua" &&
+    p.staffSlug === "yuki"
+  );
+})());
+check("parse ryuterhua multi-hyphen staff", (() => {
+  const p = parseReferralSlug("ryuterhua-yuki-sato");
+  return p?.kind === "staff" && p.kind === "staff" && p.staffSlug === "yuki-sato";
+})());
+check("isPartner ryuterhua", isPartner("ryuterhua") === true);
+check(
+  "ryuterhua landing copy configured",
+  REFERRAL_PARTNERS.find((p) => p.slug === "ryuterhua")?.landing !== undefined
+);
+
 // --- staff sanitizing ---
 check("staff trim", sanitizeStaffName("  Yuki  ") === "Yuki");
 check("staff pipe stripped", sanitizeStaffName("Yu|ki") === "Yu ki");
@@ -172,6 +197,7 @@ check("parse absent", parseReferralParts(["a", "b"]) === null);
 
 // --- revenue: flat ¥1,500 for partners, percentages elsewhere ---
 check("commission misaki flat", calcCommission("misaki", 9500, 2, null) === 3000);
+check("commission ryuterhua flat", calcCommission("ryuterhua", 9500, 3, null) === 4500);
 check("net misaki flat", calcNet("misaki", 9500, 2, null) === 19000 - 3000);
 check("commission unknown partner-like", calcCommission("viator", 9500, 2, null) === 3800);
 check(

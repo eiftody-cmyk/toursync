@@ -16,10 +16,32 @@
 export interface ReferralPartner {
   slug: string;
   displayName: string;
+  /**
+   * Copy for the landing page's mid-page section (§7). Defaults to neutral
+   * tour copy; MISAKI keeps its original kimono wording.
+   */
+  landing?: { heading: string; body: string };
 }
 
 export const REFERRAL_PARTNERS: readonly ReferralPartner[] = [
-  { slug: "misaki", displayName: "KIMONO RENTAL MISAKI" },
+  {
+    slug: "misaki",
+    displayName: "KIMONO RENTAL MISAKI",
+    landing: {
+      heading: "You've dressed for the history. Now walk through it.",
+      body:
+        "Your kimono gives you a glimpse of Japan's past. This experience takes you into the landscape where that past actually unfolded — the ridge, the walls, and the ground the castle was built to control.",
+    },
+  },
+  {
+    slug: "ryuterhua",
+    displayName: "Ryu Ter Hua",
+    landing: {
+      heading: "A good meal deserves a better view.",
+      body:
+        "Ryu Ter Hua sent you here for more than dinner — this walk takes you into the landscape around Osaka Castle, in the company of a resident historian.",
+    },
+  },
 ];
 
 const bySlug = new Map(REFERRAL_PARTNERS.map((p) => [p.slug, p]));
