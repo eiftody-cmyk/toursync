@@ -352,6 +352,11 @@
   text-align: center;
 }
 
+/* ── FAQ — preserve newlines in price-list answer ── */
+.corp-faq .edu-faq-item p {
+  white-space: pre-line;
+}
+
 /* ── FACILITATOR BADGES — legible CJK chips ── */
 .about-credentials {
   gap: 0.6rem;

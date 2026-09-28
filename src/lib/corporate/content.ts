@@ -183,28 +183,44 @@ export const en = {
 
     faq: [
       {
-        q: "What exactly is this?",
-        a: "A private corporate session built around three real historical dilemmas. Your teams investigate the evidence, debate the options, commit to a decision, then see what actually happened, reassess, and vote on what they believe was the best decision. It takes place outdoors around Osaka Castle.",
+        q: "What is this corporate team-building experience?",
+        a: "A private corporate session built around three real historical dilemmas. Teams investigate the evidence, debate the options, commit to a decision, see what actually happened, reassess their decision, and vote on which decision they would stand behind. The session takes place outdoors in and around Osaka Castle Park.",
       },
       {
-        q: "How large can our group be?",
-        a: "Between 10 and 40 participants. Larger groups are split into parallel teams, so everyone takes part in the debate instead of watching a discussion among a few people.",
+        q: "Can you provide corporate team building in Osaka for groups of 10–40 people?",
+        a: "Yes. The experience is designed for private groups of 10–40 participants. Larger groups are divided into parallel teams so everyone takes part in the investigation and debate rather than watching a discussion among a few people.",
+      },
+      {
+        q: "Is this suitable for international or multilingual teams?",
+        a: "Yes. Sessions can run in English, Japanese, or bilingually. Japanese history knowledge is not required, so Japanese and international participants can work together on the same dilemmas.",
       },
       {
         q: "Do participants need to know Japanese history?",
-        a: "No. Every team receives the evidence for each dilemma during the session, and Edward sets out the background before the debate begins.",
+        a: "No. Teams receive the relevant evidence during the session, and Edward explains the historical background before each debate begins. The experience is designed around the evidence provided on the day rather than prior knowledge.",
       },
       {
-        q: "Is this a tour of Osaka Castle?",
-        a: "No. It is a facilitated decision-making session held in and around Osaka Castle Park, with fewer stops than our public walking tour — by design, because the time goes into discussion rather than walking.",
+        q: "Is this an Osaka Castle tour?",
+        a: "No. It is a facilitated decision-making session held in and around Osaka Castle Park. There is less walking than on a public walking tour by design: the time is used for investigation, discussion, and team decision-making.",
       },
       {
-        q: "What languages can it run in?",
-        a: "English, Japanese, or both. Tell us your team's working language in the enquiry form.",
+        q: "Can this be used for a company retreat, leadership program, or employee development event?",
+        a: "Yes. The private format can be used for corporate retreats, team-building events, leadership groups, employee development programs, conference and incentive groups, and international teams visiting Osaka.",
       },
       {
-        q: "How does pricing work?",
-        a: "By group size: up to 15 participants ¥200,000, up to 30 participants ¥300,000, up to 40 participants ¥400,000 — one price for the private group. Availability is confirmed by enquiry.",
+        q: "How does the team-building experience work?",
+        a: "Teams investigate a real historical dilemma, debate competing options, commit to a decision, reveal the historical outcome, reassess their decision, and vote. There is no predetermined winning answer; different teams may reach different conclusions.",
+      },
+      {
+        q: "How much does corporate team building in Osaka cost?",
+        a: "Pricing is by private group size, not per person:\n\nUp to 15 participants — ¥200,000\nUp to 30 participants — ¥300,000\nUp to 40 participants — ¥400,000\n\nAvailability is confirmed by enquiry.",
+      },
+      {
+        q: "Can the session be run in English and Japanese?",
+        a: "Yes. It can be conducted in English, Japanese, or bilingually. Please specify your team's working language when making an enquiry.",
+      },
+      {
+        q: "How do I arrange a private corporate session?",
+        a: "Send your company name, group size, preferred date, and session language through the enquiry form. We will confirm availability and the next steps.",
       },
     ],
   },

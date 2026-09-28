@@ -98,10 +98,7 @@ export default function CorporateClient() {
             <div key={card.era} className="corp-dilemma-card">
               <div className="corp-dilemma-era">{card.era}</div>
               <p>{card.body}</p>
-              <a
-                className="corp-dilemma-link"
-                href={locale === "ja" ? `/ja${card.href}` : card.href}
-              >
+              <a className="corp-dilemma-link" href={`/ja${card.href}`}>
                 {card.linkLabel}
               </a>
             </div>
@@ -167,11 +164,7 @@ export default function CorporateClient() {
             <a
               key={link.slug}
               className="corp-evidence-card"
-              href={
-                locale === "ja"
-                  ? `/ja/${link.slug}.html`
-                  : `/${link.slug}.html`
-              }
+              href={`/ja/${link.slug}.html`}
             >
               {link.heroImage && (
                 <img
@@ -207,7 +200,7 @@ export default function CorporateClient() {
       </section>
 
       {/* FAQ */}
-      <section className="edu-section alt-bg">
+      <section className="edu-section alt-bg corp-faq">
         <h2>{locale === "ja" ? "よくある質問" : "FAQ"}</h2>
         <div className="edu-faq">
           {h.faq.map((item, i) => (
