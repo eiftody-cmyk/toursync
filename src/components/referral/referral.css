@@ -90,6 +90,44 @@ body {
   font-weight: 600;
 }
 
+/* Staff-QR path: "Recommended by … Referred by …" on one centered line. */
+.misaki-referral-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem 1.1rem;
+}
+
+.misaki-referral-inline .misaki-referred-by {
+  margin: 0 !important;
+}
+
+/* Phones: shrink both halves so "Recommended by … Referred by …" still
+   fits on one line inside a 360–390px viewport. */
+@media (max-width: 767px) {
+  .misaki-referral-locked {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .misaki-referral-inline {
+    gap: 0.4rem 0.7rem;
+  }
+
+  .misaki-referral-inline .misaki-referred-by {
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .misaki-referral-inline .misaki-chip {
+    font-size: 0.95rem;
+    padding: 0.35rem 0.75rem;
+    white-space: nowrap;
+  }
+}
+
 .misaki-staff-label {
   display: block;
   font-size: 0.8rem;
@@ -138,12 +176,6 @@ body {
 
 /* ---------- Locked referral chip (staff QR path) ---------- */
 
-.misaki-chip-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
 .misaki-chip {
   display: inline-flex;
   align-items: baseline;
@@ -160,25 +192,6 @@ body {
 .misaki-chip strong {
   color: var(--gold);
   font-weight: 600;
-}
-
-.misaki-chip-clear {
-  width: 1.9rem;
-  height: 1.9rem;
-  padding: 0;
-  line-height: 1;
-  font-size: 1.1rem;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: none;
-  color: var(--parchment-dim);
-  cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease;
-}
-
-.misaki-chip-clear:hover {
-  border-color: var(--gold);
-  color: var(--gold);
 }
 
 /* ---------- 2. Hero ---------- */
@@ -660,6 +673,11 @@ body {
   .misaki-referred-by {
     flex: 1 0 100%;
     margin-bottom: 0.35rem !important;
+  }
+
+  /* One-line header: partner line must not break onto its own row. */
+  .misaki-referral-inline .misaki-referred-by {
+    flex: 0 0 auto;
   }
 
   .misaki-staff-label {

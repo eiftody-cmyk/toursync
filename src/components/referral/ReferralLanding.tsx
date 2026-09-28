@@ -58,15 +58,14 @@ export function ReferralLanding({
   initialStaff?: string | null;
 }) {
   const [typed, setTyped] = useState(initialStaff ?? "");
-  const [cleared, setCleared] = useState(false);
   const [staffError, setStaffError] = useState(false);
   const [stickyVisible, setStickyVisible] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const pageTracked = useRef(false);
   const staffTracked = useRef(false);
 
-  // Locked until the guest explicitly clears it.
-  const lockedStaff = registeredStaff && !cleared ? registeredStaff : null;
+  // Locked to the QR staff member — attribution is never offered an escape.
+  const lockedStaff = registeredStaff ?? null;
   const typedName = sanitizeStaffName(typed) ?? "";
   const attribution = lockedStaff ? lockedStaff.slug : typedName;
   const staffValid = attribution.length > 0;
@@ -131,41 +130,27 @@ export function ReferralLanding({
     }
   }
 
-  const clearReferral = () => {
-    setCleared(true);
-    setStaffError(false);
-    // Expire attribution cookies so a later direct /book visit (back-nav,
-    // typed URL) can't re-attribute to the staff the guest just cleared.
-    // Typing a replacement name re-sets ref_attr via the effect above.
-    document.cookie = "ref_attr=; max-age=0; path=/; SameSite=Lax";
-    document.cookie = "misaki_ref=; max-age=0; path=/; SameSite=Lax";
-    requestAnimationFrame(() => inputRef.current?.focus());
-  };
-
   return (
     <div className="misaki-page">
       {/* 1. Referral attribution */}
-      <header className="misaki-referral">
-        <div className="misaki-referral-inner">
+      <header
+        className={`misaki-referral${
+          lockedStaff ? " misaki-referral-locked" : ""
+        }`}
+      >
+        <div
+          className={`misaki-referral-inner${
+            lockedStaff ? " misaki-referral-inline" : ""
+          }`}
+        >
           <p className="misaki-referred-by">
             Recommended by <strong>{partner.displayName}</strong>
           </p>
 
           {lockedStaff ? (
-            <div className="misaki-chip-row">
-              <span className="misaki-chip">
-                Referred by <strong>{lockedStaff.displayName}</strong>
-              </span>
-              <button
-                type="button"
-                className="misaki-chip-clear"
-                aria-label={`Not ${lockedStaff.displayName}? Remove referral`}
-                title={`Not ${lockedStaff.displayName}?`}
-                onClick={clearReferral}
-              >
-                ×
-              </button>
-            </div>
+            <span className="misaki-chip">
+              Referred by <strong>{lockedStaff.displayName}</strong>
+            </span>
           ) : (
             <>
               <label className="misaki-staff-label" htmlFor="referral-staff">

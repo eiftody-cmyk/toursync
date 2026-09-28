@@ -39,7 +39,7 @@ export const REFERRAL_PARTNERS: readonly ReferralPartner[] = [
     landing: {
       heading: "A good meal deserves a better view.",
       body:
-        "Ryu Ter Hua sent you here for more than dinner — this walk takes you into the landscape around Osaka Castle, in the company of a resident historian.",
+        "Ryu Ter Hua recommends this walk through the landscape around Osaka Castle, led by a resident historian.",
     },
   },
 ];
