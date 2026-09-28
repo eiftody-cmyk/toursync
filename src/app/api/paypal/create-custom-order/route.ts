@@ -9,6 +9,13 @@ import {
   timeToMinutes,
   normalizeTime,
 } from "@/lib/schedules/blockOverlap";
+import {
+  ATTR_COOKIE,
+  LEGACY_ATTR_COOKIE,
+  normalizeReferral,
+  referralFromCookieValue,
+  appendReferral,
+} from "@/lib/referral/misaki";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -146,14 +153,24 @@ export async function POST(req: NextRequest) {
 
   // Encode custom_id: tour_id|date|start_time|guest_count|custom=true|customer_phone
   // Name/email come from PayPal payer object — no need to encode
-  const customId = [
-    tour_id,
-    date,
-    start_time,
-    String(guests),
-    "custom=true",
-    encodeURIComponent(customer_phone || ""),
-  ].join("|");
+  // Referral rides along in the same custom_id so capture/webhook can verify
+  // it server-side against PayPal's copy of the order. Cookie formats:
+  // ref_attr="<partner>|<staff>" (current), misaki_ref="<staff>" (legacy).
+  const referral =
+    normalizeReferral(body.referral) ??
+    referralFromCookieValue(req.cookies.get(ATTR_COOKIE)?.value) ??
+    referralFromCookieValue(req.cookies.get(LEGACY_ATTR_COOKIE)?.value);
+  const customId = appendReferral(
+    [
+      tour_id,
+      date,
+      start_time,
+      String(guests),
+      "custom=true",
+      encodeURIComponent(customer_phone || ""),
+    ].join("|"),
+    referral
+  );
 
   const amount = Math.round(tour.price * guests);
 
