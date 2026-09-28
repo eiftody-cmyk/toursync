@@ -12,14 +12,14 @@ import { en } from "@/lib/corporate/content";
 import { ja as jaContent } from "@/lib/corporate/content-ja";
 
 const SITE = "https://osakacastletours.com";
-const IMG = `${SITE}/images/toyotomicastle.webp`;
+const IMG = `${SITE}/images/toyotomihideyoshi.webp`;
 
 const TITLE_EN = "Corporate Team Building: Osaka's Historical Dilemmas";
 const TITLE_JA = "法人向けチームビルディング：大阪の歴史的ジレンマ";
 const DESC_EN =
-  "Private corporate team building at Osaka Castle: three real historical dilemmas your teams investigate, debate, and vote on. Up to 40 participants. From ¥200,000.";
+  "Private corporate team building at Osaka Castle: three real historical dilemmas your teams investigate, debate, and vote on. 10–40 participants. ¥200,000–¥400,000 per group."
 const DESC_JA =
-  "大阪城での法人向けチームビルディング。実在する歴史的ジレンマを三つ用意し、チームで調査・議論・判断・投票します。最大40名・¥200,000から。";
+  "大阪城での法人向けチームビルディング。実在する歴史的ジレンマを三つ用意し、チームで調査・議論・判断・投票します。10〜40名・グループ ¥200,000〜¥400,000。";
 
 function getLocale(params: { locale?: string }): Locale {
   return params?.locale === "ja" ? "ja" : "en";

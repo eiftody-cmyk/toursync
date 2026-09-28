@@ -21,7 +21,7 @@
   background-position: center;
   background-image:
     linear-gradient(rgba(26, 21, 16, 0.78), rgba(26, 21, 16, 0.78)),
-    url('/images/toyotomicastle.webp');
+    url('/images/toyotomihideyoshi.webp');
 }
 
 .corp-hero-facts {
@@ -127,6 +127,46 @@
   font-style: italic;
   color: var(--edu-navy);
   max-width: 720px;
+}
+
+/* ── WHY TEAMS DO IT ── */
+.corp-why-intro {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--edu-ink);
+  max-width: 760px;
+  margin-bottom: 1.75rem;
+}
+
+.corp-why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.corp-why-card {
+  background: var(--edu-card);
+  border: 1px solid var(--edu-border);
+  border-top: 3px solid var(--edu-gold);
+  border-radius: 6px;
+  padding: 1.5rem 1.4rem;
+}
+
+.corp-why-card h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--edu-navy);
+  margin-bottom: 0.5rem;
+}
+
+.corp-why-card p {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--edu-stone);
 }
 
 /* ── DILEMMA ERA CARDS ── */
@@ -293,6 +333,7 @@
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .corp-ladder,
+  .corp-why-grid,
   .corp-dilemma-grid,
   .corp-evidence-grid {
     grid-template-columns: 1fr;

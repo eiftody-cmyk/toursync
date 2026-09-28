@@ -24,11 +24,11 @@ export async function generateMetadata(): Promise<Metadata> {
         default: "法人向けチームビルディング：大阪の歴史的ジレンマ",
       },
       description:
-        "大阪城での法人向けチームビルディング。実在する歴史的ジレンマを三つ用意し、チームで調査・議論・判断・投票します。最大40名・¥200,000から。",
+        "大阪城での法人向けチームビルディング。実在する歴史的ジレンマを三つ用意し、チームで調査・議論・判断・投票します。10〜40名・グループ ¥200,000〜¥400,000。",
       openGraph: {
         title: "法人向けチームビルディング：大阪の歴史的ジレンマ",
         description:
-          "実在する歴史的ジレンマを軸にした、法人向けのプライベートチームビルディング。最大40名。",
+          "実在する歴史的ジレンマを軸にした、法人向けのプライベートチームビルディング。10〜40名・グループ ¥200,000〜¥400,000。",
         url: `${SITE}/ja/corporate`,
         siteName: "大阪城ウォークス with イフトウデイ　エドワード",
         locale: "ja_JP",
@@ -51,7 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
       default: "Corporate Team Building: Osaka's Historical Dilemmas",
     },
     description:
-      "Private corporate team building at Osaka Castle: three real historical dilemmas your teams investigate, debate, and vote on. Up to 40 participants. From ¥200,000.",
+      "Private corporate team building at Osaka Castle: three real historical dilemmas your teams investigate, debate, and vote on. 10–40 participants. ¥200,000–¥400,000 per group.",
     openGraph: {
       title: "Corporate Team Building: Osaka's Historical Dilemmas",
       description:

@@ -48,9 +48,14 @@ export default function CorporateClient() {
 
       {/* Positioning Band */}
       <section className="corp-positioning">
-        <p className="corp-positioning-lead">{h.positioning.lines[0]}</p>
-        <p className="corp-positioning-line">{h.positioning.lines[1]}</p>
-        <p className="corp-positioning-line">{h.positioning.lines[2]}</p>
+        {h.positioning.lines.map((line, i) => (
+          <p
+            key={i}
+            className={i === 0 ? "corp-positioning-lead" : "corp-positioning-line"}
+          >
+            {line}
+          </p>
+        ))}
       </section>
 
       {/* How It Works */}
@@ -68,6 +73,20 @@ export default function CorporateClient() {
           ))}
         </div>
         <p className="corp-ladder-note">{h.howItWorks.note}</p>
+      </section>
+
+      {/* Why Teams Do It */}
+      <section className="edu-section">
+        <h2>{h.why.title}</h2>
+        <p className="corp-why-intro">{h.why.intro}</p>
+        <div className="corp-why-grid">
+          {h.why.benefits.map((benefit) => (
+            <div key={benefit.title} className="corp-why-card">
+              <h4>{benefit.title}</h4>
+              <p>{benefit.body}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* The Three Dilemmas */}

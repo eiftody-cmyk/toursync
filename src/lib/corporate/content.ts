@@ -18,7 +18,7 @@ export const en = {
       headline: "Corporate Team Building:\nOsaka's Historical Dilemmas",
       subtitle:
         "400 years. 1,000 years. 1,500 years. Three historical dilemmas. What would your team do?",
-      facts: "Private corporate experience · Up to 40 participants · From ¥200,000",
+      facts: "Private corporate experience · 10–40 participants · ¥200,000–¥400,000 per group",
       cta: "Plan Your Team-Building Experience",
     },
 
@@ -26,7 +26,6 @@ export const en = {
       lines: [
         "History gives you the problem. Your team has to solve it.",
         "You don't have to agree with history.",
-        "The historical answer isn't necessarily the right answer.",
       ],
     },
 
@@ -70,10 +69,30 @@ export const en = {
           number: 6,
           title: "Vote",
           description:
-            "What do you think was the best decision? Keep the original, change it, agree with history, or disagree with history — the vote is yours.",
+            "Which decision would you stand behind? Keep the original, change it, agree with history, or disagree with history — the vote is yours.",
         },
       ],
       note: "There is no predetermined winning outcome. Reasonable teams reach different conclusions, and that is the point.",
+    },
+
+    why: {
+      title: "Why Teams Do It",
+      intro:
+        "Good teams don't just make decisions. They make them with incomplete information, competing priorities, and people who see the problem differently.",
+      benefits: [
+        {
+          title: "Think under pressure",
+          body: "Work with incomplete information and competing priorities.",
+        },
+        {
+          title: "Disagree productively",
+          body: "Defend a position, challenge assumptions, and negotiate with your team.",
+        },
+        {
+          title: "Reconsider decisions",
+          body: "See what happened, confront hindsight, and decide whether you would do it differently.",
+        },
+      ],
     },
 
     dilemmas: {
@@ -113,7 +132,7 @@ export const en = {
       credentials: [
         "Historian & researcher",
         "Educator & course developer",
-        "English teacher since 2009",
+        "Japan-based since 2009",
         "Osaka-based specialist",
       ],
     },
@@ -121,7 +140,7 @@ export const en = {
     setting: {
       title: "The Setting",
       body:
-        "Your teams work outdoors in Osaka Castle Park, on the Uemachi Plateau — the landscape at the centre of the history you will examine. Expect fewer stops than our public walking tour: the format is built around team discussion, not distance.",
+        "This is not a walking tour. Your teams work outdoors in Osaka Castle Park, on the Uemachi Plateau — the landscape at the centre of the history you will examine. Fewer stops than our public walking tour, by design: the time goes into team discussion and decision-making, not sightseeing.",
       items: [
         "Osaka Castle Park and the Uemachi Plateau",
         "Groups of 10–40 participants",
@@ -152,14 +171,14 @@ export const en = {
 
     pricing: {
       title: "Pricing",
-      subtitle: "One group, one price. No per-person calculation.",
+      subtitle: "Private corporate experience · 10–40 participants · ¥200,000–¥400,000 per group",
       tiers: [
         { size: "Up to 15 participants", price: "¥200,000" },
         { size: "Up to 30 participants", price: "¥300,000" },
         { size: "Up to 40 participants", price: "¥400,000" },
       ],
       note:
-        "Every package is the same private session — three historical dilemmas, facilitated by Edward — for your group alone. Send an enquiry with your group size and preferred dates and we will confirm availability.",
+        "One group, one price. No per-person calculation. The same private session in every package — send an enquiry with your group size and preferred dates and we will confirm availability.",
     },
 
     faq: [
