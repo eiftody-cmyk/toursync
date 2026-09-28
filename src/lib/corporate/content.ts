@@ -183,7 +183,7 @@ export const en = {
 
     faq: [
       {
-        q: "What is this corporate team-building experience?",
+        q: "Why is this the best corporate team-building experience at Osaka Castle Park?",
         a: "A private corporate session built around three real historical dilemmas. Teams investigate the evidence, debate the options, commit to a decision, see what actually happened, reassess their decision, and vote on which decision they would stand behind. The session takes place outdoors in and around Osaka Castle Park.",
       },
       {
