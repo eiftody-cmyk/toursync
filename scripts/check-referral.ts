@@ -123,6 +123,32 @@ check(
   REFERRAL_PARTNERS.find((p) => p.slug === "ryuterhua")?.landing !== undefined
 );
 
+// --- third partner (Hotel Noum Osaka) ---
+check("parse hotelnoum partner", parseReferralSlug("hotelnoum")?.kind === "partner");
+check("parse hotelnoum staff", (() => {
+  const p = parseReferralSlug("hotelnoum-takeshi");
+  return (
+    p?.kind === "staff" &&
+    p.kind === "staff" &&
+    p.partner.slug === "hotelnoum" &&
+    p.staffSlug === "takeshi"
+  );
+})());
+check("parse hotelnoum multi-hyphen staff", (() => {
+  const p = parseReferralSlug("hotelnoum-yuki-sato");
+  return p?.kind === "staff" && p.kind === "staff" && p.staffSlug === "yuki-sato";
+})());
+check("isPartner hotelnoum", isPartner("hotelnoum") === true);
+check(
+  "hotelnoum landing copy configured",
+  REFERRAL_PARTNERS.find((p) => p.slug === "hotelnoum")?.landing?.heading ===
+    "A good stay deserves a great morning."
+);
+check(
+  "partner list holds all three",
+  REFERRAL_PARTNERS.map((p) => p.slug).join(",") === "misaki,ryuterhua,hotelnoum"
+);
+
 // --- staff sanitizing ---
 check("staff trim", sanitizeStaffName("  Yuki  ") === "Yuki");
 check("staff pipe stripped", sanitizeStaffName("Yu|ki") === "Yu ki");
@@ -198,6 +224,8 @@ check("parse absent", parseReferralParts(["a", "b"]) === null);
 // --- revenue: flat ¥1,500 for partners, percentages elsewhere ---
 check("commission misaki flat", calcCommission("misaki", 9500, 2, null) === 3000);
 check("commission ryuterhua flat", calcCommission("ryuterhua", 9500, 3, null) === 4500);
+check("commission hotelnoum flat", calcCommission("hotelnoum", 9500, 3, null) === 4500);
+check("net hotelnoum flat", calcNet("hotelnoum", 9500, 2, null) === 19000 - 3000);
 check("net misaki flat", calcNet("misaki", 9500, 2, null) === 19000 - 3000);
 check("commission unknown partner-like", calcCommission("viator", 9500, 2, null) === 3800);
 check(

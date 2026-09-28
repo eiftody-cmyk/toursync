@@ -42,6 +42,15 @@ export const REFERRAL_PARTNERS: readonly ReferralPartner[] = [
         "Ryu Ter Hua recommends this walk through the landscape around Osaka Castle, led by a resident historian.",
     },
   },
+  {
+    slug: "hotelnoum",
+    displayName: "Hotel Noum Osaka",
+    landing: {
+      heading: "A good stay deserves a great morning.",
+      body:
+        "Hotel Noum Osaka recommends this walk through the landscape around Osaka Castle, led by a resident historian.",
+    },
+  },
 ];
 
 const bySlug = new Map(REFERRAL_PARTNERS.map((p) => [p.slug, p]));

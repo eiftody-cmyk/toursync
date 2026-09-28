@@ -30,6 +30,7 @@ const SOURCE_COLORS: Record<string, string> = {
   airbnb: "bg-rose-100 text-rose-800",
   misaki: "bg-amber-100 text-amber-800",
   ryuterhua: "bg-teal-100 text-teal-800",
+  hotelnoum: "bg-sky-100 text-sky-800",
 };
 
 export function TourBookings({
