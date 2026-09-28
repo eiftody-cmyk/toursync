@@ -173,6 +173,14 @@ export default function CorporateClient() {
                   : `/${link.slug}.html`
               }
             >
+              {link.heroImage && (
+                <img
+                  className="corp-evidence-thumb"
+                  src={`/${link.heroImage}`}
+                  alt=""
+                  loading="lazy"
+                />
+              )}
               <div className="corp-evidence-period">
                 {locale === "ja" ? link.periodJa : link.period}
               </div>
