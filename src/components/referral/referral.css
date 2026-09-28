@@ -198,13 +198,21 @@ body {
 .misaki-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(14, 12, 9, 0.35) 0%,
-    rgba(14, 12, 9, 0.15) 35%,
-    rgba(14, 12, 9, 0.82) 78%,
-    rgba(14, 12, 9, 0.95) 100%
-  );
+  /* Same mask as the static site hero (.hero-overlay in public/css/styles.css):
+     radial vignette over a bottom-weighted gradient. */
+  background:
+    radial-gradient(
+      ellipse 70% 60% at 50% 52%,
+      rgba(8, 6, 4, 0.72) 0%,
+      rgba(8, 6, 4, 0.2) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(8, 6, 4, 0.55) 0%,
+      rgba(8, 6, 4, 0.25) 30%,
+      rgba(8, 6, 4, 0.25) 60%,
+      rgba(8, 6, 4, 0.75) 100%
+    );
 }
 
 .misaki-hero-content {
@@ -212,7 +220,9 @@ body {
   z-index: 1;
   width: 100%;
   max-width: 46rem;
+  margin-inline: auto;
   padding: 3rem 1.25rem 3.25rem;
+  text-align: center;
 }
 
 .misaki-hero-eyebrow {

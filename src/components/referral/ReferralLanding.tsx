@@ -295,8 +295,8 @@ export function ReferralLanding({
           <article className="misaki-card">
             <div className="misaki-card-img">
               <Image
-                src="/tourstart.webp"
-                alt="Guests with the resident historian at Osaka Castle"
+                src="/images/IMG20260522110710.webp"
+                alt="Guests in front of Osaka Castle's keep in the park"
                 fill
                 sizes="(min-width: 900px) 50vw, 100vw"
               />
@@ -331,8 +331,8 @@ export function ReferralLanding({
           <article className="misaki-card">
             <div className="misaki-card-img">
               <Image
-                src="/images/itinerary/wm1.webp"
-                alt="Statue of a Sengoku-era warrior"
+                src="/images/IMG20260531151340.webp"
+                alt="Guests beside a torii gate and statue on the tour"
                 fill
                 sizes="(min-width: 900px) 50vw, 100vw"
               />
