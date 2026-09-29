@@ -142,6 +142,88 @@
   max-width: 720px;
 }
 
+/* ── BEFORE & AFTER ── */
+.corp-lifecycle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 2rem 0 1.5rem;
+}
+
+.corp-lifecycle-card {
+  background: var(--edu-card);
+  border: 1px solid var(--edu-border);
+  border-top: 3px solid var(--edu-gold);
+  border-radius: 6px;
+  padding: 1.75rem 1.6rem;
+}
+
+.corp-lifecycle-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--edu-gold);
+  margin-bottom: 0.35rem;
+}
+
+.corp-lifecycle-timing {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--edu-muted);
+  margin-bottom: 0.85rem;
+}
+
+.corp-lifecycle-card h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--edu-navy);
+  margin-bottom: 0.6rem;
+}
+
+.corp-lifecycle-card p {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--edu-stone);
+  margin-bottom: 0.9rem;
+}
+
+.corp-lifecycle-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.corp-lifecycle-card li {
+  padding: 0.4rem 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--edu-ink);
+  border-bottom: 1px solid var(--edu-border);
+}
+
+.corp-lifecycle-card li:last-child {
+  border-bottom: none;
+}
+
+.corp-lifecycle-card li::before {
+  content: '→ ';
+  color: var(--edu-gold);
+  font-weight: 600;
+}
+
+.corp-lifecycle-note {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--edu-navy);
+  max-width: 720px;
+}
+
 /* ── WHY TEAMS DO IT ── */
 .corp-why-intro {
   font-family: 'Cormorant Garamond', serif;
@@ -375,7 +457,8 @@
   .corp-ladder,
   .corp-why-grid,
   .corp-dilemma-grid,
-  .corp-evidence-grid {
+  .corp-evidence-grid,
+  .corp-lifecycle-grid {
     grid-template-columns: 1fr;
   }
 

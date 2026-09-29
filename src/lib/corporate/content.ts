@@ -7,6 +7,7 @@ export const en = {
   nav: {
     experience: "Experience",
     howItWorks: "How It Works",
+    lifecycle: "Before & After",
     evidence: "Evidence",
     pricing: "Pricing",
     enquire: "Enquire",
@@ -73,6 +74,43 @@ export const en = {
         },
       ],
       note: "There is no predetermined winning outcome. Reasonable teams reach different conclusions, and that is the point.",
+    },
+
+    lifecycle: {
+      title: "Before & After",
+      subtitle:
+        "A complete arc: one page to prepare with beforehand, and a record of what your team decided afterward.",
+      phases: [
+        {
+          label: "Before",
+          timing: "Sent 3–7 days before · one page · 5-minute read",
+          title: "The Team Brief",
+          body:
+            "A polished one-page brief sent to participants in advance, so everyone arrives ready — without giving the game away.",
+          items: [
+            "What you're doing — a short explanation of the historical dilemma format",
+            "What you don't need — no prior knowledge of Japanese history required",
+            "What to expect — investigate, debate, decide, reveal, reassess, vote",
+            "How to prepare — come ready to defend a decision you may not personally agree with",
+            "Practical information — meeting point, duration, clothing and weather, language",
+            "One intriguing historical question — with deliberately not enough information to answer it",
+          ],
+        },
+        {
+          label: "After",
+          timing: "Within 24–48 hours",
+          title: "Your Post-Event Team Pack",
+          body:
+            "Two documents delivered to your organizer after the session, so the experience keeps working once everyone goes back to the office.",
+          items: [
+            "Your Team's Decisions — for each dilemma: your team's original decision, the historical decision, what actually happened, your post-reveal assessment, and the final vote",
+            "What This Reveals About Decision-Making — the tensions your teams actually encountered: incomplete information, competing priorities, risk vs. opportunity, short-term vs. long-term thinking, disagreement within teams, hindsight",
+            "Organizer Debrief Sheet — one page of questions to run with your team afterward: which dilemma produced the most disagreement, what did teams prioritize, what changed after the reveal, what happened when an assumption was challenged",
+          ],
+        },
+      ],
+      note:
+        "No pre-reading, no homework, no quiz. Participants meet the problem without knowing the answer — that is the point.",
     },
 
     why: {
@@ -209,6 +247,10 @@ export const en = {
       {
         q: "How does the team-building experience work?",
         a: "Teams investigate a real historical dilemma, debate competing options, commit to a decision, reveal the historical outcome, reassess their decision, and vote. There is no predetermined winning answer; different teams may reach different conclusions.",
+      },
+      {
+        q: "What do participants receive before and after the session?",
+        a: "Before: a one-page Team Brief sent 3–7 days in advance — what the format is, what to expect, how to prepare, and the practical details. It deliberately does not include enough historical information to give anyone the answer in advance; the evidence is handed out during the session.\n\nAfter: within 24–48 hours your organizer receives a Post-Event Team Pack — a record of your team's decisions against what actually happened, plus a one-page Organizer Debrief Sheet of questions to continue the conversation with your team.",
       },
       {
         q: "How much does corporate team building in Osaka cost?",

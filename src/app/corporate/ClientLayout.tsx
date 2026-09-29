@@ -35,6 +35,9 @@ function Header() {
           <a href="#how-it-works" className="edu-nav-link">
             {t.nav.howItWorks}
           </a>
+          <a href="#before-after" className="edu-nav-link">
+            {t.nav.lifecycle}
+          </a>
           <a href="#evidence" className="edu-nav-link">
             {t.nav.evidence}
           </a>

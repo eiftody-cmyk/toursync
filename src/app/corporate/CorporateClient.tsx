@@ -75,6 +75,28 @@ export default function CorporateClient() {
         <p className="corp-ladder-note">{h.howItWorks.note}</p>
       </section>
 
+      {/* Before & After */}
+      <section className="edu-section alt-bg" id="before-after">
+        <h2>{h.lifecycle.title}</h2>
+        <p className="section-subtitle">{h.lifecycle.subtitle}</p>
+        <div className="corp-lifecycle-grid">
+          {h.lifecycle.phases.map((phase) => (
+            <div key={phase.label} className="corp-lifecycle-card">
+              <div className="corp-lifecycle-label">{phase.label}</div>
+              <div className="corp-lifecycle-timing">{phase.timing}</div>
+              <h4>{phase.title}</h4>
+              <p>{phase.body}</p>
+              <ul>
+                {phase.items.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <p className="corp-lifecycle-note">{h.lifecycle.note}</p>
+      </section>
+
       {/* Why Teams Do It */}
       <section className="edu-section">
         <h2>{h.why.title}</h2>
