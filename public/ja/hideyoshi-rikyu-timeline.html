@@ -109,6 +109,50 @@
     .hero-caption { font-size: 0.7rem; padding: 20px 16px 12px; }
   }
 
+  .bc {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 16px 40px 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--faded);
+  }
+
+  .bc ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .bc li + li::before {
+    content: '›';
+    margin-right: 10px;
+    color: rgba(184, 174, 157, 0.55);
+  }
+
+  .bc a {
+    color: var(--faded);
+    text-decoration: none;
+  }
+
+  .bc a:hover {
+    color: #f5efe3;
+    text-decoration: underline;
+  }
+
+  .bc [aria-current] {
+    color: #f5efe3;
+  }
+
+  @media (max-width: 768px) {
+    .bc { padding: 12px 20px 0; }
+  }
+
   .header {
     text-align: center;
     padding: 60px 40px 30px;
@@ -413,6 +457,7 @@
   "@graph": [
     {
       "@type": "BreadcrumbList",
+      "@id": "https://osakacastletours.com/ja/hideyoshi-rikyu-timeline#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -441,8 +486,10 @@
       "description": "四列構成でたどる、豊臣秀吉と千利休の1582〜1591年の関係 ― 命令、承認、茶の湯、そして破綻の原因をめぐってなお論争する日本の研究。",
       "image": "https://osakacastletours.com/images/chrysanthemum-tenmoku.webp",
       "mainEntityOfPage": "https://osakacastletours.com/ja/hideyoshi-rikyu-timeline",
+      "breadcrumb": {
+        "@id": "https://osakacastletours.com/ja/hideyoshi-rikyu-timeline#breadcrumb"
+      },
       "inLanguage": "ja",
-      "inLanguage": "en",
       "author": {
         "@type": "Person",
         "name": "Edward Iftody",
@@ -485,8 +532,11 @@
           "name": "堺"
         }
       ],
+      "citation": [
+        "https://doi.org/10.24561/00018558"
+      ],
       "datePublished": "2026-09-29",
-      "dateModified": "2026-09-29"
+      "dateModified": "2026-09-30"
     },
     {
       "@type": "Person",
@@ -621,6 +671,14 @@
 })();
 </script>
 
+
+<nav class="bc" aria-label="パンくずリスト">
+  <ol>
+    <li><a href="/">ホーム</a></li>
+    <li><a href="/ja/toyotomihideyoshi">豊臣秀吉の年表</a></li>
+    <li aria-current="page">秀吉と千利休：協力者から政治的問題へ</li>
+  </ol>
+</nav>
 
 <div class="hero" style="background-image: url('../images/chrysanthemum-tenmoku.webp');">
   <div class="hero-caption">秀吉と利休 ― 命令・承認、そして一致しない史料</div>

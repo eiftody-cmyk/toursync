@@ -109,6 +109,50 @@
     .hero-caption { font-size: 0.7rem; padding: 20px 16px 12px; }
   }
 
+  .bc {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 16px 40px 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--faded);
+  }
+
+  .bc ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .bc li + li::before {
+    content: '›';
+    margin-right: 10px;
+    color: rgba(184, 174, 157, 0.55);
+  }
+
+  .bc a {
+    color: var(--faded);
+    text-decoration: none;
+  }
+
+  .bc a:hover {
+    color: #f5efe3;
+    text-decoration: underline;
+  }
+
+  .bc [aria-current] {
+    color: #f5efe3;
+  }
+
+  @media (max-width: 768px) {
+    .bc { padding: 12px 20px 0; }
+  }
+
   .header {
     text-align: center;
     padding: 60px 40px 30px;
@@ -413,6 +457,7 @@
   "@graph": [
     {
       "@type": "BreadcrumbList",
+      "@id": "https://osakacastletours.com/hideyoshi-rikyu-timeline#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -441,6 +486,9 @@
       "description": "A four-column timeline of the relationship between Toyotomi Hideyoshi and Sen no Rikyū, 1582–1591 — command, recognition, chanoyu, and the Japanese scholarship that still disputes the causes of the rupture.",
       "image": "https://osakacastletours.com/images/chrysanthemum-tenmoku.webp",
       "mainEntityOfPage": "https://osakacastletours.com/hideyoshi-rikyu-timeline",
+      "breadcrumb": {
+        "@id": "https://osakacastletours.com/hideyoshi-rikyu-timeline#breadcrumb"
+      },
       "inLanguage": "en",
       "author": {
         "@type": "Person",
@@ -484,8 +532,11 @@
           "name": "Sakai"
         }
       ],
+      "citation": [
+        "https://doi.org/10.24561/00018558"
+      ],
       "datePublished": "2026-09-29",
-      "dateModified": "2026-09-29"
+      "dateModified": "2026-09-30"
     },
     {
       "@type": "Person",
@@ -608,6 +659,14 @@
 })();
 </script>
 
+
+<nav class="bc" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/">Home</a></li>
+    <li><a href="/toyotomihideyoshi">Toyotomi Hideyoshi Timeline</a></li>
+    <li aria-current="page">Hideyoshi &amp; Sen no Rikyū: From Partners to Political Problem</li>
+  </ol>
+</nav>
 
 <div class="hero" style="background-image: url('images/chrysanthemum-tenmoku.webp');">
   <div class="hero-caption">Hideyoshi &amp; Rikyū — Command, Recognition &amp; the Sources That Still Disagree</div>
@@ -980,6 +1039,7 @@
         <li><a href="/toyotomi_hideyori.html">Toyotomi Hideyori: The Gilded Prison</a> — the heir whose death erased the Toyotomi line</li>
         <li><a href="/articles/yuteki-tenmoku-tea-bowl">What the Museum Label Can't Say</a> — the National Treasure tea bowl and how a curator weighs evidence</li>
         <li><a href="/three-unifiers.html">The Three Unifiers</a> — Hideyoshi beside Nobunaga and Ieyasu</li>
+        <li><a href="/deeptimeline">The Uemachi Plateau Deep Timeline</a> — seven thousand years of the ridge beneath this story</li>
     </ul>
     <p style="text-align:center;margin:0;">
       <a href="/osaka_history_things_to_do.html" style="font-family:'Cinzel',serif;letter-spacing:0.2em;text-transform:uppercase;color:#c8a96e;font-size:0.85rem;">Explore All 19 Stories of Osaka's History →</a>
