@@ -124,6 +124,9 @@ function Footer() {
             : "About Edward"}
         </a>
         <a href="https://osakacastletours.com/faq">FAQ</a>
+        <a href={locale === "ja" ? "/ja/corporate" : "/corporate"}>
+          {locale === "ja" ? "法人向けチームビルディング" : "Corporate Team Building"}
+        </a>
       </div>
     </footer>
   );
