@@ -56,7 +56,7 @@ export function InvestigationLayers() {
               </p>
               {chronicle && (
                 <div className="investigation-layer-links">
-                  <a href={`https://osakacastletours.com/${locale === "ja" ? "ja/" : ""}${chronicle.slug}.html`}>
+                  <a href={`/${locale === "ja" ? "ja/" : ""}${chronicle.slug}`}>
                     {locale === "ja"
                       ? `読み進める：${chronicle.titleJa} →`
                       : `Read: ${chronicle.titleEn} →`}

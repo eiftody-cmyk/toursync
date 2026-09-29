@@ -186,7 +186,7 @@ export default function CorporateClient() {
             <a
               key={link.slug}
               className="corp-evidence-card"
-              href={`/ja/${link.slug}.html`}
+              href={`/ja/${link.slug}`}
             >
               {link.heroImage && (
                 <img

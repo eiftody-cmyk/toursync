@@ -143,19 +143,19 @@ export const ja = {
           era: "400年前",
           body: "大阪城の時代に実際に起きた、文書に残る一つのジレンマ。",
           linkLabel: "史料の出典を見る →",
-          href: "/osaka-castle-history.html",
+          href: "/osaka-castle-history",
         },
         {
           era: "1,000年前",
           body: "日本初の幕府の時代に実際に起きた、文書に残る一つのジレンマ。",
           linkLabel: "史料の出典を見る →",
-          href: "/genpei-timeline.html",
+          href: "/genpei-timeline",
         },
         {
           era: "1,500年前",
           body: "蘇我氏と皇室の時代に実際に起きた、文書に残る一つのジレンマ。",
           linkLabel: "史料の出典を見る →",
-          href: "/soga-fujiwara-timeline.html",
+          href: "/soga-fujiwara-timeline",
         },
       ],
       note:

@@ -52,8 +52,8 @@ export function TimelineHooks({
             key={link.slug}
             href={
               locale === "ja"
-                ? `https://osakacastletours.com/ja/${link.slug}.html`
-                : `https://osakacastletours.com/${link.slug}.html`
+                ? `/ja/${link.slug}`
+                : `/${link.slug}`
             }
             className="timeline-hook-card"
           >

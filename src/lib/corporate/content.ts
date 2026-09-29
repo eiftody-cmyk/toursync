@@ -142,19 +142,19 @@ export const en = {
           era: "400 years",
           body: "A documented dilemma from the age of Osaka Castle.",
           linkLabel: "Where the evidence comes from →",
-          href: "/osaka-castle-history.html",
+          href: "/osaka-castle-history",
         },
         {
           era: "1,000 years",
           body: "A documented dilemma from the age of Japan's first shogunate.",
           linkLabel: "Where the evidence comes from →",
-          href: "/genpei-timeline.html",
+          href: "/genpei-timeline",
         },
         {
           era: "1,500 years",
           body: "A documented dilemma from the age of the Soga and the imperial line.",
           linkLabel: "Where the evidence comes from →",
-          href: "/soga-fujiwara-timeline.html",
+          href: "/soga-fujiwara-timeline",
         },
       ],
       note:
