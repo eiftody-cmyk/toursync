@@ -211,6 +211,20 @@ export const educationTimelineLinks: TimelineLink[] = [
     heroImage: "images/toyotomihideyoshi.webp",
   },
   {
+    slug: "hideyoshi-rikyu-timeline",
+    titleEn: "From Partners to Political Problem: Hideyoshi & Sen no Rikyū, 1582–1591",
+    titleJa: "秀吉と千利休：協力者から政治的問題へ",
+    descriptionEn:
+      "Toyotomi Hideyoshi and Sen no Rikyū, 1582–1591 — command, recognition, chanoyu, and the Japanese scholarship that still disputes the causes of the rupture.",
+    descriptionJa:
+      "豊臣秀吉と千利休の1582〜1591年の関係を、日本の研究からたどる四列構成の年表 — 命令、承認、茶の湯、そして破綻の原因をめぐる論争。",
+    period: "Azuchi–Momoyama",
+    periodJa: "安土桃山",
+    levels: ["jhs", "hs", "university"],
+    relevantThemes: ["hideyoshi", "power-propaganda", "historical-memory"],
+    heroImage: "images/chrysanthemum-tenmoku.webp",
+  },
+  {
     slug: "three-unifiers",
     titleEn: "Three Unifiers — Osaka Castle Walks with Edward",
     titleJa: "三人の統一者",

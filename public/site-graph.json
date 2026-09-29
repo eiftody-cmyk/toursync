@@ -124,16 +124,16 @@
         {"slug": "sanada_nobushige", "path": "/sanada_nobushige.html", "title": "The Crimson Path — Sanada Nobushige Timeline", "ja": "/ja/sanada_nobushige.html", "period": "Sengoku–Edo"},
         {"slug": "tokugawa-ieyasu-timeline", "path": "/tokugawa-ieyasu-timeline.html", "title": "The Sleeping Dragon — Tokugawa Ieyasu Timeline", "ja": "/ja/tokugawa-ieyasu-timeline.html", "period": "Tokugawa"},
         {"slug": "lordconcubineshogunlie", "path": "/lordconcubineshogunlie.html", "title": "Private Osaka Castle History Tour | A Lord, a Concubine and a Shogun's Lie", "ja": "/ja/lordconcubineshogunlie.html", "type": "tour_page"},
-        {"slug": "hideyoshi-rikyu-timeline", "path": "/hideyoshi-rikyu-timeline.html", "title": "From Partners to Political Problem: Hideyoshi & Sen no Rikyū, 1582–1591", "ja": null, "period": "1582–1591"}
+        {"slug": "hideyoshi-rikyu-timeline", "path": "/hideyoshi-rikyu-timeline.html", "title": "From Partners to Political Problem: Hideyoshi & Sen no Rikyū, 1582–1591", "ja": "/ja/hideyoshi-rikyu-timeline", "period": "1582–1591"}
       ]
     },
     "ja_timelines": {
       "role": "Japanese twins of all EN timeline/tour pages; hreflang x-default → EN",
       "language": "ja",
-      "count": 20,
+      "count": 21,
       "funnel": ["/ja/education"],
       "funnel_note": "Intentional split: JA pages funnel to school inquiries, never to /book",
-      "global_nav": ["/", "all 20 /ja/*.html", "/ja/education", "EN twin", "tel:+819012474069", "https://wa.me/819012474069"],
+      "global_nav": ["/", "all 21 /ja/*.html", "/ja/education", "EN twin", "tel:+819012474069", "https://wa.me/819012474069"],
       "pages": [
         {"slug": "deeptimeline", "path": "/ja/deeptimeline.html", "en": "/deeptimeline.html", "title": "上町台地 ── ディープタイム・タイムライン"},
         {"slug": "before-the-castle-prehistoric-osaka", "path": "/ja/before-the-castle-prehistoric-osaka.html", "en": "/articles/before-the-castle-prehistoric-osaka", "title": "城の前：大坂が先史時代の潟であった頃"},
@@ -154,7 +154,8 @@
         {"slug": "toyotomi_hideyori", "path": "/ja/toyotomi_hideyori.html", "en": "/toyotomi_hideyori.html", "title": "豊臣秀頼：大阪城の崩壊に直面した継承者"},
         {"slug": "sanada_nobushige", "path": "/ja/sanada_nobushige.html", "en": "/sanada_nobushige.html", "title": "真田信繁 — 日本最強の武将"},
         {"slug": "tokugawa-ieyasu-timeline", "path": "/ja/tokugawa-ieyasu-timeline.html", "en": "/tokugawa-ieyasu-timeline.html", "title": "徳川家康の年表"},
-        {"slug": "lordconcubineshogunlie", "path": "/ja/lordconcubineshogunlie.html", "en": "/lordconcubineshogunlie.html", "title": "歴史家が案内する大阪城プライベートツアー"}
+        {"slug": "lordconcubineshogunlie", "path": "/ja/lordconcubineshogunlie.html", "en": "/lordconcubineshogunlie.html", "title": "歴史家が案内する大阪城プライベートツアー"},
+        {"slug": "hideyoshi-rikyu-timeline", "path": "/ja/hideyoshi-rikyu-timeline.html", "en": "/hideyoshi-rikyu-timeline", "title": "秀吉と千利休：協力者から政治的問題へ"}
       ]
     },
     "hub_and_guides": {
@@ -256,10 +257,10 @@
     ]
   },
   "hreflang": {
-    "static_pairs": 20,
+    "static_pairs": 21,
     "static_rule": "EN ↔ JA for all timeline/tour pages; x-default → EN on both sides",
     "app_pairs": "/education* ↔ /ja/education* and /corporate ↔ /ja/corporate via Next.js metadata alternates",
-    "en_only": "all other EN marketing/guides/articles have no JA twins; /hideyoshi-rikyu-timeline is EN-only until its JA edition ships"
+    "en_only": "all other EN marketing/guides/articles have no JA twins"
   },
   "funnels": [
     {"from": "EN static pages", "to": ["/book?tour=…", "/book/custom", "tel:", "wa.me"], "intent": "booking"},
@@ -276,7 +277,7 @@
       "/testimonials.html", "/aboutme.html", "/history-beyond-the-postcard.html",
       "/faq.html", "/book/custom", "tel:+819012474069", "https://wa.me/819012474069"
     ],
-    "ja_static_nav": ["/", "all 20 /ja/*.html", "/ja/education", "EN twin", "tel:+819012474069", "https://wa.me/819012474069"],
+    "ja_static_nav": ["/", "all 21 /ja/*.html", "/ja/education", "EN twin", "tel:+819012474069", "https://wa.me/819012474069"],
     "education_header": ["/education", "/education/junior-high", "/education/high-school", "/education/university", "/education/teacher-pack", "EN/日本語 toggle", "#inquiry-form CTA"],
     "corporate_header": ["/corporate#experience", "/corporate#how-it-works", "/corporate#before-after", "/corporate#evidence", "/corporate#pricing", "/corporate#inquiry-form", "EN/日本語 toggle"],
     "education_footer": ["/", "/aboutme", "/faq"]

@@ -16,6 +16,7 @@
 
 - /ja/osaka-castle-history.html — 大阪城：豊臣秀吉、大坂の陣、そして埋もれた歴史
 - /ja/toyotomihideyoshi.html — 太閤の道 — 豊臣秀吉の年表
+- /ja/hideyoshi-rikyu-timeline.html — 秀吉と千利休：協力者から政治的問題へ ― 年表
 - /ja/ishiyama-timeline.html — 石山本願寺戦争（1570〜1580）
 - /ja/three-unifiers.html — 三人の統一者
 - /ja/tokugawa-ieyasu-timeline.html — 睡龍 — 徳川家康の年表
@@ -33,7 +34,7 @@
 - /ja/soga-fujiwara-timeline.html — 蘇我氏、藤原氏と皇室 — 朝廷政治タイムライン
 - /ja/tenjin-matsuri-history.html — 天神祭 — 大阪最大の祭礼
 - /ja/deeptimeline.html — 上町台地 ── ディープタイム・タイムライン
-- /hideyoshi-rikyu-timeline — From Partners to Political Problem: Hideyoshi & Sen no Rikyū, 1582–1591（英語版、日本語版は準備中）
+- /hideyoshi-rikyu-timeline — From Partners to Political Problem: Hideyoshi & Sen no Rikyū, 1582–1591（日本語版は /ja/hideyoshi-rikyu-timeline）
 - /osaka_history_things_to_do — 大阪城の見学ガイド（歴史家の視点） / Osaka Castle visitor guide
 
 ## エッセイ / Essays & Research (English)
@@ -121,7 +122,7 @@ Sitemap: https://osakacastletours.com/sitemap.xml
 Three audiences, three funnels, one historian:
 
 - **Travelers (English)** → tour pages (/beforejapanhadaname.html, /warriormonkspeasantshogun.html, /goddess_queen_empress_concubine.html, /lordconcubineshogunlie.html) → book at /book?tour=… or /book/custom. Timeline articles (20 EN pages, e.g. /osaka-castle-history.html) support SEO and link to booking. Hub: /osaka_history_things_to_do.html.
-- **Schools (English & Japanese)** → education pages (/education and subpages; Japanese at /ja/education) → inquiry form at /education#inquiry-form → POST /api/education/inquiry → email to the operator. All 20 Japanese timeline pages (/ja/*.html) funnel only to /ja/education — they intentionally contain no booking links.
+- **Schools (English & Japanese)** → education pages (/education and subpages; Japanese at /ja/education) → inquiry form at /education#inquiry-form → POST /api/education/inquiry → email to the operator. All 21 Japanese timeline pages (/ja/*.html) funnel only to /ja/education — they intentionally contain no booking links.
 - **Language pairs**: 20 EN↔JA static pages declare hreflang (x-default → English). Education pages pair /education* with /ja/education* via metadata.- **Companies (English & Japanese)** → corporate page (/corporate; Japanese at /ja/corporate) → enquiry form at /corporate#inquiry-form → POST /api/corporate/inquiry → email to the operator. Quote-based, capacity pricing only (¥200,000 / ¥300,000 / ¥400,000 for up to 15 / 30 / 40 participants); no online checkout.
 - **Trust**: /aboutme.html, /faq.html, /testimonials.html, /in_the_media.html; press: The Japan Times.
 - **Guides**: /osaka-castle-entry-tickets-guide.html, /osaka-castle-vs-himeji-castle.html, /photography-guide.html; essays hub: /history-beyond-the-postcard.html → /articles/*.

@@ -73,6 +73,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "empress_jingu_timeline",
     "fujiwara-shadow-politics",
     "genpei-timeline",
+    "hideyoshi-rikyu-timeline",
     "ishiyama-timeline",
     "lordconcubineshogunlie",
     "ojinsuccession",
