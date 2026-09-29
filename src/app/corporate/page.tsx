@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
 import CorporateClient from "./CorporateClient";
-import {
-  buildBreadcrumbJsonLd,
-  buildFaqJsonLd,
-  jsonLd,
-  pageUrl,
-  type Locale,
-} from "@/lib/education/json-ld";
-import { buildArticleJsonLd } from "@/lib/corporate/json-ld";
+import { jsonLd, pageUrl, type Locale } from "@/lib/education/json-ld";
+import { buildCorporateGraphJsonLd } from "@/lib/corporate/json-ld";
 import { en } from "@/lib/corporate/content";
 import { ja as jaContent } from "@/lib/corporate/content-ja";
 
@@ -17,7 +11,7 @@ const IMG = `${SITE}/images/azaiclanbetrayal.webp`;
 const TITLE_EN = "Corporate Team Building: Osaka's Historical Dilemmas";
 const TITLE_JA = "法人向けチームビルディング：大阪の歴史的ジレンマ";
 const DESC_EN =
-  "Private corporate team building at Osaka Castle: three real historical dilemmas your teams investigate, debate, and vote on. 10–40 participants. ¥200,000–¥400,000 per group."
+  "Private corporate team building at Osaka Castle: three real historical dilemmas to investigate, debate and vote on. 10–40 participants, ¥200,000–¥400,000.";
 const DESC_JA =
   "大阪城での法人向けチームビルディング。実在する歴史的ジレンマを三つ用意し、チームで調査・議論・判断・投票します。10〜40名・グループ ¥200,000〜¥400,000。";
 
@@ -100,21 +94,19 @@ export default async function CorporatePage({
   const locale = getLocale(await searchParams);
   const content = locale === "ja" ? jaContent : en;
 
-  const articleJsonLd = buildArticleJsonLd({
+  const graphJsonLd = buildCorporateGraphJsonLd({
     titleEn: TITLE_EN,
     titleJa: TITLE_JA,
     descriptionEn: DESC_EN,
     descriptionJa: DESC_JA,
     url: `${SITE}/corporate`,
     urlJa: `${SITE}/ja/corporate`,
+    locale,
     image: IMG,
-    locale,
+    imageWidth: 2296,
+    imageHeight: 1222,
     datePublished: "2026-09-28",
-  });
-
-  const breadcrumbJsonLd = buildBreadcrumbJsonLd({
-    locale,
-    items: [
+    breadcrumb: [
       {
         name: "Home",
         nameJa: "ホーム",
@@ -128,28 +120,22 @@ export default async function CorporatePage({
         urlJa: `${SITE}/ja/corporate`,
       },
     ],
-  });
-
-  const faqJsonLd = buildFaqJsonLd(
-    content.hub.faq.map((f) => ({
+    faq: content.hub.faq.map((f) => ({
       question: f.q,
       answer: f.a,
-    }))
-  );
+    })),
+    tiers: en.hub.pricing.tiers.map((tier, i) => ({
+      size: tier.size,
+      sizeJa: jaContent.hub.pricing.tiers[i]?.size ?? tier.size,
+      price: tier.price,
+    })),
+  });
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLd(articleJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLd(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(graphJsonLd) }}
       />
       <CorporateClient />
     </>

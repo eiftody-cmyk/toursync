@@ -51,7 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
       default: "Corporate Team Building: Osaka's Historical Dilemmas",
     },
     description:
-      "Private corporate team building at Osaka Castle: three real historical dilemmas your teams investigate, debate, and vote on. 10–40 participants. ¥200,000–¥400,000 per group.",
+      "Private corporate team building at Osaka Castle: three real historical dilemmas to investigate, debate and vote on. 10–40 participants, ¥200,000–¥400,000.",
     openGraph: {
       title: "Corporate Team Building: Osaka's Historical Dilemmas",
       description:

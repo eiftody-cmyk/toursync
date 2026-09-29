@@ -25,6 +25,8 @@ export async function middleware(request: NextRequest) {
     "/toyotomi_hideyoshi": "/toyotomihideyoshi",
     "/osaka-castle": "/osaka-castle-history",
     "/osakacastletours.com": "/",
+    "/business": "/corporate",
+    "/ja/business": "/ja/corporate",
   };
   const target = REDIRECTS[pathname] ?? REDIRECTS[pathname.replace(/\/$/, "")];
   if (target) {

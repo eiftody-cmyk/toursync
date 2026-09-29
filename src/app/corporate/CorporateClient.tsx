@@ -67,7 +67,7 @@ export default function CorporateClient() {
           {h.howItWorks.steps.map((step) => (
             <div key={step.number} className="corp-ladder-step">
               <div className="corp-ladder-number">{step.number}</div>
-              <h4>{step.title}</h4>
+              <h3>{step.title}</h3>
               <p>{step.description}</p>
             </div>
           ))}
@@ -84,7 +84,7 @@ export default function CorporateClient() {
             <div key={phase.label} className="corp-lifecycle-card">
               <div className="corp-lifecycle-label">{phase.label}</div>
               <div className="corp-lifecycle-timing">{phase.timing}</div>
-              <h4>{phase.title}</h4>
+              <h3>{phase.title}</h3>
               <p>{phase.body}</p>
               <ul>
                 {phase.items.map((item, i) => (
@@ -104,7 +104,7 @@ export default function CorporateClient() {
         <div className="corp-why-grid">
           {h.why.benefits.map((benefit) => (
             <div key={benefit.title} className="corp-why-card">
-              <h4>{benefit.title}</h4>
+              <h3>{benefit.title}</h3>
               <p>{benefit.body}</p>
             </div>
           ))}
@@ -199,7 +199,7 @@ export default function CorporateClient() {
               <div className="corp-evidence-period">
                 {locale === "ja" ? link.periodJa : link.period}
               </div>
-              <h4>{locale === "ja" ? link.titleJa : link.titleEn}</h4>
+              <h3>{locale === "ja" ? link.titleJa : link.titleEn}</h3>
               <p>{locale === "ja" ? link.descriptionJa : link.descriptionEn}</p>
             </a>
           ))}
@@ -227,7 +227,7 @@ export default function CorporateClient() {
         <div className="edu-faq">
           {h.faq.map((item, i) => (
             <div key={i} className="edu-faq-item">
-              <h4>{item.q}</h4>
+              <h3>{item.q}</h3>
               <p>{item.a}</p>
             </div>
           ))}

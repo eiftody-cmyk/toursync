@@ -120,7 +120,7 @@
   margin-bottom: 0.85rem;
 }
 
-.corp-ladder-step h4 {
+.corp-ladder-step h3 {
   font-family: 'Cinzel', serif;
   font-size: 0.8rem;
   letter-spacing: 0.1em;
@@ -177,7 +177,7 @@
   margin-bottom: 0.85rem;
 }
 
-.corp-lifecycle-card h4 {
+.corp-lifecycle-card h3 {
   font-family: 'Cinzel', serif;
   font-size: 0.85rem;
   letter-spacing: 0.1em;
@@ -249,7 +249,7 @@
   padding: 1.5rem 1.4rem;
 }
 
-.corp-why-card h4 {
+.corp-why-card h3 {
   font-family: 'Cinzel', serif;
   font-size: 0.8rem;
   letter-spacing: 0.1em;
@@ -409,7 +409,7 @@
   margin-bottom: 0.5rem;
 }
 
-.corp-evidence-card h4 {
+.corp-evidence-card h3 {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.1rem;
   font-weight: 600;

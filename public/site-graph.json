@@ -1,6 +1,6 @@
 {
   "site": "https://osakacastletours.com",
-  "generated": "2026-09-27",
+  "generated": "2026-09-29",
   "version": 1,
   "entity": {
     "name": "Osaka Castle Walks with Edward",
@@ -229,6 +229,7 @@
       },
       "pricing": "¥200,000 / ¥300,000 / ¥400,000 for up to 15 / 30 / 40 participants — capacity pricing only, no per-person figures",
       "mechanic": "Investigate → Debate → Decide → Reveal → Reassess → Vote; historical outcome is evidence, never a correct answer",
+      "materials": "Before: one-page Team Brief sent 3–7 days ahead (format, prep, practical details; deliberately no answer-revealing history). After: Post-Event Team Pack within 24–48 hours — team decisions vs. historical outcome report + one-page Organizer Debrief Sheet",
       "pages": [
         {"path": "/corporate", "title": "Corporate Team Building: Osaka's Historical Dilemmas", "ja": "/ja/corporate"}
       ],
@@ -276,7 +277,7 @@
     ],
     "ja_static_nav": ["/", "all 20 /ja/*.html", "/ja/education", "EN twin", "tel:+819012474069", "https://wa.me/819012474069"],
     "education_header": ["/education", "/education/junior-high", "/education/high-school", "/education/university", "/education/teacher-pack", "EN/日本語 toggle", "#inquiry-form CTA"],
-    "corporate_header": ["/corporate#experience", "/corporate#how-it-works", "/corporate#evidence", "/corporate#pricing", "/corporate#inquiry-form", "EN/日本語 toggle"],
+    "corporate_header": ["/corporate#experience", "/corporate#how-it-works", "/corporate#before-after", "/corporate#evidence", "/corporate#pricing", "/corporate#inquiry-form", "EN/日本語 toggle"],
     "education_footer": ["/", "/aboutme", "/faq"]
   },
   "known_issues": [
