@@ -46,3 +46,6 @@ next-env.d.ts
 
 # Synced but unreferenced (only _boosted.m4a is used in JSON-LD)
 public/articles/audio/Osaka_Museum_Oriental_Ceramics_Kobyashi.m4a
+
+# supabase cli cache
+supabase/.temp/
