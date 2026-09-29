@@ -40,6 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "fujiwara-shadow-politics",
     "genpei-timeline",
     "goddess_queen_empress_concubine",
+    "hideyoshi-rikyu-timeline",
     "history-beyond-the-postcard",
     "in_the_media",
     "ishiyama-timeline",

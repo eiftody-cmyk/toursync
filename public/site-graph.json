@@ -101,7 +101,7 @@
     "en_timelines": {
       "role": "SEO/AEO history content; primary organic inbound; funnel → booking",
       "language": "en",
-      "count": 19,
+      "count": 20,
       "hub": "/osaka_history_things_to_do.html",
       "funnel": ["/book?tour=…", "/book/custom", "tel:+819012474069", "https://wa.me/819012474069"],
       "pages": [
@@ -123,7 +123,8 @@
         {"slug": "toyotomi_hideyori", "path": "/toyotomi_hideyori.html", "title": "Toyotomi Hideyori: Heir to Osaka Castle's Fall", "ja": "/ja/toyotomi_hideyori.html", "period": "Sengoku–Tokugawa"},
         {"slug": "sanada_nobushige", "path": "/sanada_nobushige.html", "title": "The Crimson Path — Sanada Nobushige Timeline", "ja": "/ja/sanada_nobushige.html", "period": "Sengoku–Edo"},
         {"slug": "tokugawa-ieyasu-timeline", "path": "/tokugawa-ieyasu-timeline.html", "title": "The Sleeping Dragon — Tokugawa Ieyasu Timeline", "ja": "/ja/tokugawa-ieyasu-timeline.html", "period": "Tokugawa"},
-        {"slug": "lordconcubineshogunlie", "path": "/lordconcubineshogunlie.html", "title": "Private Osaka Castle History Tour | A Lord, a Concubine and a Shogun's Lie", "ja": "/ja/lordconcubineshogunlie.html", "type": "tour_page"}
+        {"slug": "lordconcubineshogunlie", "path": "/lordconcubineshogunlie.html", "title": "Private Osaka Castle History Tour | A Lord, a Concubine and a Shogun's Lie", "ja": "/ja/lordconcubineshogunlie.html", "type": "tour_page"},
+        {"slug": "hideyoshi-rikyu-timeline", "path": "/hideyoshi-rikyu-timeline.html", "title": "From Partners to Political Problem: Hideyoshi & Sen no Rikyū, 1582–1591", "ja": null, "period": "1582–1591"}
       ]
     },
     "ja_timelines": {
@@ -258,7 +259,7 @@
     "static_pairs": 20,
     "static_rule": "EN ↔ JA for all timeline/tour pages; x-default → EN on both sides",
     "app_pairs": "/education* ↔ /ja/education* and /corporate ↔ /ja/corporate via Next.js metadata alternates",
-    "en_only": "all other EN marketing/guides/articles have no JA twins"
+    "en_only": "all other EN marketing/guides/articles have no JA twins; /hideyoshi-rikyu-timeline is EN-only until its JA edition ships"
   },
   "funnels": [
     {"from": "EN static pages", "to": ["/book?tour=…", "/book/custom", "tel:", "wa.me"], "intent": "booking"},
