@@ -120,7 +120,7 @@ export default async function TeacherPackPage({
         name: "Home",
         nameJa: "ホーム",
         url: SITE,
-        urlJa: `${SITE}/ja/education`,
+        urlJa: SITE,
       },
       {
         name: "Osaka History Investigations",
@@ -141,7 +141,8 @@ export default async function TeacherPackPage({
     content.teacherPack.faq.map((f) => ({
       question: f.q,
       answer: f.a,
-    }))
+    })),
+    locale
   );
 
   const learningResourceJsonLd = buildLearningResourceJsonLd({
@@ -159,6 +160,7 @@ export default async function TeacherPackPage({
   const howToJsonLd = {
     "@context": "https://schema.org",
     "@type": "HowTo",
+    inLanguage: locale === "ja" ? "ja" : "en",
     name:
       locale === "ja"
         ? "フィールド探究の進め方"

@@ -74,6 +74,7 @@ export function buildBreadcrumbJsonLd(opts: {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
+    inLanguage: ja ? "ja" : "en",
     itemListElement: opts.items.map((item, i) => ({
       "@type": "ListItem",
       position: i + 1,
@@ -84,11 +85,13 @@ export function buildBreadcrumbJsonLd(opts: {
 }
 
 export function buildFaqJsonLd(
-  faqs: Array<{ question: string; answer: string }>
+  faqs: Array<{ question: string; answer: string }>,
+  locale?: Locale
 ) {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    inLanguage: locale === "ja" ? "ja" : "en",
     mainEntity: faqs.map((faq) => ({
       "@type": "Question",
       name: faq.question,

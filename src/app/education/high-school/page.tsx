@@ -120,7 +120,7 @@ export default async function HighSchoolPage({
         name: "Home",
         nameJa: "ホーム",
         url: SITE,
-        urlJa: `${SITE}/ja/education`,
+        urlJa: SITE,
       },
       {
         name: "Osaka History Investigations",
@@ -141,7 +141,8 @@ export default async function HighSchoolPage({
     content.highSchool.faq.map((f) => ({
       question: f.q,
       answer: f.a,
-    }))
+    })),
+    locale
   );
 
   const courseJsonLd = buildCourseJsonLd({

@@ -11,6 +11,14 @@ const GYG_CORS_HEADERS: Record<string, string> = {
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
+  // Locale signal for server components: request headers set here are visible
+  // to headers() during the same render, unlike the edu-locale cookie which is
+  // only set on this response — first visit to a /ja/ route previously
+  // rendered lang="en".
+  if (pathname === "/ja" || pathname.startsWith("/ja/")) {
+    request.headers.set("x-locale", "ja");
+  }
+
   // Canonical URL hygiene: every .html URL 301s to its extensionless twin.
   if (pathname.endsWith(".html")) {
     const url = request.nextUrl.clone();

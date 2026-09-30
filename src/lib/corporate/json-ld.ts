@@ -99,6 +99,7 @@ export function buildCorporateGraphJsonLd(opts: {
       {
         "@type": "BreadcrumbList",
         "@id": breadcrumbId,
+        inLanguage: ja ? "ja" : "en",
         itemListElement: opts.breadcrumb.map((item, i) => ({
           "@type": "ListItem",
           position: i + 1,
@@ -109,6 +110,7 @@ export function buildCorporateGraphJsonLd(opts: {
       {
         "@type": "FAQPage",
         "@id": faqId,
+        inLanguage: ja ? "ja" : "en",
         mainEntityOfPage: { "@id": webpageId },
         mainEntity: opts.faq.map((faq) => ({
           "@type": "Question",

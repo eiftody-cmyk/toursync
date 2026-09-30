@@ -121,7 +121,7 @@ export default async function EducationPage({
         name: "Home",
         nameJa: "ホーム",
         url: SITE,
-        urlJa: `${SITE}/ja/education`,
+        urlJa: SITE,
       },
       {
         name: "Osaka History Investigations",
@@ -136,7 +136,8 @@ export default async function EducationPage({
     content.hub.problem.faq.map((f) => ({
       question: f.q,
       answer: f.a,
-    }))
+    })),
+    locale
   );
 
   const courseJsonLd = buildCourseJsonLd({
@@ -156,6 +157,7 @@ export default async function EducationPage({
   const howToJsonLd = {
     "@context": "https://schema.org",
     "@type": "HowTo",
+    inLanguage: locale === "ja" ? "ja" : "en",
     name:
       locale === "ja"
         ? "フィールド探究の申し込み方法"
