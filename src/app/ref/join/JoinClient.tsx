@@ -154,8 +154,8 @@ export function JoinClient({
               , {result.display_name}!
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
-              This is your QR code. Give it to customers — when they book through
-              it, you receive <strong>¥1,500 per guest</strong>.
+              This is your QR code. Give it to customers — when they book
+              through it, <strong>you get paid commission on every guest</strong>.
             </p>
           </div>
 
@@ -215,8 +215,9 @@ export function JoinClient({
             Get your referral QR
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Customers scan your personal QR, book the Osaka Castle tour — you get{" "}
-            <strong>¥1,500 per guest</strong>. Takes about 10 seconds.
+            Customers scan your personal QR, book the Osaka Castle tour — you
+            get <strong>paid commission on every guest</strong>. Takes about 10
+            seconds.
           </p>
         </div>
 
