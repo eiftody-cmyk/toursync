@@ -222,7 +222,7 @@ export const educationTimelineLinks: TimelineLink[] = [
     periodJa: "安土桃山",
     levels: ["jhs", "hs", "university"],
     relevantThemes: ["hideyoshi", "power-propaganda", "historical-memory"],
-    heroImage: "images/chrysanthemum-tenmoku.webp",
+    heroImage: "images/hideyoshi-rikyu-hero.webp",
   },
   {
     slug: "three-unifiers",
