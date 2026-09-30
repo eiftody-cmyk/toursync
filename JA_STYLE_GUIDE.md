@@ -20,7 +20,7 @@ this document covers everything a script cannot judge.
   in the form `1615年（元和元年）`. Roughly 1–3 per page. Not on every date.
 - Known era anchors (verify before using): 桶狭間1560=永禄3年 · 石山和議1580=天正8年 ·
   本能寺1582=天正10年 · 大坂築城1583=天正11年 · 関ヶ原1600=慶長5年 ·
-  幕府開設1603=慶長3年 · 秀吉死去1598=慶長3年 · 冬の陣1614=慶長19年 ·
+  幕府開設1603=慶長8年 · 秀吉死去1598=慶長3年 · 冬の陣1614=慶長19年 ·
   夏の陣1615=慶長20年 · 壇ノ浦1185=元暦2年 · 大化の改新645=大化元年 ·
   四天王寺創建593=推古元年 · 天神祭創始951=天暦5年.
 - Pre-modern events without a reliable era name: Gregorian only, or
@@ -37,6 +37,9 @@ this document covers everything a script cannot judge.
 - Battles: `大坂の陣` (never 大阪の陣); full names `大坂冬の陣`/`大坂夏の陣` on
   first mention, then `冬の陣`/`夏の陣`. `関ヶ原の戦い` (not bare 関ヶ原 for the
   battle noun). JA Wikipedia titles are the arbiter for any disputed term.
+- City: `大坂` for the historical city in pre-1868 contexts (people arriving at
+  大坂, 大坂 staying over, the castle town); `大阪` for modern contexts (大阪市,
+  addresses, the modern park/tour). Same sense must not alternate inside a page.
 - Institutions: `徳川幕府` and `江戸幕府` are both valid — pick one per page
   (徳川幕府 default; 江戸幕府 in contexts contrasting the shogunate with the
   imperial court).
