@@ -52,3 +52,18 @@ npm run check:data
 ```
 
 The check also runs in `npm run build`, `npm run preview`, `npm run deploy`, and in CI (`.github/workflows/deeptimeline-parity.yml`). It exists because redirecting canonicals (19 JA pages), 8 dead JSON-LD image URLs and 6 EN pages without FAQPage shipped unnoticed — nothing was broken enough for a link checker to fail.
+
+# JA naturalness guard (public/ja)
+
+`public/ja/*.html` follows `JA_STYLE_GUIDE.md`; machine-readable term rules
+live in `data/ja-glossary.json`. After any JA edit run:
+
+```bash
+npm run check:ja
+```
+
+It fails on simplified-Chinese characters, forbidden terminology
+(大阪の陣, Chinese forms, calques), untranslated English paragraphs, and —
+once `JA_STRICT_TITLES=1` — title drift (dash chars, タイムライン in titles,
+brand suffix must be `| エドワードと歩く大阪城`). Runs in `npm run build`,
+`preview`, `deploy` and CI. Term edits go in the glossary first, then the page.

@@ -23,3 +23,5 @@ jobs:
         run: node scripts/check-deeptimeline-parity.mjs
       - name: Check JSON-LD / AEO integrity
         run: node scripts/check-structured-data.mjs
+      - name: Check JA style / terminology
+        run: node scripts/check-ja-style.mjs
