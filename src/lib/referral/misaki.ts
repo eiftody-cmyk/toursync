@@ -17,8 +17,6 @@
 
 import { isPartner } from "@/config/referral-partners";
 
-export const REFERRAL_COMMISSION_PER_GUEST = 1500;
-
 /** Cookie set by the referral landing pages: value "<partner>|<staff>". */
 export const ATTR_COOKIE = "ref_attr";
 /** Pre-multi-partner cookie (value = staff text only, partner implied). */

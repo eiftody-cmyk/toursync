@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { REFERRAL_PARTNERS, isPartner } from "@/config/referral-partners";
-import { REFERRAL_COMMISSION_PER_GUEST } from "@/lib/referral/misaki";
-import type { Booking } from "@/types";
+import { calcCommission, getCommissionRate } from "@/lib/revenue";
+import type { Booking, Tour } from "@/types";
 
 export interface StaffRow {
   partner: string;
@@ -34,6 +34,7 @@ interface AttributionGroup {
   partner: string;
   bookings: number;
   guests: number;
+  payout: number;
 }
 
 function yen(n: number): string {
@@ -46,21 +47,23 @@ function addBooking(
   name: string,
   contact: string | null,
   partner: string,
-  booking: Booking
+  booking: Booking,
+  payout: number
 ) {
   let group = map.get(key);
   if (!group) {
-    group = { key, name, contact, partner, bookings: 0, guests: 0 };
+    group = { key, name, contact, partner, bookings: 0, guests: 0, payout: 0 };
     map.set(key, group);
   }
   group.bookings += 1;
   group.guests += booking.guest_count;
+  group.payout += payout;
 }
 
 /**
  * Admin payout report (registration ≠ payout):
  *   1. registered staff — confirmed bookings attributed to a referral_staff
- *      slug (payable at flat ¥1,500/guest)
+ *      slug (payable at booking value × that partner's payout rate)
  *   2. manual attribution — partner bookings whose referrer_staff text does
  *      not match a registered slug (payable, human-verify the name)
  *   3. unattributed — confirmed bookings without a partner referral (¥0)
@@ -70,9 +73,13 @@ function addBooking(
 export function ReferralPayouts({
   bookings,
   staff,
+  tours,
+  rates,
 }: {
   bookings: Booking[];
   staff: StaffRow[];
+  tours: Tour[];
+  rates: Record<string, number> | null;
 }) {
   const year = new Date().getFullYear();
 
@@ -86,10 +93,12 @@ export function ReferralPayouts({
       partner: "—",
       bookings: 0,
       guests: 0,
+      payout: 0,
     };
 
     const staffKeys = new Set(staff.map((s) => `${s.partner}:${s.slug}`));
     const staffByKey = new Map(staff.map((s) => [`${s.partner}:${s.slug}`, s]));
+    const priceById = new Map(tours.map((t) => [t.id, t.price]));
 
     for (const b of bookings) {
       const source = b.source ?? "";
@@ -98,11 +107,13 @@ export function ReferralPayouts({
         un.guests += b.guest_count;
         continue;
       }
+      const price = priceById.get(b.tour_id) ?? 0;
+      const payout = calcCommission(source, price, b.guest_count, rates);
       const value = b.referrer_staff?.trim() || "";
       const key = `${source}:${value}`;
       if (value && staffKeys.has(key)) {
         const row = staffByKey.get(key)!;
-        addBooking(regMap, key, row.display_name, row.contact, source, b);
+        addBooking(regMap, key, row.display_name, row.contact, source, b, payout);
       } else {
         addBooking(
           manMap,
@@ -110,25 +121,25 @@ export function ReferralPayouts({
           value || "(no name)",
           null,
           source,
-          b
+          b,
+          payout
         );
       }
     }
 
     const byPayout = (a: AttributionGroup, c: AttributionGroup) =>
-      c.guests - a.guests || a.name.localeCompare(c.name);
+      c.payout - a.payout || a.name.localeCompare(c.name);
 
     return {
       registered: [...regMap.values()].sort(byPayout),
       manual: [...manMap.values()].sort(byPayout),
       unattributed: un,
     };
-  }, [bookings, staff]);
+  }, [bookings, staff, tours, rates]);
 
   const totalPayout =
-    (registered.reduce((s, g) => s + g.guests, 0) +
-      manual.reduce((s, g) => s + g.guests, 0)) *
-    REFERRAL_COMMISSION_PER_GUEST;
+    registered.reduce((s, g) => s + g.payout, 0) +
+    manual.reduce((s, g) => s + g.payout, 0);
 
   const partnerBookings = registered.length + manual.length;
   if (partnerBookings === 0 && staff.length === 0) return null;
@@ -143,8 +154,8 @@ export function ReferralPayouts({
           </Badge>
         </div>
         <p className="text-xs text-muted-foreground">
-          Confirmed bookings in {year} · flat {yen(REFERRAL_COMMISSION_PER_GUEST)}{" "}
-          per guest · registration alone never pays out
+          Confirmed bookings in {year} · booking value × partner payout rate ·
+          registration alone never pays out
         </p>
       </CardHeader>
       <CardContent className="space-y-5">
@@ -183,7 +194,7 @@ export function ReferralPayouts({
                       {g?.guests ?? 0}
                     </TableCell>
                     <TableCell className="text-right text-sm font-medium">
-                      {yen((g?.guests ?? 0) * REFERRAL_COMMISSION_PER_GUEST)}
+                      {yen(g?.payout ?? 0)}
                     </TableCell>
                   </TableRow>
                 );
@@ -233,7 +244,7 @@ export function ReferralPayouts({
                       {g.guests}
                     </TableCell>
                     <TableCell className="text-right text-sm font-medium">
-                      {yen(g.guests * REFERRAL_COMMISSION_PER_GUEST)}
+                      {yen(g.payout)}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -271,9 +282,12 @@ export function ReferralPayouts({
         </div>
 
         <p className="text-xs text-muted-foreground">
-          Flat {yen(REFERRAL_COMMISSION_PER_GUEST)} × guests on confirmed
-          bookings; cancelled bookings pay nothing. Partners:{" "}
-          {REFERRAL_PARTNERS.map((p) => p.slug).join(", ")}.
+          Booking value × each partner&apos;s payout rate on confirmed bookings;
+          cancelled bookings pay nothing. Partners:{" "}
+          {REFERRAL_PARTNERS.map(
+            (p) => `${p.slug} (${getCommissionRate(p.slug, rates)}%)`
+          ).join(", ")}
+          .
         </p>
       </CardContent>
     </Card>

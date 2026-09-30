@@ -1,11 +1,13 @@
-import { isPartner, REFERRAL_PARTNERS } from "@/config/referral-partners";
-import { REFERRAL_COMMISSION_PER_GUEST } from "@/lib/referral/misaki";
+import { REFERRAL_PARTNERS } from "@/config/referral-partners";
 
-// Referral partners share one policy: flat ¥1,500/guest (handled in
-// calcCommission/calcNet, never as a percentage — 0 keeps getCommissionRate
-// from falling back to 25 if a partner ever misses the flat check).
+// Referral partners (/ref/join) pay a percentage of booking value at a rate
+// unique to each partner (public.referral_partners, applied upstream and
+// merged into the rates map before calcCommission/calcNet). 10 is the
+// fallback until migration 035 exists or a key is missing from the map;
+// partner slugs must never fall through to the 25% unknown-source default.
+const PARTNER_DEFAULT_RATE = 10;
 const PARTNER_RATES = Object.fromEntries(
-  REFERRAL_PARTNERS.map((p) => [p.slug, 0])
+  REFERRAL_PARTNERS.map((p) => [p.slug, PARTNER_DEFAULT_RATE])
 );
 const PARTNER_LABELS = Object.fromEntries(
   REFERRAL_PARTNERS.map((p) => [p.slug, p.displayName])
@@ -44,11 +46,6 @@ export function calcGross(price: number, guests: number): number {
   return price * guests;
 }
 
-/** Flat per-guest referral fee (any partner), or null for percentage sources. */
-function flatCommission(source: string, guests: number): number | null {
-  return isPartner(source) ? REFERRAL_COMMISSION_PER_GUEST * guests : null;
-}
-
 export function calcNet(
   source: string,
   price: number,
@@ -56,8 +53,6 @@ export function calcNet(
   rates: Record<string, number> | null
 ): number {
   const gross = calcGross(price, guests);
-  const flat = flatCommission(source, guests);
-  if (flat !== null) return gross - flat;
   const rate = getCommissionRate(source, rates);
   return Math.round(gross * (1 - rate / 100));
 }
@@ -69,8 +64,6 @@ export function calcCommission(
   rates: Record<string, number> | null
 ): number {
   const gross = calcGross(price, guests);
-  const flat = flatCommission(source, guests);
-  if (flat !== null) return flat;
   const rate = getCommissionRate(source, rates);
   return Math.round(gross * rate / 100);
 }

@@ -14,6 +14,7 @@ import { RevenueExpandable } from "@/components/dashboard/RevenueExpandable";
 import { ReferralPayouts } from "@/components/dashboard/ReferralPayouts";
 import { UpcomingBlocksLink } from "@/components/dashboard/UpcomingBlocksLink";
 import { calcNet } from "@/lib/revenue";
+import { REFERRAL_PARTNERS } from "@/config/referral-partners";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -33,6 +34,7 @@ export default async function DashboardPage() {
     tokensResult,
     settingsResult,
     staffResult,
+    partnerRatesResult,
   ] = await Promise.all([
     supabase
       .from("tours")
@@ -54,6 +56,9 @@ export default async function DashboardPage() {
       .from("referral_staff")
       .select("partner, slug, display_name, contact")
       .order("created_at"),
+    // Tolerant: 035 not applied yet → error + null data, degrade to [] and
+    // revenue.ts falls back to the 10% per-partner default.
+    supabase.from("referral_partners").select("slug, payout_rate"),
   ]);
 
   const tours = toursResult.data ?? [];
@@ -72,6 +77,20 @@ export default async function DashboardPage() {
     staffRows.map((s) => [`${s.partner}:${s.slug}`, s.display_name])
   );
 
+  // /ref/join partner payout rates live in referral_partners (035). Strip
+  // any stale partner keys from commission_rates so the table is the only
+  // authority on partner rates; OTA/channel keys pass through untouched.
+  const partnerSlugs = new Set(REFERRAL_PARTNERS.map((p) => p.slug));
+  const baseRates: Record<string, number> = {};
+  for (const [key, value] of Object.entries(commissionRates ?? {})) {
+    if (!partnerSlugs.has(key)) baseRates[key] = value;
+  }
+  const partnerRates = Object.fromEntries(
+    ((partnerRatesResult.data ?? []) as { slug: string; payout_rate: number }[])
+      .map((r) => [r.slug, Number(r.payout_rate)])
+  );
+  const calcRates: Record<string, number> = { ...baseRates, ...partnerRates };
+
   const monthPrefix = today.slice(0, 7);
   const monthBookings = bookings.filter((b) => b.date.startsWith(monthPrefix));
   const monthGuests = monthBookings.reduce((s, b) => s + b.guest_count, 0);
@@ -79,7 +98,7 @@ export default async function DashboardPage() {
 
   const netThisMonth = monthBookings.reduce((sum, b) => {
     const tour = tours.find((t) => t.id === b.tour_id);
-    return sum + calcNet(b.source ?? "direct", tour?.price ?? 0, b.guest_count, commissionRates);
+    return sum + calcNet(b.source ?? "direct", tour?.price ?? 0, b.guest_count, calcRates);
   }, 0);
 
   const in14 = new Date();
@@ -136,17 +155,17 @@ export default async function DashboardPage() {
       <TourBookings
         bookings={bookings}
         tours={tours}
-        commissionRates={commissionRates}
+        commissionRates={calcRates}
         staffDisplay={staffDisplay}
       />
 
       <RevenueExpandable
         bookings={bookings}
         tours={tours}
-        commissionRates={commissionRates}
+        commissionRates={calcRates}
       />
 
-      <ReferralPayouts bookings={bookings} staff={staffRows} />
+      <ReferralPayouts bookings={bookings} staff={staffRows} tours={tours} rates={calcRates} />
 
       <ActivityLog />
 
