@@ -1,16 +1,18 @@
-name: deeptimeline parity
+name: static page checks
 
-# Guards EN/JA static-HTML parity on the deep timeline pages.
-# Fails if public/deeptimeline.html and public/ja/deeptimeline.html drift
-# (missing/unlinked entries, reordering, dead local hrefs).
-# Same check runs in npm run build / preview / deploy — see AGENTS.md.
+# Guards the two classes of silent static-HTML drift that shipped broken
+# content to production before:
+#   - EN/JA deep timeline parity (missing/unlinked index entries)
+#   - JSON-LD/AEO integrity (unparseable blocks, redirecting canonicals,
+#     dead image URLs, EN/JA FAQPage parity, missing AEO tags)
+# Same checks run in npm run build / preview / deploy — see AGENTS.md.
 
 on:
   push:
   pull_request:
 
 jobs:
-  parity:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,3 +21,5 @@ jobs:
           node-version: 20
       - name: Check EN/JA deep timeline parity
         run: node scripts/check-deeptimeline-parity.mjs
+      - name: Check JSON-LD / AEO integrity
+        run: node scripts/check-structured-data.mjs

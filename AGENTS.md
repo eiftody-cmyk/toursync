@@ -33,3 +33,22 @@ npm run check:parity
 ```
 
 The same check runs automatically in `npm run build`, `npm run preview`, `npm run deploy`, and in CI (`.github/workflows/deeptimeline-parity.yml`). Do not delete or bypass `scripts/check-deeptimeline-parity.mjs` — it exists because the JA index lost 8 links in a dead-link cleanup (osaka-timeline `21684db`, 2026-09-17) 39 minutes before the JA target pages were added, and the links were never restored.
+
+# JSON-LD / AEO guard (static HTML)
+
+Every static page under `public/` must keep its structured data and head tags in this state:
+
+- every `<script type="application/ld+json">` block parses; no raw HTML entities inside JSON-LD strings
+- `rel=canonical`, `og:url` and `hreflang` are **extensionless** (middleware 301s every `.html` URL — a canonical that redirects is a self-contradiction) and canonical === og:url
+- every first-party hreflang target and JSON-LD `image` resolves to a file under `public/`
+- EN/JA **FAQPage parity**: if one locale's page declares FAQPage, the slug-matched twin must too (FAQ JSON-LD without visible Q&A is a Google guideline violation — add the visible section, as EN `three-unifiers` did)
+- JA pages declare `inLanguage: "ja"` somewhere in their JSON-LD; EN pages never declare `"ja"`
+- indexable pages carry meta description, og:title, og:description and a canonical (noindex pages exempt)
+
+After editing any static page or JSON-LD builder run:
+
+```bash
+npm run check:data
+```
+
+The check also runs in `npm run build`, `npm run preview`, `npm run deploy`, and in CI (`.github/workflows/deeptimeline-parity.yml`). It exists because redirecting canonicals (19 JA pages), 8 dead JSON-LD image URLs and 6 EN pages without FAQPage shipped unnoticed — nothing was broken enough for a link checker to fail.
