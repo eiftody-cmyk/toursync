@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Sign in — ExperienceRelay",
   description:
-    "ExperienceRelay syncs availability, bookings and calendars across GetYourGuide, Viator, Travelio, and your direct booking page.",
+    "ExperienceRelay syncs availability, bookings and calendars across GetYourGuide, Viator, Travelio, Airbnb Experiences, and your direct booking page.",
   icons: {
     icon: "/experiencerelay.png",
   },

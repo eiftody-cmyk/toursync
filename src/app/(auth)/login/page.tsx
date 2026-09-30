@@ -45,7 +45,8 @@ export default function LoginPage() {
         <CardDescription>Sign in with Google to manage your tours and calendar</CardDescription>
         <p className="text-xs text-muted-foreground mt-1">
           ExperienceRelay syncs availability, bookings and calendars across
-          GetYourGuide, Viator, Travelio, and your direct booking page.
+          GetYourGuide, Viator, Travelio, Airbnb Experiences, and your direct
+          booking page.
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
