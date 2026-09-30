@@ -1,0 +1,25 @@
+{
+  "$comment": "Machine-readable JA terminology rules. Consumed by scripts/check-ja-style.mjs (npm run check:ja) and referenced by JA_STYLE_GUIDE.md. level: error = lint fails; warn = printed only until the naturalness pass lands (then flipped to error).",
+  "terms": [
+    { "forbidden": "大阪の陣", "required": "大坂の陣", "level": "error", "reason": "JA Wikipedia article name; 大阪の陣 is only a listed variant" },
+    { "forbidden": "大阪城の冬の陣", "required": "大坂冬の陣", "level": "error", "reason": "battle name is 大坂冬の陣; castle+battle mashup is nonstandard" },
+    { "forbidden": "大阪城の夏の陣", "required": "大坂夏の陣", "level": "error", "reason": "battle name is 大坂夏の陣" },
+    { "forbidden": "从此", "required": "以後", "level": "error", "reason": "Chinese form (从此以后 → 以後)" },
+    { "forbidden": "关于", "required": "について／に関して", "level": "error", "reason": "Chinese form (关于 → について)" },
+    { "forbidden": "以后", "required": "以後／以降", "level": "error", "reason": "Chinese form; Japanese uses 以後/以降" },
+    { "forbidden": "我们", "required": "私たち", "level": "error", "reason": "Chinese form" },
+    { "forbidden": "此时", "required": "このとき", "level": "error", "reason": "Chinese form (此时 → このとき)" },
+    { "forbidden": "进行", "required": "実施する／行う", "level": "error", "reason": "Chinese form of 进行 (Japanese 進行 uses different chars)" },
+    { "forbidden": "サムライ時代", "required": "侍時代", "level": "warn", "reason": "calque; JA prose uses 侍/武士" },
+    { "forbidden": "サムライ指揮官", "required": "武将", "level": "warn", "reason": "calque" },
+    { "forbidden": "サムライの勇気", "required": "武士の勇気", "level": "warn", "reason": "calque" },
+    { "forbidden": "強攻", "required": "総攻撃／攻め落とす", "level": "warn", "reason": "Chinese calque (强攻); not natural castle-siege Japanese" },
+    { "forbidden": "時間軸", "required": "年表", "level": "warn", "reason": "translation of 'timeline'; JA history convention is 年表" },
+    { "forbidden": "ロマン化的", "required": "後世の美化", "level": "warn", "reason": "calque of 'romanticized'" },
+    { "forbidden": "エドワードの紀行文", "required": "エドワードと歩く大阪城", "level": "warn", "reason": "retired brand rendering" },
+    { "forbidden": "大阪城ウォーキング", "required": "エドワードと歩く大阪城", "level": "warn", "reason": "retired brand rendering" },
+    { "forbidden": "大阪城の歴史ツアー", "required": "エドワードと歩く大阪城", "level": "warn", "reason": "retired brand rendering" }
+  ],
+  "chineseChars": "关这说应无时发战义产从众亲广铁间门东车马长问现华图书机权记议报导终经结约级职举变边还进运过连远军农击创则刚动务势样备币钟队买乐乡习个们头儿几仅认让该给对单观于",
+  "titleForbidden": ["―", "─", "·", "｜"]
+}
