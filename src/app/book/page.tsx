@@ -7,9 +7,51 @@ import { sanitizeStaffName } from "@/lib/referral/misaki";
 import type { Tour } from "@/types";
 import type { Metadata } from "next";
 
+const SITE = "https://osakacastletours.com";
+const OG_IMAGE = `${SITE}/images/toyotomicastle.webp`;
+
 export const metadata: Metadata = {
   title: "Book a Tour — Osaka Castle Walks with Edward",
+  description:
+    "Book a private, historian-led walking tour of Osaka Castle with Edward Iftody — choose your tour, date, and time for groups of up to six. Instant confirmation.",
+  openGraph: {
+    title: "Book a Tour — Osaka Castle Walks with Edward",
+    description:
+      "Private, historian-led walking tours of Osaka Castle. Choose your tour, date, and time for groups of up to six.",
+    url: `${SITE}/book`,
+    siteName: "Osaka Castle Walks with Edward",
+    type: "website",
+    images: [{ url: OG_IMAGE }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Book a Tour — Osaka Castle Walks with Edward",
+    description:
+      "Private, historian-led walking tours of Osaka Castle. Choose your tour, date, and time.",
+    images: [OG_IMAGE],
+  },
+  alternates: {
+    canonical: `${SITE}/book`,
+  },
 };
+
+const bookJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+    { "@type": "ListItem", position: 2, name: "Book a Tour", item: `${SITE}/book` },
+  ],
+};
+
+function StructuredData() {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(bookJsonLd) }}
+    />
+  );
+}
 
 function isUuid(str: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
@@ -47,7 +89,13 @@ export default async function BookingPage({
   const referralDisplayName = referralSource
     ? sanitizeStaffName(params.name)
     : null;
-  if (!tourParam) return <DatePickerClient />;
+  if (!tourParam)
+    return (
+      <>
+        <StructuredData />
+        <DatePickerClient />
+      </>
+    );
 
   const supabase = await createClient();
 
@@ -85,14 +133,17 @@ export default async function BookingPage({
   if (!paypalClientId) throw new Error("PAYPAL_CLIENT_ID not configured");
 
   return (
-    <BookingPageClient
-      tour={tour as Tour}
-      companyName={profile?.company_name ?? null}
-      paypalClientId={paypalClientId}
-      initialDate={typeof params.date === "string" ? params.date : null}
-      initialTime={typeof params.time === "string" ? params.time : null}
-      referral={referral}
-      referralDisplayName={referralDisplayName}
-    />
+    <>
+      <StructuredData />
+      <BookingPageClient
+        tour={tour as Tour}
+        companyName={profile?.company_name ?? null}
+        paypalClientId={paypalClientId}
+        initialDate={typeof params.date === "string" ? params.date : null}
+        initialTime={typeof params.time === "string" ? params.time : null}
+        referral={referral}
+        referralDisplayName={referralDisplayName}
+      />
+    </>
   );
 }

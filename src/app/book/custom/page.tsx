@@ -5,9 +5,51 @@ import { TourPicker } from "../TourPicker";
 import type { Tour } from "@/types";
 import type { Metadata } from "next";
 
+const SITE = "https://osakacastletours.com";
+const OG_IMAGE = `${SITE}/images/toyotomicastle.webp`;
+
 export const metadata: Metadata = {
-  title: "Book a Tour — Osaka Castle Walks with Edward",
+  title: "Custom Tour Booking — Osaka Castle Walks with Edward",
+  description:
+    "Design a custom private walking tour of Osaka Castle with Edward Iftody — your route, your focus, your dates, for groups of up to six.",
+  openGraph: {
+    title: "Custom Tour Booking — Osaka Castle Walks with Edward",
+    description:
+      "Design a custom private walking tour of Osaka Castle — your route, your focus, your dates.",
+    url: `${SITE}/book/custom`,
+    siteName: "Osaka Castle Walks with Edward",
+    type: "website",
+    images: [{ url: OG_IMAGE }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Custom Tour Booking — Osaka Castle Walks with Edward",
+    description: "Design a custom private walking tour of Osaka Castle.",
+    images: [OG_IMAGE],
+  },
+  alternates: {
+    canonical: `${SITE}/book/custom`,
+  },
 };
+
+const customJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+    { "@type": "ListItem", position: 2, name: "Book a Tour", item: `${SITE}/book` },
+    { "@type": "ListItem", position: 3, name: "Custom Tour", item: `${SITE}/book/custom` },
+  ],
+};
+
+function StructuredData() {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(customJsonLd) }}
+    />
+  );
+}
 
 function isUuid(str: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
@@ -25,7 +67,13 @@ export default async function CustomBookingPage({
 }) {
   const params = await searchParams;
   const tourParam = params.tour;
-  if (!tourParam) return <TourPicker mode="custom" />;
+  if (!tourParam)
+    return (
+      <>
+        <StructuredData />
+        <TourPicker mode="custom" />
+      </>
+    );
 
   const supabase = await createClient();
 
@@ -62,10 +110,13 @@ export default async function CustomBookingPage({
   if (!paypalClientId) throw new Error("PAYPAL_CLIENT_ID not configured");
 
   return (
-    <CustomBookingClient
-      tour={tour as Tour}
-      companyName={profile?.company_name ?? null}
-      paypalClientId={paypalClientId}
-    />
+    <>
+      <StructuredData />
+      <CustomBookingClient
+        tour={tour as Tour}
+        companyName={profile?.company_name ?? null}
+        paypalClientId={paypalClientId}
+      />
+    </>
   );
 }
