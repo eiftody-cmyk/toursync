@@ -16,8 +16,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { REFERRAL_PARTNERS, isPartner } from "@/config/referral-partners";
-import { calcCommission, getCommissionRate } from "@/lib/revenue";
+import { isPartner } from "@/config/referral-partners";
+import { calcCommission } from "@/lib/revenue";
 import type { Booking, Tour } from "@/types";
 
 export interface StaffRow {
@@ -154,8 +154,7 @@ export function ReferralPayouts({
           </Badge>
         </div>
         <p className="text-xs text-muted-foreground">
-          Confirmed bookings in {year} · booking value × partner payout rate ·
-          registration alone never pays out
+          Confirmed bookings in {year} · registration alone never pays out
         </p>
       </CardHeader>
       <CardContent className="space-y-5">
@@ -281,14 +280,6 @@ export function ReferralPayouts({
           </Table>
         </div>
 
-        <p className="text-xs text-muted-foreground">
-          Booking value × each partner&apos;s payout rate on confirmed bookings;
-          cancelled bookings pay nothing. Partners:{" "}
-          {REFERRAL_PARTNERS.map(
-            (p) => `${p.slug} (${getCommissionRate(p.slug, rates)}%)`
-          ).join(", ")}
-          .
-        </p>
       </CardContent>
     </Card>
   );
