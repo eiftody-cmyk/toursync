@@ -1,7 +1,12 @@
+import type { Metadata } from "next";
 import { Sidebar, MobileNav } from "@/components/layout/Sidebar";
 import { NotificationBell } from "@/components/dashboard/NotificationBell";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Dashboard — ExperienceRelay",
+};
 
 export default async function AppLayout({
   children,

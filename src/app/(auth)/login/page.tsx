@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,8 +33,20 @@ export default function LoginPage() {
   return (
     <Card>
       <CardHeader className="text-center">
+        <Image
+          src="/experiencerelay.png"
+          alt="ExperienceRelay"
+          width={64}
+          height={64}
+          className="mx-auto rounded-xl mb-2"
+          priority
+        />
         <CardTitle className="text-2xl">Welcome to ExperienceRelay</CardTitle>
         <CardDescription>Sign in with Google to manage your tours and calendar</CardDescription>
+        <p className="text-xs text-muted-foreground mt-1">
+          ExperienceRelay syncs availability, bookings and calendars across
+          GetYourGuide, Viator, Travelio, and your direct booking page.
+        </p>
       </CardHeader>
       <CardContent className="space-y-4">
         {error && (
@@ -45,6 +58,12 @@ export default function LoginPage() {
         <p className="text-xs text-muted-foreground text-center">
           By signing in you agree to allow ExperienceRelay to manage calendar events (busy blocks) on your
           Google Calendar.
+        </p>
+        <p className="text-xs text-muted-foreground text-center">
+          Questions?{" "}
+          <a href="mailto:edward@osakacastletours.com" className="underline">
+            edward@osakacastletours.com
+          </a>
         </p>
         <div className="text-center text-sm">
           <Link href="/" className="underline text-muted-foreground">
