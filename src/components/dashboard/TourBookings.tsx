@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import Link from "next/link";
 import type { Booking, Tour } from "@/types";
-import { calcGross, calcNet } from "@/lib/revenue";
+import { calcGross, calcNet, type RateMap } from "@/lib/revenue";
 
 type FilterMode = "upcoming" | "all";
 
@@ -41,7 +41,7 @@ export function TourBookings({
 }: {
   bookings: Booking[];
   tours: Tour[];
-  commissionRates: Record<string, number> | null;
+  commissionRates: RateMap | null;
   /** "partner:slug" → display name (referral_staff rows), for "via …" labels. */
   staffDisplay?: Record<string, string> | null;
 }) {

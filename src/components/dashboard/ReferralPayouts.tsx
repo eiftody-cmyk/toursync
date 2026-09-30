@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { isPartner } from "@/config/referral-partners";
-import { calcCommission } from "@/lib/revenue";
+import { calcCommission, type RateMap } from "@/lib/revenue";
 import type { Booking, Tour } from "@/types";
 
 export interface StaffRow {
@@ -79,7 +79,7 @@ export function ReferralPayouts({
   bookings: Booking[];
   staff: StaffRow[];
   tours: Tour[];
-  rates: Record<string, number> | null;
+  rates: RateMap | null;
 }) {
   const year = new Date().getFullYear();
 

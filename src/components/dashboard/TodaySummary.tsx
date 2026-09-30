@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { Booking, BlockedDate, Tour } from "@/types";
-import { calcGross, calcNet } from "@/lib/revenue";
+import { calcGross, calcNet, type RateMap } from "@/lib/revenue";
 
 const PERIODS = [
   { value: "today", label: "Today" },
@@ -53,7 +53,7 @@ export function TodaySummary({
   allBookings: Booking[];
   allBlocked: BlockedDate[];
   tours: Tour[];
-  commissionRates: Record<string, number> | null;
+  commissionRates: RateMap | null;
   today: string;
 }) {
   const [period, setPeriod] = useState<Period>("today");

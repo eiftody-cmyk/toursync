@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import type { Booking, Tour } from "@/types";
-import { calcGross, calcNet } from "@/lib/revenue";
+import { calcGross, calcNet, type RateMap } from "@/lib/revenue";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -20,7 +20,7 @@ export function PerformanceSummary({
 }: {
   bookings: Booking[];
   tours: Tour[];
-  commissionRates: Record<string, number> | null;
+  commissionRates: RateMap | null;
 }) {
   const confirmed = useMemo(
     () => bookings.filter((b) => b.status === "confirmed"),

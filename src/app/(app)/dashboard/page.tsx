@@ -13,7 +13,7 @@ import { TourBookings } from "@/components/dashboard/TourBookings";
 import { RevenueExpandable } from "@/components/dashboard/RevenueExpandable";
 import { ReferralPayouts } from "@/components/dashboard/ReferralPayouts";
 import { UpcomingBlocksLink } from "@/components/dashboard/UpcomingBlocksLink";
-import { calcNet } from "@/lib/revenue";
+import { calcNet, type RateMap } from "@/lib/revenue";
 import { REFERRAL_PARTNERS } from "@/config/referral-partners";
 
 export default async function DashboardPage() {
@@ -56,9 +56,9 @@ export default async function DashboardPage() {
       .from("referral_staff")
       .select("partner, slug, display_name, contact")
       .order("created_at"),
-    // Tolerant: 035 not applied yet → error + null data, degrade to [] and
-    // revenue.ts falls back to the 10% per-partner default.
-    supabase.from("referral_partners").select("slug, payout_rate"),
+    // Tolerant: 035/036 not applied yet → error + null data, degrade to []
+    // and revenue.ts falls back to the 10% percent-per-partner default.
+    supabase.from("referral_partners").select("slug, payout_type, payout_rate"),
   ]);
 
   const tours = toursResult.data ?? [];
@@ -77,19 +77,28 @@ export default async function DashboardPage() {
     staffRows.map((s) => [`${s.partner}:${s.slug}`, s.display_name])
   );
 
-  // /ref/join partner payout rates live in referral_partners (035). Strip
-  // any stale partner keys from commission_rates so the table is the only
-  // authority on partner rates; OTA/channel keys pass through untouched.
+  // /ref/join partner payout rates live in referral_partners (035/036): each
+  // row is either percent of booking value or flat ¥/guest. Strip any stale
+  // partner keys from commission_rates so the table is the only authority on
+  // partner rates; OTA/channel keys pass through untouched as numbers.
   const partnerSlugs = new Set(REFERRAL_PARTNERS.map((p) => p.slug));
   const baseRates: Record<string, number> = {};
   for (const [key, value] of Object.entries(commissionRates ?? {})) {
     if (!partnerSlugs.has(key)) baseRates[key] = value;
   }
-  const partnerRates = Object.fromEntries(
-    ((partnerRatesResult.data ?? []) as { slug: string; payout_rate: number }[])
-      .map((r) => [r.slug, Number(r.payout_rate)])
+  const partnerRates: RateMap = Object.fromEntries(
+    ((partnerRatesResult.data ?? []) as {
+      slug: string;
+      payout_type: string;
+      payout_rate: number;
+    }[]).map((r) => [
+      r.slug,
+      r.payout_type === "flat_per_guest"
+        ? ({ type: "flat_per_guest", value: Number(r.payout_rate) } as const)
+        : Number(r.payout_rate),
+    ])
   );
-  const calcRates: Record<string, number> = { ...baseRates, ...partnerRates };
+  const calcRates: RateMap = { ...baseRates, ...partnerRates };
 
   const monthPrefix = today.slice(0, 7);
   const monthBookings = bookings.filter((b) => b.date.startsWith(monthPrefix));

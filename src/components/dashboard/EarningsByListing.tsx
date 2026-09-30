@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { Booking, Tour } from "@/types";
-import { calcGross, calcNet, getCommissionRate } from "@/lib/revenue";
+import { calcGross, calcNet, type RateMap } from "@/lib/revenue";
 
 export function EarningsByListing({
   bookings,
@@ -13,7 +13,7 @@ export function EarningsByListing({
 }: {
   bookings: Booking[];
   tours: Tour[];
-  commissionRates: Record<string, number> | null;
+  commissionRates: RateMap | null;
 }) {
   const confirmed = useMemo(
     () => bookings.filter((b) => b.status === "confirmed"),

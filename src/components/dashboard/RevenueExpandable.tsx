@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { PerformanceSummary } from "./PerformanceSummary";
 import { EarningsByListing } from "./EarningsByListing";
 import type { Booking, Tour } from "@/types";
+import type { RateMap } from "@/lib/revenue";
 
 export function RevenueExpandable({
   bookings,
@@ -14,7 +15,7 @@ export function RevenueExpandable({
 }: {
   bookings: Booking[];
   tours: Tour[];
-  commissionRates: Record<string, number> | null;
+  commissionRates: RateMap | null;
 }) {
   const [open, setOpen] = useState(false);
 
