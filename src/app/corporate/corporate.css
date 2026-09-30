@@ -376,6 +376,32 @@
   margin-top: 1.5rem;
 }
 
+/* ── EVIDENCE GROUPS ── */
+.corp-evidence-custom {
+  max-width: 720px;
+  margin: 1rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--edu-stone);
+}
+
+.corp-evidence-group {
+  margin-top: 2.5rem;
+}
+
+.corp-evidence-group-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  color: var(--edu-ink);
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--edu-border);
+}
+
+.corp-evidence-group .corp-evidence-grid {
+  margin-top: 1.25rem;
+}
+
 .corp-evidence-card {
   display: block;
   background: var(--edu-card);
@@ -424,6 +450,94 @@
   color: var(--edu-stone);
 }
 
+/* ── CUSTOM-THEME CHIPS ── */
+.corp-chips {
+  margin-top: 2.75rem;
+}
+
+.corp-chips-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--edu-muted);
+  margin-bottom: 0.75rem;
+}
+
+.corp-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.corp-chip {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--edu-border);
+  border-radius: 999px;
+  background: var(--edu-card);
+  color: var(--edu-stone);
+}
+
+/* ── THEME TABLE ── */
+.corp-theme-table-wrap {
+  margin-top: 2.75rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.corp-theme-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.corp-theme-table th,
+.corp-theme-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--edu-border);
+  vertical-align: top;
+}
+
+.corp-theme-table th {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--edu-ink);
+  border-bottom-color: var(--edu-gold);
+}
+
+.corp-theme-table td {
+  color: var(--edu-stone);
+  line-height: 1.5;
+}
+
+.corp-theme-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── FOR ORGANIZERS ── */
+.corp-organizers {
+  max-width: 760px;
+  margin-top: 1.5rem;
+}
+
+.corp-organizers-body {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--edu-ink);
+}
+
+.corp-organizers-note {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--edu-stone);
+}
+
 /* ── PRICING NOTE ── */
 .corp-price-note {
   max-width: 720px;
@@ -441,13 +555,17 @@
 
 /* ── FACILITATOR BADGES — legible CJK chips ── */
 .about-credentials {
-  gap: 0.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .about-credentials .badge {
+  flex: 0 0 auto;
+  white-space: nowrap;
   font-size: 0.68rem;
   letter-spacing: 0.04em;
-  background: var(--edu-card);
+  background: var(--edu-parchment);
   border-color: var(--edu-border);
   padding: 0.3rem 0.65rem;
 }
@@ -468,5 +586,14 @@
 
   .corp-situation {
     padding: 1.25rem 1.4rem;
+  }
+
+  .corp-theme-table {
+    font-size: 0.82rem;
+  }
+
+  .corp-theme-table th,
+  .corp-theme-table td {
+    padding: 0.6rem 0.75rem;
   }
 }

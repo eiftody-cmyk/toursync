@@ -7,23 +7,20 @@ import { withJaName } from "@/lib/education/ja-name";
 import { educationTimelineLinks } from "@/lib/education/timeline-links";
 import { InquiryForm } from "@/components/corporate/InquiryForm";
 
-const EVIDENCE_SLUGS = [
-  "toyotomihideyoshi",
-  "ishiyama-timeline",
-  "tokugawa-ieyasu-timeline",
-  "three-unifiers",
-  "azaiclanbetrayal",
-  "fujiwara-shadow-politics",
-];
-
 export default function CorporateClient() {
   const { locale } = useLocale();
   const t = locale === "ja" ? ja : en;
   const h = t.hub;
 
-  const evidence = EVIDENCE_SLUGS.map((slug) =>
-    educationTimelineLinks.find((link) => link.slug === slug)
-  ).filter((link): link is NonNullable<typeof link> => Boolean(link));
+  const jaPrefix = locale === "ja" ? "/ja" : "";
+
+  const evidenceGroups = h.evidence.groups.map((group) => ({
+    title: group.title,
+    cards: group.cards.flatMap((card) => {
+      const link = educationTimelineLinks.find((l) => l.slug === card.slug);
+      return link ? [{ card, link }] : [];
+    }),
+  }));
 
   return (
     <div>
@@ -120,7 +117,7 @@ export default function CorporateClient() {
             <div key={card.era} className="corp-dilemma-card">
               <div className="corp-dilemma-era">{card.era}</div>
               <p>{card.body}</p>
-              <a className="corp-dilemma-link" href={`/ja${card.href}`}>
+              <a className="corp-dilemma-link" href={`${jaPrefix}${card.href}`}>
                 {card.linkLabel}
               </a>
             </div>
@@ -181,28 +178,79 @@ export default function CorporateClient() {
       <section className="edu-section alt-bg" id="evidence">
         <h2>{h.evidence.title}</h2>
         <p className="section-subtitle">{h.evidence.subtitle}</p>
-        <div className="corp-evidence-grid">
-          {evidence.map((link) => (
-            <a
-              key={link.slug}
-              className="corp-evidence-card"
-              href={`/ja/${link.slug}`}
-            >
-              {link.heroImage && (
-                <img
-                  className="corp-evidence-thumb"
-                  src={`/${link.heroImage}`}
-                  alt=""
-                  loading="lazy"
-                />
-              )}
-              <div className="corp-evidence-period">
-                {locale === "ja" ? link.periodJa : link.period}
-              </div>
-              <h3>{locale === "ja" ? link.titleJa : link.titleEn}</h3>
-              <p>{locale === "ja" ? link.descriptionJa : link.descriptionEn}</p>
-            </a>
-          ))}
+        <p className="corp-evidence-custom">{h.evidence.customization}</p>
+        {evidenceGroups.map((group) => (
+          <div key={group.title} className="corp-evidence-group">
+            <h3 className="corp-evidence-group-title">{group.title}</h3>
+            <div className="corp-evidence-grid">
+              {group.cards.map(({ card, link }) => (
+                <a
+                  key={link.slug}
+                  className="corp-evidence-card"
+                  href={`${jaPrefix}/${link.slug}`}
+                >
+                  {link.heroImage && (
+                    <img
+                      className="corp-evidence-thumb"
+                      src={`/${link.heroImage}`}
+                      alt=""
+                      loading="lazy"
+                    />
+                  )}
+                  <div className="corp-evidence-period">
+                    {locale === "ja" ? link.periodJa : link.period}
+                  </div>
+                  <h3>{locale === "ja" ? link.titleJa : link.titleEn}</h3>
+                  <p>
+                    {card.blurb ??
+                      (locale === "ja" ? link.descriptionJa : link.descriptionEn)}
+                  </p>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+        <div className="corp-chips">
+          <h4 className="corp-chips-title">{h.evidence.chipsTitle}</h4>
+          <div className="corp-chip-row">
+            {h.evidence.chips.map((chip) => (
+              <span key={chip} className="corp-chip">
+                {chip}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="corp-theme-table-wrap">
+          <table className="corp-theme-table">
+            <thead>
+              <tr>
+                {h.evidence.table.headers.map((header) => (
+                  <th key={header} scope="col">
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {h.evidence.table.rows.map((row, i) => (
+                <tr key={i}>
+                  {row.map((cell, j) => (
+                    <td key={j}>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* For Organizers */}
+      <section className="edu-section">
+        <h2>{h.organizers.title}</h2>
+        <p className="section-subtitle">{h.organizers.subtitle}</p>
+        <div className="corp-organizers">
+          <p className="corp-organizers-body">{h.organizers.body}</p>
+          <p className="corp-organizers-note">{h.organizers.note}</p>
         </div>
       </section>
 

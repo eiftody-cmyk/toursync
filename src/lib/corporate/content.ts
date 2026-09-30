@@ -40,7 +40,7 @@ export const en = {
           number: 1,
           title: "Investigate",
           description:
-            "Your teams receive the evidence for a real historical dilemma — the situation, the players, and what was at stake. No outcome is revealed.",
+            "Your teams receive the evidence for a real historical dilemma — the situation, the players, and what was at stake. The outcome is deliberately withheld until the day.",
         },
         {
           number: 2,
@@ -86,7 +86,7 @@ export const en = {
           timing: "Sent 3–7 days before · one page · 5-minute read",
           title: "The Team Brief",
           body:
-            "A polished one-page brief sent to participants in advance, so everyone arrives ready — without giving the game away.",
+            "A polished one-page brief sent to participants in advance, so everyone arrives ready — without giving the dilemma away.",
           items: [
             "What you're doing — a short explanation of the historical dilemma format",
             "What you don't need — no prior knowledge of Japanese history required",
@@ -103,8 +103,7 @@ export const en = {
           body:
             "Two documents delivered to your organizer after the session, so the experience keeps working once everyone goes back to the office.",
           items: [
-            "Your Team's Decisions — for each dilemma: your team's original decision, the historical decision, what actually happened, your post-reveal assessment, and the final vote",
-            "What This Reveals About Decision-Making — the tensions your teams actually encountered: incomplete information, competing priorities, risk vs. opportunity, short-term vs. long-term thinking, disagreement within teams, hindsight",
+            "Team Decision & Decision-Making Report — for each dilemma: your team's original decision, the historical decision, what actually happened, your post-reveal assessment, and the final vote, plus the decision-making tensions your teams actually encountered: incomplete information, competing priorities, risk vs. opportunity, short-term vs. long-term thinking, disagreement within teams, hindsight",
             "Organizer Debrief Sheet — one page of questions to run with your team afterward: which dilemma produced the most disagreement, what did teams prioritize, what changed after the reveal, what happened when an assumption was challenged",
           ],
         },
@@ -146,13 +145,13 @@ export const en = {
         },
         {
           era: "1,000 years",
-          body: "A documented dilemma from the age of Japan's first shogunate.",
+          body: "A documented dilemma from the emergence of Japan's first shogunate.",
           linkLabel: "Where the evidence comes from →",
           href: "/genpei-timeline",
         },
         {
           era: "1,500 years",
-          body: "A documented dilemma from the age of the Soga and the imperial line.",
+          body: "A documented dilemma from the age of the Soga clan and the imperial court.",
           linkLabel: "Where the evidence comes from →",
           href: "/soga-fujiwara-timeline",
         },
@@ -164,8 +163,8 @@ export const en = {
     edward: {
       title: "Your Facilitator",
       paragraphs: [
-        "Edward Iftody is a historian, educator, and course developer who has taught in Japan since 2009. Based one block from Osaka Castle, he specializes in Japanese political history and historical geography.",
-        "During your session he is not acting as a tour guide. He is the facilitator and moderator of the game: he presents the evidence, runs the debate, opens the reveal, and keeps the vote honest.",
+        "Edward Iftody is a historian, educator, and course developer who has taught in Japan since 2009. Based one block from Osaka Castle, he specializes in Japanese political history, historical geography, and historical research.",
+        "During your session he serves not as a tour guide but as your facilitator and moderator: he presents the evidence, runs the debate, opens the reveal, and ensures every team has the same information before the final vote.",
       ],
       credentials: [
         "Historian & researcher",
@@ -205,6 +204,63 @@ export const en = {
       title: "Explore the Evidence",
       subtitle:
         "These dilemmas are drawn from documented history, and the research is public. This is where the evidence comes from.",
+      customization:
+        "The emphasis and supporting historical material can be adjusted to suit your group's interests and objectives. Additional historical themes can also be developed by request.",
+      groups: [
+        {
+          title: "~1,500 years ago — Asuka politics and royal power",
+          cards: [
+            { slug: "soga-fujiwara-timeline" },
+            { slug: "empress-shotoku" },
+            { slug: "shitennojihistory" },
+          ],
+        },
+        {
+          title: "~1,000 years ago — Warriors and the court",
+          cards: [
+            { slug: "genpei-timeline" },
+            { slug: "fujiwara-shadow-politics" },
+            {
+              slug: "tenjin-matsuri-history",
+              blurb:
+                "Sugawara no Michizane, the emperor, and the Fujiwara clan — a classic dilemma of surviving a change in political power, from the court intrigue behind Michizane's exile to Osaka's greatest festival.",
+            },
+          ],
+        },
+        {
+          title: "~400 years ago — Toyotomi and Tokugawa Osaka",
+          cards: [
+            { slug: "toyotomihideyoshi" },
+            { slug: "ishiyama-timeline" },
+            { slug: "tokugawa-ieyasu-timeline" },
+            { slug: "three-unifiers" },
+          ],
+        },
+      ],
+      chipsTitle: "Custom themes",
+      chips: [
+        "The Uemachi Plateau",
+        "Naniwa & ancient Osaka",
+        "Osaka Castle & the castle town",
+        "Political geography",
+        "Archaeology",
+      ],
+      table: {
+        headers: ["Period", "Historical theme", "What teams examine"],
+        rows: [
+          ["~1,500 years ago", "Royal power & the aristocracy", "How authority is maintained and transferred"],
+          ["~1,000 years ago", "Warriors & the court", "How new power legitimizes itself"],
+          ["~400 years ago", "Toyotomi & Tokugawa Osaka", "What to choose under uncertainty"],
+          ["Osaka's landscape", "Historical geography", "How geography shapes politics"],
+        ],
+      },
+    },
+
+    organizers: {
+      title: "For Organizers",
+      subtitle: "One complete program, from preparation to follow-up.",
+      body: "Participants receive a pre-event Team Brief, take part in a fully facilitated session, and receive a Post-Event Team Pack afterward. We handle the historical research, materials, facilitation, and session structure.",
+      note: "Send us your group size, preferred dates, and session language and we will confirm availability and practical arrangements.",
     },
 
     pricing: {
@@ -216,13 +272,13 @@ export const en = {
         { size: "Up to 40 participants", price: "¥400,000" },
       ],
       note:
-        "One group, one price. No per-person calculation. The same private session in every package — send an enquiry with your group size and preferred dates and we will confirm availability.",
+        "One group, one price. No per-person calculation. The same private session in every package — send an enquiry with your group size and preferred dates and we will confirm availability. For travel agencies and DMCs, pricing is arranged individually.",
     },
 
     faq: [
       {
-        q: "Why is this the best corporate team-building experience at Osaka Castle Park?",
-        a: "Three things set it apart. It is built on real history — three documented dilemmas from Osaka's past — rather than invented scenarios. Every participant investigates, debates and votes instead of watching a few people discuss. And it runs as a private session for your group, outdoors in and around Osaka Castle Park, in English, Japanese or both.",
+        q: "What makes this corporate team-building experience different?",
+        a: "Three things set it apart. It is built on documented historical evidence — three historical dilemmas drawn from Japanese history — rather than invented scenarios. Every participant investigates, debates and votes instead of watching a few people discuss. And it runs as a private session for your group, outdoors in and around Osaka Castle Park, in English, Japanese or both.",
       },
       {
         q: "Can you provide corporate team building in Osaka for groups of 10–40 people?",
@@ -276,7 +332,7 @@ export const en = {
     },
     groupSize: {
       label: "Group Size",
-      options: ["10–15", "16–30", "31–40", "40+"],
+      options: ["10–15", "16–30", "31–40", "40+ (enquire)"],
     },
     language: {
       label: "Session Language",

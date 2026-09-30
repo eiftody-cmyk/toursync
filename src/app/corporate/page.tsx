@@ -13,7 +13,7 @@ const TITLE_JA = "法人向けチームビルディング：大阪の歴史的�
 const DESC_EN =
   "Private corporate team building at Osaka Castle: three real historical dilemmas to investigate, debate and vote on. 10–40 participants, ¥200,000–¥400,000.";
 const DESC_JA =
-  "大阪城での法人向けチームビルディング。実在する歴史的ジレンマを三つ用意し、チームで調査・議論・判断・投票します。10〜40名・グループ ¥200,000〜¥400,000。";
+  "大阪城での法人向けチームビルディング。実在する歴史的ジレンマを三つ用意し、チームで調査・議論・判断・投票します。10〜40名・1グループ ¥200,000〜¥400,000。";
 
 function getLocale(params: { locale?: string }): Locale {
   return params?.locale === "ja" ? "ja" : "en";
