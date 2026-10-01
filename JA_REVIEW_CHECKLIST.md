@@ -57,6 +57,13 @@ Return findings as `page → sentence → suggested fix`.
 | Credit name | **エドワード・イフトディ** (round 0: was エドワード・イフティ ×32 / 20 JA files incl. `ja/llms.txt`) — matches EN "Edward Iftody" / JSON-LD `#edward-iftody`; the JSON-LD `イフトウデイ　エドワード` name fields (both locales) are a separate established rendering and stay as-is |
 | Historian label | **専属** (round 0: was 常駐 ×25 / 20 JA files, incl. JSON-LD `jobTitle: 独立研究者・専属歴史家`); overrides the round-3 keep — reviewer's part 4/5/6 call; EN `Resident Historian` untouched |
 | Tour badge | **ツアーで訪問** on all 83 JA `tour-badge` spans (round 0: was ツアー対象 ×61 + 徒歩コース ×13; deeptimeline already correct); EN badge stays `On Tour` ×83 |
+| Museum name | **豊臣石垣館** (round 5: was 豊臣石垣博物館 ×7 in ja/osaka meta ×3 + JSON-LD + cards; official name per City of Osaka; EN "Toyotomi Stone Wall Museum" untouched) |
+| osaka primary source | **『難波戦記』/ Naniwa Senki** (round 5: 『感身腸記』/ "Shōkō Monogatari" were phantom titles — both locales' sources li replaced, "written by participants" claim dropped) |
+| Siege surrender subject | **本願寺が**…信長に降伏 (ja/ishiyama FAQ visible + JSON-LD ×2, byte-synced; annot-04: dropped sentence subjects restored) |
+| Ishiyama↔dtail span | **1570–1580 = ten years / 十年** everywhere (annot-04 §57: ishiyama convention wins — dtail card `1568–1580`/eleven + tail P Eleven/11年 reverted in round 5; round 4's Eleven/11年戦争 superseded) |
+| Genpei coverage range | **814–1192 / 814〜1192** in dtail tail li + genpei JSON-LD (round 5: round 4's shrink to 1180–1185 conflicted with the li title "…& the First Shogunate" and the page's own first card 814–889; fujiwara's 858–1086 stays) |
+| Continue Exploring h2 | **探索を続ける** for EN "Continue Exploring" sections (deeptimeline + round-5 empress/ishiyama/osaka); distinct from the callout variant 大阪城で物語を続けましょう (§5d) |
+| JA list tour links | EN-only tour pages linked root-absolute with JA titles — **僧兵、百姓、将軍** (`/warriormonkspeasantshogun.html`), **女神・女王・皇后・側室** (`/goddess_queen_empress_concubine.html`); item-count parity over link-language purity (no JA twins exist; JA-relative paths would 404) |
 
 ## 4. ⚠ Uncertain phrases — review these first
 
@@ -225,6 +232,42 @@ untouched.
 **Citations:** ja.wikipedia 後三条天皇 (宇多天皇以来170年ぶりの藤原氏を外戚と
 しない天皇); 『続日本紀』文武天皇二年八月条 — 669 鎌足臨終に藤原姓授予、
 698 不比等をこの姓の継承者と定め他兄弟は中臣に復す (ctext.org).
+
+## 5e. Round 5 — dump 4/6: empress + ishiyama + osaka (2026-10-01)
+
+Count-asserted two-phase pipeline (roundA-apply/verify): 9 files, +120/−30,
+fingerprints exactly as planned (the 6 EN/revert files text-only; ja-empress
+section+1 p+3 li+4 a+5; ja-ishiyama section+1 p+4 li+4 a+6 strong+1; ja-osaka
+section+2 div+3 h3+3 p+7 img+2 li+6 a+7 strong+1). check:ja 0/21, check:data
+61/101 FAQ parity, check:parity, tsc, build green.
+
+**Research resolved:** Kōken 738 FAQ correct (Princess Abe designated Crown
+Princess 738 — kept); museum = **豊臣石垣館**; 『感身腸記』/ "Shōkō Monogatari"
+phantom → **『難波戦記』/ Naniwa Senki** (both locales); Yodo EN card date
+June 5 → May 8, 1615 (own body + JA said 5月8日); 三津寺 camp = EN "Mitsumatsu"
+(JA 三松 wrong kanji); 来島通総 → **九鬼嘉隆** (EN Kuki Yoshitaka was right).
+
+**empress (both):** intro rewritten — the old line described Saimei's 7th-c.
+reign on Shōtoku's page; now Kōken 749–758 / Shōtoku 764–770, Dōkyō, Nakamaro's
+rebellion, Naniwa's last years as capital (EN + JA); Prince Motoko → Prince
+Moto / 橘諸兄皇子 → **基王** (EN-era pair restored); 宣明 → **宣命** ×2 (EN
+senmyō); 世俗の帝位 → 皇位; JA gained missing tour blurb + Continue Exploring
+(ojin, empress_jingu, dtail, fujiwara + Explore All).
+
+**ishiyama (JA):** 九鬼嘉隆, 三津寺, FAQ surrender ×2 + **本願寺が** subject
+(visible = JSON-LD), tour blurb, callout p2 (「僧兵、百姓、将軍」 EN-href link —
+parity with EN's 3-tale link) + Continue Exploring (azaiclan, toyotomihideyoshi,
+tokugawa, hideyoshi-rikyu).
+
+**osaka (both):** Yodo card date; sources li → Naniwa Senki both locales; JA
+gained tour blurb (first box only), full **Stone Walls** section translated
+from EN (h3 trio 豊臣 vs 徳川 / タコ石 / 豊臣石垣館, `../images/` paths, before
+the sources comment anchor) and Continue Exploring 6-li (EN-href extension for
+warriormonks + goddess; see §3).
+
+**Round-4 reverts:** dtail card 1568→1570 + eleven→ten (both locales), tail P
+Eleven/11年 → Ten/十年 (annot-04 §57), tail li genpei 1180–1185 → 814–1192 +
+genpei JSON-LD `(814–1192)`/`（814〜1192）` restored (§3 scope note).
 
 ## 6. Automated gates (must stay green after any edit)
 
