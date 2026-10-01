@@ -6,7 +6,8 @@ Scope: all 21 pages under `public/ja/*.html`.
 
 Work landed in: `38b5641` (guide/lint), `5039c49` (P0 term fixes),
 `b84a8b9` (Group A, 9 pages), `bf991dc` (Group B, 7 pages),
-`e5e0e6f` (Group C, 5 pages).
+`e5e0e6f` (Group C, 5 pages), `54b1707` (this checklist + strict title lint),
+`caa62ef` (round 2, azaiclan), `2cce699` (round 3, §5c).
 
 ---
 
