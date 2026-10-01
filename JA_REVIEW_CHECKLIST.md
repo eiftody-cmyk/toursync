@@ -47,6 +47,7 @@ Return findings as `page → sentence → suggested fix`.
 | Register | 敬体 です・ます in all visible prose; telegraphic noun captions allowed where EN is the same style |
 | Double dashes | `——…——` parentheticals rewritten to （…）or 、; no `──` (U+2500) anywhere |
 | Research credit | unified JA phrasing on all pages (see `JA_STYLE_GUIDE.md` §研究) |
+| Page identity | `lordconcubineshogunlie` trio = **城主、側室、将軍の嘘** (was 大名; title/H1/FAQ/JSON-LD + all 20 JA nav labels + both llms.txt synced — do not reintroduce 大名 in labels) |
 
 ## 4. ⚠ Uncertain phrases — review these first
 
@@ -102,6 +103,50 @@ applied over Group A, incorporating a historian's 10-item accuracy review:
   research attribution `<p>` kept verbatim, FAQPage JSON ↔ visible byte-sync ×4,
   Article description + meta/og/twitter synced to new intro
 - **Kept as-is:** `<title>` (draft dropped the required `の年表`), 1564 date (see §4)
+
+## 5c. Round 3 — terminology/accuracy review: 3 target pages + extras (2026-10-01)
+
+External review processed with count-asserted edits; structure fingerprint
+(ids/classes/hrefs/tag counts/JSON-LD shape) identical on all 25 files.
+
+**Applied (before-the-castle):** 丸太舟→丸木舟 ×2; 大阪城の地下→足元 ×6
+(metas, speakable subtitle, body); 旧河内潟 period-mapped — pre-spit
+629→河内湾, lagoon-era body 641/659/687→河内潟, page-level metas/keywords/
+place-JSON/FAQ keep 旧河内潟 as the retrospective toponym (9); 難波の王宮→
+ヤマト王権の王宮; 東北→東日本 (Jōmon range, not Tohoku); H2 水中世界→
+水の世界; 動きが速く→生命力にあふれ; 見るのは簡単→語りたくなるのも無理は
+ありません; **6,000 BCE→4,000 BCE + 初期→中期 Holocene** (Jōmon
+transgression max ≈6000 BP; "early Holocene + 6,000 BCE" was internally
+inconsistent) — EN twin fixed too; 紀元1千年紀→紀元3世紀 (kofun starts 3rd c.,
+fixes the 同じころ link); シリカ→マグネシウム (sanukite = Setouchi high-Mg
+andesite); 磨製収穫鉤→石包丁 (standard term; dropped contested grind/chip
+label) — EN "polished" dropped too; 考古学などを展示→考古資料 ×3.
+
+**Applied (lordconcubine):** 大名→**城主** in the page identity ×10 (title,
+og/twitter, JSON-LD name/headline/breadcrumb, H1, FAQ Q3, menu) + nav label
+site-wide ×30 across 20 JA pages + both llms.txt (34 total) — body
+「大名の娘」kept (correct); 歴史の兵器化→歴史の政治利用 ×4; 数メートルの土で
+物理的に→数メートルの盛り土で ×2; 日本史上最大の武士の戦い→戦国最後にして
+最大級の合戦 ×2; Cocks = **平戸のイギリス商館長**, 目撃者の証言→記録 (he was
+in Hirado, not at Osaka — Gutenberg #46803 "…English Factory in Japan,
+1615–1622"); 1615年6月（慶長20年5月） month precision (= 1615-06-04);
+地政学→存亡に関わる脅威 ×2 + 豊臣氏の滅亡にいたる; FAQ Q1/Q2 reworded with
+超級表現 最高 removed (byte-paired JSON ↔ visible ×2 each); 最大の謎 trimmed
+at intro + ideal-for (hero kept).
+
+**Applied (sanada):** meta 戦闘→合戦 ×3 (body 戦闘 = combat contexts kept).
+**Extras:** yayoi 前方後円墳（古墳）→前方後円墳; tokugawa でっち上げ→設けて;
+soga でっち上げ×2→着せられた/罪を着せられ (formal register).
+**EN fact fixes only:** 4,000 BCE, high-magnesium, stone reaping knives,
+Cocks descriptor — EN marketing wording ("best", "largest", geopolitical)
+untouched.
+
+**Pushed back / kept:** 渡り鳥 (matches EN "migrating waterfowl"); 天守閣の中
+名誉ある自殺 (already framed as the Shogun's declaration + contradicted);
+国家公認 (0 JA occurrences — only EN "state-sanctioned"); ディープな (already
+奥深く); Google-preferred-source note (page-local, accurate); 常駐歴史家
+kept as the standardized brand line for EN "Resident Historian" (20 pages);
+大坂城 ×8 all pre-1868 contexts.
 
 ## 6. Automated gates (must stay green after any edit)
 
