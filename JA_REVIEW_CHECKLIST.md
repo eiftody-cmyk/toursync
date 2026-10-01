@@ -70,7 +70,12 @@ Return findings as `page → sentence → suggested fix`.
 | Suishou | **倭国王帥升** (round 6: was 倭面土王 ×2 in ja/yayoi JSON-LD + card; EN "Suishou" = 帥升, 後漢書 107 CE — visible = JSON-LD byte-aligned) |
 | Ikasuri shrine | **坐摩神社** (readings いかすり/ざま; round 6: was 生駒神社 ×8 + 座摩 ×1 in ja/empress; EN "Ikasuri Shrine (Zama-san)" was already correct and kept; legend = Jingū founded it, five Ikasuri deities, moved 1608 when Osaka Castle was built) |
 | Companion links | EN `/beforejapanhadaname.html` ↔ JA **/ja/before-the-castle-prehistoric-osaka.html** with short title **城になる前の大阪** (round 6: tenjin DYK trailing sentence + yayoi callout companion p added; no ja/beforejapanhadaname.html exists — never link it) |
-| Box blurb | standard 「大阪城の石垣…」 sentence where EN blurb = "Explore the stone walls…" (round 6: empress/tenjin/yayoi); **genpei keeps its own pair** ("Walk the story of how warrior power swallowed the imperial court" → 武士の力が朝廷を呑み込んだ物語を… ) |
+| Box blurb | standard 「大阪城の石垣…」 sentence where EN blurb = "Explore the stone walls…" (round 6: empress/tenjin/yayoi); **genpei keeps its own pair** ("Walk the story of how warrior power swallowed the imperial court" → 武士の力が朝廷を呑み込んだ物語を… ); **fujiwara keeps its own pair** (round 7: "Walk the story of the women who bound the throne…" → 玉座とその主人を結びつけた女性たちの物語を…) |
+| Fujiwara mothers | **母** in every "Fujiwara mothers" slot on fujiwara (round 7: was 后 ×9 — 立后 ×3 / 皇后 ×8 kept as terms of art; FAQ JSON↔visible byte-synced ×2; streak began with **聖武天皇**, both locales — EN Monmu claim was fact error); mothers cards: 乙牟漏（良継）/旅子（百川）/明子（冬嗣）/沢子, 安子=**師輔**の娘, 懐子=**伊尹**の娘, card title **二人の母と三つの治世** |
+| Ōjin brothers | **菟道稚郎子** (was 宇治和気郎子 ×5), **皇子** (was 王子 ×11; 住吉仲皇子), **瑞歯別** (was 水歯別 ×7; = Mizuhawake), era-header/slot fixes **履中天皇・反正天皇** (was 反正/允恭 misassignments ×9 across era-header + 6 cards), book titles wrapped **『日本書紀』×24 / 『宋書』×7**, title **同じ物語の三つの記録** (was 三つのバージョン ×5 + both llms) |
+| Hideyori identity | **黄金の鳥籠** (round 7: was 黄金の牢獄 ×8 — EN "Gilded Prison"/"The Sovereign of the Gilded Cage" untouched), **浪人** (was 浪士 ×1), age **1598年に5歳** (EN "age four" fact fix), hedge **自害したと伝えられています** (EN flat "commit ritual suicide (seppuku)" flagged not changed), callout h2 **大阪城で物語を続けましょう** + companion link to 城主、側室、将軍の嘘 |
+| Siege death date | **1615年6月4日 / June 4, 1615** site standard (round 7: osaka-castle-history EN May 8/8 May + JA ×2 → June 4/4 June — reverses Round A's "month-level only" call on this page; hideyori/deeptimeline already standard) |
+| Moat fill | outer moats only (round 7: dropped the "not just… but also the inner moats" claim in hideyori card, EN+JA — outer moat fill is the documented 1615 peace condition) |
 
 ## 4. ⚠ Uncertain phrases — review these first
 
@@ -83,7 +88,7 @@ Return findings as `page → sentence → suggested fix`.
 | `deeptimeline` | **政治の座から外された台地** | original JA said 昇格させられた (opposite of EN "Politically sidelined") — new wording follows EN; confirm intent |
 | `empress-shotoku` | **紀百継 → 吉備真備**, card title **直接皇権の再主張** | agent-side factual/title corrections |
 | `empress_jingu_timeline` | **朝鮮 ×3** (was 韓国 in ancient contexts), **女王** (was シャマンの女王), removal of contradictory 「200年頃創建」 FAQ/timeline line | verify removal was right vs adding a caveat |
-| `fujiwara-shadow-politics` | readings **侃子・重子 / 諸盛の娘・安子 / 乙縄と多治比の娘**; **別部穢麻呂**; **詔を読み上げている儀式** (was 誥文) | EN names ambiguous or terminology avoided |
+| `fujiwara-shadow-politics` | readings **侃子・重子**; **別部穢麻呂**; **詔を読み上げている儀式** (was 誥文) — round 7 resolved 諸盛の娘・安子 → 師輔の娘・安子 and 乙縄と多治比の娘 → 乙牟漏/旅子, added 伊尹（=Koretada, father of 懐子; 国史大辞典 花山天皇 entry) and fixed 文武→聖武 streak | EN names ambiguous or terminology avoided |
 | `ojinsuccession` | 元明天皇 → **祖母で文武天皇の母** (EN called her "mother" — impossible); **厩戸王（のちの聖徳太子）** (was 宇治川王); **敏達** (was 応達); **山背大兄王は聖徳太子の子** kept (traditional attribution); anchor **645年（大化元年）** added | EN self-contradictions resolved — confirm choices |
 | `soga-fujiwara-timeline` | **藤原氏と摂関政治** (dedup), **皇室との婚姻** (was 王室結婚) | wording de-duplication |
 | `azaiclanbetrayal` | **1564 marriage date** — round-2 review claimed 1567 "almost certainly"; sources actually split (Wikipedia Oichi body says 1567, its own infobox + Azai article say 1564), traditional/majority = 1564, site EN says 1564 ×7 (+ warriormonks teaser ×2). **Kept 1564 everywhere** (decision 2026-10-01); JA-only change would have contradicted EN |
@@ -308,6 +313,39 @@ established set: 蘇我氏、藤原氏と皇室 / 応神天皇の皇位継承 / 
 references section (mirrors EN 8-item list, h2 主要な参照資料) — tenjin has
 **no** Continue section on either locale (annot item 40 was wrong); trailing
 companion sentence in tenjin DYK; companion p in yayoi callout.
+
+## 5g. Round 7 — dump 6/6: fujiwara + ojin + hideyori (+ osaka death date) (2026-10-01)
+
+Count-asserted two-phase pipeline (roundC-apply/verify): 9 files
+(3 JA + 3 EN fact fixes + 2 llms + ja/osaka), +134/−80. Fingerprints:
+ja-fujiwara section+1 div+1 p+3 h2+1 ul+5 li+6 a + 后 sweep 23→11 (9 mothers
+→ 母; 立后/皇后 protected) + card retitles 二人の母と三つの治世 / 乙牟漏・旅子 /
+師輔・伊尹 / FAQ streak 聖武; ja-ojin section+1 div+1 p+3 h2+1 ul+4 li+5 a +
+菟道稚郎子×5 / 王子→皇子×11 / 『日本書紀』24・『宋書』7 wrapped / 水歯別→瑞歯別×7 /
+履中↔反正 slot fixes (允恭 6→0, 履中 8, 反正 7) / title 記録×5 + llms×2;
+ja-hideyori section+1 div+1 p+3 h2+1 ul+3 li+4 a(+1 companion a) + 黄金の鳥籠×8 /
+浪人 / 1598年に5歳 / 自害 hedge / callout h2+companion link. EN fact fixes
+(flagged): fujiwara streak Monmu→Shōmu ×2 + card body/title (Two Mothers,
+Three Reigns), hideyori age four→five-in-1598 + moat inner-claim drop,
+osaka-castle-history May 8→June 4 ×4 (both locales). check:ja 0/21
+(strict titles incl. 記録/鳥籠 titles), check:data 61/101 FAQ parity,
+check:parity, tsc, build green.
+
+**Research resolved (mothers genealogy):** 文武's mother = 元明天皇 not Miyako
+— streak began with 聖武 (國史: 「藤原氏を外戚に持つ初の天皇」); Shōmu←宮子,
+Kōken/Shōtoku←光明子 ✓. Card 490: 乙牟漏 (Yoshitsugu)/旅子 (Momokawa)/明子
+(Fuyutsugu) ✓, tail Takaiko/Sawako added. Card 531: 安子=師輔 (Morosuke —
+冷泉/円融 both his sons), 懐子=**伊尹** (Koretada = これただ per 国史大辞典/花山
+— EN was right, JA 兼忠 was the error), 超子=兼家 ✓. EN 572 Kishi=嬉子 minor
+flag only.
+
+**Missing-JA blocks added:** box tour blurb (all 3; fujiwara own-EN variant),
+full Continue Exploring sections (fujiwara 5-li / ojin 4-li / hideyori 3-li,
+Explore All → `/osaka_history_things_to_do.html`; labels follow §3: 蘇我氏、
+藤原氏と皇室 / 神功皇后 / 上町台地 ── / 現実のベネ・ゲッセリット (EN-href, no JA
+article) / 豊臣秀吉 — 太閤の軌跡 / 睡龍 / 真田信繁). EN-only flags to raise in
+the end-of-work reply: EN hideyori flat seppuku statement, EN fujiwara cta blurb
+missing comma ("its masters Osaka Castle"), EN "Kishi" vs Kisako.
 
 ## 6. Automated gates (must stay green after any edit)
 

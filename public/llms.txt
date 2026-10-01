@@ -27,7 +27,7 @@
 - /ja/shitennojihistory — 四天王寺：1,400年の権力、信仰、生存
 - /ja/yayoi_timeline — 弥生時代 — 並行する歴史
 - /ja/empress_jingu_timeline — 神功皇后：伝説と史実を分かつ
-- /ja/ojinsuccession — 応神天皇の皇位継承 — 三つの物語
+- /ja/ojinsuccession — 応神天皇の皇位継承 — 同じ物語の三つの記録
 - /ja/fujiwara-shadow-politics — 藤原摂関政治 — 五百年にわたる影の支配
 - /ja/genpei-timeline — 平氏、源氏と最初の幕府
 - /ja/azaiclanbetrayal — 織田・浅井の裏切り — 戦国タイムライン
