@@ -64,6 +64,13 @@ Return findings as `page → sentence → suggested fix`.
 | Genpei coverage range | **814–1192 / 814〜1192** in dtail tail li + genpei JSON-LD (round 5: round 4's shrink to 1180–1185 conflicted with the li title "…& the First Shogunate" and the page's own first card 814–889; fujiwara's 858–1086 stays) |
 | Continue Exploring h2 | **探索を続ける** for EN "Continue Exploring" sections (deeptimeline + round-5 empress/ishiyama/osaka); distinct from the callout variant 大阪城で物語を続けましょう (§5d) |
 | JA list tour links | EN-only tour pages linked root-absolute with JA titles — **僧兵、百姓、将軍** (`/warriormonkspeasantshogun.html`), **女神・女王・皇后・側室** (`/goddess_queen_empress_concubine.html`); item-count parity over link-language purity (no JA twins exist; JA-relative paths would 404) |
+| Festival name | **天神祭** (round 6: ja/tenjin ×35 incl. title/meta/JSON-LD visible+FAQ — was 天神祭り; llms already canonical); **大川川 → 大川** ×15 (EN "Okawa River"); EN untouched |
+| Taira naming | **平氏** for EN "Taira" in ja/genpei titles/meta/JSON-LD/prose ×37 (round 6: was 平家 — pairs with 源氏 per llms 平氏、源氏); **平家物語** ×4 kept (work title); era-btn/era-header 平氏の台頭 too |
+| Gojoseon | **古朝鮮** in ja/yayoi ancient contexts (round 6: card titles ×2 + bodies ×2; EN "Gojoseon"); **のちの韓国** kept for EN "later Korea"; JSON-LD ancient cross-ref **朝鮮半島** (aligns JA HTML meta; EN "Korea" untouched); 衛氏朝鮮 kept |
+| Suishou | **倭国王帥升** (round 6: was 倭面土王 ×2 in ja/yayoi JSON-LD + card; EN "Suishou" = 帥升, 後漢書 107 CE — visible = JSON-LD byte-aligned) |
+| Ikasuri shrine | **坐摩神社** (readings いかすり/ざま; round 6: was 生駒神社 ×8 + 座摩 ×1 in ja/empress; EN "Ikasuri Shrine (Zama-san)" was already correct and kept; legend = Jingū founded it, five Ikasuri deities, moved 1608 when Osaka Castle was built) |
+| Companion links | EN `/beforejapanhadaname.html` ↔ JA **/ja/before-the-castle-prehistoric-osaka.html** with short title **城になる前の大阪** (round 6: tenjin DYK trailing sentence + yayoi callout companion p added; no ja/beforejapanhadaname.html exists — never link it) |
+| Box blurb | standard 「大阪城の石垣…」 sentence where EN blurb = "Explore the stone walls…" (round 6: empress/tenjin/yayoi); **genpei keeps its own pair** ("Walk the story of how warrior power swallowed the imperial court" → 武士の力が朝廷を呑み込んだ物語を… ) |
 
 ## 4. ⚠ Uncertain phrases — review these first
 
@@ -268,6 +275,39 @@ warriormonks + goddess; see §3).
 **Round-4 reverts:** dtail card 1568→1570 + eleven→ten (both locales), tail P
 Eleven/11年 → Ten/十年 (annot-04 §57), tail li genpei 1180–1185 → 814–1192 +
 genpei JSON-LD `(814–1192)`/`（814〜1192）` restored (§3 scope note).
+
+## 5f. Round 6 — dump 5/6: empress_jingu + genpei + tenjin + yayoi (2026-10-01)
+
+Count-asserted two-phase pipeline (roundB-apply/verify): 4 JA files,
++178/−95. Fingerprints: ja-empress section+1 div+1 p+3 h2+1 ul+5 li+6 a +
+坐摩神社×8 (生駒×8/座摩×1 gone); ja-genpei section+1 div+1 p+3 h2+1 ul+3 li+4 a +
+平家 41→4 (物語 kept) with titles/meta/JSON-LD 平氏・源氏 ×5; ja-tenjin
+section+1 h2+1 ul+8 li+1 a+1 p + 天神祭り 35→0 / 大川川 15→0 (standalone
+天神祭 +35, 大川 +15) + sources block (8 EN li) + DYK companion; ja-yayoi
+section+1 div+1 p+4 h2+1 ul+3 li+5 a + 古朝鮮 ×4 / 朝鮮半島 JSON-LD /
+倭国王帥升 ×2 + callout companion p + full Continue Exploring section.
+check:ja 0/21 (strict titles incl. new 天神祭 title), check:data 61/101 FAQ
+parity, check:parity, tsc, build green. **No EN edits** — every EN fact
+flagged in annot-05 checked out (Ikasuri/Zama, Suishou, Gojoseon, Okawa,
+Taira, 814–1192, 645–1185).
+
+**Research resolved:** 坐摩神社 identity confirmed via websearch (Wikipedia
+坐摩神社 + Ikasuri Jinja official via osaka-info/lumen-tree): Jingū founded it
+after the Three Korean Campaigns, five deities 坐摩神, relocated 1608 for
+Osaka Castle — EN "Ikasuri Shrine (Zama-san)" was correct all along, JA
+生駒神社 was the error (kanji = 坐, not 座). annot-05 line 28 self-corrects
+the earlier "814–1192 range" complaint and validates Round A's restore.
+Phantoms confirmed absent: 斉世親王 (pages use 時康親王 paired with EN
+Tokiyo), 大倉幕府 (page has 大倉宮 ✓), 本領安堵, 鉾流神事, 平正盛.
+
+**Missing-JA blocks added:** box tour blurb (all 4; genpei own-EN variant);
+Continue Exploring sections (empress 5-li / genpei 3-li / yayoi 3-li, all with
+Explore All → `/osaka_history_things_to_do.html`, list labels follow §3
+established set: 蘇我氏、藤原氏と皇室 / 応神天皇の皇位継承 / 藤原摂関政治 /
+上町台地 ── ディープタイム・タイムライン / 日本の弥生時代); tenjin selected-
+references section (mirrors EN 8-item list, h2 主要な参照資料) — tenjin has
+**no** Continue section on either locale (annot item 40 was wrong); trailing
+companion sentence in tenjin DYK; companion p in yayoi callout.
 
 ## 6. Automated gates (must stay green after any edit)
 
