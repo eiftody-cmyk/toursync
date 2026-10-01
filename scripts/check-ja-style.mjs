@@ -23,7 +23,9 @@ const glossary = JSON.parse(
   readFileSync(join(root, "data", "ja-glossary.json"), "utf8")
 );
 
-const STRICT_TITLES = process.env.JA_STRICT_TITLES === "1";
+// Title-template lint is a hard error by default (JA naturalness pass, 2026-10-01).
+// Opt out only for one-off exploratory runs: JA_STRICT_TITLES=0 npm run check:ja
+const STRICT_TITLES = process.env.JA_STRICT_TITLES !== "0";
 
 const errors = [];
 const warnings = [];

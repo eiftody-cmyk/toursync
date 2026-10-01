@@ -63,7 +63,9 @@ npm run check:ja
 ```
 
 It fails on simplified-Chinese characters, forbidden terminology
-(大阪の陣, Chinese forms, calques), untranslated English paragraphs, and —
-once `JA_STRICT_TITLES=1` — title drift (dash chars, タイムライン in titles,
-brand suffix must be `| エドワードと歩く大阪城`). Runs in `npm run build`,
+(大阪の陣, Chinese forms, calques), untranslated English paragraphs, and
+title drift (dash chars, タイムライン in titles, brand suffix must be
+`| エドワードと歩く大阪城`) — title lint is strict by default
+(`JA_STRICT_TITLES=0` opts out). Runs in `npm run build`,
 `preview`, `deploy` and CI. Term edits go in the glossary first, then the page.
+Native-reviewer findings live in `JA_REVIEW_CHECKLIST.md`.
