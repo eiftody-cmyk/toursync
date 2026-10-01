@@ -49,6 +49,11 @@ Return findings as `page → sentence → suggested fix`.
 | Double dashes | `——…——` parentheticals rewritten to （…）or 、; no `──` (U+2500) anywhere |
 | Research credit | unified JA phrasing on all pages (see `JA_STYLE_GUIDE.md` §研究) |
 | Page identity | `lordconcubineshogunlie` trio = **城主、側室、将軍の嘘** (was 大名; title/H1/FAQ/JSON-LD + all 20 JA nav labels + both llms.txt synced — do not reintroduce 大名 in labels) |
+| soga page identity | **皇統の運命** in title/og/twitter/JSON-LD/H1 (was 皇室の運命 ×10); metas **史書の記述をめぐる論点** (was 歴史解釈の偏り ×3) |
+| Power phrase | **権力と承認** in all JA (hideyoshi hero/H1 + deeptimeline continue li; was 命令・承認 = calque of EN "command, recognition" — EN kept as-is) |
+| Continue heading | **大阪城で物語を続けましょう** on every JA page with that section (4 files normalized from 続ける) |
+| Nara-era header | **藤原仲麻呂の乱** (was 藤原氏の変革; EN `Fujiwara Coup` → `Nakamaro's Rebellion`) |
+| CTA trio | the 3 exact strings (法人向けチームビルディング… / 学校・大学向け歴史フィールドレッスン… / この再構成は、同時代のヨーロッパ人の記録…) on all 21 JA pages — buttons and English-link lines unchanged |
 
 ## 4. ⚠ Uncertain phrases — review these first
 
@@ -148,6 +153,75 @@ untouched.
 奥深く); Google-preferred-source note (page-local, accurate); 常駐歴史家
 kept as the standardized brand line for EN "Resident Historian" (20 pages);
 大坂城 ×8 all pre-1868 contexts.
+
+## 5d. Round 4 — deeptimeline index/tail + soga + site-wide CTA (2026-10-01)
+
+Dump part 3/6 processed with the count-asserted two-phase pipeline (60 exact
+replacements + 3 CTA regex rules + en-dash rule); post-apply fingerprint shows
+exactly the two planned insertions (soga JA Continue-Exploring 6-link list +
+Explore All button; deeptimeline JA Explore All button), every other tag count
+identical; check:ja 0 warnings / check:data 61 pages / check:parity / tsc /
+build all green.
+
+**soga (both locales):** FAQ pairs byte-synced — JA `娘を皇族の皇子に嫁がせ…
+摂政や関白` → `娘を皇室へと入内させ、幼い天皇には摂政として、成人した天皇には
+関白として…` ×2; EN `to imperial princes … to child emperors` → `into the
+imperial family — Sesshō for child emperors, Kampaku for adult ones` ×2.
+Intro 645: `大化の改新で滅ぼされました` → `乙巳の変で倒されました` / EN
+`destroyed in the Taika Reform` → `overthrown in the Isshi Incident`.
+Bidatsu = Suiko's **異父兄** / EN **paternal** half-brother (shared father
+Kinmei). Sushun assassin = **東漢直駒**, not 倭漢直阿美麻呂. Page identity
+`皇室の運命`→`皇統の運命` ×10, `歴史解釈の偏り`→`史書の記述をめぐる論点` ×3.
+Go-Sanjō = `宇多天皇以来約170年ぶり` / EN `some 170 years — the first since
+Emperor Uda` (was 「200年以上」/"over two centuries"; ja.wikipedia 後三条天皇:
+宇多天皇以来170年ぶりの藤原氏を外戚としない天皇). Nakamaro 764 = relay bells +
+imperial seals, dies in defeat (both; was 軍の印/処刑を命じ). Genmei = Monmu's
+mother, Shōmu's grandmother (EN widow-fix). Michizane = 899 appointment +
+政敵・藤原時平 (both). Archives burning hedged (both). Ōjin intro = early
+capitals of Asuka/Naniwa/Nara. Nara header → 藤原仲麻呂の乱 /
+Nakamaro's Rebellion. Also: ふさわしい皇室政府→皇室本来の政治 ×2, binary
+framing quote reworded, 廃位と崩御→廃位と死去, 若年で持統天皇に継ぎ→持統天皇の
+後を継ぎ, 皇后の→妻の 光明皇后, 重任→重用, Tenji card +698 sole-inheritor line,
+plus 東漢直駒/台頭を支えた/造営と遷都/逃れるように/H2・H3 rewordings.
+
+**fujiwara (both):** 669 deathbed grant expanded with the 698 続日本紀条 —
+文武天皇 made Fuhito the surname's sole inheritor, his brothers reverted to
+中臣 (JA FAQ ×2 + card; EN FAQ ×2, `newborn son`→`ten years old in 669 and
+confirmed … in 698`, `regents and in-laws`→`regents and imperial in-laws`
+so JSON-LD ↔ visible are pair-aligned).
+
+**deeptimeline:** index Yayoi pair fixed both locales (strong title +
+legendary-succession blurb → wet-rice revolution / first kings; the Ōjin
+section's identical blurb correctly kept); `皇帝の座`→`天皇の座`; `生存`→`存続`
+×3 (index, ja/llms, site-graph); `大阪最大の祭礼`→`大阪で最も名高い祭礼` ×2;
+`十年戦争`→`一向一揆との11年戦争` / EN `Ten years … warrior monks`→`Eleven
+years … Ikkō-ikki`; Hideyori card +`徳川の平和の時代を生んだ`; `その都市を
+定義した`→`この街をかたちづくった` ×2; `日本最強の武将。`→`日本一の兵。` +
+site-graph title; stale lagoon title → the page's actual `城の前史：大阪が太古の
+潟であった頃` ×4 (both llms.txt, dtail li, site-graph); Fujiwara card 400
+Years→~200 Years + JA 四百年→約200年; tail ranges 645–1185→858–1086 and
+814–1192→1180–1185 (both locales); genpei meta `（814〜1192）`/`(814–1192)`
+removed; JA tail gained the Explore All button.
+
+**Unifications:** `命令・承認`→`権力と承認` ×3; continue heading ×4 →
+`大阪城で物語を続けましょう`; Nara header above. **CTA standardization** — the
+reviewer's 3 exact strings across all 21 JA pages (法人向け p ×22 incl. the
+double block on osaka-castle-history, 学校・大学向け p ×22, sources p ×17
+再構成/再構築/復元 → この再構成…); buttons untouched. **En-dash** → `〜` on
+card-date/era-header/year lines and （…）ranges ×43 (soga 27 incl. two
+double-range cards, hideyoshi 6, tenjin 5, tokugawa 5); 『…』 bibliography
+lines excluded.
+
+**Pushed back / kept:** sanada H1 `日本最強の武将` (decision — only the
+deeptimeline card + site-graph title changed to 日本一の兵; page FAQ glossary
+kept); deeptimeline's Ishiyama card `日本最強の武将に10年間抵抗` (different
+subject, unflagged); Ōjin blurb `伝説の王権争い` (correct for that page); the
+other 5 soga `大化の改新` uses (legitimate reform-term contexts); EN marketing
+untouched.
+
+**Citations:** ja.wikipedia 後三条天皇 (宇多天皇以来170年ぶりの藤原氏を外戚と
+しない天皇); 『続日本紀』文武天皇二年八月条 — 669 鎌足臨終に藤原姓授予、
+698 不比等をこの姓の継承者と定め他兄弟は中臣に復す (ctext.org).
 
 ## 6. Automated gates (must stay green after any edit)
 
