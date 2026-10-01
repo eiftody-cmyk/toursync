@@ -62,6 +62,7 @@ Return findings as `page → sentence → suggested fix`.
 | `fujiwara-shadow-politics` | readings **侃子・重子 / 諸盛の娘・安子 / 乙縄と多治比の娘**; **別部穢麻呂**; **詔を読み上げている儀式** (was 誥文) | EN names ambiguous or terminology avoided |
 | `ojinsuccession` | 元明天皇 → **祖母で文武天皇の母** (EN called her "mother" — impossible); **厩戸王（のちの聖徳太子）** (was 宇治川王); **敏達** (was 応達); **山背大兄王は聖徳太子の子** kept (traditional attribution); anchor **645年（大化元年）** added | EN self-contradictions resolved — confirm choices |
 | `soga-fujiwara-timeline` | **藤原氏と摂関政治** (dedup), **皇室との婚姻** (was 王室結婚) | wording de-duplication |
+| `azaiclanbetrayal` | **1564 marriage date** — round-2 review claimed 1567 "almost certainly"; sources actually split (Wikipedia Oichi body says 1567, its own infobox + Azai article say 1564), traditional/majority = 1564, site EN says 1564 ×7 (+ warriormonks teaser ×2). **Kept 1564 everywhere** (decision 2026-10-01); JA-only change would have contradicted EN |
 | all pages | JSON-LD `publisher.name` left Latin | intentional, see §2 |
 
 ## 5. Per-page status (all rewritten, guards green)
@@ -80,6 +81,27 @@ Return findings as `page → sentence → suggested fix`.
 Suggested review order (SEO/tour impact first):
 `deeptimeline` → `osaka-castle-history`, `ishiyama-timeline`, `tenjin-matsuri-history`
 → `ojinsuccession`, `soga-fujiwara-timeline`, `fujiwara-shadow-politics` → remainder spot-check.
+
+## 5b. Round 2 — `azaiclanbetrayal` full external draft + historian review (2026-10-01)
+
+A second-pass full-page rewrite (external draft in hybrid AEO/brand tone) was
+applied over Group A, incorporating a historian's 10-item accuracy review:
+
+- **Applied (review items 2–9, 10):** 朝倉＝主家/主従 categorical claims →
+  朝倉氏との長年の関係 (the feudal-lord framing was an overclaim; EN's own
+  "hereditary feudal loyalty" was left as-is, JA-only scope); 完全な安全回廊
+  softened; 血統 used selectively (秀頼 card now "信長の妹・お市を通じて" —
+  avoids implying direct dynastic continuity); 孤児 → 両親を相次いで失った;
+  最も影響力のある側室 → causal chain (側室の一人 → 後継者を産み政治的影響力);
+  Hideyoshi's 1595 motive hedged (chronology verified: 秀頼1593 → 秀次切腹1595 →
+  三条河原処刑1595-08); 誓い → 同盟 in bodies (era-header 裏切り — 壊れた誓い and
+  finale 1564年の誓い kept as storytelling); 遺恨 carry-in → 大坂城の政治の中心に
+  立ち…記憶を背負う; titles 血の誓いの同盟 → お市、浅井長政に嫁ぐ,
+  茶々、内輪に入る → 茶々 — 敵の懐へ
+- **Guard restorations the draft had dropped:** 和暦 ×3 (天正10/11年, 慶長20年),
+  research attribution `<p>` kept verbatim, FAQPage JSON ↔ visible byte-sync ×4,
+  Article description + meta/og/twitter synced to new intro
+- **Kept as-is:** `<title>` (draft dropped the required `の年表`), 1564 date (see §4)
 
 ## 6. Automated gates (must stay green after any edit)
 
