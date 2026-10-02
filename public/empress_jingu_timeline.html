@@ -248,6 +248,19 @@
     margin-bottom: 8px;
   }
 
+  .item-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 2px 9px;
+    border: 1px solid;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+  .b-legend { color: var(--rust); border-color: rgba(178, 94, 66, 0.55); }
+  .b-source, .b-arch { color: var(--gold); border-color: rgba(200, 169, 110, 0.55); }
+
   .item-title {
     font-size: 1.35rem;
     font-weight: 600;
@@ -340,7 +353,7 @@
       "@type": "Article",
       "@id": "https://osakacastletours.com/empress_jingu_timeline#article",
       "headline": "Empress Jingū: Fact From Folklore",
-      "description": "Empress Jingū is both a mythological figure and a political construct — the 8th-century court created her story to justify female imperial authority.",
+      "description": "Empress Jingū is a legendary figure woven from myth and politics. The Nihon Shoki, compiled in the 8th century, portrays her as Emperor Chūai's consort, who governed after his death. Her story is understood to layer memories of ancient diplomacy, warfare and royal authority with the history of the imperial line that the 8th-century court constructed.",
       "image": "https://osakacastletours.com/images/empress_jingu.webp",
       "mainEntityOfPage": "https://osakacastletours.com/empress_jingu_timeline",
       "inLanguage": "en",
@@ -353,7 +366,7 @@
         "@id": "https://osakacastletours.com/#business"
       },
       "datePublished": "2026-03-09",
-      "dateModified": "2026-08-31"
+      "dateModified": "2026-10-02"
     },
     {
       "@type": "Person",
@@ -392,40 +405,48 @@
  "@context": "https://schema.org",
  "@type": "FAQPage",
  "@id": "https://osakacastletours.com/empress_jingu_timeline#faq",
- "mainEntity": [
-  {
-   "@type": "Question",
-   "name": "Who was Empress Jingū?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Jingū is the legendary consort of Emperor Chūai who, according to the Nihon Shoki, ruled after his death and led a fleet to conquer the Three Korean Kingdoms while pregnant, then returned to land at Naniwa and found the shrines Ikasuri and Sumiyoshi Taisha. The Nihon Shoki places her reign in the early 3rd century, immediately after Emperor Chūai's death. The chronicle itself was compiled in 720 CE — so historians treat the story as imperial myth written centuries after the events it describes, rather than as reliable biography."
+  "mainEntity": [
+   {
+    "@type": "Question",
+    "name": "How is Empress Jingū portrayed?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "In the Nihon Shoki, Empress Jingū appears as the consort of the 14th emperor, Chūai. After his death, the story goes, she received an oracle, took charge of government, and led an expedition to the Korean peninsula while pregnant; she then gave birth to the future Emperor Ōjin on her return. Modern historians are cautious about reading this narrative as a biography that records 3rd-century events as they happened. The chronicle itself was completed in 720 CE — Jingū's story must be read as a long pre-8th-century tradition of telling layered together with the view of history the 8th-century court constructed."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "Did Empress Jingū really send an expedition to the Korean peninsula?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "The Nihon Shoki records the legend of the Three-Kingdom Campaign, in which Jingū is said to have attacked Silla and brought it to submission. But no independent source or archaeological evidence has been confirmed that directly substantiates such an expedition as a 3rd-century event. From the late 4th century, however, sources do appear showing Wa involved in the affairs of the Korean peninsula. The Gwanggaeto Stele is the representative epigraphic source among them. The legend of Jingū's campaign and Wa's late-4th-century military activity therefore cannot simply be equated. That said, whether some layer of historical memory connects the chronicle's legend with Wa's externally recorded activities from the late 4th century onward remains an important question in the study of ancient Japan."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "What does Empress Jingū have to do with Sumiyoshi Taisha?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Sumiyoshi Taisha's traditions hold that, on her return from the Silla campaign, Jingū seated the gods at today's Sumiyoshi by the instruction of Sumiyoshi Ōkami. The shrine dedicates the three sea gods known as the Three Gods of Sumiyoshi — whose names mean the bottom, the middle and the surface of the sea — and Empress Jingū herself is enshrined there as well. The shrine's present tradition dates its foundation to the 11th year of Jingū's regency, or 211 CE; but Sumiyoshi Taisha itself notes that this CE date is a calculated chronology derived from the Teiō Hennenki, and that its historicity remains a matter of scholarly discussion. The key point is the same: 211 must not be taken at face value as a historical date. The link between Jingū's legend and Sumiyoshi's maritime world is, none the less, a fascinating tradition for thinking about Osaka's ancient history."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "Is there a Jingū tradition at Ikasuri Shrine too?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Yes. According to Ikasuri Shrine's official account, the tradition begins with Empress Jingū, who — on her return from Silla — dedicated the deity Ikasuri Ōkami at Ōe and Tanashima on the south bank of the Yodo River, the ground later known as Watanabe. Ikasuri Ōkami is the collective name for five deities — three of the well water and two of the hearth. The shrine today stands in Kushitarō-chō, Chūō-ku, but its official account locates the former shrine site near present-day Ishimachi, in what was once the Watanabe ferry district. It is said to have moved to its present location in connection with Hideyoshi's building of Osaka Castle. In thinking about Jingū's legend, then, what matters is not only today's shrine but the geography of the ancient Yodo river system and the Watanabe waterfront."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "Did the Nihon Shoki layer Himiko's story onto Empress Jingū?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "The name Himiko does not appear in the Nihon Shoki itself. However, the Jingū section cites passages from the Wei Zhi, placing 3rd-century events recorded in Chinese histories — such as the Wa queen's embassy to Wei in 239 CE — inside Jingū's chronology. For this reason, the correspondence between Empress Jingū and the Wa queen Himiko of the Wei Zhi's account of Wa has long been discussed in scholarship; the National Diet Library's reference materials list several studies on the relationship between the Jingū chapter and the Himiko passage. It must be stressed, however, that identifying Jingū and Himiko as one and the same person is not established. More cautiously put: a key scholarly question is whether the compilers of the Nihon Shoki sought to anchor Jingū's legend to the era of the Wa queen recorded in Chinese histories of the 3rd century."
+    }
    }
-  },
-  {
-   "@type": "Question",
-   "name": "Did Empress Jingū really invade Korea?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Independent evidence — the 391 CE Gwanggaeto Stele — confirms that forces from Wa (Japan) did cross the sea to clash with Baekje and Silla, but nearly two centuries after the Jingū narrative claims. No archaeological record supports a divine, bloodless conquest; the war Jingū describes looks real but misplaced onto her."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Why did Jingū found Sumiyoshi Taisha and Ikasuri Shrine?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "According to the legend, Jingū enshrined the three sea gods who protected her fleet by founding Sumiyoshi Taisha on Osaka Bay, and consecrated the five Ikasuri deities to guard the land and her imperial line. Both shrines survive in Osaka today, anchoring the myth to the physical geography of the Uemachi Ridge."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "How did the Nihon Shoki rewrite Jingū's story?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "When the court compiled the Nihon Shoki in 720, Chinese records already showed 3rd-century Japan united by a shaman queen named Himiko. Scholars argue the scribes stripped Himiko's records and pasted them onto Jingū, dragging her timeline back nearly two centuries to project an unbroken Yamato line."
-   }
-  }
- ]
+  ]
 }
 </script>
 
@@ -482,7 +503,8 @@
 <div class="header">
   <div class="header-subtitle">Osaka Castle Walks with Edward - History Beyond the Postcard</div>
   <h1>Empress Jingū<br><em style="font-weight:300;font-size:0.78em">Sifting Fact From Folklore in Ancient Naniwa</em></h1>
-  <p>Empress Jingū is both a mythological figure and a political construct — the 8th-century court created her story to justify female imperial authority.</p>
+  <p>Empress Jingū is a legendary figure woven from myth and politics. The Nihon Shoki, compiled in the 8th century, portrays her as Emperor Chūai's consort — a woman who governed after his death. Her story layers memories of ancient diplomacy, warfare and royal authority with the view of the imperial line that the 8th-century court constructed.</p>
+  <p>But the story cannot be read as a straightforward record of 3rd-century events. Jingū's legend stacks several layers: memories of ancient overseas exchange and warfare, Naniwa's maritime world, and 8th-century dynastic consciousness. On this page we overlay the Jingū of the Nihon Shoki, the sources of the Korean peninsula, and Osaka's archaeology to explore the ancient world behind the legend.</p>
 </div>
 
 <!-- QUICK ANSWERS (AEO) -->
@@ -490,23 +512,27 @@
   <div style="border:1px solid rgba(200,169,110,0.25);border-left:3px solid #c8a96e;background:rgba(26,21,16,0.6);padding:2.2rem 2.5rem;border-radius:2px;">
     <h2 style="font-family:'Cinzel',serif;font-size:1.4rem;font-weight:400;margin-bottom:1.2rem;color:#f5efe3;text-transform:uppercase;letter-spacing:0.15em;">Quick Answers</h2>
     <p style="font-size:1.05rem;line-height:1.7;color:#c8bfa8;margin-bottom:1.4rem;">
-      Empress Jingū sits at the hinge between myth and history. The Nihon Shoki portrays her as a pregnant warrior-empress who conquered Korea, landed at Naniwa, and founded Ikasuri Shrine and Sumiyoshi Taisha around 200 CE. Continental epigraphy and archaeology place the actual warfare nearly two centuries later — and suggest the chronicles re-engineered her timeline.
+      Empress Jingū stands at the boundary between myth and history — a figure of legend. The Nihon Shoki portrays her as an expectant queen who crossed the sea to campaign against Silla and, on her return, made her way to Naniwa. Her name is also bound up in the founding traditions of Sumiyoshi Taisha and Ikasuri Shrine: Sumiyoshi's lore says she enshrined Sumiyoshi Ōkami at today's Sumiyoshi by divine instruction, and Ikasuri's account credits her with dedicating Ikasuri Ōkami at Watanabe, on the south bank of the Yodo River. Meanwhile, a key source in a separate tradition from the chronicles — the Gwanggaeto Stele, which records East Asian affairs of the late 4th to early 5th centuries — contains references to Wa's military activity, and its dating sits a great distance from the chronology the Japanese annals assign to Jingū's campaign. The point, then, is not to conclude that Jingū's story is simply untrue. It is to ask how memories from different eras were woven into a single narrative in the 8th-century Nihon Shoki.
     </p>
     <details class="faq-item" style="margin-bottom:0.8rem;">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">Who was Empress Jingū?</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">Jingū is the legendary consort of Emperor Chūai who, according to the Nihon Shoki, ruled after his death and led a fleet to conquer the Three Korean Kingdoms while pregnant, then returned to land at Naniwa and found the shrines Ikasuri and Sumiyoshi Taisha. The Nihon Shoki places her reign in the early 3rd century, immediately after Emperor Chūai's death. The chronicle itself was compiled in 720 CE — so historians treat the story as imperial myth written centuries after the events it describes, rather than as reliable biography.</p>
+      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">How is Empress Jingū portrayed?</summary>
+      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">In the Nihon Shoki, Empress Jingū appears as the consort of the 14th emperor, Chūai. After his death, the story goes, she received an oracle, took charge of government, and led an expedition to the Korean peninsula while pregnant; she then gave birth to the future Emperor Ōjin on her return. Modern historians are cautious about reading this narrative as a biography that records 3rd-century events as they happened. The chronicle itself was completed in 720 CE — Jingū's story must be read as a long pre-8th-century tradition of telling layered together with the view of history the 8th-century court constructed.</p>
     </details>
     <details class="faq-item" style="margin-bottom:0.8rem;">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">Did Empress Jingū really invade Korea?</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">Independent evidence — the 391 CE Gwanggaeto Stele — confirms that forces from Wa (Japan) did cross the sea to clash with Baekje and Silla, but nearly two centuries after the Jingū narrative claims. No archaeological record supports a divine, bloodless conquest; the war Jingū describes looks real but misplaced onto her.</p>
+      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">Did Empress Jingū really send an expedition to the Korean peninsula?</summary>
+      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">The Nihon Shoki records the legend of the Three-Kingdom Campaign, in which Jingū is said to have attacked Silla and brought it to submission. But no independent source or archaeological evidence has been confirmed that directly substantiates such an expedition as a 3rd-century event. From the late 4th century, however, sources do appear showing Wa involved in the affairs of the Korean peninsula. The Gwanggaeto Stele is the representative epigraphic source among them. The legend of Jingū's campaign and Wa's late-4th-century military activity therefore cannot simply be equated. That said, whether some layer of historical memory connects the chronicle's legend with Wa's externally recorded activities from the late 4th century onward remains an important question in the study of ancient Japan.</p>
     </details>
     <details class="faq-item" style="margin-bottom:0.8rem;">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">Why did Jingū found Sumiyoshi Taisha and Ikasuri Shrine?</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">According to the legend, Jingū enshrined the three sea gods who protected her fleet by founding Sumiyoshi Taisha on Osaka Bay, and consecrated the five Ikasuri deities to guard the land and her imperial line. Both shrines survive in Osaka today, anchoring the myth to the physical geography of the Uemachi Ridge.</p>
+      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">What does Empress Jingū have to do with Sumiyoshi Taisha?</summary>
+      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">Sumiyoshi Taisha's traditions hold that, on her return from the Silla campaign, Jingū seated the gods at today's Sumiyoshi by the instruction of Sumiyoshi Ōkami. The shrine dedicates the three sea gods known as the Three Gods of Sumiyoshi — whose names mean the bottom, the middle and the surface of the sea — and Empress Jingū herself is enshrined there as well. The shrine's present tradition dates its foundation to the 11th year of Jingū's regency, or 211 CE; but Sumiyoshi Taisha itself notes that this CE date is a calculated chronology derived from the Teiō Hennenki, and that its historicity remains a matter of scholarly discussion. The key point is the same: 211 must not be taken at face value as a historical date. The link between Jingū's legend and Sumiyoshi's maritime world is, none the less, a fascinating tradition for thinking about Osaka's ancient history.</p>
+    </details>
+    <details class="faq-item" style="margin-bottom:0.8rem;">
+      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">Is there a Jingū tradition at Ikasuri Shrine too?</summary>
+      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">Yes. According to Ikasuri Shrine's official account, the tradition begins with Empress Jingū, who — on her return from Silla — dedicated the deity Ikasuri Ōkami at Ōe and Tanashima on the south bank of the Yodo River, the ground later known as Watanabe. Ikasuri Ōkami is the collective name for five deities — three of the well water and two of the hearth. The shrine today stands in Kushitarō-chō, Chūō-ku, but its official account locates the former shrine site near present-day Ishimachi, in what was once the Watanabe ferry district. It is said to have moved to its present location in connection with Hideyoshi's building of Osaka Castle. In thinking about Jingū's legend, then, what matters is not only today's shrine but the geography of the ancient Yodo river system and the Watanabe waterfront.</p>
     </details>
     <details class="faq-item">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">How did the Nihon Shoki rewrite Jingū's story?</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">When the court compiled the Nihon Shoki in 720, Chinese records already showed 3rd-century Japan united by a shaman queen named Himiko. Scholars argue the scribes stripped Himiko's records and pasted them onto Jingū, dragging her timeline back nearly two centuries to project an unbroken Yamato line.</p>
+      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">Did the Nihon Shoki layer Himiko's story onto Empress Jingū?</summary>
+      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">The name Himiko does not appear in the Nihon Shoki itself. However, the Jingū section cites passages from the Wei Zhi, placing 3rd-century events recorded in Chinese histories — such as the Wa queen's embassy to Wei in 239 CE — inside Jingū's chronology. For this reason, the correspondence between Empress Jingū and the Wa queen Himiko of the Wei Zhi's account of Wa has long been discussed in scholarship; the National Diet Library's reference materials list several studies on the relationship between the Jingū chapter and the Himiko passage. It must be stressed, however, that identifying Jingū and Himiko as one and the same person is not established. More cautiously put: a key scholarly question is whether the compilers of the Nihon Shoki sought to anchor Jingū's legend to the era of the Wa queen recorded in Chinese histories of the 3rd century.</p>
     </details>
   </div>
 </section>
@@ -523,21 +549,22 @@
 
 <div class="track-key">
   <div class="key-item"><div class="key-line line-myth"></div> Traditional Legend (Nihon Shoki / Shrine Lore)</div>
-  <div class="key-item"><div class="key-line line-fact"></div> Historical Reality (Continental Epigraphy & Archaeology)</div>
+  <div class="key-item"><div class="key-line line-fact"></div> Historical Reality (Korean &amp; Chinese Epigraphy and Archaeology)</div>
 </div>
 
 <div class="timeline-container">
 
-  <div class="timeline-divider"><span>The Chronicle Claims (c. 200–211 CE)</span></div>
+  <div class="timeline-divider"><span>Where the Nihon Shoki Places the Story (early 3rd century CE)</span></div>
 
   <!-- EVENT: Prophecy -->
   <div class="timeline-item track-myth">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">c. 193–200 CE</span>
-      <span class="item-label">Nihon Shoki Mythos</span>
-      <h2 class="item-title">The Divine Oracle of Transmarine Conquest</h2>
-      <div class="item-body">Following the sudden, suspicious death of Emperor Chūai in Kyushu, his consort Jingū assumes control. The court chronicles record that she receives an explicit divine oracle from the sea gods: look west across the waters to a golden land of wealth (Silla). Correcting the blasphemy of her late husband, she prepares an armada.</div>
+      <span class="item-badge b-legend">Legend</span>
+      <span class="item-date">Early 3rd century CE</span>
+      <span class="item-label">Nihon Shoki Narrative</span>
+      <h2 class="item-title">The Oracle and the Death of Emperor Chūai</h2>
+      <div class="item-body">In the Nihon Shoki's narrative, Emperor Chūai dies in Kyushu and his consort Jingū takes charge of government. The chronicle says she receives an oracle from the gods: beyond the western sea lies a land rich in gold and silver (Silla). Answering the divine instruction, she readies a great fleet to cross the sea. What the passage depicts is not a mere military expedition: oracle, royal authority, maritime travel, diplomacy and female political power are bound into a single story.</div>
       <span class="item-expand">Click to investigate</span>
     </div>
   </div>
@@ -546,10 +573,11 @@
   <div class="timeline-item track-myth">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">c. 200 CE</span>
-      <span class="item-label">The Korean Campaign</span>
-      <h2 class="item-title">The Invasion of the Three Korean Kingdoms</h2>
-      <div class="item-body">Jingū commands the Yamato fleet across the sea while heavily pregnant with the future <a href="/ojinsuccession.html" class="inline-link">Emperor Ōjin</a>. Legend claims the sea deities guide her ships safely to the shores of Silla, where the king surrenders without a drop of blood being spilled. This campaign establishes her status in imperial lore as a supreme military commander and ritual conduit.</div>
+      <span class="item-badge b-legend">Legend</span>
+      <span class="item-date">Early 3rd century CE</span>
+      <span class="item-label">The Silla Campaign Legend</span>
+      <h2 class="item-title">The Legend of the Three-Kingdom Campaign</h2>
+      <div class="item-body">The Nihon Shoki says that Jingū, pregnant with the future <a href="/ojinsuccession.html" class="inline-link">Emperor Ōjin</a>, led a fleet of Wa across the sea and conquered Silla. Later ages called this story the Three-Kingdom Campaign. In the tale, the gods guide the fleet and the king of Silla submits without a battle — a development to be read less as a record of historical fighting than as mythic narrative legitimizing Jingū's authority by divine will. She came to be portrayed as an important woman who supported royal power.</div>
       <span class="item-expand">Click to investigate</span>
     </div>
   </div>
@@ -558,10 +586,11 @@
   <div class="timeline-item track-myth">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">c. 211 CE</span>
-      <span class="item-label">Landing at Naniwa</span>
-      <h2 class="item-title">The Triumphant Return to the Uemachi Ridge</h2>
-      <div class="item-body">Returning from the peninsula, Jingū routes her fleet into Osaka Bay, landing on the northern tip of the Uemachi Plateau. Recognizing the strategic, elevated ridge as the gatekeeper to the inland valleys, she moves to anchor the political and spiritual security of the fragile Yamato court right on this defensive geographic feature.</div>
+      <span class="item-badge b-legend">Legend</span>
+      <span class="item-date">Early 3rd century CE</span>
+      <span class="item-label">The Naniwa Landing Legend</span>
+      <h2 class="item-title">Naniwa and the Uemachi Plateau</h2>
+      <div class="item-body">In Jingū's story, the Naniwa district becomes the stage of her return. Legend has it that she made her way to Naniwa from the peninsula. The Nihon Shoki depicts Naniwa as a crucial link between Kyushu and Yamato. In the archaeology of ancient Naniwa, rivers, sea routes and the topography of the Uemachi Plateau all played an important role in forming later political and trading centers. Jingū's story can be read as laying a tale of royal authority and the gods over this Naniwa geography.</div>
       <span class="item-expand">Click to investigate</span>
     </div>
   </div>
@@ -570,10 +599,11 @@
   <div class="timeline-item track-myth">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">c. 211 CE</span>
-      <span class="item-label">Shrine Foundation</span>
-      <h2 class="item-title">Founding Ikasuri Shrine (Zama-san)</h2>
-      <div class="item-body">To protect the territory and her imperial line, Jingū establishes Ikasuri Shrine on the southern banks of the Yodo River. She consecrates the five Ikasuri deities—guardians of the soil, residential foundations, and safe travel. This site becomes a critical spiritual waypoint, inextricably linking her lineage to the physical earth of Osaka.</div>
+      <span class="item-badge b-legend">Legend</span>
+      <span class="item-date">Early 3rd century CE</span>
+      <span class="item-label">Shrine Tradition</span>
+      <h2 class="item-title">The Ikasuri Shrine Tradition</h2>
+      <div class="item-body">In Ikasuri Shrine's tradition, on Jingū's return from Silla the deity Ikasuri Ōkami was enshrined on the south bank of the Yodo at Ōe and Tanashima — the ground later called Watanabe. Ikasuri Ōkami is the collective name for five deities: three of the well water and two of the hearth. The shrine now stands in Semba's Kushitarō-chō, but the putative former site lies near present-day Ishimachi, once part of the Watanabe ferry district. The key point is that today's sanctuary itself should not be treated as a 3rd-century structure. Rather, it shows how Jingū's legend came to be positioned within the ancient geography linking the Yodo and the Uemachi Plateau.</div>
       <span class="item-expand">Click to investigate</span>
     </div>
   </div>
@@ -582,24 +612,26 @@
   <div class="timeline-item track-myth">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">c. 211 CE</span>
-      <span class="item-label">Maritime Power Anchor</span>
-      <h2 class="item-title">The Dedication of Sumiyoshi Taisha</h2>
-      <div class="item-body">Fulfilling an oracle received on her return voyage, Jingū founds Sumiyoshi Taisha on the coast of Osaka Bay to permanently enshrine the three sea gods who protected her fleet. This architectural power move guarantees that all future maritime expeditions, immigrant arrivals, and continental trade passing through the Naniwa ports must do so under the ritual authority of her line.</div>
+      <span class="item-badge b-legend">Legend</span>
+      <span class="item-date">Early 3rd century CE</span>
+      <span class="item-label">Shrine Tradition</span>
+      <h2 class="item-title">The Enshrinement of Sumiyoshi Ōkami</h2>
+      <div class="item-body">According to the Nihon Shoki legend, Jingū seated the Three Gods of Sumiyoshi — whose names mean the bottom, the middle and the surface of the sea — at today's Sumiyoshi by divine instruction. Sumiyoshi Taisha's traditions hold that the gods were enshrined there after her return from the Silla campaign. What emerges is that Jingū's story is not simply a tale of conquest: a seafaring royal authority and the gods who protect it — that pairing is the heart of the long-preserved Sumiyoshi tradition. Sumiyoshi's ground is deeply tied to ancient sea travel, and the shrine's lore also tells, in myth, of the relationship between that maritime network and royal power.</div>
       <span class="item-expand">Click to investigate</span>
     </div>
   </div>
 
-  <div class="timeline-divider"><span>The Physical Evidence (c. 391–720 CE)</span></div>
+  <div class="timeline-divider"><span>Separate Sources and Archaeology (late 4th century – 8th century CE)</span></div>
 
   <!-- EVENT: Gwanggaeto Stele -->
   <div class="timeline-item track-fact">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">391 CE</span>
-      <span class="item-label">Continental Epigraphy</span>
+      <span class="item-badge b-source">Source</span>
+      <span class="item-date">Late 4th – early 5th century CE</span>
+      <span class="item-label">Separate Epigraphic Source</span>
       <h2 class="item-title">The Gwanggaeto Stele Inscription</h2>
-      <div class="item-body">Independent, contemporary evidence engraved on a massive stone monument in modern-day China confirms that real-world forces from Wa (Japan) actually crossed the sea to clash with the Korean kingdoms of Baekje and Silla around 391 CE. This independent timeline places the real conflicts nearly two centuries later than the traditional Jingū narrative asserts.</div>
+      <div class="item-body">The Gwanggaeto Stele, preserved in present-day Jilin Province, China, is a key epigraphic source for East Asian affairs from the late 4th to early 5th centuries. Its inscription records military relations between Goguryeo, the powers of the Korean peninsula, and Wa. The crucial point is that it belongs to a different documentary tradition from the Nihon Shoki's Jingū legend. Between the campaign the chronicles place in the early 3rd century and the Wa military activity the stele describes in the late 4th century lies a gap of roughly two centuries; the two cannot be made into the same event. At the same time, readings of the inscription remain debated in scholarship. What is not in doubt is that by the late 4th century sources exist showing Wa's military involvement in the peninsula's international politics — which means Jingū's story need not be sorted into history or pure myth and nothing else.</div>
       <span class="item-expand">Click to investigate</span>
     </div>
   </div>
@@ -608,22 +640,24 @@
   <div class="timeline-item track-fact">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">c. 400s CE</span>
+      <span class="item-badge b-arch">Archaeology</span>
+      <span class="item-date">5th century CE</span>
       <span class="item-label">Plateau Infrastructure</span>
-      <h2 class="item-title">The Sixteen Warehouses of Hoenzaka</h2>
-      <div class="item-body">Excavations on the Hoenzaka slope of the Uemachi Plateau reveal sixteen massive, elite timber storehouses. Operating long before any palace rose here, this highly organized complex was built to ingest luxury goods, weapons, and advanced tech arriving from the continent via Osaka Bay—proving that the scale of international exchange represented by the Jingū legend was entirely historical.</div>
+      <h2 class="item-title">The Large Storehouses of Hōenzaka</h2>
+      <div class="item-body">Excavations at Hōenzaka, south of the Osaka Museum of History, uncovered a group of large raised-floor storehouses dating to the 5th century. Sixteen buildings were identified, each a large post-built structure roughly 10 meters east–west by 9 meters north–south — about 90 square meters — standing in orderly rows. The Osaka Museum of History itself presents the complex as a 5th-century site. This is not a ruin that directly proves Jingū's story; the date is different. What it does show is that, in the era after the one Jingū's legend describes, the Uemachi Plateau already hosted large-scale storage facilities. The complex is thought to have been under direct royal management, and possibly a logistics hub linked to the surrounding rivers and ports. Independently of the Jingū legend, archaeology confirms large-scale accumulation of goods and wide-ranging exchange around ancient Uemachi.</div>
       <span class="item-expand">Click to investigate</span>
     </div>
   </div>
 
-  <!-- EVENT: Nihon Shoki Timeline Rewrite -->
+  <!-- EVENT: Nihon Shoki and Himiko -->
   <div class="timeline-item track-fact">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
+      <span class="item-badge b-source">Source</span>
       <span class="item-date">720 CE</span>
-      <span class="item-label">Statecraft in Ink</span>
-      <h2 class="item-title">The Nihon Shoki Timeline Rewrite</h2>
-      <div class="item-body">When court scribes compile the Nihon Shoki in 720, Chinese records already show 3rd-century Japan united by a shaman queen named Himiko — a sovereign the imperial narrative never acknowledges. Many historians argue the compilers folded her story into Empress Jingū, pulling Jingū's reign back nearly two centuries to project an illusion of unbroken Yamato dominance.</div>
+      <span class="item-label">Compilation and Chronology</span>
+      <h2 class="item-title">The Nihon Shoki and Himiko</h2>
+      <div class="item-body">The Nihon Shoki was completed in 720. It depicts Jingū not merely as Chūai's consort but as a woman who governed after the emperor's death, received oracles, and directed overseas expeditions. Chinese histories of the 3rd century record that a queen named Himiko arose after years of warfare in Wa, and that in 239 CE the queen of Wa sent envoys to Wei. The Nihon Shoki does not adopt Himiko's name outright; but passages from the Wei Zhi are cited in the Jingū chapter, placing 3rd-century events inside Jingū's chronology. The correspondence between Jingū's story and the Himiko passages has accordingly been studied for a long time. What matters here is not to assert that Himiko's story was simply pasted onto Jingū. More cautiously: the 8th-century Nihon Shoki combined old traditions with material from Chinese histories, situating Jingū within the 3rd-century East Asian world — and thereby constructed a coherent picture of ancient royal lineage and foreign relations.</div>
       <span class="item-expand">Click to investigate</span>
     </div>
   </div>
@@ -633,13 +667,16 @@
 <section style="max-width:900px;margin:40px auto 60px;padding:0 20px;">
   <div class="callout">
     <h2 style="font-family:'Cinzel',serif; font-size:2rem; margin-bottom:20px; text-align:center;">
-      Stand on the Ground Where the Story Was Rewritten
+      Stand on the Ground Where the Stories Layered
     </h2>
     <p style="font-size:1.15rem;line-height:1.8;">
-      The shrines still stand, the ridge remains, and the physical masonry layers beneath Osaka Castle hold the clues to Japan's true axis of ancient power. Walk the plateau to unpack the real geopolitics hidden behind the imperial mythology.
+      The shrines still stand, and the topography of the Uemachi Plateau has barely changed. Beneath Osaka Castle's stone walls lies the memory of a place where, since remote times, people passed, traded, and built centers of politics and religion. Jingū's story ties all of it into a single tale of the 3rd century. Yet overlay archaeology with written sources, and a more complex stratigraphy of time appears: the 3rd-century Jingū legend; Wa's late-4th-century military involvement on the peninsula; the 5th-century Hōenzaka storehouses; and the Nihon Shoki, compiled in the 8th century. These are not the same event. And yet all of them are tied to the same geographical world of Naniwa and the Uemachi Plateau.
+    </p>
+    <p style="font-size:1.15rem;line-height:1.8;margin-top:16px;">
+      Walking this plateau, you can overlay the Jingū legend with the ancient Naniwa that archaeology reveals, and face a pair of questions: why did this land matter so much to ancient royal power — and how did later people remember it, and in what kind of story did they pass it on?
     </p>
     <p style="font-size:1.15rem;line-height:1.8;margin-top:20px;">
-      <a href="/goddess_queen_empress_concubine.html"><strong>Explore two thousand years of Japan's most influencial women.</strong></a>
+      <a href="/goddess_queen_empress_concubine.html"><strong>Explore two thousand years of Japan's most influential women.</strong></a>
     </p>
   </div>
 </section>
@@ -667,7 +704,7 @@
     <h2 style="font-family:'Cinzel',serif;font-size:1.7rem;font-weight:400;margin-bottom:1rem;text-align:center;color:#f5efe3;">Continue Exploring</h2>
     <p style="font-size:1.05rem;line-height:1.7;color:#c8bfa8;margin-bottom:1.4rem;text-align:center;">Jingū's legend reaches down the centuries to the empresses and rulers who followed — and to the palace that stood on this ground.</p>
     <ul style="list-style:none;padding:0;margin:0 0 1.4rem;">
-        <li><a href="/ojinsuccession.html">The Ōjin Succession</a> — how Jingū's myth was used to legitimize her son</li>
+        <li><a href="/ojinsuccession.html">The Ōjin Succession</a> — how the legend of Empress Jingū came to be tied to Emperor Ōjin's legitimacy</li>
         <li><a href="/yayoi_timeline.html">The Yayoi Age in Japan</a> — the ancient world the legends try to explain</li>
         <li><a href="/soga-fujiwara-timeline.html">Soga, Fujiwara & the Imperial Line</a> — how court power would later pass through women</li>
         <li><a href="/empress-shotoku.html">Empress Shōtoku & Dōkyō</a> — the empress who came centuries later, and the monk at her side</li>
@@ -681,12 +718,12 @@
 
 
 <section class="cta-section">
-  <h2>Jingū rode at the head of an empire. Walk the ground she crossed.</h2>
+  <h2>Jingū led a fleet in legend. Walk the ground she crossed.</h2>
   <p class="cta-sub">Walk with a historian who lives beside it. Small groups. Osaka Castle every day • English • Max 6 guests</p>
   <a href="https://osakacastletours.com/book?tour=Osaka%20Castle%20Goddess,%20Queen,%20Empress,%20Concubine" class="cta-btn">Book Goddess, Queen, Empress, Concubine</a>
   <a href="tel:+819012474069" class="cta-btn">Call / Text Edward</a>
   <a href="https://wa.me/819012474069" class="cta-btn">WhatsApp Edward</a>
-    <p class="page-date">Last updated: September 2026</p>
+    <p class="page-date">Last updated: October 2026</p>
 <p class="edward-sig">Edward Iftody — Osaka Castle’s Resident Historian</p>
 </section>
 

@@ -248,6 +248,19 @@
     margin-bottom: 8px;
   }
 
+  .item-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 2px 9px;
+    border: 1px solid;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+  .b-legend { color: var(--rust); border-color: rgba(178, 94, 66, 0.55); }
+  .b-source, .b-arch { color: var(--gold); border-color: rgba(200, 169, 110, 0.55); }
+
   .item-title {
     font-size: 1.35rem;
     font-weight: 600;
@@ -340,7 +353,7 @@
       "@type": "Article",
       "@id": "https://osakacastletours.com/ja/empress_jingu_timeline.html#article",
       "headline": "神功皇后 — 伝説と歴史を分かつ年表 | エドワードと歩く大阪城",
-      "description": "神功皇后は、神話と政治が結びついて作られた存在です。8世紀の朝廷が、女性の皇権を正当化するために、彼女の物語を組み立てたのです。",
+      "description": "神功皇后は、神話と政治が結びついた伝承上の人物です。8世紀に編纂された『日本書紀』は、彼女を仲哀天皇の后であり、天皇の死後に政治を担った人物として描きます。その物語には、古代の外交・軍事・王権に関する記憶と、8世紀の朝廷が構築した王統の歴史観が重なっていると考えられています。",
       "image": "https://osakacastletours.com/images/empress_jingu.webp",
       "mainEntityOfPage": "https://osakacastletours.com/ja/empress_jingu_timeline.html",
       "inLanguage": "ja",
@@ -353,7 +366,7 @@
         "@id": "https://osakacastletours.com/#business"
       },
       "datePublished": "2026-03-09",
-      "dateModified": "2026-08-31"
+      "dateModified": "2026-10-02"
     },
     {
       "@type": "Person",
@@ -392,40 +405,48 @@
  "@context": "https://schema.org",
  "@type": "FAQPage",
  "@id": "https://osakacastletours.com/ja/empress_jingu_timeline.html#faq",
- "mainEntity": [
-  {
-   "@type": "Question",
-   "name": "神功皇后とは誰ですか？",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "神功皇后は、日本書紀によれば仲哀天皇の后で、天皇の死後に政を執り、身重のまま朝鮮に出兵した女帝として描かれています。日本書紀は、その治世を3世紀初頭、仲哀天皇の死の直後に置いています。ただし記録自体は720年の編纂によるもので、歴史家はこの物語を、信頼できる伝記ではなく、何百年も後に書かれた皇室の神話として扱っています。"
+  "mainEntity": [
+   {
+    "@type": "Question",
+    "name": "神功皇后はどのような人物として描かれているのですか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "『日本書紀』では、神功皇后は第14代仲哀天皇の后として登場します。仲哀天皇の死後、神託を受けた皇后は政治を担い、身重でありながら朝鮮半島への遠征を行ったとされています。そして帰国後に応神天皇を出産したという物語が続きます。現代の歴史学では、この物語をそのまま3世紀の出来事を記録した伝記として扱うことには慎重です。『日本書紀』そのものが成立したのは720年。神功皇后の物語には、それ以前の長い伝承の蓄積と、8世紀の朝廷が構築した歴史観の双方が重なっていると考える必要があります。"
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "神功皇后は本当に朝鮮半島へ出兵したのですか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "『日本書紀』は、神功皇后が新羅へ遠征し、これを服属させたという「三韓征伐」の伝承を記しています。しかし、この遠征を3世紀の出来事として直接裏づける独立した史料や考古学的証拠は確認されていません。一方、4世紀末になると、朝鮮半島の情勢に倭が軍事的に関わったことを示す史料が現れます。広開土王碑は、その代表的な金石文史料です。したがって、「神功皇后の征討伝承」と「4世紀末の倭の軍事活動」を単純に同じものとして置き換えることもできません。ただし、記紀の伝承と、4世紀末以降に確認される倭の対外活動との間に、何らかの歴史的記憶の重なりがあるのではないかという問題は、古代史研究の重要な論点です。"
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "神功皇后と住吉大社にはどのような関係がありますか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "住吉大社の由緒では、神功皇后が新羅遠征から帰還する途中、住吉大神の神託によって現在の住吉の地に神々を祀ったとされています。住吉大社では、底筒男命・中筒男命・表筒男命の三神を「住吉三神」とし、後に神功皇后自身も祀られています。現在の社伝では、鎮座を神功皇后摂政11年、すなわち西暦211年としていますが、住吉大社自身も、この西暦年代が『帝王編年記』による推定年代であり、実年代については学術的議論があると注記しています。ここでも重要なのは、211年という数字をそのまま実年代として扱わないことです。神功皇后の物語と住吉の海上交通との結びつきそのものは、大阪の古代史を考えるうえで非常に興味深い伝承です。"
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "坐摩神社にも神功皇后の伝承がありますか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "はい。坐摩神社の公式由緒では、神功皇后が新羅から帰還した際、淀川南岸の大江・田蓑島、後の渡辺の地に坐摩大神を奉斎したことが創祀の始まりとされています。坐摩大神は、生井神・福井神・綱長井神・波比祇神・阿須波神の五柱を総称した神です。現在の坐摩神社は大阪市中央区久太郎町にありますが、公式由緒では旧社地を、かつての渡辺津にあたる現在の中央区石町付近としています。豊臣秀吉の大坂築城に伴って現在地に移ったと伝えられています。つまり、神功皇后の伝承を考えるときには、現在の神社だけでなく、古代の淀川水系と渡辺津周辺の地理を見ることが重要になります。"
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "『日本書紀』は卑弥呼の物語を神功皇后に重ねたのですか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "『日本書紀』には卑弥呼という名前そのものは登場しません。しかし、神功皇后紀には『魏志』の記事が引用されており、239年の倭の女王による魏への遣使など、中国史書に記録された3世紀の出来事が神功皇后の年代の中に置かれています。このことから、研究史上、神功皇后と『魏志倭人伝』の卑弥呼との対応関係が論じられてきました。国立国会図書館のレファレンス資料でも、『日本書紀』の神功皇后紀と卑弥呼の記事との関係について、複数の研究書が挙げられています。ただし、神功皇后＝卑弥呼と単純に同一人物とすることが確定しているわけではありません。より慎重に言えば、『日本書紀』の編者が神功皇后の物語を3世紀の中国史書に記された倭国の女王の時代と結びつけようとした可能性が、研究上の重要な論点になっています。"
+    }
    }
-  },
-  {
-   "@type": "Question",
-   "name": "神功皇后は本当に朝鮮を侵略しましたか？",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "独立した証拠である391年の広開土王碑は、倭（日本）の軍隊が実際に海を渡って百済や新羅と戦ったことを示しています。ただしその時期は、神功皇后の物語が主張するおよそ2世紀後です。考古学の記録に、神が味方した血の流れていない征服を裏づけるものはなく、彼女の物語にある戦いは本物のものに見えて、年代がずれて彼女に当てはめられてしまったとみられます。"
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "なぜ神功皇后は住吉大社と坐摩神社を創建したのですか？",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "伝説によれば、神功皇后は船団を守った3柱の海の神を祀るため、大阪湾に住吉大社を建てました。あわせて、土地と皇統の守り神として5柱の坐摩神社の神を祭り上げたとされています。両神社は今も大阪に残り、この神話を上町台地の地形に結びつけているのです。"
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "日本書紀はどのようにして神功皇后の物語を書き換えましたか？",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "朝廷が720年に日本書紀を編纂したとき、中国の記録には、卑弥呼という名の女王が治める3世紀の日本がすでに統一されていたと書かれていました。学者たちは、書記が卑弥呼の記録をはぎ取って神功皇后に貼り付け、彼女の年表を2世紀あまりも遡らせて、途切れない大和の系譜を投影したと論じています。"
-   }
-  }
- ]
+  ]
 }
 </script>
 
@@ -490,8 +511,9 @@
 
 <div class="header">
   <div class="header-subtitle">エドワードと歩く大阪城 — 歴史の舞台裏</div>
-  <h1>神功皇后<br><em style="font-weight:300;font-size:0.78em">古代難波における、伝説と史実の境目</em></h1>
-  <p>神功皇后は、神話と政治が結びついて作られた存在です。8世紀の朝廷が、女性の皇権を正当化するために、彼女の物語を組み立てたのです。</p>
+  <h1>神功皇后<br><em style="font-weight:300;font-size:0.78em">古代難波における伝説と史実の境界</em></h1>
+  <p>神功皇后は、神話と政治が結びついた伝承上の人物です。8世紀に編纂された『日本書紀』は、彼女を仲哀天皇の后であり、天皇の死後に政治を担った人物として描きます。その物語には、古代の外交・軍事・王権に関する記憶と、8世紀の朝廷が構築した王統の歴史観が重なっていると考えられています。</p>
+  <p>しかし、その物語をそのまま3世紀の出来事として読むことはできません。神功皇后の伝承には、古代の対外交流や軍事的記憶、難波の海上交通、そして8世紀の王統意識が幾重にも重なっています。このページでは、『日本書紀』が語る神功皇后、朝鮮半島側の史料、そして大阪の考古学を重ね合わせながら、伝説の背後にある古代の世界を探ります。</p>
 </div>
 
 <!-- QUICK ANSWERS (AEO) -->
@@ -499,23 +521,27 @@
   <div style="border:1px solid rgba(200,169,110,0.25);border-left:3px solid #c8a96e;background:rgba(26,21,16,0.6);padding:2.2rem 2.5rem;border-radius:2px;">
     <h2 style="font-family:'Cinzel',serif;font-size:1.4rem;font-weight:400;margin-bottom:1.2rem;color:#f5efe3;text-transform:uppercase;letter-spacing:0.15em;">クイックアンサー</h2>
     <p style="font-size:1.05rem;line-height:1.7;color:#c8bfa8;margin-bottom:1.4rem;">
-      神功皇后は、神話と歴史のちょうど境目にいます。日本書紀は、身重のまま出兵して朝鮮を征服し、難波に上陸して、坐摩神社と住吉大社を創建した女帝として描きます。ところが大陸の金石学と考古学が示す実際の戦いは、ほぼ2世紀後です。記録が彼女の年表を組み替えてしまったのではないかとみられています。
+      神功皇后は、神話と歴史の境界に位置する伝承上の人物です。『日本書紀』は、身重のまま海を渡って新羅を征討し、帰国後に難波へ至った皇后として描いています。また、住吉大社や坐摩神社の縁起にも、その名が結びつけられています。住吉大社では、神功皇后が住吉大神を現在の住吉の地に鎮斎したと伝えられています。坐摩神社にも、神功皇后の帰還に際して淀川南岸の渡辺の地に坐摩大神を祀ったという由緒が伝わります。一方、朝鮮半島との軍事的接触を伝える『日本書紀』とは別系統の重要な史料として、4世紀末から5世紀初頭の東アジア情勢を記した広開土王碑があります。そこには倭の軍事活動に関する記述があり、記紀が神功皇后の征討に置く年代との間には大きな時間的隔たりがあります。つまり、ここで重要なのは「神功皇后の物語がすべて作り話だった」と結論づけることではありません。むしろ、異なる時代の記憶が、8世紀の『日本書紀』の中でどのように一つの物語へ組み込まれたのかを見ることです。
     </p>
     <details class="faq-item" style="margin-bottom:0.8rem;">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">神功皇后とは誰ですか？</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">神功皇后は、日本書紀によれば仲哀天皇の后で、天皇の死後に政を執り、身重のまま朝鮮に出兵した女帝として描かれています。日本書紀は、その治世を3世紀初頭、仲哀天皇の死の直後に置いています。ただし記録自体は720年の編纂によるもので、歴史家はこの物語を、信頼できる伝記ではなく、何百年も後に書かれた皇室の神話として扱っています。</p>
+      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">神功皇后はどのような人物として描かれているのですか？</summary>
+      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">『日本書紀』では、神功皇后は第14代仲哀天皇の后として登場します。仲哀天皇の死後、神託を受けた皇后は政治を担い、身重でありながら朝鮮半島への遠征を行ったとされています。そして帰国後に応神天皇を出産したという物語が続きます。現代の歴史学では、この物語をそのまま3世紀の出来事を記録した伝記として扱うことには慎重です。『日本書紀』そのものが成立したのは720年。神功皇后の物語には、それ以前の長い伝承の蓄積と、8世紀の朝廷が構築した歴史観の双方が重なっていると考える必要があります。</p>
     </details>
     <details class="faq-item" style="margin-bottom:0.8rem;">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">神功皇后は本当に朝鮮を侵略しましたか？</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">独立した証拠である391年の広開土王碑は、倭（日本）の軍隊が実際に海を渡って百済や新羅と戦ったことを示しています。ただしその時期は、神功皇后の物語が主張するおよそ2世紀後です。考古学の記録に、神が味方した血の流れていない征服を裏づけるものはなく、彼女の物語にある戦いは本物のものに見えて、年代がずれて彼女に当てはめられてしまったとみられます。</p>
+      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">神功皇后は本当に朝鮮半島へ出兵したのですか？</summary>
+      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">『日本書紀』は、神功皇后が新羅へ遠征し、これを服属させたという「三韓征伐」の伝承を記しています。しかし、この遠征を3世紀の出来事として直接裏づける独立した史料や考古学的証拠は確認されていません。一方、4世紀末になると、朝鮮半島の情勢に倭が軍事的に関わったことを示す史料が現れます。広開土王碑は、その代表的な金石文史料です。したがって、「神功皇后の征討伝承」と「4世紀末の倭の軍事活動」を単純に同じものとして置き換えることもできません。ただし、記紀の伝承と、4世紀末以降に確認される倭の対外活動との間に、何らかの歴史的記憶の重なりがあるのではないかという問題は、古代史研究の重要な論点です。</p>
     </details>
     <details class="faq-item" style="margin-bottom:0.8rem;">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">なぜ神功皇后は住吉大社と坐摩神社を創建したのですか？</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">伝説によれば、神功皇后は船団を守った3柱の海の神を祀るため、大阪湾に住吉大社を建てました。あわせて、土地と皇統の守り神として5柱の坐摩神社の神を祭り上げたとされています。両神社は今も大阪に残り、この神話を上町台地の地形に結びつけているのです。</p>
+      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">神功皇后と住吉大社にはどのような関係がありますか？</summary>
+      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">住吉大社の由緒では、神功皇后が新羅遠征から帰還する途中、住吉大神の神託によって現在の住吉の地に神々を祀ったとされています。住吉大社では、底筒男命・中筒男命・表筒男命の三神を「住吉三神」とし、後に神功皇后自身も祀られています。現在の社伝では、鎮座を神功皇后摂政11年、すなわち西暦211年としていますが、住吉大社自身も、この西暦年代が『帝王編年記』による推定年代であり、実年代については学術的議論があると注記しています。ここでも重要なのは、211年という数字をそのまま実年代として扱わないことです。神功皇后の物語と住吉の海上交通との結びつきそのものは、大阪の古代史を考えるうえで非常に興味深い伝承です。</p>
+    </details>
+    <details class="faq-item" style="margin-bottom:0.8rem;">
+      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">坐摩神社にも神功皇后の伝承がありますか？</summary>
+      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">はい。坐摩神社の公式由緒では、神功皇后が新羅から帰還した際、淀川南岸の大江・田蓑島、後の渡辺の地に坐摩大神を奉斎したことが創祀の始まりとされています。坐摩大神は、生井神・福井神・綱長井神・波比祇神・阿須波神の五柱を総称した神です。現在の坐摩神社は大阪市中央区久太郎町にありますが、公式由緒では旧社地を、かつての渡辺津にあたる現在の中央区石町付近としています。豊臣秀吉の大坂築城に伴って現在地に移ったと伝えられています。つまり、神功皇后の伝承を考えるときには、現在の神社だけでなく、古代の淀川水系と渡辺津周辺の地理を見ることが重要になります。</p>
     </details>
     <details class="faq-item">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">日本書紀はどのようにして神功皇后の物語を書き換えましたか？</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">朝廷が720年に日本書紀を編纂したとき、中国の記録には、卑弥呼という名の女王が治める3世紀の日本がすでに統一されていたと書かれていました。学者たちは、書記が卑弥呼の記録をはぎ取って神功皇后に貼り付け、彼女の年表を2世紀あまりも遡らせて、途切れない大和の系譜を投影したと論じています。</p>
+      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">『日本書紀』は卑弥呼の物語を神功皇后に重ねたのですか？</summary>
+      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">『日本書紀』には卑弥呼という名前そのものは登場しません。しかし、神功皇后紀には『魏志』の記事が引用されており、239年の倭の女王による魏への遣使など、中国史書に記録された3世紀の出来事が神功皇后の年代の中に置かれています。このことから、研究史上、神功皇后と『魏志倭人伝』の卑弥呼との対応関係が論じられてきました。国立国会図書館のレファレンス資料でも、『日本書紀』の神功皇后紀と卑弥呼の記事との関係について、複数の研究書が挙げられています。ただし、神功皇后＝卑弥呼と単純に同一人物とすることが確定しているわけではありません。より慎重に言えば、『日本書紀』の編者が神功皇后の物語を3世紀の中国史書に記された倭国の女王の時代と結びつけようとした可能性が、研究上の重要な論点になっています。</p>
     </details>
   </div>
 </section>
@@ -524,21 +550,22 @@
 
 <div class="track-key">
   <div class="key-item"><div class="key-line line-myth"></div> 伝統的な伝説（日本書紀・神社の伝承）</div>
-  <div class="key-item"><div class="key-line line-fact"></div> 歴史の実像（大陸の金石学と考古学）</div>
+  <div class="key-item"><div class="key-line line-fact"></div> 歴史の実像（朝鮮半島・中国側の金石文と考古学）</div>
 </div>
 
 <div class="timeline-container">
 
-  <div class="timeline-divider"><span>日本書紀の主張（西暦200〜211年頃）</span></div>
+  <div class="timeline-divider"><span>『日本書紀』が置く年代（3世紀初頭）</span></div>
 
   <!-- EVENT: Prophecy -->
   <div class="timeline-item track-myth">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">193〜200年頃</span>
-      <span class="item-label">日本書紀の神話</span>
-      <h2 class="item-title">海を越える征服の神託</h2>
-      <div class="item-body">九州で仲哀天皇が不審な最期を遂げると、その后の神功皇后が実権を握りました。朝廷の年代記によれば、彼女は海の神々からはっきりとした神託を受けます。西の海を越えた黄金に富む土地（新羅）を見よ、というものです。亡き夫の冒涜を正すべく、彼女は大艦隊を整えました。</div>
+      <span class="item-badge b-legend">伝承</span>
+      <span class="item-date">3世紀初頭</span>
+      <span class="item-label">『日本書紀』の物語</span>
+      <h2 class="item-title">神託と仲哀天皇の死</h2>
+      <div class="item-body">『日本書紀』の物語では、九州で仲哀天皇が亡くなると、その后の神功皇后が政治を担うようになります。『日本書紀』によれば、彼女は神々から神託を受け、西方の海の彼方にある、金銀の豊かな国（新羅）を知らされました。神託に従い、彼女は海を渡るための大規模な船団を整えました。ここで描かれているのは、単なる軍事遠征ではありません。神託、王権、海上交通、外交、そして女性による政治的権威が一つの物語に結びついています。</div>
       <span class="item-expand">クリックして調査</span>
     </div>
   </div>
@@ -547,10 +574,11 @@
   <div class="timeline-item track-myth">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">200年頃</span>
-      <span class="item-label">朝鮮遠征</span>
-      <h2 class="item-title">朝鮮三国への侵攻</h2>
-      <div class="item-body">神功皇后は、後の<a href="/ja/ojinsuccession.html" class="inline-link">応神天皇</a>を身ごもったまま、大和の艦隊を率いて海を渡ります。伝説では、海の神々が彼女の船を安全に新羅の海岸へ導き、王は血一つ流さずに降伏したとされます。この遠征によって、彼女は天皇家の伝承における最高の武将であり、儀礼の仲介者でもあるという地位を確立しました。</div>
+      <span class="item-badge b-legend">伝承</span>
+      <span class="item-date">3世紀初頭</span>
+      <span class="item-label">新羅遠征の物語</span>
+      <h2 class="item-title">三韓征伐の伝承</h2>
+      <div class="item-body">『日本書紀』では、神功皇后は後の<a href="/ja/ojinsuccession.html" class="inline-link">応神天皇</a>を身ごもったまま、倭の船団を率いて海を渡り、新羅を征討したとされます。この物語は後世「三韓征伐」と呼ばれてきました。物語の中で神々が船団を導き、新羅王が戦わずして服属するという展開は、歴史的戦闘の記録というより、神功皇后の王権を神意によって正当化する神話的叙述として読む必要があります。彼女は王権を支える重要な女性として描かれるようになりました。</div>
       <span class="item-expand">クリックして調査</span>
     </div>
   </div>
@@ -559,10 +587,11 @@
   <div class="timeline-item track-myth">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">211年頃</span>
-      <span class="item-label">難波上陸</span>
-      <h2 class="item-title">上町台地への凱旋</h2>
-      <div class="item-body">半島から帰ると、神功皇后は艦隊を大阪湾へ向け、上町台地の北端に上陸しました。切り立ったこの台地が内陸の谷への要衝だと見抜いた彼女は、まだ弱い大和朝廷の政治的・精神的な安全を、この防御に適した地形の上に据えようとしました。</div>
+      <span class="item-badge b-legend">伝承</span>
+      <span class="item-date">3世紀初頭</span>
+      <span class="item-label">難波上陸の物語</span>
+      <h2 class="item-title">難波と上町台地</h2>
+      <div class="item-body">神功皇后の物語では、帰還後の舞台として難波周辺が重要な位置を占めます。半島から帰った神功皇后は、伝承上、難波へ至ったとされています。『日本書紀』の物語は、難波を九州と大和を結ぶ重要な場所として描きます。実際の古代難波では、河川・海上交通と上町台地の地形が、後の政治・交易拠点の形成に重要な役割を果たしました。神功皇后の物語は、こうした難波の地理的な重要性に、王権と神々の物語を重ねたものとして読むことができます。</div>
       <span class="item-expand">クリックして調査</span>
     </div>
   </div>
@@ -571,10 +600,11 @@
   <div class="timeline-item track-myth">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">211年頃</span>
-      <span class="item-label">神社創建</span>
-      <h2 class="item-title">坐摩神社（いかすり）の創建</h2>
-      <div class="item-body">領土と皇統を守るため、神功皇后は淀川の南岸に坐摩神社を建てました。土地、住みかの基盤、旅の安全を守る5柱の坐摩神社の神を祭り上げるのです。この社は重要な信仰の拠りどころとなり、彼女の系譜を大阪の大地と切り離せないものに結びつけました。</div>
+      <span class="item-badge b-legend">伝承</span>
+      <span class="item-date">3世紀初頭</span>
+      <span class="item-label">神社由緒</span>
+      <h2 class="item-title">坐摩大神の伝承</h2>
+      <div class="item-body">坐摩神社の縁起では、神功皇后が新羅から帰還した際、淀川南岸の大江・田蓑島、後の渡辺の地に坐摩大神が祀られたと伝えられています。坐摩大神は、生井神・福井神・綱長井神・波比祇神・阿須波神の五柱の神々の総称です。現在の神社は船場の久太郎町に鎮座していますが、旧社地と伝えられる場所は、かつての渡辺津にあたる現在の中央区石町付近に推定されています。ここで重要なのは、現在の社殿そのものを3世紀の遺構と考えることではありません。むしろ、淀川と上町台地を結ぶ古代の地理の中に、神功皇后の伝承がどのように位置づけられてきたのかを見ることです。</div>
       <span class="item-expand">クリックして調査</span>
     </div>
   </div>
@@ -583,24 +613,26 @@
   <div class="timeline-item track-myth">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">211年頃</span>
-      <span class="item-label">海上権威の拠点</span>
-      <h2 class="item-title">住吉大社の創建</h2>
-      <div class="item-body">帰路の航海で受けた神託を果たすため、神功皇后は大阪湾岸に住吉大社を建て、船団を守った3柱の海の神をいつまでも祀りました。この社の造営は、その後の海上の遠征、移住者の到着、難波の港を通る大陸の貿易を、すべて彼女の系譜の儀礼的な権威の下に置くことを保証するものでした。</div>
+      <span class="item-badge b-legend">伝承</span>
+      <span class="item-date">3世紀初頭</span>
+      <span class="item-label">神社由緒</span>
+      <h2 class="item-title">住吉大神の鎮座</h2>
+      <div class="item-body">『日本書紀』の伝承によれば、神功皇后は神託に従って、住吉三神——底筒男命・中筒男命・表筒男命——を現在の住吉の地に祀りました。住吉大社の縁起によれば、新羅遠征から帰還した後に神々を鎮めたとされています。ここから見えてくるのは、神功皇后の物語が単なる「征服の物語」ではないということです。海を渡る王権と、それを守護する神々。その組み合わせこそが、住吉という土地に長く残された伝承の重要な部分です。住吉の地は古代の海上交通と深く結びついており、住吉大社の縁起もまた、この海上ネットワークと王権との関係を神話的に語っています。</div>
       <span class="item-expand">クリックして調査</span>
     </div>
   </div>
 
-  <div class="timeline-divider"><span>考古学の証拠（391〜720年頃）</span></div>
+  <div class="timeline-divider"><span>別系統の史料と考古学（4世紀末〜8世紀）</span></div>
 
   <!-- EVENT: Gwanggaeto Stele -->
   <div class="timeline-item track-fact">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">391年</span>
-      <span class="item-label">大陸の金石学</span>
+      <span class="item-badge b-source">史料</span>
+      <span class="item-date">4世紀末〜5世紀初頭</span>
+      <span class="item-label">別系統の金石文</span>
       <h2 class="item-title">広開土王碑の銘文</h2>
-      <div class="item-body">現代の中国に残る巨大な石碑に刻まれた、独立した同時代の証拠が、391年頃に倭（日本）の軍隊が実際に海を渡って、百済や新羅といった朝鮮の国々と戦ったことを示しています。この別系統の年表は、実際の戦いが、伝統的な神功皇后の物語が主張する時期のおよそ2世紀後だったことを示します。</div>
+      <div class="item-body">現在の中国吉林省集安市に残る広開土王碑は、4世紀末から5世紀初頭の東アジア情勢を知る重要な金石文史料です。碑文には、高句麗と朝鮮半島の諸勢力、そして倭との軍事的関係が記されています。ここで重要なのは、『日本書紀』の神功皇后伝承とは別系統の史料だということです。記紀が描く3世紀初頭の征討と、広開土王碑が伝える4世紀末の倭の軍事活動との間には、およそ二世紀の隔たりがあります。そのため、両者をそのまま同じ出来事とすることはできません。ただし、碑文の解釈には研究上の議論があります。少なくとも4世紀末には、倭が朝鮮半島の国際政治と軍事的に関わっていたことを示す史料が存在します。これによって、神功皇后の物語を単純な「史実」か「完全な神話」かの二択で考える必要がなくなります。</div>
       <span class="item-expand">クリックして調査</span>
     </div>
   </div>
@@ -609,10 +641,11 @@
   <div class="timeline-item track-fact">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
-      <span class="item-date">400年代頃</span>
+      <span class="item-badge b-arch">考古学</span>
+      <span class="item-date">5世紀</span>
       <span class="item-label">台地のインフラ</span>
-      <h2 class="item-title">法円坂の十六倉庫</h2>
-      <div class="item-body">上町台地の法円坂斜面の発掘では、巨大な高級材の倉庫が16棟見つかっています。この地に宮殿が建つはるか前から営まれていた、この高度に組織化された集積地は、大阪湾を経由して大陸から届く高級品、武器、先進技術を取り込むために作られていました。神功皇后の伝説が示す国際交流の規模が、実際に歴史に存在したものだったことを証明しているのです。</div>
+      <h2 class="item-title">法円坂の大型高床倉庫群</h2>
+      <div class="item-body">大阪歴史博物館の南側、法円坂では、5世紀の大型高床倉庫群が発掘されています。確認された倉庫は16棟。いずれも大型の掘立柱建物で、東西約10メートル、南北約9メートル、床面積約90平方メートルという規模のものが整然と並んでいました。大阪歴史博物館も、この倉庫群を5世紀の遺構として紹介しています。これは神功皇后の物語を直接証明する遺跡ではありません。年代も異なります。しかし、神功皇后の伝承が語るより後の時代に、上町台地ではすでに大規模な物資集積施設が成立していたことがわかります。この倉庫群は当時の王権による直接的な管理との関係が推測され、周辺の河川・港湾と結びついた物流拠点だった可能性も指摘されています。神功皇后の伝説とは別に、古代の上町台地周辺に大規模な物資の集積と広域交流が存在したことは、考古学的に確認されています。</div>
       <span class="item-expand">クリックして調査</span>
     </div>
   </div>
@@ -621,10 +654,11 @@
   <div class="timeline-item track-fact">
     <div class="timeline-node"></div>
     <div class="timeline-content" onclick="toggleCard(this)">
+      <span class="item-badge b-source">史料</span>
       <span class="item-date">720年</span>
-      <span class="item-label">文字に残る国政</span>
-      <h2 class="item-title">日本書紀による年表の書き換え</h2>
-      <div class="item-body">朝廷の書記が720年に日本書紀を編纂したとき、中国の記録には、卑弥呼という名の女王が治める3世紀の日本がすでに統一されていたとありました。ところがこの女王は、皇室の物語には決して登場しません。多くの歴史家は、編纂者が卑弥呼の物語を神功皇后の中に織り込み、彼女の治世を2世紀あまりも遡らせて、途切れない大和の支配が続くという幻想を投影したと論じています。</div>
+      <span class="item-label">編纂と年代づけ</span>
+      <h2 class="item-title">『日本書紀』と卑弥呼の時代</h2>
+      <div class="item-body">『日本書紀』が成立したのは720年です。そこでは神功皇后が、仲哀天皇の后としてだけではなく、天皇の死後に政治を担い、神託を受け、海外遠征を指揮する女性として描かれます。3世紀、中国の史書には、倭国で戦乱が続いた後に卑弥呼という女王が立てられたこと、239年に倭の女王が魏へ使者を送ったことなどが記されています。『日本書紀』は卑弥呼という名前をそのまま採用してはいません。しかし、神功皇后紀には『魏志』の記事が引用され、神功皇后の年代の中に3世紀の出来事が置かれています。このことから、神功皇后の物語と卑弥呼の記事との対応関係が、長く研究されてきました。ここで大切なのは、「卑弥呼の物語をそのまま神功皇后に貼り付けた」と断定することではありません。より慎重に言えば、8世紀の『日本書紀』は、古い伝承と中国史書の情報を組み合わせながら、神功皇后を3世紀の東アジア世界の中に位置づけています。それによって、古代の王統と対外関係について、一つの整合的な歴史像が構築されました。</div>
       <span class="item-expand">クリックして調査</span>
     </div>
   </div>
@@ -634,10 +668,13 @@
 <section style="max-width:900px;margin:40px auto 60px;padding:0 20px;">
   <div class="callout">
     <h2 style="font-family:'Cinzel',serif; font-size:2rem; margin-bottom:20px; text-align:center;">
-      物語が書き換えられた土地に立つ
+      物語が重ねられた土地に立つ
     </h2>
     <p style="font-size:1.15rem;line-height:1.8;">
-      神社は今もそばにあり、台地は残り、大阪城の下に積もる石垣の層が、古代日本の力の軸の真実を示す手がかりを秘めています。台地を歩いて、皇室の神話の裏に隠された地政学を解き明かしてみましょう。
+      神社は今も残り、上町台地の地形も大きくは変わっていません。大阪城の石垣の下には、さらに古い時代から人々が行き交い、政治と交易の舞台となってきた土地の記憶が積み重なっています。神功皇后の物語は、そのすべてを3世紀の一つの物語へと結びつけています。しかし、考古学と文献史料を重ねて見ると、そこにはもっと複雑な時間の層が現れます。3世紀の神功皇后伝承。4世紀末の倭の朝鮮半島への軍事的関与。5世紀の法円坂大型倉庫群。そして8世紀に編纂された『日本書紀』。これらは同じ出来事ではありません。けれども、すべてが難波と上町台地という同じ地理的世界に結びついています。
+    </p>
+    <p style="font-size:1.15rem;line-height:1.8;margin-top:16px;">
+      この台地を歩けば、神功皇后の伝説と、考古学が描き出す古代難波の姿を重ねながら、ひとつの問いに向き合うことができます。なぜ、この土地が古代の王権にとってこれほど重要だったのでしょうか。そして、後世の人々は、その土地の記憶をどのような物語として語り継いだのでしょうか。
     </p>
   </div>
 </section>
@@ -675,7 +712,7 @@
     <h2 style="font-family:'Cinzel',serif;font-size:1.7rem;font-weight:400;margin-bottom:1rem;text-align:center;color:#f5efe3;">探索を続ける</h2>
     <p style="font-size:1.05rem;line-height:1.7;color:#c8bfa8;margin-bottom:1.4rem;text-align:center;">神功皇后の伝説は、のちに現れた女帝や支配者たちへ、そしてこの地に建つ宮殿へと、何世紀もの時をたどり届いています。</p>
     <ul style="list-style:none;padding:0;margin:0 0 1.4rem;">
-        <li><a href="/ja/ojinsuccession.html">応神天皇の皇位継承</a> — 神功皇后の神話が、息子の正統性を支えるために使われた方法</li>
+        <li><a href="/ja/ojinsuccession.html">応神天皇の皇位継承</a> — 応神天皇の正統性と神功皇后の物語がどのように結びつけられたか</li>
         <li><a href="/ja/yayoi_timeline.html">日本の弥生時代</a> — 伝説が説明しようとしている古代の世界</li>
         <li><a href="/ja/soga-fujiwara-timeline.html">蘇我氏、藤原氏と皇室</a> — のちに宮廷の権力が女性を通じて移っていく過程</li>
         <li><a href="/ja/empress-shotoku.html">称徳天皇と道鏡</a> — 数世紀後に現れた女帝と、そのそばにいた僧</li>
