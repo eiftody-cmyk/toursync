@@ -10,7 +10,8 @@ Work landed in: `38b5641` (guide/lint), `5039c49` (P0 term fixes),
 `caa62ef` (round 2, azaiclan), `2cce699` (round 3, §5c),
 `69ad5ff` (round 8, §5h — yayoi accuracy/terminology),
 `7e74a4b` (round 9, §5i — empress_jingu historical rewrite),
-`dc594b7` (round 10, §5j — ojinsuccession three-record rewrite).
+`dc594b7` (round 10, §5j — ojinsuccession three-record rewrite),
+`26cc219` (round 11, §5k — shitennojihistory accuracy/terminology rewrite).
 
 ---
 
@@ -94,6 +95,7 @@ Return findings as `page → sentence → suggested fix`.
 | `ojinsuccession` (Group C era) | 元明天皇 → 祖母で文武天皇の母; 厩戸王（のちの聖徳太子）; 敏達; 山背大兄王; 645年（大化元年） anchor | superseded — page fully rewritten round 10 (§5j); items no longer on the page |
 | `ojinsuccession` | round-10 reviewer items (**395–410 regnal years**, 国家レベル overclaims, **商業的**難波, era headers 挑発/外交的沈黙, Hideyoshi–Ieyasu 1200年 aside) — **resolved round 10**: three-record rewrite removed all regnal years, interpretation-as-fact reframed, aside deleted (§5j). Native review still wanted on the new prose: 宋書 honorific quote (使持節・都督倭…六国諸軍事・安東大将軍・倭国王), readings 大鷦鷯尊/瑞歯別皇子, 倭の五王 transliteration (讃・珍・済・興・武) | open for prose review; content closed 2026-10-02 |
 | `soga-fujiwara-timeline` | **藤原氏と摂関政治** (dedup), **皇室との婚姻** (was 王室結婚) | wording de-duplication |
+| `shitennojihistory` | round-11 new vocabulary — **官寺**, **四箇院（敬田院・施薬院・療病院・悲田院）**, **二河白道**, **四天王寺式伽藍配置**, **開基**, **乙巳の変**, **難波長柄豊碕宮**, **厩戸皇子**, **門前町** | agent-introduced historical terms — confirm naturalness/registers (官寺 vs 寺院, 四箇院 reading, 難波長柄豊碕宮 full name); content closed 2026-10-02 (§5k), open for prose review |
 | `azaiclanbetrayal` | **1564 marriage date** — round-2 review claimed 1567 "almost certainly"; sources actually split (Wikipedia Oichi body says 1567, its own infobox + Azai article say 1564), traditional/majority = 1564, site EN says 1564 ×7 (+ warriormonks teaser ×2). **Kept 1564 everywhere** (decision 2026-10-01); JA-only change would have contradicted EN |
 | all pages | JSON-LD `publisher.name` left Latin | intentional, see §2 |
 
@@ -489,6 +491,63 @@ parity), check:parity, tsc, npm run build; FAQ byte-identity 5/5 both locales;
 assertion greps clean — the only hits are by design: negated quotes (意図的/
 隠蔽/クーデター/記述が短い in「…とは断定できない」contexts), nav links (float-menu
 家康), and CSS (max-width:1200px).
+
+## 5k. Round 11 — shitennojihistory accuracy/terminology rewrite (2026-10-02)
+
+External historian critique of `shitennojihistory` (JA + EN): the page read
+like a translated English essay — 極楽浄土庭園, 官営寺院, 渡来人系譜, 青写真,
+国際港 — and stated later-tradition/lend claims as 593年 fact (四箇院 as
+contemporary administration, 客館・官僚の訓練場, 天命 framing, mid-6th-century
+cosmology for the Pure Land garden, "oldest surviving Pure Land garden").
+Rewrote both locales preserving the core argument (593 四天王寺 → 上町台地 →
+難波津 → 大陸交流 → 仏教と王権 → 国家形成 → 都市大阪).
+
+- **Terminology (glossary-first):** 12 error terms added to
+  `data/ja-glossary.json` — 官営寺院→官寺, 極楽浄土庭園→極楽浄土の庭,
+  渡来人系譜→渡来系氏族との関係, 蘇我氏の指導者の暗殺→蘇我入鹿の暗殺
+  （乙巳の変）, 絶え間ない破壊と再生→災害と戦乱、そして再建の歴史,
+  皇室の権威を根づかせ→仏教と王権の結びつきを示す, 国際港→国際交流・
+  海上交通の拠点, 制度としての役割→寺院としての役割, 外国使節用の客館→
+  四箇院の伝承（敬田院・施薬院・療病院・悲田院）, 官僚の訓練場→仏教信仰と
+  太子信仰の拠点, 皇室とのつながりのおかげで→寺院としての役割を担い続け,
+  商業の中心へと変えていきました→都市形成に影響を与えた. Excluded as
+  legitimate elsewhere → page-local assertions only: 中央集権国家 (deeptimeline
+  大化の改新), 天命 (deeptimeline 漢/唐), 施薬院・悲田院 (empress-shotoku
+  光明皇后 context), 6世紀中頃, plus one-off deletions (青写真, 母方を通じて,
+  役所の建物, 渡来人の集まり, 国家の僧侶).
+- **Accuracy fixes:** all founding statements → 伝えられる/伝承 (subtitle,
+  header, QA intro, FAQ1, fact table now 創建/開基 rows, metas, Article
+  description); FAQ2/QA callout 四箇院 reframed as 後世の『四天王寺縁起』の
+  伝承 with explicit later-source caveat; FAQ5 rewritten (二河白道, present
+  garden is 近世以降, not founding-era); FAQ3 四天王寺式伽藍配置; 天命 section
+  → 仏教、王権、そして国家形成 (item 10/12) with new 645 乙巳の変 →
+  難波長柄豊碕宮 bridge sentence; image labels → 蘇我入鹿の暗殺 — 645年
+  （乙巳の変）; 明治 item → 神仏分離 framing, 1945年3月大阪大空襲 + 1963 再建
+  完成; medieval item → 寺領・荘園・門前町; final section → 四天王寺式伽藍配置
+  straight-line description replacing 役所の建物/渡来人の集まり blueprint claim.
+- **User decisions (2026-10-02):** series subtitle → 歴史探究シリーズ on BOTH
+  shitennoji + tenjin (EN: Historical Inquiry Series); full EN mirror now;
+  cautious FAQ1 rewrite (`593年（推古天皇元年）…建立されたと伝えられ、日本最古の
+  官寺の一つとされています`); 645 bridge sentence added.
+- **EN mirror:** same fixes — state temples, Four Cloisters (Kyōden-in,
+  Shiyaku-in, Ryōbyō-in, Hiden-in), Shitennoji-style garan layout, Two Rivers
+  and the White Path, Isshi Incident, Great Osaka Air Raids March 1945/1963,
+  Naniwa-Nagaraka-Toyosaki Palace; h1/headline casing shitenno-ji→Shitenno-ji
+  fixed; removed pre-existing duplicated-sentence bug in medieval item;
+  dateModified 2026-10-02, page-date October 2026; FAQ byte-sync 5/5 both
+  locales.
+- **Peripherals:** tenjin JA/EN subtitle 歴史探究シリーズ / Historical Inquiry
+  Series; deeptimeline index blurbs ×2 → 初期の王権と仏教が結びついた寺院 /
+  the temple where royal power and Buddhism joined; `llms.txt`/`site-graph.json`
+  untouched (titles unchanged).
+
+Verification: check:ja 0 warnings (21 pages; new glossary rules cause no
+site-wide collisions), check:data 61 pages/101 blocks FAQ parity,
+check:parity 8/18/10, tsc, npm run build; FAQ byte-identity 5/5 both locales;
+assertion greps clean both locales (EN: officially administered/international
+port/blueprint/Mandate of Heaven/guesthouse/training center/oldest surviving
+Pure Land/etc.; JA: all glossary terms + 6世紀中頃/青写真/天命/歴史参照シリーズ
+0 hits); JA meta 83 chars ≤120.
 
 ## 6. Automated gates (must stay green after any edit)
 
