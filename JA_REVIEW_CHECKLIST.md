@@ -90,6 +90,7 @@ Return findings as `page → sentence → suggested fix`.
 | Hideyoshi ending | **露と落ち　露と消えにし** as the death poem (never 露の世は露の世ながら — that is Kobayashi Issa's おらが春; error rule in `data/ja-glossary.json`); **木下弥右衛門** for the father (never 足軽（百姓兵）の弥助; status uncertain); era labels **立身期/権力掌握期/天下人期/晩年** (never 登極期 — imperial accession); **兵糧攻め** (never 飢餓封鎖); **一夜城 = 伝承** (墨俣 + 石垣山, 石垣山 actual build ~80日); 高松 water attack = **1582** (never 1581); kanpaku **1585-07-11** (近衛前久の猶子・藤原氏), 豊臣姓・太政大臣 = **1586**; shogun answer never claims blood bar; 石山本願寺 = **推定地**; FAQ visible↔JSON-LD byte-synced ×2 per locale |
 | Hideyoshi–Rikyū ending | `<title>` + h1 = **協力者から「政治問題」へ** (round 19; EN “From Partners to ‘Political Problem’” — curly quotes in all title slots/OG/headline/breadcrumb); era buttons/headers **出会いと基盤 / 関係の深化 / 茶の湯と権力 / 政治空間の変化 / 終焉** (filter keys foundations/recognition/summit/asymmetry/rupture unchanged); **山崎の戦い = 1582年（天正10年）** (never 1583); **1585年に関白** alone (never 関白（摂政）), 1586 豊臣姓・太政大臣; 豊臣秀長 = **異母弟** (never 異父弟); 北野大茶湯 = **四人の茶堂 + 八百三人** per 『兼見卿記』 (never 亭主 framing); 大徳寺木像 = **金毛閣 + 1591年処分時の問題点** (never fixed 1589 installation; card-date 1589〜1591); 中村修也 = **有力な異説の一つ** (never settled truth); 唐物→和物 = **傾向** (never complete replacement); 承認/命令 column device kept as interpretive frame only — lead/quick answer/conclusion never present it as scholarly consensus; FAQ visible↔JSON-LD byte-synced ×5 both locales |
 | osaka-castle-history ending | 5 era buttons/headers **豊臣の夢 / 大坂の陣と豊臣家の滅亡 / 徳川による大坂城再築 / 近代軍事拠点 / 現代の大阪城** (EN: Toyotomi's Vision / The Siege & Toyotomi's End / Tokugawa Rebuilding / Modern Military Arsenal / Modern Osaka Castle; keys toyotomi/siege/edo/arsenal/modern; headers 1583〜1598 / 1614〜1615 / 1620〜1868 / 1868〜1945 / 1945〜現在 — round 20; never 大坂の陣と抹消 / 大阪城の再建); **`<title>` keeps 豊臣の夢、徳川の抹消** (round-20 item 42 rejected); death date **1615年6月4日 / June 4** site standard (item 14's 1615年5月8日 rejected; 城が**落ちた** never 落んだ); key dates **1627 天守 / 1629〜1665 / 1620〜1629 / 1868年1月6日 / 1931 募金・大坂夏の陣図屏風 / 1959 筒井文庫・1984 修復** (never 1626/1628/1630); **豊臣期大坂図屏風 / ねね = 1548/1549〜1624 / 奈阿姫** (never 豊臣襖絵/宁々/名姫/1546); pre-1868 **大坂城・大坂城代・大坂町奉行**; bibliography = round-20 source set (JA 7 li / EN 10 li; JA h2 **参考文献・関連史料**; never 『難波戦記』/『大阪記』 labeled 一次史料, never すべて英語で出版); motive prose = 覆うように築かれた/盛土で覆う (never 意図的な…殲滅戦・埋め立て・罠/見せかけ); FAQ visible↔JSON-LD byte-synced ×4 both locales |
+| Hideyori ending | 5 era buttons/headers **奇跡の子 / 孤立した継承者 / 運命の衝突 / 和議と城の崩壊 / 夏の陣と滅亡** (EN: The Miracle Child / The Isolated Heir / The Fateful Clash / Peace & the Unmaking / The Summer Siege; keys miracle/isolation/clash/peace/final; headers 1593〜1598 / 1600〜1611 / 1614〜1615 / 1614〜1615 / 1615 — round 21; cards **15** = 3/5/3/2/2, new: 1595 秀次事件と継承の確定, 1605 右大臣・二重構造, 片桐且元をめぐる対立, 堀の埋め立てと真田丸の破却); column labels **大坂の陣と軍事的局面 / 史料と後世の伝承** (never 主な攻城戦と役割 / 噂と戦略 / 戦役と攻城戦 / 策略と滅亡); death **1615年6月4日** plain Gregorian site standard (round-21 item 3's 5月8日（新暦6月4日）rejected — same date, wareki declined, and 「元和元年」is the wrong era since 元和 starts 1615-07; death/fall same day = **落城の際に** never 落城の翌日); **黄金の鳥籠** kept as title + now defined in lead para 2 and the 1603 政権 card (item 24); 二条城会見 = 19歳 / 『当代記』/ 後世の解釈として慎重に扱う (never 18歳 / 深く警戒したと噂 / 血統を断ち切らねば); 1603 wedding = 11歳・7歳 marriage (ages swapped nowhere); metas rewritten both locales (no 徳川幕府が残した「自殺」説と…真相を検証 / "'suicide' story, and what really happened" promise); dateModified 2026-10-03; FAQ visible↔JSON-LD byte-synced ×4 both locales |
 
 ## 4. ⚠ Uncertain phrases — review these first
 
@@ -1242,6 +1243,57 @@ record + decision table persisted in `ja-review-annot-11.md` (untracked).
   forbidden greps 0 both locales; structure delta identical across locales
   (era-group +2, era-btn +2, era-header +2 = 5/5/5, cards 44,
   li +2 JA / +5 EN; ids/hrefs identical to HEAD).
+
+## 5u. Round 21 — toyotomi_hideyori (28 items) (2026-10-03)
+
+**Provenance:** external reviewer 28-section historical/editorial audit of
+`toyotomi_hideyori` (JA primary, full EN mirror). Full item record + decision
+table persisted in `ja-review-annot-12.md` (untracked).
+
+- **Locked user decisions (2026-10-03):**
+  1. **Full 5-chapter restructure adopted** (items 25–26): buttons/headers →
+     奇跡の子 / 孤立した継承者 / 運命の衝突 / 和議と城の崩壊 / 夏の陣と滅亡
+     (EN: The Miracle Child / The Isolated Heir / The Fateful Clash / Peace &
+     the Unmaking / The Summer Siege), new filter keys `peace` + `final`;
+     cards 11 → **15** = 3/5/3/2/2; new cards 1595 秀次事件, 1605 右大臣
+     (二重構造), 片桐且元, 堀の埋め立てと真田丸の破却 (和議 split per item 17).
+     Reviewer's unnamed ch4/5 named per item 26's chapter set (ch4/5 order
+     conflict resolved in favor of 26).
+  2. **Death date stays plain `1615年6月4日`** — item 3's 「5月8日（新暦6月4日）」
+     rejected (site §3 Gregorian-primary convention; same date; reviewer's
+     「元和元年」era label is wrong — 元和 starts 1615-07). Micro-fix applied:
+     「落城の翌日に」→**「落城の際に」** (fall & death same day; 今川家文書 even
+     dates death 5/7 — the hedge covers it).
+  3. **Metas rewritten both locales** (item 28): dropped the unimplemented
+     「徳川幕府が残した『自殺』説と1615年の真相を検証します」/ "the Tokugawa's
+     'suicide' story, and what really happened" promise; og/twitter/description
+     ×3 + Article description unified; EN `.page-date` → October 2026.
+  4. Standing: reviewer's given JA texts adopted verbatim otherwise; full EN
+     mirror; FAQ visible↔JSON-LD byte-identical ×4 ×2 locales (no Q change);
+     glossary-first error rules; dateModified → 2026-10-03.
+- **Narrative rewrites (items 1–24):** lead + quick answer + FAQ2/FAQ3 +
+  3-paragraph callout (item 23) rewritten, ToyotomiHideyoshi inline link
+  preserved in callout P1; 黄金の鳥籠 definition paragraph added to lead
+  (item 24) + 1603 政権 card; card rewrites — 1593 (秀次 purge moved out to
+  new 1595 card), 1598 五大老 + 誓約させました (never 血判を署名), 1600 =
+  約220万石→65万石 縮小 (never 静かに削減/疎外), 千姫 11歳・7歳 (ages fixed),
+  1603 政権 = 内大臣 + 単純な「主従」でない + 鳥籠の空間 (never 将軍の排除),
+  鐘銘 = reviewer verbatim (never 捏造した口実/薄弱な口実/罠), 1611 = 19歳 +
+  『当代記』+ 後世の解釈として慎重に扱う, 冬の陣 = 20万包囲 + 多数の浪人・旧
+  豊臣系武将 + 真田丸機能 + 講和交渉 (never 10万以上/停戦を余儀なくされ),
+  和議条件/破却 split (item 17), 夏の陣 = 各地で敗れ追い込まれ (no 10万→8万),
+  最終滅亡 = 山里丸蔵・史料に違い (never 焼け残った蔵に退/無事に救出/豊臣王朝/
+  炎々と燃え尽く); col-key + col-header renames (item 27).
+- **40 new glossary error rules** (137 → 177), incl. phrase-scoped
+  `完全に無防備で、次の攻撃` (bare 完全に無防備 stays legal on
+  tokugawa-ieyasu-timeline) and `伝説の真田幸村` (bare 真田幸村 stays legal on
+  sanada_nobushige); site-wide grep-first on every candidate.
+- **Verification:** structure fingerprint 6 era-btn / 5 era-group / 5
+  era-header / 15 event-card / 8 tour-badge identical across locales; FAQ
+  byte-sync 4/4 ×2 locales; forbidden greps 0 both locales (supreme lord /
+  Most scholars agree / ruled from Osaka Castle / Toyotomi dynasty / last
+  living witnesses / safely rescued / cunningly fill / near-impregnable / …);
+  check:ja 21 pages, check:data + check:parity, tsc, build green.
 
 ## 6. Automated gates (must stay green after any edit)
 
