@@ -12,7 +12,8 @@ Work landed in: `38b5641` (guide/lint), `5039c49` (P0 term fixes),
 `7e74a4b` (round 9, §5i — empress_jingu historical rewrite),
 `dc594b7` (round 10, §5j — ojinsuccession three-record rewrite),
 `26cc219` (round 11, §5k — shitennojihistory accuracy/terminology rewrite),
-`ab4250a` (round 12, §5l — soga-fujiwara-timeline native/accuracy rewrite).
+`ab4250a` (round 12, §5l — soga-fujiwara-timeline native/accuracy rewrite),
+`6fa6464` (round 13, §5m — empress-shotoku accuracy/historiography rewrite).
 
 ---
 
@@ -90,7 +91,8 @@ Return findings as `page → sentence → suggested fix`.
 | `ishiyama-timeline` | **焦土作戦** | calque of EN "scorched-earth campaign" — check if 焦土化作戦 / 焦土と化した is the natural JA military-historical term |
 | `osaka-castle-history` | **国松** | EN "Kunimatsu" — confirm presentation (国松 with 幼名 千丸?) |
 | `deeptimeline` | **政治の座から外された台地** | original JA said 昇格させられた (opposite of EN "Politically sidelined") — new wording follows EN; confirm intent |
-| `empress-shotoku` | **紀百継 → 吉備真備**, card title **直接皇権の再主張** | agent-side factual/title corrections |
+| `empress-shotoku` | **紀百継 → 吉備真備**, card title **直接皇権の再主張** | agent-side factual/title corrections — **resolved round 13**: page reads 吉備真備 (紀百継 gone) and the title is now 称徳天皇の政治的権威 (§5m) |
+| `empress-shotoku` | round-13 new vocabulary — **史学上の論点**, **史学上の再検討**, **立太子**, **宣命**, **長屋王の変**, **恭仁京**, **紫香楽宮**, **二重権力状態**, **令外官**, **奏上**, **別部穢麻呂（わけべのきたなまろ）**, **淡路へ配流**, **下野国薬師寺別当**, **崩御**, **明正天皇**, **男系・男子優先** | agent-introduced historical terms — confirm naturalness/registers (立太子 vs 指名, 宣命 vs 勅令, 奏上 vs 持ち帰る); content closed 2026-10-02 (§5m), open for prose review |
 | `empress_jingu_timeline` | round-6 items (朝鮮×3, 女王, contradictory 200年頃 line) — **resolved round 9**: full historical rewrite removed 女帝 for Jingū, reframed Gwanggaeto/Himiko/Hōenzaka claims (§5i) | closed 2026-10-02 |
 | `fujiwara-shadow-politics` | readings **侃子・重子**; **別部穢麻呂**; **詔を読み上げている儀式** (was 誥文) — round 7 resolved 諸盛の娘・安子 → 師輔の娘・安子 and 乙縄と多治比の娘 → 乙牟漏/旅子, added 伊尹（=Koretada, father of 懐子; 国史大辞典 花山天皇 entry) and fixed 文武→聖武 streak | EN names ambiguous or terminology avoided |
 | `ojinsuccession` (Group C era) | 元明天皇 → 祖母で文武天皇の母; 厩戸王（のちの聖徳太子）; 敏達; 山背大兄王; 645年（大化元年） anchor | superseded — page fully rewritten round 10 (§5j); items no longer on the page |
@@ -620,6 +622,120 @@ monopoly/attempted escape/no longer needed to control; JA: all glossary terms
 逃れるように/経済的な独占/皇室そのもの/政務を握/クーデター一つ/着せられた/
 隋中国/二人目の女性/流されました 0 hits); dump regenerated
 (`ja-review-cards.md`).
+
+## 5m. Round 13 — empress-shotoku accuracy/historiography rewrite (2026-10-02)
+
+External native/historiography critique of `empress-shotoku` (32 items,
+JA + EN): the page claimed consensus that does not exist (「日本の学界の合意」
+as a legend label, 日本の研究は/現代日本の研究/学術的合意 in cards), stated
+interpretation as settled fact (「法の抜け穴」説を退けています, 難波が放棄
+implying Naniwa was dead after 745, 神権的な王権, 二重構造, 直接支配/直接
+皇権の再主張, 神聖権力の統合), and carried factual errors (阿倍内親王 made
+crown princess "when no surviving male imperial prince remained" — 安積親王
+was alive; 720s "rebuilding" of Naniwa instead of the 726 building/744 move;
+仲麻呂 defeated "at Miozaki in Takashima" as the whole story; the nonexistent
+English volume 『Shoku Nihongi 697–791』; a 762 "Hōra Palace" card that read
+like an established source claim). Rewrote both locales, keeping the four-
+column structure, era groups, entry counts and tour badges intact.
+
+- **User decisions (2026-10-02):** (1) items 8/9 are plain-text-concatenation
+  false positives — era-filter buttons, legend key labels and card chips
+  (tour-badge「ツアーで訪問」/On Tour, present on 11 JA pages) are deliberate
+  UI; keep them, apply item 8's label copy only. (2) 日本の学界の合意 /
+  学術的合意 fixes scoped to `empress-shotoku` (fujiwara-shadow-politics ×6,
+  deeptimeline ×2 flagged as possible follow-up) — both strings are page-local
+  assertions, not glossary terms. (3) full EN mirror in the same ship.
+  (4) references: keep a verified Bender cite and drop the nonexistent
+  697–791 volume claim.
+- **Title (item 1):** retitle to the exact strings —
+  `称徳天皇・道鏡・難波宮 — 王権をめぐる政治` + em `史学上の論点、都の移転、
+  公式記録`, kicker → エドワードと歩く大阪城 — 奈良時代の朝廷政治; rippled
+  to `<title>`/og/twitter/JSON-LD (Breadcrumb name, Article headline, WebPage
+  name); `dateModified` 2026-10-02. EN: `Empress Shōtoku, Dōkyō & Naniwa —
+  Power and Royal Authority` + `Historiographical Debates, Capital Shifts,
+  and Official Chronicles`, kicker Nara Court Politics, page-date October 2026.
+- **Terminology (glossary-first):** 30 error terms added to
+  `data/ja-glossary.json` — 現代日本の研究/近年の日本の研究/日本の研究は→
+  近年の研究, 神権的な王権, 難波が放棄, 大港, 三尾崎, 二重構造, 存命する
+  男性皇族, 法の抜け穴, 学術的見解→史学上の論点, 学術的再評価→史学上の再
+  検討, 直接支配/天皇による直接支配, お亡くなりになり→崩御し, 淡路へ移され→
+  淡路へ配流され, 恵美家の印→恵美押勝の名, 皇太子に指名→皇太子に立てられ,
+  都が次々と移る, 最強の貴族, 再び確認しました, 皇位の世襲を認める, 信頼され
+  る顧問, 治世に対する否定的な印象, 男系・男子中心の制度へと移っていく, 都の
+  真ん中に立つことはなくなった, 下野薬師寺の別当として送られています, 宣告が
+  取り上げられ, 宣命と呼ばれる勅令, 上皇となった孝謙の病を治療. Excluded as
+  kept/legitimate → page-local assertions only: 日本の学界の合意, 学術的合意
+  (removed from the page but present on fujiwara/deeptimeline), 二度統治
+  (reviewer kept it in metas/quick answer/FAQ1), 近代 (card-date 770～近代),
+  generic 史学/歴史叙述.
+- **Accuracy fixes (item numbers from the review):** opening gives the
+  749–758/764–770 reigns instead of "二度統治しました…この宮庭を形づくった
+  のは…難波が都としての最後の時期" (item 2); QA 女性皇太子に指名された人→
+  となった人物, 宇佐八幡宮神託をめぐる…騒動→宇佐八幡宮神託事件, final QA
+  clause replaced with reviewer's Naniwa sentence (items 3, 7); FAQ1 738年、
+  皇太子に立てられ + 女性が皇太子となった例 (item 4); FAQ2 762 保良宮・
+  近江, 側近, 近年の研究では…見方も示されています (item 5); FAQ3 伝達+『続
+  日本紀』は記しています attribution (item 6); FAQ4 726造営/744遷都
+  consistency (chronology fix); 光明 card: 長屋王の変, 宣命 (dropped 法の
+  抜け穴説・磐姫・経済基盤説法, item 10); 阿倍 card: 基王 was the dead
+  designated heir and 安積親王 was alive — no male-heir-absent claim, title→
+  立太子 (item 11); 信仰 card: 施薬院・悲田院 for sick and poor, deleted
+  神権的な王権 sentence (item 12); 難波 card: 726造営/744遷都, 瀬戸内海に
+  つながる交通・交流の要地, 平城京・恭仁京・難波宮・紫香楽宮 move list,
+  title→難波宮の造営と遷都 (item 13); 仲麻呂: 譲位/賜り/太保・太師, dropped
+  特権・貨幣・恵美家の印 (item 14); 二重権力状態 with 国家の大事と賞罰 (item
+  15); 道鏡 card: 近江の保良宮・孝謙上皇, 側近 (dropped 信頼される顧問, item
+  16); 平城中心 card: 744難波遷都→745復帰 chronology, dropped 難波が放棄
+  (item 17); 乱 card: 近江で兵を挙げ/朝廷軍に敗れ/殺害 + 淡路へ配流 (dropped
+  三尾崎・移されます, item 18); era-3 header + callout: 天皇による直接支配→
+  権力の集中/天皇のもとに集まる政治権力 (item 19); 法王宮職=令外官・家政と
+  政務の機構 (dropped 二重構造, item 20); 直接皇権の再主張→称徳天皇の政治的
+  権威, 最強の貴族→制約していた有力な政治勢力 (item 21 — closes the §4
+  card-title row); 宇佐 card: 『続日本紀』は…奏上した + 別部穢麻呂（わけべの
+  きたなまろ）, title→宇佐八幡宮神託事件と和気清麻呂 (item 22); 帝位野心:
+  現存する同時代史料から直接確認できない + 近年の研究では + 再検討する研究
+  もあります (item 23); 神聖権力の統合→道鏡と仏教的権威 with 研究上の議論
+  (item 24); 神託 card: 『続日本紀』は記しています (item 25); 崩御 +
+  天智系の光仁 + と道鏡に対する後世の否定的なイメージ (items 26, 27);
+  流罪: 下野国薬師寺別当に左遷, 770下野/772没, dropped 宠愛による保護 claim,
+  明正天皇まで + 男系・男子優先の原則 (item 28); 784–94 cards de-duplicated —
+  card 3 political/geographic relations, card 4 urban transition with
+  都の中心に位置する構造から距離を置きつつ (item 29); legend/col-header
+  labels: 公式記録 — 『続日本紀』/史学上の論点/都の移転と難波宮, era buttons →
+  聖武天皇と難波宮・孝謙天皇と二重権力・藤原仲麻呂の乱・宇佐八幡宮神託事件・
+  記憶と歴史叙述, chips → 史学上の論点 ×3 / 史学上の再検討 (items 8, 32);
+  references: dropped 「すべて英語」 (続日本紀 is JA), Bender verified cite
+  (Nara Japan, 749–770, 4 vols., 2015–16) + Snellen 1937, Rekihaku
+  de-promotionalized (item 30); HistoricalEvent JSON-LD description
+  source-attributed (removed the 難波と大宰府の対立/正当化するために利用
+  claim); metas keep 二度統治 per item-2 scope.
+- **EN mirror:** all 32 items — legend Historiographical Debates,
+  chips Scholarly View/Consensus×2/Revision → Debates/Reassessment, buttons
+  Emperor Shōmu & Naniwa / Empress Kōken & Dual Authority / Fujiwara no
+  Nakamaro's Rebellion / Usa Shrine Oracle Incident (question renamed in
+  summary + JSON-LD together), era headers Concentration of Authority /
+  Usa Shrine Oracle Incident & Imperial Succession; cards mirrored (Kōmyō
+  senmyō without "Modern scholarship rejects", Princess Abe made Crown
+  Princess, welfare without orphanage/poorhouse/sacred kingship, 726/744/
+  Heijō-Kuni-Naniwa-Shigaraki, Hora Palace confidant, Naniwa abandoned →
+  744 move/745 return, Nakamaro rose in Ōmi, Hōō-gūshoku extra-statutory,
+  Shōtoku's Political Authority, Shoku Nihongi attributions, Dōkyō bettō
+  770/772 + Meishō, temple-geography sentences); callout → recent scholarship
+  + authority concentrated around the emperor; references mirror JA;
+  FAQ byte-sync 4/4 both locales.
+
+Verification: check:ja 0 warnings (21 pages; 30 new glossary rules cause no
+site-wide collisions), check:data 61 pages/101 blocks FAQ parity, check:parity
+8/18/10, tsc, npm run build; FAQ byte-identity 4/4 both locales; assertion
+greps clean (JA: all glossary terms + 日本の学界の合意/学術的合意/難波が都と
+して果たした/神権的な王権/皇太子に指名/大港/三尾崎/淡路へ移されます/お亡くな
+くなりになり 0 hits; EN: Japanese Scholarly Consensus/Scholarly
+Consensus/View/Scholarship Consensus/Modern scholarship rejects/Naniwa
+abandoned/Miozaki/orphanage-poorhouse/sacred kingship/direct imperial
+autocracy/Modern Japanese scholarship/trusted adviser/counter-oracle/
+Crown Princess Designation/Shoku Nihongi 697–791 0 hits); peripherals updated
+(llms.txt ×2, site-graph ×2 with 稱徳→称徳, fujiwara EN anchor); dump
+regenerated (`ja-review-cards.md`).
 
 ## 6. Automated gates (must stay green after any edit)
 
