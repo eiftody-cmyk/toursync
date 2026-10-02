@@ -14,7 +14,8 @@ Work landed in: `38b5641` (guide/lint), `5039c49` (P0 term fixes),
 `26cc219` (round 11, §5k — shitennojihistory accuracy/terminology rewrite),
 `ab4250a` (round 12, §5l — soga-fujiwara-timeline native/accuracy rewrite),
 `6fa6464` (round 13, §5m — empress-shotoku accuracy/historiography rewrite),
-`3e18e10` (round 14, §5n — fujiwara-shadow-politics accuracy/title rewrite).
+`3e18e10` (round 14, §5n — fujiwara-shadow-politics accuracy/title rewrite),
+`d7ecede` (round 15, §5o — tenjin-matsuri-history accuracy/continuity rewrite).
 
 ---
 
@@ -88,7 +89,7 @@ Return findings as `page → sentence → suggested fix`.
 
 | Page | Item | Why |
 |---|---|---|
-| `tenjin-matsuri-history`, `fujiwara-shadow-politics` | **時康親王** | EN said "Prince Tokiyo" — **resolved fujiwara round 14**: both locales now 斉世親王 / "Prince Tokiyoshi" (§5n); tenjin pending round 15 |
+| `tenjin-matsuri-history`, `fujiwara-shadow-politics` | **時康親王** | EN said "Prince Tokiyo" — **resolved both rounds**: fujiwara round 14 (§5n), tenjin round 15 (§5o); both locales on both pages now 斉世親王 / "Prince Tokiyoshi" | closed 2026-10-02 |
 | `ishiyama-timeline` | **焦土作戦** | calque of EN "scorched-earth campaign" — check if 焦土化作戦 / 焦土と化した is the natural JA military-historical term |
 | `osaka-castle-history` | **国松** | EN "Kunimatsu" — confirm presentation (国松 with 幼名 千丸?) |
 | `deeptimeline` | **政治の座から外された台地** | original JA said 昇格させられた (opposite of EN "Politically sidelined") — new wording follows EN; confirm intent |
@@ -835,6 +836,74 @@ Shoku Nihongi 697–791 0 hits); peripherals updated (llms.txt ×2, site-graph
 ×2, deeptimeline callouts ×2 incl. EN anchor); card regnal numbers spot-
 verified against official numbering (聖武45/醍醐60/一条66/後一条68/白河72/
 後鳥羽82/順徳84/仲恭85 — all correct).
+
+## 5o. Round 15 — tenjin-matsuri-history accuracy/continuity rewrite (2026-10-02)
+
+External 23-item accuracy/terminology critique of `tenjin-matsuri-history`
+(JA + EN): the page was sold as 「大阪が日本最大の水上祭りを祝う理由」/"Japan's
+largest water festival" (title/og/twitter/lead/section), stated the 951 origin
+as fact when the shrine itself only says 始まりとされ (legend), claimed an
+unbroken thousand-year ritual although the spear ceremony lapsed in the Edo
+period (元和7年/1621 祭場が雑喉場に定められ鉾流神事取りやめ) and only returned
+in 1930 as 鉾流神事, today held on the 堂島川; used 学者から神になった /
+宗教的な川祭り / 帝位の左右, named the succession prince 時康親王 (childhood
+name — 斉世親王 / "Prince Tokiyoshi"), dated 時平's death to 38 (39), and the
+Edo card lacked 元禄 (御迎人形, 三大祭り fame) and 享保 (「講」). Rewrote both
+locales keeping the quick-answer/FAQ/fact-table/timeline structure, entry
+counts and kicker intact.
+
+- **User decisions (2026-10-02):** (1) subtitle exactly — JA 「大阪が日本屈指
+  の水上祭りを祝う理由」+ EN `Why Osaka Celebrates One of Japan's Largest
+  Water Festivals` (title/og/twitter/JSON-LD headline/lead p/section title;
+  kicker 「エドワードと歩く大阪城 — 歴史探究シリーズ」 unchanged). (2) 時平 39 /
+  thirty-nine. (3) 斉世親王 → EN "Prince Tokiyoshi". (4) `public/ja/llms.txt`
+  「大阪最大の祭礼」 + site-graph Osaka-scoped entry kept — no peripheral
+  changes. (5) L651 soften — exam-prayer tradition no longer claimed as an
+  unbroken thousand-year line. (6) 鉾流神事 verified by websearch before
+  editing: 951 = shrine tradition (大阪天満宮社伝/ja-wiki 始まりとされ, en-wiki
+  "legendary"), ceremony suspended in the Edo period, revived 1930 (食満南北
+  の提言), modern rite on 堂島川; 元禄時代 = 御迎人形 + 隆盛, 享保年間 = 「講」
+  (shrine official site + ja-wiki).
+- **Terminology (glossary-first):** 5 error terms added to
+  `data/ja-glossary.json` at level error — 学者から神になった → 死後に神格化
+  された, 宗教的な川祭り → 水上の神事を中心とする都市祭礼, 日本最大の水上祭
+  り → 日本屈指の水上祭り, 時康親王 → 斉世親王, 帝位の左右 → 皇位の継承をめ
+  ぐる政治勢力. 二度統治 never added.
+- **Accuracy/continuity fixes (JA):** meta/og/twitter 「951年に大阪天満宮で
+  始まった祭りへ」→「951年と伝えられる大阪天満宮の祭りへ」; quick answer 死後に
+  神格化された + 社伝では951年; FAQ1 + JSON-LD 「大阪天満宮の社伝では、…伝え
+  られています」; FAQ5 + JSON-LD 最初の御神槍の儀式は951年のことと伝えられ;
+  fact table 初開催「951年（天暦5年・社伝）」+ 祭りの種類 水上の神事を中心とす
+  る都市祭礼; 帝位の左右 → 皇位の継承をめぐる政治勢力; 時康親王 → 斉世親王;
+  時平 38 → 39歳; L651 死後千年以上経った今も受け継がれています + img caption
+  学者として神になった → 死後に神格化された菅原道真; 951 card 始まりと伝えら
+  れています + 江戸時代に一度途絶え1930年に鉾流神事として復活 + caption いま
+  も堂島川で斎行される鉾流神事として受け継がれています; 大坂の陣 card すぐに
+  復活 → 再び盛んに; 江戸 card + 元禄時代（御迎人形・三大祭りに数えるほどの
+  隆盛）/享保年間（「講」の組織・町ぐるみの参加）; 現代 card 社伝で951年に始
+  まったとされる + 船行列 caption 約千年の歴史を持つ天神祭の伝統; closing
+  951年と伝えられる最初の御神槍の儀式で神鉾が流された.
+- **EN mirror:** subtitle ×3 + lead + section title; meta/twitter largest →
+  one of largest; quick answer (deified as Tenjin after death + shrine
+  tradition); FAQ1/FAQ5 + JSON-LD twins byte-identical to visible; table 951 CE
+  (shrine tradition) + Urban Festival Centred on Water Rituals; imperial-
+  succession sentence (was "controlling the throne"); Prince Tokiyoshi;
+  thirty-nine; students/devotion line; img caption deified after his death;
+  951 card traditional origin + lapsed/revived 1930 as Hōkonagashi on the
+  Dōjigawa; Siege "flourished again" (was "quickly returned"); Edo card
+  Genroku mukaebina + Kyōhō kō; modern card traditionally dated + boat caption
+  "history of nearly a thousand years"; closing waterway line; FAQ byte-sync
+  6/6 both locales.
+
+Verification: check:ja 0 warnings (21 pages; 5 new glossary rules cause no
+site-wide collisions), check:data 61 pages/101 blocks FAQ parity, check:parity
+8/18/10, tsc, npm run build (all three guards green inside build); FAQ byte-
+identity 6/6 both locales (node regex over `<summary>`/`<p>` pairs vs FAQPage
+JSON-LD); assertion greps clean (JA: 日本最大の水上祭り/学者から神になった/
+宗教的な川祭り/帝位の左右/時康親王/38歳 all 0 hits; EN: "Japan's Largest
+Water Festival"/Prince Tokiyo/thirty-eight 0 hits — scoped claims kept by
+decision: JA 日本最大の学者の一人 / 日本最大の商人祭り / 日本最大の商都, EN
+"one of Japan's most recognisable summer celebrations").
 
 ## 6. Automated gates (must stay green after any edit)
 
