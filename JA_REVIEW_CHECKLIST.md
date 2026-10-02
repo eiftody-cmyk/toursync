@@ -85,13 +85,15 @@ Return findings as `page → sentence → suggested fix`.
 | Hideyori identity | **黄金の鳥籠** (round 7: was 黄金の牢獄 ×8 — EN "Gilded Prison"/"The Sovereign of the Gilded Cage" untouched), **浪人** (was 浪士 ×1), age **1598年に5歳** (EN "age four" fact fix), hedge **自害したと伝えられています** (EN flat "commit ritual suicide (seppuku)" flagged not changed), callout h2 **大阪城で物語を続けましょう** + companion link to 城主、側室、将軍の嘘 |
 | Siege death date | **1615年6月4日 / June 4, 1615** site standard (round 7: osaka-castle-history EN May 8/8 May + JA ×2 → June 4/4 June — reverses Round A's "month-level only" call on this page; hideyori/deeptimeline already standard) |
 | Moat fill | outer moats only (round 7: dropped the "not just… but also the inner moats" claim in hideyori card, EN+JA — outer moat fill is the documented 1615 peace condition) |
+| Ishiyama ending | **和議 / 講和 … 本願寺が** (round 17: never 降伏 — court-mediated 1580 peace, FAQ4 + JSON-LD byte-synced ×2 per locale, card 講和と退去 / Peace and Evacuation); **「鉄甲船」と呼ばれる大型の安宅船** (never 世界初の「鉄甲艦」, construction debated); **門徒・本願寺勢 / 本願寺の坊官ら** in body prose (never 僧兵 except title/meta/link 「僧兵、百姓、将軍」; never undocumented 下間仲之); **水軍** not 海軍; fire cause always hedged **諸説** — both forbidden strings live as error rules in `data/ja-glossary.json` |
+| Azai ending | **離反** for the 1570 defection in factual prose (裏切り kept in titles/hero/filter label as narrative framing), **自害** not 切腹/終焉を悟った, **戦国大名として滅亡** not 断絶/一族の壊滅, **本能寺の変（1582）** not 織田の崩壊, 1564 marriage/6年後 locked (round 17) |
 
 ## 4. ⚠ Uncertain phrases — review these first
 
 | Page | Item | Why |
 |---|---|---|
 | `tenjin-matsuri-history`, `fujiwara-shadow-politics` | **時康親王** | EN said "Prince Tokiyo" — **resolved both rounds**: fujiwara round 14 (§5n), tenjin round 15 (§5o); both locales on both pages now 斉世親王 / "Prince Tokiyoshi" | closed 2026-10-02 |
-| `ishiyama-timeline` | **焦土作戦** | calque of EN "scorched-earth campaign" — check if 焦土化作戦 / 焦土と化した is the natural JA military-historical term |
+| `ishiyama-timeline` | **焦土作戦** | calque of EN "scorched-earth campaign" — resolved round 17: card h3 → 講和と退去 (EN Peace and Evacuation), glossary error rule added; fire cause now stated as 諸説 | closed 2026-10-02 |
 | `osaka-castle-history` | **国松** | EN "Kunimatsu" — confirm presentation (国松 with 幼名 千丸?) |
 | `deeptimeline` | **政治の座から外された台地** | original JA said 昇格させられた (opposite of EN "Politically sidelined") — new wording follows EN; confirm intent |
 | `empress-shotoku` | **紀百継 → 吉備真備**, card title **直接皇権の再主張** | agent-side factual/title corrections — **resolved round 13**: page reads 吉備真備 (紀百継 gone) and the title is now 称徳天皇の政治的権威 (§5m) |
@@ -104,7 +106,7 @@ Return findings as `page → sentence → suggested fix`.
 | `soga-fujiwara-timeline` | **藤原氏と摂関政治** (dedup), **皇室との婚姻** (was 王室結婚) | wording de-duplication |
 | `soga-fujiwara-timeline` | round-12 new vocabulary — **歴史叙述**, **公伝**, **外戚**, **夫人**, **左遷**, **内印**, **駅鈴**, **荘園整理令**, **記録荘園券契所**, **薬子の変**, **異母兄妹** | agent-introduced historical terms — confirm naturalness/registers (公伝 vs 公伝来, 内印 vs 御璽 alternatives avoided, 記録荘園券契所 reading); content closed 2026-10-02 (§5l), open for prose review |
 | `shitennojihistory` | round-11 new vocabulary — **官寺**, **四箇院（敬田院・施薬院・療病院・悲田院）**, **二河白道**, **四天王寺式伽藍配置**, **開基**, **乙巳の変**, **難波長柄豊碕宮**, **厩戸皇子**, **門前町** | agent-introduced historical terms — confirm naturalness/registers (官寺 vs 寺院, 四箇院 reading, 難波長柄豊碕宮 full name); content closed 2026-10-02 (§5k), open for prose review |
-| `azaiclanbetrayal` | **1564 marriage date** — round-2 review claimed 1567 "almost certainly"; sources actually split (Wikipedia Oichi body says 1567, its own infobox + Azai article say 1564), traditional/majority = 1564, site EN says 1564 ×7 (+ warriormonks teaser ×2). **Kept 1564 everywhere** (decision 2026-10-01); JA-only change would have contradicted EN |
+| `azaiclanbetrayal` | **1564 marriage date** — round-2 review claimed 1567 "almost certainly"; sources actually split (Wikipedia Oichi body says 1567, its own infobox + Azai article say 1564), traditional/majority = 1564, site EN says 1564 ×7 (+ warriormonks teaser ×2). **Kept 1564 everywhere** (decision 2026-10-01); JA-only change would have contradicted EN. **Reaffirmed round 17**: the new external review's #3/#27/#56 pushed 1567 / 約3年後 again — rejected; 1564 ×6 JA / ×7 EN + 6年後 / "Six years later" verified in place |
 | all pages | JSON-LD `publisher.name` left Latin | intentional, see §2 |
 
 ## 5. Per-page status (all rewritten, guards green)
@@ -949,6 +951,99 @@ build); assertion greps — 鎌倉史/Kamakura History/700年-as-bakufu-lifespan
 `The Twelfth and Thirteenth Centuries`/old FAQ strings all 0 hits (new thesis
 keeps 約700年にわたる武家政権 by design); no llms/site-graph ripple (their
 genpei labels never carried the subtitle).
+
+## 5q. Round 17 — azaiclanbetrayal (56 items) + ishiyama-timeline (42 items) (2026-10-02)
+
+**Provenance:** both external reviews persisted verbatim **before** execution
+for the first time — `ja-review-annot-08.md` (untracked), with the 8-row locked
+decision table at its top. Applying agent worked item-by-item off those files.
+
+- **Locked user decisions (2026-10-02):**
+  1. **azaiclan keep 1564 / 「6年後」 everywhere** — never 1567 / 「約3年後」
+     (Japanese scholarship: 永禄7年 = 1564; 1567 is a digital-era artifact).
+     Rejects review #3, #27, #56.
+  2. **Research-credit line frozen site-wide** — rejects #55; `research-footnote`
+     untouched on both pages.
+  3. **Keep tour badges, fix labels** — rejects #46 badge removal; all
+     `tour-badge` spans stay (JA `ツアーで訪問` / EN `On Tour`), only adjacent
+     `card-dynasty` labels renamed.
+  4. **Nav = text-only polish** — rejects #30 structural replacement; keep the
+     5 filter buttons すべて/同盟/裏切り/滅亡/遺産, adopt #31/#34 label wording
+     only (`織田氏（尾張・京都）`, `浅井氏（北近江）`, `豊臣家と大坂城`,
+     `同盟 — 運命の分岐点`).
+  5. **Ishiyama keep 十年 / 10年 everywhere** (round-5 §3 lock; actual span
+     元亀元年9月12日→天正8年8月2日 = 9y11m; 11年 is inclusive-year counting)
+     — rejects ishiyama #2.
+  6. **Ishiyama title/meta kept (10年 + 僧兵); body only** — `僧兵 → 門徒・
+     本願寺勢` applies to quick answer/FAQ/cards/continue-li, **not**
+     `<title>`/og/twitter/JSON-LD headline/Article description (protects the
+     locked link 「僧兵、百姓、将軍」).
+  7. **Ishiyama adopt 和議/講和, both locales** — FAQ Q4 + JSON-LD rewritten
+     byte-identically with subject lock `本願寺が`, card h3
+     「降伏と焦土作戦」→「講和と退去」 / `The Surrender and Scorched Earth` →
+     `Peace and Evacuation` (closes §4 焦土作戦 flag).
+  8. **Full EN mirror of factual fixes** on both pages.
+- **azaiclan adopted (JA + EN mirror):** header lead re-dated to the 1570
+  Echizen invasion (defection = 離反, not the 1570 Anegawa battle; route via
+  若狭・朽木); `壊滅寸前/挟撃の危機`, `激怒/Enraged` → `離反を受けた` /
+  `Reacting to the Azai defection` (June 1570, falls back to own bases);
+  `終焉を悟った切腹` → `自害`; `浅井家は断絶` → `戦国大名として滅亡`;
+  `救出` → `織田方に引き取られ`; Chacha card 1569年頃 + unconfirmed birthplace
+  (dropped 和平の象徴); Tsurumatsu (1591, no "age two"), Hideyori bloodline via
+  母・淀殿, Hidetsugu/1595 = 継承問題 + `三条河原での処刑` (dropped 虐殺 +
+  "30 decapitated"), 1614–15 = 落城・城内自害の伝承・経緯は不明な点も残る
+  (dropped 燃える天守 + "official government account"), final chain =
+  1564年の婚姻から political/blood ties (dropped 血塗られた), `織田の崩壊
+  （1582）` → `本能寺の変（1582）`; era headers 炎とともに消えた小谷城 /
+  継承問題と豊臣家の最期; dynasty labels 織田後の空白→本能寺から賤ヶ岳へ,
+  大坂城の世継ぎ→豊臣家の後継者, 京都の虐殺→秀次一族の処刑, 王朝の猜疑→
+  豊臣家の継承問題, 最終の大火→大坂の陣 — 豊臣家の最期; titles 敵の懐へ→
+  豊臣家へ, Sanjō-gawara Slaughter → Sanjō Riverbed Executions. FAQ 4/4
+  byte-synced visible↔JSON-LD both locales; Article description mirrors the
+  new lead both locales.
+- **Ishiyama adopted (JA + EN mirror):** opening = 上町台地北端…大阪城一帯に
+  あったと考えられています (kept 10年); quick answer/FAQ = 浄土真宗本願寺教団
+  の本拠・門徒や武装した勢力, Fróis = unquoted paraphrase + 「最も堅牢」
+  dropped; FAQ2 = 畿内の交通と政治に影響力を持つ本願寺勢力 + 顕如率いる本願寺
+  勢力は抗戦を呼びかけ + 陸上包囲/海上輸送の構造; FAQ3 = 毛利氏の水軍…
+  兵糧や弾薬, 足に鉄砲傷; FAQ4 = 講和 + 正親町天皇の勅命・朝廷仲介・本願寺が
+  講和 + 顕如4月/教如8月 + 火災原因は諸説 + 1583築城開始 (byte-identical
+  ×2 per locale); 1576 card = 十か所の付城・本願寺勢約一万五千・明智光秀らが
+  守る砦・約三千で自ら救援 (dropped 15,000 defenders / Araki / 諸将退け /
+  飢餓目前 / 屈辱的敗北); 1576–78 = 「鉄甲船」と呼ばれる大型の安宅船・
+  構造や規模については議論あり (dropped 世界初の鉄甲艦 + fire-arrow design
+  intent), 優位を確立/海上補給を困難に (dropped 完全に断ち切り); 1578–80 =
+  本願寺の坊官ら (dropped undocumented 下間仲之) + 兵糧不足が深刻; 1580 card
+  = 講和と退去 + 火災諸説 + 放棄されてから破壊された → 講和によって退去した
+  後に焼失; callout = 1583築城・豊臣/徳川に姿を変える (dropped 三つの砦・
+  同じ標的・僧兵たちが同じ場所). **2 new glossary error rules** added to
+  `data/ja-glossary.json` (forbidden `世界初の「鉄甲艦」`, `焦土作戦`).
+- Verification: check:ja 0 warnings (21 pages), check:data 61 pages/101 blocks
+  FAQ parity, check:parity, tsc, npm run build; assertion greps — `1567`/
+  `約3年後` 0 hits both pages, azaiclan `1564` ×6 JA / ×7 EN + `6年後`/`Six
+  years later` present, ishiyama `11年` 0 hits, `下間仲之`/`世界初`/`焦土作戦`
+  0 hits, title/meta 僧兵 intact ×7; FAQ byte-sync 4/4 both pages both locales.
+- **Follow-up pass (2026-10-02, same ishiyama 42-item review re-presented):**
+  three user decisions — (a) **keep 10年 everywhere, re-reject #1/#2** (Osaka
+  Castle's 「11年に及ぶ」 stays a rejected source; 13 JA + 8 EN occurrences,
+  title/meta/FAQ question, deeptimeline card all untouched); (b) **item 42
+  content-only** — no card-title renames (長期消耗戦 / 海戦と鉄甲船 kept);
+  (c) **item 40 body-prose only** — titles/meta/headline/alt keep 要塞.
+  Fixes applied both locales: JA JSON-LD ItemList #4 (dropped 完全に断つ /
+  6隻, now 九鬼・大型安宅船・1578第二次木津川口・優位を確立・孤立が深まる);
+  ItemList #5 both locales (dropped 完全に閉ざされ/飢餓・entirely
+  closed/starve out → 兵糧・弾薬不足が深刻); 1570 card + ItemList #1 both
+  (仏敵と宣言 → 顕如率いる本願寺勢力は抗戦を呼びかけ, item 10) + 野田・福島
+  framing (item 42); 1571–75 card p1 + ItemList #2 = 広域的な戦いへ展開 with
+  長島・越前・加賀 × 武田・毛利 linkage; 1576 card + ItemList #3 = 1576年5月
+  / May 1576; 探索/Continue paragraph both locales rewritten to 1583築城・
+  豊臣から徳川 (dropped 灰は大坂城の礎・betrayals and battles, item 39
+  twin); 要塞/fortress body prose → 石山本願寺/Ishiyama Honganji (石山本願寺内
+  に退却・一箇所ではなく・兵を向ける前に; FAQ question + meta/title
+  untouched); JA continue-li 大阪城→大坂城 (item 41, Tokugawa context).
+  Verification: check:ja / check:data / check:parity / tsc / build green;
+  greps `11年` `仏敵と宣言` `完全に断つ` `6隻` `飢餓` 0 hits, 10年 ×13 JA /
+  "ten years|decade" ×8 EN unchanged; FAQ byte-sync 4/4 both locales.
 
 ## 6. Automated gates (must stay green after any edit)
 

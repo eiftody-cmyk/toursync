@@ -103,7 +103,9 @@
     { "forbidden": "宗教的な川祭り", "required": "水上の神事を中心とする都市祭礼", "level": "error", "reason": "review round 15 (tenjin-matsuri-history): 'religious river festival' misframes the event; it is an urban festival organised around a water ritual" },
     { "forbidden": "日本最大の水上祭り", "required": "日本屈指の水上祭り", "level": "error", "reason": "review round 15 (tenjin-matsuri-history): 'Japan's largest water festival' is an unverifiable superlative; 屈指 is defensible" },
     { "forbidden": "時康親王", "required": "斉世親王", "level": "error", "reason": "review round 15 (tenjin-matsuri-history): 斉世親王 is the name used for Prince Tokiyoshi; 時康親王 is the childhood name and reads as a different person" },
-    { "forbidden": "帝位の左右", "required": "皇位の継承をめぐる政治勢力", "level": "error", "reason": "review round 15 (tenjin-matsuri-history): 'left and right of the throne' is an opaque metaphor; name the succession struggle" }
+    { "forbidden": "帝位の左右", "required": "皇位の継承をめぐる政治勢力", "level": "error", "reason": "review round 15 (tenjin-matsuri-history): 'left and right of the throne' is an opaque metaphor; name the succession struggle" },
+    { "forbidden": "世界初の「鉄甲艦」", "required": "「鉄甲船」と呼ばれる大型の安宅船", "level": "error", "reason": "review round 17 (ishiyama): 'the world's first ironclad' is an unverifiable superlative; NDL describes them as 大安宅 and the iron plating is debated" },
+    { "forbidden": "焦土作戦", "required": "講和と退去", "level": "error", "reason": "review round 17 (ishiyama): 焦土作戦 is a calque of 'scorched-earth campaign' and presumes deliberate destruction; the 1580 fire's cause is disputed (諸説)" }
   ],
   "chineseChars": "关这说应无时发战义产从众亲广铁间门东车马长问现华图书机权记议报导终经结约级职举变边还进运过连远军农击创则刚动务势样备币钟队买乐乡习个们头儿几仅认让该给对单观于",
   "titleForbidden": ["―", "─", "·", "｜"]
