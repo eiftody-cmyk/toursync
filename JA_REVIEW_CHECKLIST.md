@@ -15,7 +15,8 @@ Work landed in: `38b5641` (guide/lint), `5039c49` (P0 term fixes),
 `ab4250a` (round 12, §5l — soga-fujiwara-timeline native/accuracy rewrite),
 `6fa6464` (round 13, §5m — empress-shotoku accuracy/historiography rewrite),
 `3e18e10` (round 14, §5n — fujiwara-shadow-politics accuracy/title rewrite),
-`d7ecede` (round 15, §5o — tenjin-matsuri-history accuracy/continuity rewrite).
+`d7ecede` (round 15, §5o — tenjin-matsuri-history accuracy/continuity rewrite),
+`91d9634` (round 16, §5p — genpei-timeline locked-decision rewrite).
 
 ---
 
@@ -904,6 +905,50 @@ JSON-LD); assertion greps clean (JA: 日本最大の水上祭り/学者から神
 Water Festival"/Prince Tokiyo/thirty-eight 0 hits — scoped claims kept by
 decision: JA 日本最大の学者の一人 / 日本最大の商人祭り / 日本最大の商都, EN
 "one of Japan's most recognisable summer celebrations").
+
+## 5p. Round 16 — genpei-timeline locked-decision rewrite (2026-10-02)
+
+**Provenance caveat:** the original 57-item review for this round was never
+persisted to disk and was lost when the session was compacted. What survived
+was three locked user decisions + one reference flag (persisted post-hoc as
+`ja-review-annot-07.md`, untracked); the remaining ~53 items are gone.
+Execution = those decisions + the flag + an independent accuracy pass by the
+applying agent (card dates/claims spot-checked; no further defects found
+beyond what the decisions covered).
+
+- **User decisions (2026-10-02):** (1) series title — JA header-subtitle
+  「エドワードと歩く大阪城 — 鎌倉史」→ 「エドワードと歩く大阪城 — 武士政権の
+  誕生」, EN `Kamakura History` → `The Birth of the Warrior Government` (h1,
+  metas and breadcrumbs unchanged by decision). (2) opening thesis = "Option
+  2, full" *(exact wording lost — reconstructed)*: the old thesis claimed the
+  war "ended aristocratic rule" and "the first shogunate would last 700
+  years"; the replacement states the war did **not** end aristocratic rule,
+  began as a court struggle, and attributes the **~700 years to warrior
+  government counted from 1185** (Kamakura bakufu itself lasted to 1333).
+  (3) FAQ keep question 「日本で最初の幕府は、何だったのですか？」/ `What was
+  Japan's first shogunate?` (visible + JSON-LD name), **answer only**
+  rewritten *(target wording lost — reconstructed)*: parallel military
+  government at Kamakura, shaped by the 1192 seii-taishōgun appointment but
+  working from the 1185 Dan-no-ura victory, emperor as legitimacy source,
+  shugo/jitō to shogunal warriors — a double structure.
+- **Reference flag:** JA line 966 / EN line 1012 cited `The Cambridge
+  History of Japan, Vol. 2: The Twelfth and Thirteenth Centuries` — not a real
+  volume title. Verified via cambridge.org: Vol. 2 = `Heian Japan, 794–1185`
+  (Shively & McCullough, print 1999), Vol. 3 = `Medieval Japan` (Yamamura,
+  1990, opens with the Kamakura bakufu's founding). Both locales now cite
+  Vol. 2 for the Hōgen/Heiji/Genpei chapters and Vol. 3 for Kamakura
+  government — matching the round-14 fujiwara wording for Vol. 2.
+- **EN mirror:** all of the above — subtitle, thesis (no "ended aristocratic
+  rule"/"last 700 years"), FAQ answer byte-identical to its JSON-LD twin,
+  Cambridge two-volume reference. FAQ byte-sync 4/4 both locales (FAQPage
+  nested in the page's JSON-LD graph).
+
+Verification: check:ja 0 warnings (21 pages), check:data 61 pages/101 blocks
+FAQ parity, check:parity 8/18/10, tsc, npm run build (guards green inside
+build); assertion greps — 鎌倉史/Kamakura History/700年-as-bakufu-lifespan/
+`The Twelfth and Thirteenth Centuries`/old FAQ strings all 0 hits (new thesis
+keeps 約700年にわたる武家政権 by design); no llms/site-graph ripple (their
+genpei labels never carried the subtitle).
 
 ## 6. Automated gates (must stay green after any edit)
 
