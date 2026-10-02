@@ -87,6 +87,7 @@ Return findings as `page → sentence → suggested fix`.
 | Moat fill | outer moats only (round 7: dropped the "not just… but also the inner moats" claim in hideyori card, EN+JA — outer moat fill is the documented 1615 peace condition) |
 | Ishiyama ending | **和議 / 講和 … 本願寺が** (round 17: never 降伏 — court-mediated 1580 peace, FAQ4 + JSON-LD byte-synced ×2 per locale, card 講和と退去 / Peace and Evacuation); **「鉄甲船」と呼ばれる大型の安宅船** (never 世界初の「鉄甲艦」, construction debated); **門徒・本願寺勢 / 本願寺の坊官ら** in body prose (never 僧兵 except title/meta/link 「僧兵、百姓、将軍」; never undocumented 下間仲之); **水軍** not 海軍; fire cause always hedged **諸説** — both forbidden strings live as error rules in `data/ja-glossary.json` |
 | Azai ending | **離反** for the 1570 defection in factual prose (裏切り kept in titles/hero/filter label as narrative framing), **自害** not 切腹/終焉を悟った, **戦国大名として滅亡** not 断絶/一族の壊滅, **本能寺の変（1582）** not 織田の崩壊, 1564 marriage/6年後 locked (round 17) |
+| Hideyoshi ending | **露と落ち　露と消えにし** as the death poem (never 露の世は露の世ながら — that is Kobayashi Issa's おらが春; error rule in `data/ja-glossary.json`); **木下弥右衛門** for the father (never 足軽（百姓兵）の弥助; status uncertain); era labels **立身期/権力掌握期/天下人期/晩年** (never 登極期 — imperial accession); **兵糧攻め** (never 飢餓封鎖); **一夜城 = 伝承** (墨俣 + 石垣山, 石垣山 actual build ~80日); 高松 water attack = **1582** (never 1581); kanpaku **1585-07-11** (近衛前久の猶子・藤原氏), 豊臣姓・太政大臣 = **1586**; shogun answer never claims blood bar; 石山本願寺 = **推定地**; FAQ visible↔JSON-LD byte-synced ×2 per locale |
 
 ## 4. ⚠ Uncertain phrases — review these first
 
@@ -1044,6 +1045,72 @@ decision table at its top. Applying agent worked item-by-item off those files.
   Verification: check:ja / check:data / check:parity / tsc / build green;
   greps `11年` `仏敵と宣言` `完全に断つ` `6隻` `飢餓` 0 hits, 10年 ×13 JA /
   "ten years|decade" ×8 EN unchanged; FAQ byte-sync 4/4 both locales.
+
+## 5r. Round 18 — toyotomihideyoshi (27 items) (2026-10-02)
+
+**Provenance:** external reviewer working from Japanese-language scholarship
+and JA museum/archival/official sources only (豊臣家文書・任命文書, Osaka
+Castle Museum, NDL/CiNii on 墨俣/『天正記』, JA geographical research on the
+Takamatsu flood, Odawara City archaeology on 石垣山). Full item record +
+decision table persisted in `ja-review-annot-09.md` (untracked). Verdict was
+"would not publish in current form"; ratings 6.5/5.5/6 (naturalness/
+terminology/accuracy).
+
+- **Locked user decisions (2026-10-02):**
+  1. **Keep tour badges** ツアーで訪問 / On Tour ×12 per locale (round-17 lock
+     upheld); reviewer's badge deletion rejected — they are functional links.
+  2. **Adopt reviewer's era labels** — buttons すべて/立身期/権力掌握期/
+     天下人期/晩年 (filter keys rise/ascension/unification/twilight unchanged);
+     the 「すべて崛起期登極期…」"UI artifact" is 5 separate buttons — kept, not
+     deleted (same structure as azaiclan's locked nav).
+  3. **EN h1 em = translated death poem** ("Dew that falls, dew that fades —
+     my life").
+  4. Standing: FAQ visible↔JSON-LD byte-identical ×4 both locales; full EN
+     mirror; `<title>`/meta untouched (poem was never in head); glossary-first
+     error rules.
+- **Headline correction:** h1 subtitle 「露の世は露の世ながらさりながら」 was
+  小林一茶 (『おらが春』, daughter's death 1819), not Hideyoshi → replaced with
+  露と落ち　露と消えにし　我が身かな (manuscript-backed per Osaka Prefecture
+  cultural-heritage DB) in h1 + death card + callout, both locales.
+- **Adopted (JA + EN mirror):** new lead (尾張国中村…天下人, Article JSON-LD
+  description synced); quick answer = 朝廷の最高位…全国の大名を統合 +
+  包囲・兵糧攻め・築城・水攻め (dropped 第二の統治者/奇想天外/横死); FAQ1
+  retitled 秀吉はどのようにして関白になったのか？ + 弥右衛門・出自不明・
+  『信長公記』殿軍の一員 with source-difference caveat (dropped Yaesuke/
+  百姓兵/兵站の才); FAQ2 rewritten — bloodline bar deleted, 近衛前久の猶子・
+  藤原氏・関白 1585-07-11, 豊臣姓・太政大臣 1586, 摂政 conflation removed;
+  FAQ3 = 墨俣伝承・鳥取兵糧攻め・高松 **1582** + 自然堤防 hedge (dropped
+  1581/12日4km as fact); FAQ4 = 石山本願寺推定地 + 象徴する政治・軍事拠点;
+  era buttons/headers per §22; cards — 1537 尾張・中村に生まれる (dropped
+  日吉丸/弥助), 1550s 逸話framing (草履 = 後世の伝説), 1560 織田家中での活動
+  (dropped 粮草係/兵站支援), 1561 寧寧 (杉原氏・浅野長勝養女; dropped 一期
+  一会/織田家の家臣の娘), 1566 墨俣築城の伝承, 1570 金ヶ崎 hedged to
+  『信長公記』, 鳥取 兵糧攻めによる制圧 (dropped 凄惨/心理戦), **高松 card
+  moved to 権力掌握期 top + re-dated 1582年 + title 備中高松城の水攻め**,
+  山崎 = 和議+約200km+6月13日 (dropped 数日/完全に不意打ち/掌握), 大坂城 =
+  推定地+象徴, 賤ヶ岳 = 後継をめぐる対立 label + 1583年4月決戦・北ノ庄城・
+  自害 (dropped 篡奪者/内部粛清), 関白 card re-titled 1585年 only (近衛前久
+  の猶子), **NEW 1586 card 豊臣姓の賜与・太政大臣就任** at 天下人期 top,
+  九州 = 降伏・服属・再編 (dropped 20万/殲滅/牢固), 小田原 = 包囲+陣城+茶会能+
+  7月氏直降伏 (dropped 祭りに変えて士気壊滅), 石垣山 = 「一夜城」の伝承 +
+  約80日, 天下統一 = 小田原+奥州仕置+**1591奥羽再仕置** (dropped 疑う余地の
+  ない主人 → 服属させる天下人), 秀吉をめぐる歴史と伝説 = 『天正記』(大村由己)
+  + 北野大茶湯（1587）諸説 (dropped 敏感/神勅/無理やり), 文禄・慶長の役 =
+  大陸侵攻の時代 + 詳細かつ強硬な指示 (dropped 明の中国/常軌を逸した冷酷),
+  秀頼誕生 = 1593 出生 → 1595 秀次追放・自害・一族処刑 (dropped 最愛/容赦
+  なく粛清 motive), 死 = 晩年には病が重くなり…1598-08-18(=グレゴリオ暦9月
+  18日)・61歳 + full death poem (dropped 健康は完全に衰えて/露の世は), final
+  callout rewritten per item 27 (17年後・大坂夏の陣・継承体制/政治秩序/統治の
+  仕組み → hook 秀頼; dropped 黄金の要塞/不朽/宿敵).
+- **4 new glossary error rules:** `露の世は露の世ながら`, `足軽（百姓兵）の
+  弥助` (phrase-scoped so Yasuke as a person stays legal), `登極期`,
+  `飢餓封鎖`.
+- **Verification:** check:ja 0 warnings (21 pages, new rules pass), check:data
+  61 pages/101 blocks + FAQ parity, check:parity, tsc, build green; FAQ
+  byte-sync 4/4 ×2 locales; forbidden greps 0 hits both locales; poem ×2 ×2
+  locales; badges 12/12 intact; structure delta as planned (+1 card +1 row ×2
+  locales — new 1586 card + Takamatsu row move; +1 china-card, −1 korea-card),
+  ids/hrefs identical to HEAD.
 
 ## 6. Automated gates (must stay green after any edit)
 

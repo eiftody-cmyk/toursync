@@ -105,7 +105,11 @@
     { "forbidden": "時康親王", "required": "斉世親王", "level": "error", "reason": "review round 15 (tenjin-matsuri-history): 斉世親王 is the name used for Prince Tokiyoshi; 時康親王 is the childhood name and reads as a different person" },
     { "forbidden": "帝位の左右", "required": "皇位の継承をめぐる政治勢力", "level": "error", "reason": "review round 15 (tenjin-matsuri-history): 'left and right of the throne' is an opaque metaphor; name the succession struggle" },
     { "forbidden": "世界初の「鉄甲艦」", "required": "「鉄甲船」と呼ばれる大型の安宅船", "level": "error", "reason": "review round 17 (ishiyama): 'the world's first ironclad' is an unverifiable superlative; NDL describes them as 大安宅 and the iron plating is debated" },
-    { "forbidden": "焦土作戦", "required": "講和と退去", "level": "error", "reason": "review round 17 (ishiyama): 焦土作戦 is a calque of 'scorched-earth campaign' and presumes deliberate destruction; the 1580 fire's cause is disputed (諸説)" }
+    { "forbidden": "焦土作戦", "required": "講和と退去", "level": "error", "reason": "review round 17 (ishiyama): 焦土作戦 is a calque of 'scorched-earth campaign' and presumes deliberate destruction; the 1580 fire's cause is disputed (諸説)" },
+    { "forbidden": "露の世は露の世ながら", "required": "露と落ち　露と消えにし", "level": "error", "reason": "review round 18 (toyotomihideyoshi): that line is Kobayashi Issa's poem from おらが春, not Hideyoshi's; his death poem begins 露と落ち、露と消えにし" },
+    { "forbidden": "足軽（百姓兵）の弥助", "required": "木下弥右衛門", "level": "error", "reason": "review round 18 (toyotomihideyoshi): Hideyoshi's father is Kinoshita Yazaemon (弥右衛門); 弥助 is a different, undocumented reading here, and 百姓兵 is a mistranslation of ashigaru" },
+    { "forbidden": "登極期", "required": "立身期／権力掌握期", "level": "error", "reason": "review round 18 (toyotomihideyoshi): 登極 means accession to the imperial throne and is wrong for Hideyoshi; era labels are 立身期/権力掌握期/天下人期/晩年" },
+    { "forbidden": "飢餓封鎖", "required": "兵糧攻め", "level": "error", "reason": "review round 18 (toyotomihideyoshi): 'famished blockade' is a calque of EN 'starvation blockade'; the standard Japanese term is 兵糧攻め" }
   ],
   "chineseChars": "关这说应无时发战义产从众亲广铁间门东车马长问现华图书机权记议报导终经结约级职举变边还进运过连远军农击创则刚动务势样备币钟队买乐乡习个们头儿几仅认让该给对单观于",
   "titleForbidden": ["―", "─", "·", "｜"]
