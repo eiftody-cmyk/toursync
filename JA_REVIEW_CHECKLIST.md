@@ -13,7 +13,8 @@ Work landed in: `38b5641` (guide/lint), `5039c49` (P0 term fixes),
 `dc594b7` (round 10, §5j — ojinsuccession three-record rewrite),
 `26cc219` (round 11, §5k — shitennojihistory accuracy/terminology rewrite),
 `ab4250a` (round 12, §5l — soga-fujiwara-timeline native/accuracy rewrite),
-`6fa6464` (round 13, §5m — empress-shotoku accuracy/historiography rewrite).
+`6fa6464` (round 13, §5m — empress-shotoku accuracy/historiography rewrite),
+`3e18e10` (round 14, §5n — fujiwara-shadow-politics accuracy/title rewrite).
 
 ---
 
@@ -87,14 +88,15 @@ Return findings as `page → sentence → suggested fix`.
 
 | Page | Item | Why |
 |---|---|---|
-| `tenjin-matsuri-history`, `fujiwara-shadow-politics` | **時康親王** | EN says "Prince Tokiyo" — verify reading/attribution and whether both pages need the same figure |
+| `tenjin-matsuri-history`, `fujiwara-shadow-politics` | **時康親王** | EN said "Prince Tokiyo" — **resolved fujiwara round 14**: both locales now 斉世親王 / "Prince Tokiyoshi" (§5n); tenjin pending round 15 |
 | `ishiyama-timeline` | **焦土作戦** | calque of EN "scorched-earth campaign" — check if 焦土化作戦 / 焦土と化した is the natural JA military-historical term |
 | `osaka-castle-history` | **国松** | EN "Kunimatsu" — confirm presentation (国松 with 幼名 千丸?) |
 | `deeptimeline` | **政治の座から外された台地** | original JA said 昇格させられた (opposite of EN "Politically sidelined") — new wording follows EN; confirm intent |
 | `empress-shotoku` | **紀百継 → 吉備真備**, card title **直接皇権の再主張** | agent-side factual/title corrections — **resolved round 13**: page reads 吉備真備 (紀百継 gone) and the title is now 称徳天皇の政治的権威 (§5m) |
 | `empress-shotoku` | round-13 new vocabulary — **史学上の論点**, **史学上の再検討**, **立太子**, **宣命**, **長屋王の変**, **恭仁京**, **紫香楽宮**, **二重権力状態**, **令外官**, **奏上**, **別部穢麻呂（わけべのきたなまろ）**, **淡路へ配流**, **下野国薬師寺別当**, **崩御**, **明正天皇**, **男系・男子優先** | agent-introduced historical terms — confirm naturalness/registers (立太子 vs 指名, 宣命 vs 勅令, 奏上 vs 持ち帰る); content closed 2026-10-02 (§5m), open for prose review |
 | `empress_jingu_timeline` | round-6 items (朝鮮×3, 女王, contradictory 200年頃 line) — **resolved round 9**: full historical rewrite removed 女帝 for Jingū, reframed Gwanggaeto/Himiko/Hōenzaka claims (§5i) | closed 2026-10-02 |
-| `fujiwara-shadow-politics` | readings **侃子・重子**; **別部穢麻呂**; **詔を読み上げている儀式** (was 誥文) — round 7 resolved 諸盛の娘・安子 → 師輔の娘・安子 and 乙縄と多治比の娘 → 乙牟漏/旅子, added 伊尹（=Koretada, father of 懐子; 国史大辞典 花山天皇 entry) and fixed 文武→聖武 streak | EN names ambiguous or terminology avoided |
+| `fujiwara-shadow-politics` | readings **侃子・重子**; **別部穢麻呂**; **詔を読み上げている儀式** (was 誥文) — round 7 resolved 諸盛の娘・安子 → 師輔の娘・安子 and 乙縄と多治比の娘 → 乙牟漏/旅子, added 伊尹（=Koretada, father of 懐子; 国史大辞典 花山天皇 entry) and fixed 文武→聖武 streak; round 14 added **三国の調の儀式・上表文・石川麻呂** (card 001 killers' reading), **大宰権帥** (EN "deputy governor at Dazaifu") | EN names ambiguous or terminology avoided |
+| `fujiwara-shadow-politics` | round-14 new vocabulary — **官撰史書**, **研究上の論点**, **外戚政治**, **武力政変**, **弘仁格式**, **内覧**, **阿衡の事件**, **望月の歌**, **最古級の公家日記**, **8代の治世** | agent-introduced/standardized historical terms — confirm naturalness/registers; content closed 2026-10-02 (§5n), open for prose review |
 | `ojinsuccession` (Group C era) | 元明天皇 → 祖母で文武天皇の母; 厩戸王（のちの聖徳太子）; 敏達; 山背大兄王; 645年（大化元年） anchor | superseded — page fully rewritten round 10 (§5j); items no longer on the page |
 | `ojinsuccession` | round-10 reviewer items (**395–410 regnal years**, 国家レベル overclaims, **商業的**難波, era headers 挑発/外交的沈黙, Hideyoshi–Ieyasu 1200年 aside) — **resolved round 10**: three-record rewrite removed all regnal years, interpretation-as-fact reframed, aside deleted (§5j). Native review still wanted on the new prose: 宋書 honorific quote (使持節・都督倭…六国諸軍事・安東大将軍・倭国王), readings 大鷦鷯尊/瑞歯別皇子, 倭の五王 transliteration (讃・珍・済・興・武) | open for prose review; content closed 2026-10-02 |
 | `soga-fujiwara-timeline` | **藤原氏と摂関政治** (dedup), **皇室との婚姻** (was 王室結婚) | wording de-duplication |
@@ -736,6 +738,103 @@ autocracy/Modern Japanese scholarship/trusted adviser/counter-oracle/
 Crown Princess Designation/Shoku Nihongi 697–791 0 hits); peripherals updated
 (llms.txt ×2, site-graph ×2 with 稱徳→称徳, fujiwara EN anchor); dump
 regenerated (`ja-review-cards.md`).
+
+## 5n. Round 14 — fujiwara-shadow-politics accuracy/title rewrite (2026-10-02)
+
+External 43-item accuracy/terminology critique of `fujiwara-shadow-politics`
+(JA + EN): the page was sold as 「五百年にわたる影の支配」/shadow politics
+(title/og/CTA), mixed the term 学術的合意 (EN "Japanese Scholarly Consensus")
+into a site whose chosen label is 研究上の論点, used 公式記録 for官撰史書/
+同時代史料 and 玉座 for 皇位, mis-assigned mothers (EN gave 文徳 and 清和 the
+same mother 明子; JA genealogy readings 侃子・重子・長子), claimed Michinaga
+had held the kampaku (he never did — 内覧 995 / 摂政 1016 / 太政大臣 1017;
+「御堂関白」はあだ名), dropped 一条天皇 from the Fujiwara-mother genealogy
+while counting "five consecutive reigns", kept the phantom Bender/Shoku
+Nihongi 697–791 English volume and a mis-titled Cambridge History of Japan
+Vol. 2, and stated Fuhito's posthumous honors as if held in life. Rewrote
+both locales keeping the four-column structure, era groups, entry counts,
+tour badges and UI labels intact.
+
+- **User decisions (2026-10-02):** (1) retitle exactly — JA `<title>` 「藤原
+  摂関 — 皇位を支えた外戚政治」+ h1 「藤原氏：皇位を支えた外戚政治」+ kicker
+  史料、研究史、主要官職、そして天皇の母; EN `The Fujiwara Regency — In-Law
+  Politics That Sustained the Throne` + h1 `The Fujiwara: The Imperial In-Laws
+  Who Sustained the Throne` + kicker `Court Chronicles, Current Research,
+  Political Posts &amp; Imperial Mothers` (rippled to metas/og/twitter/JSON-LD
+  Breadcrumb+headline+WebPage, dateModified 2026-10-02, page-date October
+  2026). (2) 公式記録→官撰史書/同時代史料 in kicker/meta/quick answer/card
+  prose; UI labels kept (legend key c1, col-header c1, card 013 chip — 3 JA
+  + 2 EN remaining by design); c2 → 研究上の論点 (EN `Current Research`).
+  (3) 玉座→皇位 page-local incl. the tour CTA. (4) genealogy card 024 =
+  reviewer's exact list (二条 dropped). (5) dazai no sōchi EN = "the post of
+  deputy governor at Dazaifu" (romanization avoided — original wording had
+  blocked on a reading).
+- **Terminology (glossary-first):** 9 error terms added to
+  `data/ja-glossary.json` at level error — 学術的合意/日本の学界の合意 →
+  研究上の論点, 影の政治 → 皇位の背後で動いた政治, 母系戦略 → 母方のつながり
+  を重ねる方針, 皇位乗っ取り → 皇位をめぐる政変, 日本を支配 → 朝廷政治を動か
+  した, 派閥クーデター → 宮廷内の派閥による武力政変, 機械を回 → 形式だけが動
+  き続ける職, つまみ → 形式だけの職. Page-local only (not glossary): 玉座,
+  公式記録, 嫁がせ, 独占. 二度統治 never added.
+- **Accuracy fixes (item numbers where known):** card 001: 三国の調の儀式 +
+  佐伯子麻呂と葛城稚犬養網田 cutting down 蘇我入鹿 beside 石川麻呂's 上表文
+  (EN killers corrected to Saeki no Komaro and Katsuragi no Wakainukai no
+  Amita; 東西 memorials read to Empress Kōgyoku by Ishikawa no Maro); card
+  002 title → 道徳的復興ではなく、宮廷内の派閥の武力政変; card 004 母方の
+  つながりを重ねていく方針 (was 嫁がせ・独占 phrasing); card 005: Fuhito
+  698姓継承 + 701大納言/708右大臣/718辞退/720死後追贈 (posthumous honors no
+  longer read as held in life); card 007: 武智麻呂 734右大臣/737左大臣・翌日
+  没, 正一位・太政大臣は追贈, 独占→主導; card 008: 一世紀もたたないうちに
+  (was "barely fifty years"); card 009: 冬嗣 821右大臣/825左大臣 + 弘仁格
+  式 (Kōnin Code); card 011: 884基経の事実上の創設/887宇多の詔/888阿衡の
+  事件 (titular-name reading); card 012: 文徳←順子(冬嗣), 清和←明子(良房)
+  — EN had both ←明子 — + 良房 = 文徳の母方の叔父・清和の母方の祖父; card 013:
+  大宰権帥 (plain-English gloss), 時平39歳, 斉世親王 → EN "Prince Tokiyoshi"
+  (was "Prince Tokiyo"); card 015/016: 一条天皇←詮子(兼家) added (old card
+  skipped 一条 entirely), full 醍醐60〜三条67 list with mothers 胤子/穏子/
+  安子/懐子/詮子/超子 → 「醍醐から三条まで、8代の治世がすべて藤原氏の母」;
+  card 017: 道長 never held the kampaku — 995内覧/1016摂政/1017太政大臣,
+  「御堂関白」はあだ名, 現存する最古級の公家日記 (was 最古の日記); card 018:
+  望月の歌 quoted correctly 「この世をば我が世とぞ思ふ 望月の かけたることも
+  なしと思へば」 (was corrupt 「この世は我が世ならむ…」) with 『小右記』
+  attribution; card 019: 頼通 1027内覧・1049太政大臣, 1067関白→弟・教通
+  (dropped the "nineteen years" claim); card 020: only 後一条 acceded during
+  道長's lifetime, 後朱雀1036/後冷泉1045 both after his death (末の孫 claim
+  dropped; Go-Reizei b. 1024 removed — actually 1025; no birth-year claim
+  remains); card-date 1008〜1034 → **1008〜1036 / 1008–1036** (Go-Ichijō
+  died 15 May 1036 — verified against sources after the round; pre-existing
+  in both locales, outside the review's 43 but fixed here); cards 022/023:
+  独占→主導的地位, 機械の比喩→形式だけが動き続ける職/通り過ぎられ (EN
+  "predominance", "empty form"); card 024: reviewer's exact list (白河←茂
+  子, 堀河←賢子, 鳥羽←苡子, 崇徳・後白河←璋子, 後鳥羽←殖子, 順徳←重子,
+  仲恭←立子; 二条 dropped, readings corrected from 侃子・暲子・長子); card
+  021: 保元・平治の乱; references: Bender dropped, 『続日本紀』 = third of
+  the six national histories, Cambridge Vol. 2 → `The Cambridge History of
+  Japan, Vol. 2: Heian Japan, 794–1185` (Cambridge University Press, 1999);
+  metas/FAQ: 影の政治 blurb → new descriptor in both locales, FAQ2 rewritten
+  together (887宇多の詔/888阿衡の事件), FAQ3 EN "some 1,344" → "1,344";
+  HistoricalEvent JSON-LD description mirrored to JA.
+- **EN mirror:** all 43 items — title/og/twitter/breadcrumb/headline/
+  descriptions, kicker+h1+lead, quick answer (imperial throne, court
+  chronicles beside current research, rise of the warrior government),
+  `Japanese Scholarly Consensus`/`Scholarship Consensus` → `Current Research`
+  (×8), all 24 cards mirrored (Isshi killers, Fuhito offices, Muchimaro
+  734/737, Fuyutsugu 821/825, Uda/Ako/基経, uncle/grandfather, Dazaifu post,
+  eight-reign genealogy with Senshi/Chōshi, never-held-kampaku, Mochimitsu
+  poem, Yorimichi/Norimichi 1067–68, Go-Ichijō-only accession, 1008–1036,
+  genealogy readings), refs 1003/1009, page-date October 2026; FAQ
+  byte-sync 4/4 both locales.
+
+Verification: check:ja 0 warnings (21 pages; 9 new glossary rules cause no
+site-wide collisions), check:data 61 pages/101 blocks FAQ parity, check:parity
+8/18/10, tsc, npm run build; FAQ byte-identity 4/4 both locales (node regex
+over `<details>` pairs); assertion greps clean (JA: 影の政治/学術的合意/日本の
+学界の合意/玉座/独占 0 hits — 公式記録 remains only in the 3 UI labels by
+decision; EN: shadow politics/Scholarly Consensus/monopoly/Prince Tokiyo/
+Shoku Nihongi 697–791 0 hits); peripherals updated (llms.txt ×2, site-graph
+×2, deeptimeline callouts ×2 incl. EN anchor); card regnal numbers spot-
+verified against official numbering (聖武45/醍醐60/一条66/後一条68/白河72/
+後鳥羽82/順徳84/仲恭85 — all correct).
 
 ## 6. Automated gates (must stay green after any edit)
 
