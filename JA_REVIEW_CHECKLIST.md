@@ -9,7 +9,8 @@ Work landed in: `38b5641` (guide/lint), `5039c49` (P0 term fixes),
 `e5e0e6f` (Group C, 5 pages), `54b1707` (this checklist + strict title lint),
 `caa62ef` (round 2, azaiclan), `2cce699` (round 3, §5c),
 `69ad5ff` (round 8, §5h — yayoi accuracy/terminology),
-`7e74a4b` (round 9, §5i — empress_jingu historical rewrite).
+`7e74a4b` (round 9, §5i — empress_jingu historical rewrite),
+`dc594b7` (round 10, §5j — ojinsuccession three-record rewrite).
 
 ---
 
@@ -90,7 +91,8 @@ Return findings as `page → sentence → suggested fix`.
 | `empress-shotoku` | **紀百継 → 吉備真備**, card title **直接皇権の再主張** | agent-side factual/title corrections |
 | `empress_jingu_timeline` | round-6 items (朝鮮×3, 女王, contradictory 200年頃 line) — **resolved round 9**: full historical rewrite removed 女帝 for Jingū, reframed Gwanggaeto/Himiko/Hōenzaka claims (§5i) | closed 2026-10-02 |
 | `fujiwara-shadow-politics` | readings **侃子・重子**; **別部穢麻呂**; **詔を読み上げている儀式** (was 誥文) — round 7 resolved 諸盛の娘・安子 → 師輔の娘・安子 and 乙縄と多治比の娘 → 乙牟漏/旅子, added 伊尹（=Koretada, father of 懐子; 国史大辞典 花山天皇 entry) and fixed 文武→聖武 streak | EN names ambiguous or terminology avoided |
-| `ojinsuccession` | 元明天皇 → **祖母で文武天皇の母** (EN called her "mother" — impossible); **厩戸王（のちの聖徳太子）** (was 宇治川王); **敏達** (was 応達); **山背大兄王は聖徳太子の子** kept (traditional attribution); anchor **645年（大化元年）** added | EN self-contradictions resolved — confirm choices |
+| `ojinsuccession` (Group C era) | 元明天皇 → 祖母で文武天皇の母; 厩戸王（のちの聖徳太子）; 敏達; 山背大兄王; 645年（大化元年） anchor | superseded — page fully rewritten round 10 (§5j); items no longer on the page |
+| `ojinsuccession` | round-10 reviewer items (**395–410 regnal years**, 国家レベル overclaims, **商業的**難波, era headers 挑発/外交的沈黙, Hideyoshi–Ieyasu 1200年 aside) — **resolved round 10**: three-record rewrite removed all regnal years, interpretation-as-fact reframed, aside deleted (§5j). Native review still wanted on the new prose: 宋書 honorific quote (使持節・都督倭…六国諸軍事・安東大将軍・倭国王), readings 大鷦鷯尊/瑞歯別皇子, 倭の五王 transliteration (讃・珍・済・興・武) | open for prose review; content closed 2026-10-02 |
 | `soga-fujiwara-timeline` | **藤原氏と摂関政治** (dedup), **皇室との婚姻** (was 王室結婚) | wording de-duplication |
 | `azaiclanbetrayal` | **1564 marriage date** — round-2 review claimed 1567 "almost certainly"; sources actually split (Wikipedia Oichi body says 1567, its own infobox + Azai article say 1564), traditional/majority = 1564, site EN says 1564 ×7 (+ warriormonks teaser ×2). **Kept 1564 everywhere** (decision 2026-10-01); JA-only change would have contradicted EN |
 | all pages | JSON-LD `publisher.name` left Latin | intentional, see §2 |
@@ -446,6 +448,47 @@ locales; assertion greps 0 hits (朝鮮三国|不審な最期|最高の武将|�
 Three Korean Kingdoms|justify female|armada|suspicious death|influencial).
 Note: 女帝 (×2) and 正当化する神話的叙述 remain by design — later-empress
 contexts and the reviewer's own mythic-narrative sentence.
+
+## 5j. Round 10 — ojinsuccession three-record rewrite (2026-10-02)
+
+External historian review (40-item critique + full 改訂版 draft): the page
+argued that the Nihon Shoki "deliberately suppressed" Chinese-recorded events
+and presented a calculated-provocation / assassination / covering-up reading
+as fact. Rewrote both locales into a neutral three-record structure —
+『日本書紀』が伝える物語 / 『宋書』が伝える記録 / 遺跡から見る考古学 — where
+each source states its own claims and the identifications remain disputed.
+
+- **Factual fixes:** no regnal years anywhere (395–410 dropped entirely;
+  traditional 270–310 not substituted); 讃 missions = 421 + 425 (司馬曹達);
+  438 = 珍's accession, six-kingdom generalship requested, Song granted only
+  安東将軍・倭国王; 珍＝反正 as *a* theory via 国立国会図書館, never asserted;
+  法円坂 = 5世紀・上町台地北端・16棟・約90㎡・水運想定 + 「証明する遺跡では
+  ない」; 720年 compilation stated; "deliberate suppression" reframed as the
+  two sources having different purposes and compilation dates.
+- **Structure (both locales):** single-column 4-chapter timeline (『日本書紀』が
+  描く継承 / 『宋書』が伝える倭王権 / 二つの記録を重ねる / 5世紀の難波), 9
+  expandable cards, badges 伝承/史料/考古学, tour badges only on 履中・住吉仲皇子
+  and 法円坂 cards; era-nav buttons + 3-column grid + col-headers removed, CSS
+  rebuilt, filterEra deleted; new intro + 記録の空白をどう読むか + 倉庫は今も
+ ここにある sections; callout replaced (家康/1200年/Hideyoshi-Ieyasu aside
+  deleted both locales); cta-inline dropped from EN for locale parity.
+- **FAQ:** 4 → 5 (継承危機 / なぜ単独では判断できない / 中国の記録は /
+  矛盾するのか / 大阪との関係), multi-paragraph 改訂版 answers merged to single
+  `<p>`, byte-identity 5/5 both locales.
+- **Titles/metas:** JA 応神天皇の継承 — 同じ時代を語る、三つの記録 (77-char meta
+  description) / EN The Ōjin Succession — Three Records of the Same Era;
+  dateModified 2026-10-02; propagated to llms.txt ×2, site-graph (EN+JA),
+  deeptimeline blurbs ×2, empress-shotoku li ×2; EN page-date → October 2026.
+- **Glossary:** 3 error terms — 初期日本史 (→古代日本史), 公式の『日本書紀』
+  (→『日本書紀』が描く王統), 三つの異なるバージョン (→同じ時代を語る三つの記録).
+  暗殺未遂 entry added then reverted: the 改訂版 quotes the label only to
+  negate it — page-local assertion instead.
+
+Verification: check:ja 0 warnings, check:data (61 pages/101 blocks, FAQ
+parity), check:parity, tsc, npm run build; FAQ byte-identity 5/5 both locales;
+assertion greps clean — the only hits are by design: negated quotes (意図的/
+隠蔽/クーデター/記述が短い in「…とは断定できない」contexts), nav links (float-menu
+家康), and CSS (max-width:1200px).
 
 ## 6. Automated gates (must stay green after any edit)
 
