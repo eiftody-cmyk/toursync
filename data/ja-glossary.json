@@ -18,7 +18,11 @@
     { "forbidden": "ロマン化的", "required": "後世の美化", "level": "warn", "reason": "calque of 'romanticized'" },
     { "forbidden": "エドワードの紀行文", "required": "エドワードと歩く大阪城", "level": "warn", "reason": "retired brand rendering" },
     { "forbidden": "大阪城ウォーキング", "required": "エドワードと歩く大阪城", "level": "warn", "reason": "retired brand rendering" },
-    { "forbidden": "大阪城の歴史ツアー", "required": "エドワードと歩く大阪城", "level": "warn", "reason": "retired brand rendering" }
+    { "forbidden": "大阪城の歴史ツアー", "required": "エドワードと歩く大阪城", "level": "warn", "reason": "retired brand rendering" },
+    { "forbidden": "首長国家", "required": "首長制社会／政治勢力", "level": "warn", "reason": "review round 8 (yayoi): museums write 首長制社会・政治勢力; 首長国家 overstates state formation for Yayoi" },
+    { "forbidden": "通道", "required": "経路／つながり", "level": "warn", "reason": "review round 8 (yayoi): Sino-Japanese technical term; narrative prose uses 経路" },
+    { "forbidden": "シャーマンの女王", "required": "鬼道に仕えた女王／女王", "level": "warn", "reason": "review round 8 (yayoi): borrowed word; 『魏志』倭人伝 wording is 鬼道" },
+    { "forbidden": "辰韓同盟", "required": "辰韓（馬韓・弁韓と並ぶ三韓）", "level": "warn", "reason": "review round 8 (yayoi): no 'Jin alliance'; sources describe 辰韓 as a group of small states" }
   ],
   "chineseChars": "关这说应无时发战义产从众亲广铁间门东车马长问现华图书机权记议报导终经结约级职举变边还进运过连远军农击创则刚动务势样备币钟队买乐乡习个们头儿几仅认让该给对单观于",
   "titleForbidden": ["―", "─", "·", "｜"]
