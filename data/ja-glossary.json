@@ -28,7 +28,19 @@
     { "forbidden": "大艦隊", "required": "大規模な船団", "level": "warn", "reason": "review round 9 (empress_jingu): 艦隊 carries modern naval connotations; ancient fleets are 船団" },
     { "forbidden": "初期日本史", "required": "古代日本史", "level": "error", "reason": "review round 10 (ojinsuccession): 初期日本史 reads as translated register; JA history writing uses 古代日本史" },
     { "forbidden": "公式の『日本書紀』", "required": "『日本書紀』が描く王統", "level": "error", "reason": "review round 10 (ojinsuccession): 『日本書紀』 is not a modern official record; avoid 公式 framing" },
-    { "forbidden": "三つの異なるバージョン", "required": "同じ時代を語る三つの記録", "level": "error", "reason": "review round 10 (ojinsuccession): modern research is a reconstruction, not a third 'version' of events" }
+    { "forbidden": "三つの異なるバージョン", "required": "同じ時代を語る三つの記録", "level": "error", "reason": "review round 10 (ojinsuccession): modern research is a reconstruction, not a third 'version' of events" },
+    { "forbidden": "官営寺院", "required": "官寺", "level": "error", "reason": "review round 11 (shitennojihistory): 官寺 is the standard historical term; 官営寺院 is a modern coinage" },
+    { "forbidden": "極楽浄土庭園", "required": "極楽浄土の庭", "level": "error", "reason": "review round 11 (shitennojihistory): the garden's name is 極楽浄土の庭 (Gokuraku-jōdo); 庭園 suffix creates a nonstandard name" },
+    { "forbidden": "渡来人系譜", "required": "渡来系氏族との関係", "level": "error", "reason": "review round 11 (shitennojihistory): 系譜 treats groups as lineages; scholars write 渡来系氏族" },
+    { "forbidden": "蘇我氏の指導者の暗殺", "required": "蘇我入鹿の暗殺（乙巳の変）", "level": "error", "reason": "review round 11 (shitennojihistory): name the event (乙巳の変, 蘇我入鹿) instead of an evasive description" },
+    { "forbidden": "絶え間ない破壊と再生", "required": "災害と戦乱、そして再建の歴史", "level": "error", "reason": "review round 11 (shitennojihistory): melodramatic translated register; describe the actual cycle" },
+    { "forbidden": "皇室の権威を根づかせ", "required": "仏教と王権の結びつきを示す", "level": "error", "reason": "review round 11 (shitennojihistory): intent-as-fact; sources show Buddhism–royal power ties, not imperial intent" },
+    { "forbidden": "国際港", "required": "国際交流・海上交通の拠点", "level": "error", "reason": "review round 11 (shitennojihistory): 国際港 is a modern concept; Naniwa was a continental exchange and shipping node" },
+    { "forbidden": "制度としての役割", "required": "寺院としての役割", "level": "error", "reason": "review round 11 (shitennojihistory): the temple's continuing role was not a state institution's role" },
+    { "forbidden": "外国使節用の客館", "required": "四箇院の伝承（敬田院・施薬院・療病院・悲田院）", "level": "error", "reason": "review round 11 (shitennojihistory): no evidence for an envoy guesthouse; the 四天王寺縁起 四箇院 tradition is what survives" },
+    { "forbidden": "官僚の訓練場", "required": "仏教信仰と太子信仰の拠点", "level": "error", "reason": "review round 11 (shitennojihistory): no evidence Shitennoji trained bureaucrats" },
+    { "forbidden": "皇室とのつながりのおかげで", "required": "寺院としての役割を担い続け", "level": "error", "reason": "review round 11 (shitennojihistory): attributing the temple's survival to imperial connections is intent-as-fact" },
+    { "forbidden": "商業の中心へと変えていきました", "required": "都市形成に影響を与えた", "level": "error", "reason": "review round 11 (shitennojihistory): the claim is urban formation, not a commercial-capital shift" }
   ],
   "chineseChars": "关这说应无时发战义产从众亲广铁间门东车马长问现华图书机权记议报导终经结约级职举变边还进运过连远军农击创则刚动务势样备币钟队买乐乡习个们头儿几仅认让该给对单观于",
   "titleForbidden": ["―", "─", "·", "｜"]
