@@ -23,24 +23,24 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>応神天皇の継承 — 同じ物語の三つの記録 | エドワードと歩く大阪城</title>
+<title>応神天皇の継承 — 同じ時代を語る、三つの記録 | エドワードと歩く大阪城</title>
 
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="応神天皇の継承 — 同じ物語の三つの記録 | エドワードと歩く大阪城">
-<meta property="og:description" content="応神天皇の継承は、『日本書紀』、学者の再構築、中国の記録という三つのバージョンで語られます。それぞれが、初期日本で正統性がどう作られたかを示しています。">
+<meta property="og:title" content="応神天皇の継承 — 同じ時代を語る、三つの記録 | エドワードと歩く大阪城">
+<meta property="og:description" content="応神天皇から仁徳天皇へと続く皇位継承は、『日本書紀』の物語と、5世紀の中国史書『宋書』に記された倭王外交の記録をどう重ねて読むかという問題を残しています。">
 <meta property="og:url" content="https://osakacastletours.com/ja/ojinsuccession">
 <meta property="og:image" content="https://osakacastletours.com/ojinsuccession.webp">
 <meta property="og:image:width" content="1915">
 <meta property="og:image:height" content="821">
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="応神天皇の継承 — 同じ物語の三つの記録 | エドワードと歩く大阪城">
-<meta name="twitter:description" content="応神天皇の継承は、『日本書紀』、学者の再構築、中国の記録という三つのバージョンで語られます。それぞれが、初期日本で正統性がどう作られたかを示しています。">
+<meta name="twitter:title" content="応神天皇の継承 — 同じ時代を語る、三つの記録 | エドワードと歩く大阪城">
+<meta name="twitter:description" content="応神天皇から仁徳天皇へと続く皇位継承は、『日本書紀』の物語と、5世紀の中国史書『宋書』に記された倭王外交の記録をどう重ねて読むかという問題を残しています。">
 <meta name="twitter:image" content="https://osakacastletours.com/ojinsuccession.webp">
 
 <meta property="og:site_name" content="エドワードと歩く大阪城">
-<meta name="description" content="応神天皇の継承は、『日本書紀』、学者の再構築、中国の記録という三つのバージョンで語られます。それぞれが、初期日本で正統性がどう作られたかを示しています。">
+<meta name="description" content="応神天皇から仁徳天皇へと続く皇位継承は、『日本書紀』の物語と、5世紀の中国史書『宋書』に記された倭王外交の記録をどう重ねて読むかという問題を残しています。">
 <meta name="author" content="Edward Iftody">
 <link rel="canonical" href="https://osakacastletours.com/ja/ojinsuccession">
 <link rel="alternate" hreflang="ja" href="https://osakacastletours.com/ja/ojinsuccession">
@@ -174,47 +174,6 @@
     text-transform: uppercase;
   }
 
-  .key-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .key-china { background: var(--china-red); }
-  .key-japan { background: var(--japan-rust); }
-  .key-korea { background: var(--korea-blue); }
-  .key-influence { background: var(--gold); }
-
-  .era-nav {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 16px 40px 20px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .era-btn {
-    font-family: 'Cinzel', serif;
-    font-size: 0.84rem;
-    letter-spacing: 0.12em;
-    padding: 5px 12px;
-    border: 1px solid rgba(200, 169, 110, 0.3);
-    background: transparent;
-    color: var(--parchment-dim);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-  }
-
-  .era-btn:hover, .era-btn.active {
-    background: var(--gold);
-    color: var(--parchment-dim);
-    border-color: var(--gold);
-  }
-
   .timeline-wrapper {
     max-width: 1200px;
     margin: 0 auto;
@@ -223,22 +182,14 @@
     z-index: 1;
   }
 
-  .tri-row {
+  .chapter-cards {
     display: grid;
-    grid-template-columns: 1fr 2px 1fr 2px 1fr;
-    gap: 0;
-    margin-bottom: 0;
-    position: relative;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+    margin-bottom: 10px;
   }
 
-  .col-china { grid-column: 1; }
-  .col-spine-left { grid-column: 2; background: var(--line); min-height: 20px; }
-  .col-japan { grid-column: 3; }
-  .col-spine-right { grid-column: 4; background: var(--line); min-height: 20px; }
-  .col-korea { grid-column: 5; }
-
   .era-header {
-    grid-column: 1 / -1;
     display: flex;
     align-items: center;
     margin: 40px 0 20px;
@@ -263,37 +214,12 @@
     white-space: nowrap;
   }
 
-  .col-headers {
-    display: grid;
-    grid-template-columns: 1fr 2px 1fr 2px 1fr;
-    margin-bottom: 10px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .col-header {
-    text-align: center;
-    font-family: 'Cinzel', serif;
-    font-size: 0.91rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    padding: 8px;
-  }
-
-  .col-header.china { color: var(--china-red); }
-  .col-header.japan { color: var(--japan-rust); }
-  .col-header.korea { color: var(--korea-blue); }
-  .col-header.spine { background: var(--line); }
-
   .event-card {
     padding: 14px 16px;
-    margin: 6px 8px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border-left: 3px solid transparent;
+    border: 1px solid rgba(200, 169, 110, 0.16);
+    border-left: 3px solid var(--gold);
+    background: rgba(26, 21, 16, 0.45);
     opacity: 0;
     transform: translateY(10px);
     transition: opacity 0.5s ease, transform 0.5s ease, background 0.2s ease, border 0.2s ease;
@@ -308,61 +234,27 @@
     background: rgba(200, 169, 110, 0.08);
   }
 
-  .event-card.china-card {
-    border-left-color: var(--china-red);
-    text-align: right;
-    margin-right: 4px;
-  }
-
-  .event-card.china-card:hover { background: rgba(212, 168, 96, 0.14); }
-
-  .event-card.korea-card {
-    border-right: 3px solid var(--korea-blue);
-    border-left: none;
-    margin-left: 4px;
-  }
-
-  .event-card.korea-card:hover { background: rgba(127, 168, 214, 0.14); }
-
-  .event-card.japan-card {
-    border-left-color: var(--japan-rust);
-    border-right: 3px solid var(--japan-rust);
-    text-align: center;
-    margin: 6px 4px;
-    background: rgba(201, 160, 106, 0.07);
-  }
-
-  .event-card.japan-card:hover { background: rgba(201, 160, 106, 0.16); }
-
-  .event-card.influence-card {
-    background: rgba(200, 169, 110, 0.12);
-    border-left-color: var(--gold);
-    border-right: 3px solid var(--gold);
-    margin: 6px 4px;
-  }
-
   .card-date {
     font-family: 'Cinzel', serif;
     font-size: 0.87rem;
     letter-spacing: 0.12em;
     margin-bottom: 4px;
     display: block;
+    color: var(--gold);
   }
 
-  .china-card .card-date { color: var(--china-red); }
-  .japan-card .card-date { color: var(--japan-rust); }
-  .korea-card .card-date { color: var(--korea-blue); }
-  .influence-card .card-date { color: var(--gold); }
-
-  .card-dynasty {
-    font-family: 'Cinzel', serif;
-    font-size: 0.81rem;
-    letter-spacing: 0.15em;
+  .item-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    opacity: 0.6;
-    display: block;
-    margin-bottom: 4px;
+    padding: 2px 9px;
+    border: 1px solid;
+    border-radius: 2px;
+    margin: 0 6px 8px 0;
   }
+  .b-legend { color: var(--rust); border-color: rgba(178, 94, 66, 0.55); }
+  .b-source, .b-arch { color: var(--gold); border-color: rgba(200, 169, 110, 0.55); }
 
   .card-title {
     font-size: 1.29rem;
@@ -400,34 +292,6 @@
 
   .event-card.expanded .card-expand { display: none; }
 
-  .influence-row {
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 0;
-    gap: 10px;
-    font-style: italic;
-    color: var(--gold);
-    font-size: 1.15rem;
-  }
-
-  .arrow {
-    font-size: 1.68rem;
-    color: var(--gold);
-  }
-
-  .influence-label {
-    background: rgba(200, 169, 110, 0.12);
-    border: 1px solid rgba(200, 169, 110, 0.4);
-    padding: 4px 14px;
-    font-family: 'Cinzel', serif;
-    font-size: 0.81rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
   .tour-badge {
     display: inline-block;
     font-family: 'Cinzel', serif;
@@ -440,33 +304,19 @@
     vertical-align: middle;
   }
 
-  .empty { padding: 8px; }
-
-  .spine-segment { background: var(--line); }
-
   .era-group { transition: opacity 0.3s ease; }
-  .era-group.hidden { display: none; }
 
   @media (max-width: 768px) {
-    .tri-row, .col-headers { grid-template-columns: 1fr; }
-    .col-china { grid-column: 1; }
-    .col-spine-left, .col-spine-right { display: none; }
-    .col-japan { grid-column: 1; }
-    .col-korea { grid-column: 1; }
-    .era-header { grid-column: 1; overflow: hidden; min-width: 0; }
-    .era-header span { white-space: normal; font-size: 0.77rem; letter-spacing: 0.08em; text-align: center; padding: 5px 10px; max-width: 60vw; display: inline-block; }
-    .event-card.china-card { text-align: left; border-left: 3px solid var(--china-red); }
-    .influence-row { flex-wrap: wrap; font-size: 1.01rem; padding: 6px 4px; }
-    .influence-label { font-size: 0.7rem; padding: 3px 8px; }
+    .chapter-cards { grid-template-columns: 1fr; gap: 10px; }
+    .era-header { overflow: hidden; min-width: 0; }
+    .era-header span { white-space: normal; font-size: 0.77rem; letter-spacing: 0.08em; text-align: center; padding: 5px 10px; max-width: 70vw; display: inline-block; }
     .card-title { word-wrap: break-word; overflow-wrap: break-word; white-space: normal; font-size: 1.23rem; }
     .card-date { word-wrap: break-word; white-space: normal; }
-    .event-card { padding: 10px 12px; margin: 4px; }
-    .col-header { font-size: 0.77rem; padding: 6px 4px; white-space: normal; word-wrap: break-word; }
-    .era-btn { font-size: 0.77rem; padding: 4px 8px; }
+    .event-card { padding: 10px 12px; }
     .timeline-wrapper { padding: 0 8px 60px; }
     .header { padding: 30px 16px 20px; }
     .header-subtitle { font-size: 0.77rem; letter-spacing: 0.15em; }
-    .card-dynasty { white-space: normal; word-wrap: break-word; }
+    .column-key { gap: 14px; padding: 16px 16px 6px; }
   }
 </style>
 <script type="application/ld+json">{
@@ -490,7 +340,7 @@
     {
      "@type": "ListItem",
      "position": 3,
-     "name": "応神天皇の継承 — 同じ物語の三つの記録 | エドワードと歩く大阪城",
+     "name": "応神天皇の継承 — 同じ時代を語る、三つの記録 | エドワードと歩く大阪城",
      "item": "https://osakacastletours.com/ja/ojinsuccession.html"
     }
    ]
@@ -499,7 +349,7 @@
    "@type": "Article",
    "@id": "https://osakacastletours.com/ja/ojinsuccession.html#article",
    "headline": "応神天皇の継承",
-   "description": "応神天皇の継承は、初期日本史で最も争われた継承でした。記録は穏やかな権力移行を描いていますが、現代の研究者は激しい権力闘争の証拠を見出しています。",
+   "description": "『日本書紀』が描く皇位継承の物語と、中国史書『宋書』が記す5世紀の倭王の外交記録。両者をどう重ねて読むかが、このページの主題です。",
    "image": "https://osakacastletours.com/ojinsuccession.webp",
    "mainEntityOfPage": "https://osakacastletours.com/ja/ojinsuccession.html",
    "inLanguage": "ja",
@@ -512,7 +362,7 @@
     "@id": "https://osakacastletours.com/#business"
    },
    "datePublished": "2026-03-09",
-   "dateModified": "2026-08-31"
+   "dateModified": "2026-10-02"
   },
   {
    "@type": "Person",
@@ -556,31 +406,39 @@
    "name": "応神天皇の継承危機とは何ですか？",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "応神天皇が崩御したのは395〜410年頃とされます。『日本書紀』には、弟の菟道稚郎子が兄たちを差し置いて世継ぎに指定されたと記録されています。大山守と宇治自身という二人の皇子は、いずれも記録が「正義」と「犠牲」として位置づける形で死亡し、四男の仁徳天皇が即位しました。"
+    "text": "『日本書紀』によれば、応神天皇の死後、皇位継承をめぐって皇子たちの間に対立が起こりました。応神天皇は皇子の菟道稚郎子を皇太子に立てたとされますが、兄の大山守皇子はこれに反発して兵を起こし、宇治川で命を落とします。その後、菟道稚郎子と大鷦鷯尊（のちの仁徳天皇）は互いに皇位を譲り合い、長い空位ののち、菟道稚郎子が亡くなって大鷦鷯尊が即位した、と『日本書紀』は伝えています。これは、兄弟間の激しい権力闘争を、忠誠と自己犠牲の物語として描いた継承譚とも読むことができます。ただし、実際にどのような政治的対立があったのかを直接確認できる同時代史料はありません。"
    }
   },
   {
    "@type": "Question",
-   "name": "なぜ歴史家は公式の物語を信じないのですか？",
+   "name": "なぜ『日本書紀』の物語だけでは判断できないのですか？",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "そのパターンが都合よすぎます。危機が終わる頃には、仁徳天皇にとって有力な競争相手が二人とも死亡し、どちらのケースでも記録は彼の道のりを完全に清廉なものとして描いているからです。300年以上を経てから、正当な大和の系譜に利害を持つ歴史家たちが編纂したこの記述は、記録というより作り話に近いものになっています。"
+    "text": "『日本書紀』が成立したのは720年で、応神・仁徳の時代から数世紀後です。そのため、5世紀の王位継承をそのまま記録した同時代史料ではありません。さらに5世紀には、中国の史書『宋書』に倭国王「讃」「珍」「済」「興」「武」が登場します。これら「倭の五王」を、『日本書紀』の天皇系譜とどのように対応させるかについては、長く研究が続いています。讃については応神・仁徳・履中のいずれか、珍については仁徳・反正などに比定する説がありますが、確定しているわけではありません。つまり、『日本書紀』の系譜と『宋書』の王名を、そのまま一対一で重ねることはできません。"
    }
   },
   {
    "@type": "Question",
-   "name": "中国の記録は代わりに何を述べていますか？",
+   "name": "中国の記録は何を伝えていますか？",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "『宋書』によれば、倭の国王讃は421年と425年に中国へ朝貢使節を送り、韓国一帯に対する軍事的称号の承認を求めました。『日本書紀』が完全に省略している、重要な外交事柄です。この欠落は意図的でした。大和の王が外国の承認を必要としていたと認めれば、記録の思想的な枠組みが崩れてしまうからです。"
+    "text": "『宋書』には、5世紀の倭国王が中国南朝の宋へ使者を送ったことが記録されています。421年には倭王讃が使者を送り、425年にも讃が司馬曹達を派遣して朝貢しています。そして438年には、讃の死後に弟の珍が王位についたと記されます。珍は自らを、「使持節・都督倭・百済・新羅・任那・秦韓・慕韓六国諸軍事・安東大将軍・倭国王」と称し、その官爵を正式に認めるよう宋に求めました。宋が実際に認めたのは、「安東将軍・倭国王」でした。これは、5世紀の倭王権が東アジアの国際秩序の中で、自らの地位を外交的に承認させようとしていたことを示す重要な史料です。"
    }
   },
   {
    "@type": "Question",
-   "name": "これはどのように大阪に関連していますか？",
+   "name": "これは『日本書紀』と矛盾するのですか？",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "危機の出来事の一つである、住吉皇子による仁徳天皇への「小規模な反乱」は、実際には難波で起きた深刻な暗殺未遂でした。難波は大和権力の商業的な心臓部です。歴史家は、記録における記述が短いほど、隠蔽している事柄の深刻さが増すと指摘しています。"
+    "text": "必ずしも「矛盾」と断定することはできません。むしろ問題は、両方の記録をどのように対応させるかです。『日本書紀』は応神・仁徳・履中・反正という天皇の系譜を伝えます。『宋書』は讃・珍・済・興・武という倭国王の名を伝えます。研究者は両者を対応させようとしてきましたが、讃を誰に比定するかについても複数の説があります。国立国会図書館の整理でも、讃は応神・仁徳・履中のいずれか、珍は仁徳・反正などとする説が紹介されています。したがって、ここで重要なのは「どちらかが嘘をついている」と決めることではありません。二つの史料が、5世紀の倭王権について何を語り、何を語っていないのか、そこを見ることです。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "これは大阪とどう関係するのですか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "『日本書紀』には、仁徳天皇の即位前後に、難波を舞台とする皇位継承争いが登場します。仁徳天皇の後継者となった履中天皇の時代にも、弟の住吉仲皇子が反乱を起こし、難波宮を攻撃したと伝えられています。履中天皇は難波を脱出し、最終的に大和へ逃れます。この物語が史実をそのまま記録しているとは限りません。しかし、難波が王権の交通・物流・政治に関わる重要な場所として記憶されていたことは、考古学的にも重要な問題です。上町台地北端では5世紀に大規模な倉庫群が築かれており、難波の水運との関係も想定されています。"
    }
   }
  ]
@@ -641,383 +499,184 @@
 
 
 <div class="hero" style="background-image: url('../ojinsuccession.webp');">
-  <div class="hero-caption">大山守皇子が宇治川を渡って逃れる様子、410年頃</div>
+  <div class="hero-caption">大山守皇子が宇治川を渡る様子 — 『日本書紀』が伝える継承争い</div>
 </div>
 
 <div class="header">
   <div class="header-subtitle">エドワードと歩く大阪城 — 倉庫地区</div>
-  <h1>応神天皇の継承<br><em style="font-weight:300;font-size:0.78em">同じ物語の三つの記録</em></h1>
-  <p>応神天皇の継承は、初期日本史で最も争われた継承でした。記録は穏やかな権力移行を描いていますが、現代の研究者は激しい権力闘争の証拠を見出しています。</p>
+  <h1>応神天皇の継承<br><em style="font-weight:300;font-size:0.78em">同じ時代を語る、三つの記録</em></h1>
+  <p>応神天皇から仁徳天皇へと続く皇位継承は、『日本書紀』の物語と5世紀の中国史書との間に大きな謎を残しています。</p>
 </div>
+
+<!-- OPENING (改訂版 lead) -->
+<section style="position:relative;z-index:1;max-width:900px;margin:0 auto 40px;padding:0 20px;">
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:1.1rem;">『日本書紀』は、皇位をめぐる兄弟間の争いを、忠誠と自己犠牲によって秩序が回復する物語として描きます。</p>
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:1.1rem;">一方、中国の『宋書』には、5世紀の倭国王「讃」「珍」らが中国南朝へ使者を送り、王としての地位や将軍号の承認を求めたことが記録されています。</p>
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:1.1rem;">しかし、これらの王を『日本書紀』のどの天皇にあてるべきなのかについては、現在も議論があります。</p>
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:0;">二つの記録を重ねると、5世紀の倭王権と王位継承について、別の姿が見えてきます。</p>
+</section>
 
 <!-- QUICK ANSWERS (AEO) -->
 <section style="position:relative;z-index:1;max-width:900px;margin:0 auto 40px;padding:0 20px;">
   <div style="border:1px solid rgba(200,169,110,0.25);border-left:3px solid #c8a96e;background:rgba(26,21,16,0.6);padding:2.2rem 2.5rem;border-radius:2px;">
     <h2 style="font-family:'Cinzel',serif;font-size:1.4rem;font-weight:400;margin-bottom:1.2rem;color:#f5efe3;text-transform:uppercase;letter-spacing:0.15em;">クイックアンサー</h2>
-    <p style="font-size:1.05rem;line-height:1.7;color:#c8bfa8;margin-bottom:1.4rem;">
-      応神天皇（395〜410年頃）の崩御後の継承は、三つの異なるバージョンとして残っています。公式の『日本書紀』、現代の学術的な再構築、そして独立した中国の記録です。それぞれが違う姿を描きます。高貴な引き継ぎ、計算された権力への道、そして中国が記録したのに自国の歴史書が隠した王の承認要求です。
-    </p>
     <details class="faq-item" style="margin-bottom:0.8rem;">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">応神天皇の継承危機とは何ですか？</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">応神天皇が崩御したのは395〜410年頃とされます。『日本書紀』には、弟の菟道稚郎子が兄たちを差し置いて世継ぎに指定されたと記録されています。大山守と宇治自身という二人の皇子は、いずれも記録が「正義」と「犠牲」として位置づける形で死亡し、四男の仁徳天皇が即位しました。</p>
+    <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">応神天皇の継承危機とは何ですか？</summary>
+    <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">『日本書紀』によれば、応神天皇の死後、皇位継承をめぐって皇子たちの間に対立が起こりました。応神天皇は皇子の菟道稚郎子を皇太子に立てたとされますが、兄の大山守皇子はこれに反発して兵を起こし、宇治川で命を落とします。その後、菟道稚郎子と大鷦鷯尊（のちの仁徳天皇）は互いに皇位を譲り合い、長い空位ののち、菟道稚郎子が亡くなって大鷦鷯尊が即位した、と『日本書紀』は伝えています。これは、兄弟間の激しい権力闘争を、忠誠と自己犠牲の物語として描いた継承譚とも読むことができます。ただし、実際にどのような政治的対立があったのかを直接確認できる同時代史料はありません。</p>
     </details>
     <details class="faq-item" style="margin-bottom:0.8rem;">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">なぜ歴史家は公式の物語を信じないのですか？</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">そのパターンが都合よすぎます。危機が終わる頃には、仁徳天皇にとって有力な競争相手が二人とも死亡し、どちらのケースでも記録は彼の道のりを完全に清廉なものとして描いているからです。300年以上を経てから、正当な大和の系譜に利害を持つ歴史家たちが編纂したこの記述は、記録というより作り話に近いものになっています。</p>
+    <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">なぜ『日本書紀』の物語だけでは判断できないのですか？</summary>
+    <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">『日本書紀』が成立したのは720年で、応神・仁徳の時代から数世紀後です。そのため、5世紀の王位継承をそのまま記録した同時代史料ではありません。さらに5世紀には、中国の史書『宋書』に倭国王「讃」「珍」「済」「興」「武」が登場します。これら「倭の五王」を、『日本書紀』の天皇系譜とどのように対応させるかについては、長く研究が続いています。讃については応神・仁徳・履中のいずれか、珍については仁徳・反正などに比定する説がありますが、確定しているわけではありません。つまり、『日本書紀』の系譜と『宋書』の王名を、そのまま一対一で重ねることはできません。</p>
     </details>
     <details class="faq-item" style="margin-bottom:0.8rem;">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">中国の記録は代わりに何を述べていますか？</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">『宋書』によれば、倭の国王讃は421年と425年に中国へ朝貢使節を送り、韓国一帯に対する軍事的称号の承認を求めました。『日本書紀』が完全に省略している、重要な外交事柄です。この欠落は意図的でした。大和の王が外国の承認を必要としていたと認めれば、記録の思想的な枠組みが崩れてしまうからです。</p>
+    <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">中国の記録は何を伝えていますか？</summary>
+    <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">『宋書』には、5世紀の倭国王が中国南朝の宋へ使者を送ったことが記録されています。421年には倭王讃が使者を送り、425年にも讃が司馬曹達を派遣して朝貢しています。そして438年には、讃の死後に弟の珍が王位についたと記されます。珍は自らを、「使持節・都督倭・百済・新羅・任那・秦韓・慕韓六国諸軍事・安東大将軍・倭国王」と称し、その官爵を正式に認めるよう宋に求めました。宋が実際に認めたのは、「安東将軍・倭国王」でした。これは、5世紀の倭王権が東アジアの国際秩序の中で、自らの地位を外交的に承認させようとしていたことを示す重要な史料です。</p>
+    </details>
+    <details class="faq-item" style="margin-bottom:0.8rem;">
+    <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">これは『日本書紀』と矛盾するのですか？</summary>
+    <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">必ずしも「矛盾」と断定することはできません。むしろ問題は、両方の記録をどのように対応させるかです。『日本書紀』は応神・仁徳・履中・反正という天皇の系譜を伝えます。『宋書』は讃・珍・済・興・武という倭国王の名を伝えます。研究者は両者を対応させようとしてきましたが、讃を誰に比定するかについても複数の説があります。国立国会図書館の整理でも、讃は応神・仁徳・履中のいずれか、珍は仁徳・反正などとする説が紹介されています。したがって、ここで重要なのは「どちらかが嘘をついている」と決めることではありません。二つの史料が、5世紀の倭王権について何を語り、何を語っていないのか、そこを見ることです。</p>
     </details>
     <details class="faq-item">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">これはどのように大阪に関連していますか？</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">危機の出来事の一つである、住吉皇子による仁徳天皇への「小規模な反乱」は、実際には難波で起きた深刻な暗殺未遂でした。難波は大和権力の商業的な心臓部です。歴史家は、記録における記述が短いほど、隠蔽している事柄の深刻さが増すと指摘しています。</p>
+    <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">これは大阪とどう関係するのですか？</summary>
+    <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">『日本書紀』には、仁徳天皇の即位前後に、難波を舞台とする皇位継承争いが登場します。仁徳天皇の後継者となった履中天皇の時代にも、弟の住吉仲皇子が反乱を起こし、難波宮を攻撃したと伝えられています。履中天皇は難波を脱出し、最終的に大和へ逃れます。この物語が史実をそのまま記録しているとは限りません。しかし、難波が王権の交通・物流・政治に関わる重要な場所として記憶されていたことは、考古学的にも重要な問題です。上町台地北端では5世紀に大規模な倉庫群が築かれており、難波の水運との関係も想定されています。</p>
     </details>
   </div>
 </section>
 
 
 <div class="column-key">
-  <div class="key-item"><div class="key-dot key-china"></div> 『日本書紀』 — 公式バージョン</div>
-  <div class="key-item"><div class="key-dot key-japan"></div> 歴史家の再構築</div>
-  <div class="key-item"><div class="key-dot key-korea"></div> 中国の記録 — 『宋書』</div>
-  <div class="key-item"><div class="key-dot key-influence"></div> 資料をまたぐ重要な転換点</div>
-</div>
-
-<div class="era-nav">
-  <button class="era-btn active" onclick="filterEra('all', event)">すべて</button>
-  <button class="era-btn" onclick="filterEra('provocation', event)">応神天皇の死</button>
-  <button class="era-btn" onclick="filterEra('struggle', event)">闘争</button>
-  <button class="era-btn" onclick="filterEra('silence', event)">仁徳天皇の治世</button>
-  <button class="era-btn" onclick="filterEra('pattern', event)">パターン</button>
+  <div class="key-item"><span class="item-badge b-legend">伝承</span> 『日本書紀』が伝える物語</div>
+  <div class="key-item"><span class="item-badge b-source">史料</span> 中国史書『宋書』の記録</div>
+  <div class="key-item"><span class="item-badge b-arch">考古学</span> 倉庫群と地形から見る5世紀</div>
 </div>
 
 <div class="timeline-wrapper">
 
-  <div class="col-headers">
-    <div class="col-header china">『日本書紀』（公式）</div>
-    <div class="col-header spine"></div>
-    <div class="col-header japan">歴史家の再構築</div>
-    <div class="col-header spine"></div>
-    <div class="col-header korea">中国の記録 — 『宋書』</div>
+
+  <div class="era-group">
+    <div class="era-header"><div class="era-header-line"></div><span>『日本書紀』が描く継承</span><div class="era-header-line"></div></div>
+    <div class="chapter-cards">
+      <div class="event-card" onclick="toggle(this)">
+        <span class="item-badge b-legend">伝承</span>
+        <div class="card-title">菟道稚郎子が皇太子になる</div>
+        <div class="card-body">『日本書紀』によれば、応神天皇は皇子の菟道稚郎子を皇太子に立てました。しかし、菟道稚郎子には兄たちがいました。その中の一人、大山守皇子はこの決定に反発します。ここで注目すべきなのは、年長の皇子ではなく、弟が皇太子に選ばれていることです。ただし、これを「意図的な挑発」や「計算された政治戦略」と断定することはできません。『日本書紀』が伝えるのは、あくまでそのような皇位継承の物語です。</div>
+        <span class="card-expand">クリックして展開</span>
+      </div>
+      <div class="event-card" onclick="toggle(this)">
+        <span class="item-badge b-legend">伝承</span>
+        <div class="card-title">大山守皇子の死 — 宇治川での争い</div>
+        <div class="card-body">大山守皇子は兵を集め、菟道稚郎子を討とうとしたと『日本書紀』は伝えます。しかし、計画は察知され、大山守皇子は宇治川で敗れて命を落とします。物語の中では、これは皇太子に対する反逆の結果として描かれています。ただし、現代の研究から、実際に大山守皇子がどのような政治的立場にあり、何が起きたのかを直接復元することはできません。「競争相手を排除した事件」と見ることは一つの解釈ですが、「朝廷が暗殺を隠蔽した」とまで断定する根拠はありません。</div>
+        <span class="card-expand">クリックして展開</span>
+      </div>
+      <div class="event-card" onclick="toggle(this)">
+        <span class="item-badge b-legend">伝承</span>
+        <div class="card-title">菟道稚郎子と大鷦鷯尊 — 三年間の皇位空白</div>
+        <div class="card-body">大山守皇子が亡くなった後も、皇位継承はすぐには決着しません。『日本書紀』によれば、菟道稚郎子と大鷦鷯尊は互いに皇位を譲り合います。その状態が三年間続き、最終的に菟道稚郎子が亡くなった後、大鷦鷯尊が即位します。後世、菟道稚郎子の死は「兄に皇位を譲るための自己犠牲」として理解されてきました。しかし、歴史的にどのような事情があったのかは分かりません。</div>
+        <span class="card-expand">クリックして展開</span>
+      </div>
+    </div>
   </div>
 
-  <!-- ERA 1: ŌJIN'S DEATH -->
-  <div class="era-group" data-era="provocation">
 
-    <div class="tri-row">
-      <div class="era-header" style="grid-column:1/-1"><div class="era-header-line"></div><span>応神天皇の死 — 挑発（395〜410年頃）</span><div class="era-header-line"></div></div>
-    </div>
-
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">395〜410年頃</span>
-          <span class="card-dynasty">皇位継承</span>
-          <div class="card-title">応神天皇が弟を指名</div>
-          <div class="card-body">第十五代天皇である応神天皇は崩御し、意図的で異例な選択を残しました。弟の菟道稚郎子が、伝統的により強い正統性を持つ兄たちを差し置いて世継ぎに指定されたのです。『日本書紀』はこれを天皇の個人的な好意の素直な表れとして描くだけで、政治的な計算や予想される紛争には一切触れません。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
+  <div class="era-group">
+    <div class="era-header"><div class="era-header-line"></div><span>『宋書』が伝える倭王権</span><div class="era-header-line"></div></div>
+    <div class="chapter-cards">
+      <div class="event-card" onclick="toggle(this)">
+        <span class="card-date">421年・425年</span>
+        <span class="item-badge b-source">史料</span>
+        <div class="card-title">421年 — 倭王讃</div>
+        <div class="card-body">『宋書』によれば、421年、倭王讃が宋へ使者を送りました。さらに425年にも、讃は司馬曹達を派遣して方物を献上しています。ここで注意したいのは、421年・425年の外交記録が『日本書紀』に登場しないこと自体から、意図的な隠蔽と断定することはできないということです。『日本書紀』と『宋書』は、目的も成立時期も異なる史料だからです。</div>
+        <span class="card-expand">クリックして展開</span>
       </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">395〜410年頃</span>
-          <span class="tour-badge">ツアーで訪問</span>
-          <span class="card-dynasty">政治的解釈</span>
-          <div class="card-title">計算された挑発</div>
-          <div class="card-body">歴史家は、複数の兄を差し置いて弟を指名したことを、単なる個人的な好意ではなく計算された政治的行動と読んでいます。兄弟の間で暴力的な紛争がほぼ避けられないものになる、そのような一手でした。応神天皇は複数の后との間に20人以上の息子がいたと言われており、弟を選ぶことはすべての兄に正当な不満を抱かせることを意味します。最も強い者が勝ち残るための意図的な戦略だったのか、単に大きく外れた好意だったのか、その答えは記録は出してくれません。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">395〜410年頃</span>
-          <span class="card-dynasty">外交的沈黙</span>
-          <div class="card-title">接触の記録なし</div>
-          <div class="card-body">中国の記録はこの時期、完全に沈黙しています。応神天皇の崩御と、その後の継承危機を左右する年代に、倭からの朝貢使節は一つも記録されていません。この沈黙自体が情報になります。外交的に孤立していたのか、大陸に向けて自信を示すほど国内が安定していなかったのか、そのどちらかを示しているのです。継承危機にある王国は、大使を送りません。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
+      <div class="event-card" onclick="toggle(this)">
+        <span class="card-date">438年</span>
+        <span class="item-badge b-source">史料</span>
+        <div class="card-title">438年 — 倭王珍</div>
+        <div class="card-body">『宋書』は、讃が亡くなった後、弟の珍が王位についたと記します。珍は宋へ使者を送り、自ら広範な軍事的権限を含む官爵号を称しました。そこには、倭・百済・新羅・任那・秦韓・慕韓の六国に対する軍事的権限が含まれていました。しかし宋が承認したのは、その一部である安東将軍・倭国王でした。これは非常に重要です。5世紀の倭王は、単に中国に朝貢していたのではありません。東アジアの国際秩序の中で、自らの政治的・軍事的地位を交渉していたのです。</div>
+        <span class="card-expand">クリックして展開</span>
       </div>
     </div>
-
   </div>
 
-  <!-- ERA 2: THE SUCCESSION STRUGGLE -->
-  <div class="era-group" data-era="struggle">
 
-    <div class="tri-row">
-      <div class="era-header" style="grid-column:1/-1"><div class="era-header-line"></div><span>継承闘争 — 二人の皇子の死（395〜410年頃）</span><div class="era-header-line"></div></div>
-    </div>
-
-    <!-- Ōyamamori -->
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">395〜410年頃</span>
-          <span class="card-dynasty">裏切りへの懲罰</span>
-          <div class="card-title">大山守、宇治川で命を落とす</div>
-          <div class="card-body">王位を逃れた兄・大山守皇子は、世継ぎの菟道稚郎子を排除しようと謀反を図ります。計画は発覚し、宇治川まで追跡されて溺死しました。『日本書紀』はこれを自然の法として描きます。叛逆した皇子は当然の運命を受けた、と。彼の死は自らの裏切りへの当然の結果として語られ、権力者の誰もこの排除から利益を得ていないかのような印象を与えます。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
+  <div class="era-group">
+    <div class="era-header"><div class="era-header-line"></div><span>二つの記録を重ねる</span><div class="era-header-line"></div></div>
+    <div class="chapter-cards">
+      <div class="event-card" onclick="toggle(this)">
+        <span class="item-badge b-source">史料</span>
+        <div class="card-title">讃＝誰なのか？</div>
+        <div class="card-body">ここが「倭の五王」の最大の謎の一つです。『宋書』は讃・珍・済・興・武という王名を伝えます。一方、『日本書紀』は応神・仁徳・履中・反正・允恭・安康・雄略という天皇系譜を伝えます。両者を対応させる研究は長く続いていますが、完全な一致はありません。讃については、応神天皇・仁徳天皇・履中天皇などに比定する説があります。珍についても、仁徳天皇・反正天皇などの説があります。つまり、『宋書』が日本の王統を「間違って記録した」のか。あるいは、『日本書紀』が5世紀の政治状況を後世の王統に合わせて再構成したのか。あるいは、そもそも両者が記録している政治的主体が完全には一致しないのか。現在の史料だけでは、簡単に一つへ決めることはできません。</div>
+        <span class="card-expand">クリックして展開</span>
       </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">395〜410年頃</span>
-          <span class="tour-badge">ツアーで訪問</span>
-          <span class="card-dynasty">都合の良い正義</span>
-          <div class="card-title">最も危険な競争相手の排除</div>
-          <div class="card-body">大山守の死は、その後に起こる全員にとって都合が良すぎます。記録はこれを自然の正義と描いていますが、実際に起きたのは、のちの天皇にとって最も危険な競争相手の一人が、誰も直接の責任を負わずに排除された、という結果です。歴史家は、この物語の構図（競争相手が謀反を起こし、捕らえられ、逃亡中に死ぬ）こそ、のちの朝廷が標的の殺害をごまかすために組み立てる典型だと指摘します。大山守が本当に謀反を企てたのか、単に邪魔だったのかは、いまある資料からは判断できません。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
+      <div class="event-card" onclick="toggle(this)">
+        <span class="item-badge b-legend">伝承</span>
+        <span class="tour-badge">ツアーで訪問</span>
+        <div class="card-title">履中天皇と難波 — 住吉仲皇子の反乱</div>
+        <div class="card-body">仁徳天皇の死後、皇位をめぐる争いは再び起こります。『日本書紀』によれば、履中天皇の即位前、弟の住吉仲皇子が反乱を起こし、難波宮を囲みました。履中天皇は難波から脱出し、河内を経て大和へ逃れます。その後、弟の瑞歯別皇子、のちの反正天皇が住吉仲皇子を討ったとされています。これは確かに深刻な皇位継承争いです。しかし、「暗殺未遂だった」「あと一歩で成功したクーデターだった」「記述が短いほど隠蔽された事件は深刻だった」といったところまでは、史料から直接証明できません。ここは「疑わしい」と断定するより、『日本書紀』がどのように反乱を物語化しているのかを見せる方が、歴史的にも強いです。</div>
+        <span class="card-expand">クリックして展開</span>
       </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">395〜410年頃</span>
-          <span class="card-dynasty">まだ沈黙</span>
-          <div class="card-title">外部の証人なし</div>
-          <div class="card-body">大山守に何が起きようとも、中国の外交記録には痕跡が残っていません。『宋書』はこの時期の倭との接触を記録していません。『日本書紀』の記述を確かめも否定もできる外部の資料は存在しないのです。私たちは、その記録にほぼ完全に依存しています。事件から300年以上を経て編纂されたもので、大和の系譜を正当で問題のないものとして描くことに、朝廷の歴史家が直接の利害を持っていたからです。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
+      <div class="event-card" onclick="toggle(this)">
+        <span class="item-badge b-source">史料</span>
+        <div class="card-title">反正天皇と倭王珍 — 二つの系譜が接近する瞬間</div>
+        <div class="card-body">珍については、反正天皇に比定する説があります。反正天皇の和風諡号は瑞歯別天皇であり、「珍」を反正天皇にあてる説は古くから存在します。ただし、これは確定事項ではありません。国立国会図書館の資料でも、珍を反正天皇にあてる説だけでなく、仁徳天皇などにあてる説が紹介されています。したがって、このページでは「珍＝反正天皇」ではなく、「珍を反正天皇に比定する説がある」とするのが適切です。</div>
+        <span class="card-expand">クリックして展開</span>
       </div>
     </div>
-
-    <!-- Uji's Death -->
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">395〜410年頃</span>
-          <span class="card-dynasty">高貴な自己犠牲</span>
-          <div class="card-title">宇治が兄のために自殺</div>
-          <div class="card-body">世継ぎの菟道稚郎子は、兄の仁徳天皇に即位を説得できず、兄の意思に逆らって自分から即位することも望まないので、自ら命を絶ちます。記録はこれを並外れた高貴な行為として描きます。和を自分の命より重んじた皇子です。3年間、どちらの兄弟も治めようとはしませんでした。宇治は自らを完全に退くことで、膠着状態を解いたのです。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">395〜410年頃</span>
-          <span class="tour-badge">ツアーで訪問</span>
-          <span class="card-dynasty">懐疑的解釈</span>
-          <div class="card-title">自発的自殺 — それとも別のこと？</div>
-          <div class="card-body">歴史家は、自発的に死んだという物語に深い懐疑心を抱いています。もっと妥当な再構築は、宇治が排除された、つまり強制や暴力による死、あるいはのちに朝廷の歴史家が高貴な犠牲と飾りつけた、仕組まれた死です。注目すべきはパターンです。この継承の瀬戸際で、仁徳天皇にとって潜在的な競争相手だった二人が死亡しています。大山守は反逆者として、宇治は聖者として死にました。どちらのケースでも最大の利益を得たのは仁徳天皇で、どちらのケースでも記録は、彼の権力への道のりを完全に清廉なものとして描いています。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">395〜410年頃</span>
-          <span class="card-dynasty">まだ沈黙</span>
-          <div class="card-title">中国は何も記録していない</div>
-          <div class="card-body">中国の記録は、これらの継承事件が起きたとされる時期の、始めから終わりまでずっと沈黙を守り続けています。自らの記録にすら3年間の空位を残すほど激しい危機の中にいた王国なのですから、大陸との外交接触が完全に欠けているのは、大和がこの時期に外へ向かう力を持たなかったか、あるいは意志がなかったか、どちらかを示しています。安定した統治者が国際的な承認を求める準備をするまで、この沈黙は終わりません。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <!-- ERA 3: NINTOKU'S REIGN & THE DIPLOMATIC SILENCE -->
-  <div class="era-group" data-era="silence">
 
-    <div class="tri-row">
-      <div class="era-header" style="grid-column:1/-1"><div class="era-header-line"></div><span>仁徳天皇の治世 — 権力の確立、中国の無視（410〜430年頃）</span><div class="era-header-line"></div></div>
-    </div>
-
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">410年頃</span>
-          <span class="card-dynasty">仁政の治世</span>
-          <div class="card-title">仁徳天皇が即位</div>
-          <div class="card-body">すべての競争相手が排除されるか死亡したのち、応神天皇の四男である仁徳天皇が即位し、記録が日本史上最も仁政に満ちた治世の一つとして描く時代が始まります。民が貧困に苦しむのを見て税の徴収をやめ、自分は質素に暮らして国が回復するのを待ったといわれています。『日本書紀』は、即位は穏やかなものだったと描き、その統治を黄金時代として位置づけます。権力を握った頃には、継承の混乱はとうに古代の歴史として描かれていました。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">410年頃</span>
-          <span class="tour-badge">ツアーで訪問</span>
-          <span class="card-dynasty">最後の生き残り</span>
-          <div class="card-title">仁徳天皇は穏やかに即位しなかった</div>
-          <div class="card-body">仁徳天皇は、最後に天皇になった人物です。応神天皇の四男で、正常的な継承の順序なら、少なくとも三人の兄が彼と皇位の間に立っていたことになります。記録がその死を明確に説明しているのは二人だけです。大山守と宇治です。ほかの人たちに何が起きたのかは、ほぼ沈黙のままです。歴史家は、仁政を敷いた天皇という物語こそ、権力への道筋を片づける必要があった統治者に、朝廷が当てはめる遺産づくりの典型だと指摘します。仁徳天皇は、おそらく良い統治者だったでしょう。ただ、清廉な形で即位したかどうかは、別の問題です。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">410〜420年頃</span>
-          <span class="card-dynasty">目立つ不在</span>
-          <div class="card-title">仁徳天皇の治世中の朝貢使節なし</div>
-          <div class="card-body">『日本書紀』が仁徳天皇の治世を長く、安定し、繁栄したものと描いているにもかかわらず、つまり強い統治者が国際的な承認を求めるまさにその条件がそろっているにもかかわらず、中国は彼の治世中の倭からの朝貢使節を記録していません。これは大きな省略です。対照的に、421年と425年には使節が記録されています。仁徳天皇が中国に大使を送らなかったのか、あるいは使節を送った王は仁徳天皇ではなく、この時期に倭を治めていたのは誰なのか、という不快な疑問が浮かびます。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
+  <div class="era-group">
+    <div class="era-header"><div class="era-header-line"></div><span>5世紀の難波</span><div class="era-header-line"></div></div>
+    <div class="chapter-cards">
+      <div class="event-card" onclick="toggle(this)">
+        <span class="card-date">5世紀</span>
+        <span class="item-badge b-arch">考古学</span>
+        <span class="tour-badge">ツアーで訪問</span>
+        <div class="card-title">法円坂の大型倉庫群 — 王権の物流拠点</div>
+        <div class="card-body">上町台地北端の法円坂では、5世紀の大型倉庫群が発見されています。東群6棟、西群10棟、合計16棟の倉庫が整然と配置され、平均床面積は約90平方メートルに達します。研究では、これらは古墳時代中期の倭王権の拠点的な倉庫群と評価され、北側の淀川河口に近い立地から、難波津の水運との密接な関係も想定されています。これは、応神・仁徳の継承争いそのものを証明する遺跡ではありません。しかし、同じ5世紀の上町台地に、大量の物資を集積し、管理することのできる大規模な政治・物流拠点が存在していたことを示しています。ここに、文献史料と考古学をつなぐ重要な手がかりがあります。</div>
+        <span class="card-expand">クリックして展開</span>
       </div>
     </div>
-
-    <div class="tri-row">
-      <div class="influence-row" style="grid-column:1/-1">
-        <span class="influence-label">421年</span>
-        <span class="arrow">→</span>
-        <span style="font-style:italic; font-size:0.8rem; color:var(--faded)">倭の国王讃が劉宋中国に接触 — 『日本書紀』は何も記録していません</span>
-        <span class="arrow">→</span>
-        <span class="influence-label">省略の始まり</span>
-      </div>
-    </div>
-
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">421年と425年</span>
-          <span class="card-dynasty">完全な沈黙</span>
-          <div class="card-title">記載なし — これらの出来事は存在しない</div>
-          <div class="card-body">『日本書紀』には、421年と425年の中国への朝貢使節に対応する記録が一切ありません。東アジアで最強の王朝に対する大きな外交的取り組み（4年間に2度実施）が、公式の日本記録にまったく残っていないのです。これは単なる見落としではありません。『日本書紀』は注意深く、政治的な目的をもって編纂されました。載っていないものは、意図的に除外されたのです。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">421年と425年</span>
-          <span class="card-dynasty">省略の意味</span>
-          <div class="card-title">物語を複雑にしたために省略された</div>
-          <div class="card-body">この二重の省略は、『日本書紀』の著者がこれらの使節を知っていたのに、あえて載せなかったことを強く示しています。理由は、記録が語るはずだった自然な大和の支配の物語が、それを取りこぼすと複雑になってしまうからです。自らの統治者が外国の宮廷を訪れ、承認を求めたと認めることは（記録がすでに従属していると描いている韓国領土に対する軍事的称号の承認も含みます）、この文書全体の思想的な枠組みを崩してしまうからです。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">421年と425年</span>
-          <span class="card-dynasty">外部の記録</span>
-          <div class="card-title">国王讃が中国に承認を要求</div>
-          <div class="card-body">『宋書』によると、倭の国王讃は421年と425年、両方の年に劉宋王朝へ朝貢使節を送りました。倭の王として認められたのです。2度目の使節では、中国に対し、大和が朝鮮半島で持つ軍事的な権限を正式に認めるよう、明確に要求しています。新羅、百済、伽耶を含みます。讃は、『日本書紀』がのちに自明で議論の余地のないと描く主張を、外国の超大国に正統化してもらおうとしているのです。正確な人物はまだ論争中で、応神天皇、仁徳天皇、あるいは反正天皇の可能性があります。日本と中国の記録は、この点で一致しません。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ERA 4: RICHŪ, HANZEI & THE PATTERN -->
-  <div class="era-group" data-era="pattern">
-
-    <div class="tri-row">
-      <div class="era-header" style="grid-column:1/-1"><div class="era-header-line"></div><span>履中天皇、反正天皇、そしてパターンの確立（430〜440年頃）</span><div class="era-header-line"></div></div>
-    </div>
-
-    <!-- Suminoe assassination attempt -->
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">430年頃</span>
-          <span class="card-dynasty">小規模な反乱</span>
-          <div class="card-title">住吉が不始末を罰される</div>
-          <div class="card-body">新しく即位した履中天皇の弟、住吉仲皇子は、記録が「反乱」と呼ぶことを起こします。発覚し、暴かれて処刑されます。『日本書紀』の記述は簡潔で、この騒動をすぐに片づけられた小規模な事件として描きます。継承の際に時折起こる予測可能な不始末で、後遺症を残さずにきっちり処理された、という書き方です。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">430年頃</span>
-          <span class="tour-badge">ツアーで訪問</span>
-          <span class="card-dynasty">ほぼ成功したクーデター</span>
-          <div class="card-title">難波での深刻な暗殺未遂</div>
-          <div class="card-body">住吉が履中天皇に仕掛けたのは、小規模な反乱ではありませんでした。難波で起きた、深刻で、あと一歩で成功しそうだった暗殺未遂です。難波は大和権力の商業的・政治的な心臓部で、あらゆる外国貿易と外交接触が行き交う港でした。履中天皇は辛うじて逃れています。王国でもっとも戦略的に重要な場所で仕掛けられたクーデター未遂であり、王位への正当な権利を主張できる男がやったことです。『日本書紀』の記述が簡潔であること自体が疑わしいのです。記述が短いほど、隠蔽している事件の深刻さが増します。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">430年頃</span>
-          <span class="card-dynasty">讃が死亡</span>
-          <div class="card-title">弟が即位 — しかしどの弟か？</div>
-          <div class="card-body">『宋書』は、倭の国王讃がこの時期に崩御し、弟の珍がすぐに即位したと記録しています。中国は珍を弟と記録しています。息子でも従兄弟でもなく、弟です。讃が履中天皇で珍が反正天皇なら、その関係は『日本書紀』と合います。しかし讃が仁徳天皇なら、継承の系列がどこか間違っていない限り、珍が反正天皇であるはずがありません。歴史家は、この不一致を完全に解いていません。中国の人々は、日本の朝廷の神話など気にしていませんでした。誰が来て、何を言ったか、それを記録しただけです。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mizuhawake / Hanzei -->
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">430〜438年頃</span>
-          <span class="tour-badge">ツアーで訪問</span>
-          <span class="card-dynasty">忠誠への報酬</span>
-          <div class="card-title">瑞歯別が忠誠を証明</div>
-          <div class="card-body">弟の瑞歯別皇子は住吉の陰謀を告発し、彼を法に引き渡すのを助けます。履中天皇は感謝し、報いたのです。記録はこれを、天皇への忠誠で信頼できる弟の素直な行動として描きます。瑞歯別はその後、皇太子に指名されます。この記述は、自然で当然の結末（忠誠が報われ、裏切りが罰され、秩序が回復した）をほのめかしています。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">430〜438年頃</span>
-          <span class="tour-badge">ツアーで訪問</span>
-          <span class="card-dynasty">忠誠の中の裏切り</span>
-          <div class="card-title">瑞歯別が殺害を仕組み — そして世継ぎに</div>
-          <div class="card-body">瑞歯別は、住吉を告発しただけではありませんでした。賄賂を渡した従者を使って住吉の暗殺を仕組んだのです。捕まえるのではなく、殺してしまったのです。その手腕で自らの地位を確立し、履中天皇が自分の子を差し置いてまで瑞歯別を皇太子に指名させるほど、効果的でした。歴史家は、この一連の出来事をかなり疑わしく見ています。競争相手を殺すことで忠誠を示し、天皇の直系の後継者を外して、継承権をすぐさま報酬として手にするのです。日本史を長く見ている者なら、見慣れたパターンに収まります。瑞歯別は、のちの反正天皇です。パターンは、ここで完全に確立されました。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">438年</span>
-          <span class="card-dynasty">珍が中国に接触</span>
-          <div class="card-title">両資料が部分的に一致する唯一の瞬間</div>
-          <div class="card-body">珍（ほぼ間違いなく反正天皇）は438年に劉宋へ朝貢使節を送りました。中国の記録では兄の讃を継いだとされており、履中天皇から反正天皇への継承については、少なくとも原則として『日本書紀』と一致します。韓国領土に対する軍事的称号を要求し、中国は一部を認めて一部を拒否しました。日本の資料にはまったく出てこない外交的な拒絶です。これは二つの記録が部分的に一致する唯一の箇所で、その部分的一致が、周囲の食い違いをかえって際立たせています。資料が一致するところでは像が鮮明になり、食い違うところでは、だれかが嘘をついていることになります。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="tri-row">
-      <div class="influence-row" style="grid-column:1/-1">
-        <span class="influence-label">パターン</span>
-        <span class="arrow">→</span>
-        <span style="font-style:italic; font-size:0.8rem; color:var(--faded)">競争相手は死に、忠誠は権力で報われ、公式記録はすべての結末を自然で清廉なものとして描きます。</span>
-        <span class="arrow">→</span>
-        <span class="influence-label">1200年後：家康</span>
-      </div>
-    </div>
-
-    <div class="tri-row">
-      <div class="col-china"><div class="empty"></div></div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">今日</span>
-          <span class="tour-badge">ツアーで訪問</span>
-          <div class="card-title">倉庫は今もここに残っています。それを満たした王国はもうありません。</div>
-          <div class="card-body">難波の水辺に立ってみてください。大和の権力が外へ流れ、世界の品物が入ってきた港です。ここに建っていた倉庫は、300年分の貿易関係と、兄弟を殺し、競争相手を賄賂で懐柔し、国内では作れない承認を中国に求めて大使を送った統治者たちの野望のうえに建てられました。ここから見える大阪城は、1200年後に同じ論理のうえに建てられています。秀吉は破られると知りながら約束し、家康はそれを破りました。公式記録はこれを清廉な結末と呼びました。物的な証拠は、そう呼びません。あなたがいま見ているパターンは、ここから始まりました。</div>
-          <span class="card-expand">クリックして展開</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea"><div class="empty"></div></div>
-    </div>
-
   </div>
 
 </div>
 
-  <section style="max-width:900px;margin:40px auto 60px;padding:0 20px;">
+<!-- RECORDS: HOW TO READ THE GAPS -->
+<section style="max-width:900px;margin:10px auto 50px;padding:0 20px;position:relative;z-index:1;">
+  <div style="border:1px solid rgba(200,169,110,0.25);border-left:3px solid #c8a96e;background:rgba(26,21,16,0.55);padding:2rem 2.4rem;border-radius:2px;">
+    <h2 style="font-family:'Cinzel',serif;font-size:1.5rem;font-weight:400;margin-bottom:1.1rem;color:#f5efe3;text-align:center;letter-spacing:0.1em;">記録の空白をどう読むか</h2>
+    <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:1.1rem;">『日本書紀』と『宋書』は、同じ5世紀の倭を語っているように見えます。しかし、その姿は同じではありません。</p>
+    <p style="font-size:1.05rem;line-height:2;color:#c8bfa8;margin-bottom:0.8rem;"><strong style="font-family:'Cinzel',serif;color:#f5efe3;">『日本書紀』</strong>　皇子 → 皇位継承 → 忠誠 → 反逆 → 自己犠牲 → 正統な即位という王統の物語を描きます。</p>
+    <p style="font-size:1.05rem;line-height:2;color:#c8bfa8;margin-bottom:0.8rem;"><strong style="font-family:'Cinzel',serif;color:#f5efe3;">『宋書』</strong>　倭王 → 朝貢 → 官爵 → 国際的承認 → 軍事的称号という外交の記録を残します。</p>
+    <p style="font-size:1.05rem;line-height:2;color:#c8bfa8;margin-bottom:1.1rem;"><strong style="font-family:'Cinzel',serif;color:#f5efe3;">法円坂の倉庫群</strong>　物資 → 水運 → 集積 → 管理 → 王権という、物質的な世界を示します。</p>
+    <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:0;">三つを重ねると、5世紀の倭王権を一つの物語だけで理解することが難しいことが分かります。</p>
+  </div>
+</section>
+
+<!-- THE WAREHOUSES ARE STILL HERE -->
+<section style="max-width:900px;margin:0 auto 50px;padding:0 20px;position:relative;z-index:1;">
+  <h2 style="font-family:'Cinzel',serif;font-size:1.6rem;font-weight:400;margin-bottom:1.1rem;color:#f5efe3;text-align:center;letter-spacing:0.08em;">倉庫は今もここにある</h2>
+  <p style="font-size:1.1rem;line-height:1.9;color:#c8bfa8;margin-bottom:1rem;text-align:center;">上町台地北端に立ってみてください。</p>
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:1rem;">ここは後世の大阪城だけでなく、そのはるか以前から、河川と海上交通を通じて物資が集まり、政治的な活動が展開した場所でした。5世紀の法円坂倉庫群は、その巨大な物流システムの一部だったと考えられています。</p>
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:1rem;">『日本書紀』は、この時代を皇位継承の物語として語りました。『宋書』は、同じ時代の倭王を中国との外交の中に記録しました。そして考古学は、上町台地に残された倉庫と地形から、当時の政治と物流の規模を探ろうとしています。</p>
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:0;text-align:center;">同じ時代を語る三つの記録。そのどれもが、完全な全体像ではありません。<br>だからこそ、難波を歩く意味があります。</p>
+</section>
+
+<section style="max-width:900px;margin:40px auto 60px;padding:0 20px;">
   <div class="callout">
     <h2 style="font-family:'Cinzel',serif; font-size:2rem; margin-bottom:20px; text-align:center;">
       大阪城で物語を続けましょう
     </h2>
-<p style="font-size:1.15rem;line-height:1.8;">
-      応神天皇の継承に現れたパターン（競争相手の排除、忠誠への権力による報酬、そしてすべての結末を清廉で不可避と描く公式記録）は、5世紀に埋もれたままではありませんでした。それは日本の権力そのものの根底にある文法となり、氏族から氏族へと繰り返され、ついに大阪城が建つ原野で噴き上がったのです。
+    <p style="font-size:1.15rem;line-height:1.8;">
+      応神天皇から仁徳天皇へ。仁徳天皇から履中天皇へ。そして、5世紀の倭王「讃」「珍」「済」「興」「武」へ。
+    </p>
+    <p style="font-size:1.15rem;line-height:1.8;margin-top:16px;">
+      皇位継承の物語と、中国との外交記録を重ねると、5世紀の倭王権は、私たちが後世の系譜だけから想像するよりも複雑な世界に置かれていたことが見えてきます。そして、その政治と物流の舞台の一つが、ここ難波でした。
+    </p>
+    <p style="font-size:1.15rem;line-height:1.8;margin-top:16px;">
+      法円坂の倉庫群。古代の港。上町台地。そして、その上に建てられた大阪城。<br>
+      大阪の地面には、王権の物語だけでなく、その王権を支えた物流と外交の痕跡も積み重なっています。<br>
+      その続きを、大阪城で探してみましょう。
     </p>
   </div>
 </section>
@@ -1025,14 +684,6 @@
 <script>
   function toggle(el) {
     el.classList.toggle('expanded');
-  }
-
-  function filterEra(era, e) {
-    document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
-    e.target.classList.add('active');
-    document.querySelectorAll('.era-group').forEach(g => {
-      g.classList.toggle('hidden', era !== 'all' && g.dataset.era !== era);
-    });
   }
 
   // Scroll reveal
@@ -1053,7 +704,7 @@
 <section style="max-width:900px;margin:0 auto 60px;padding:0 20px;">
   <div style="border:1px solid rgba(200,169,110,0.25);border-left:3px solid #c8a96e;background:rgba(26,21,16,0.5);padding:2.2rem 2.5rem;border-radius:2px;">
     <h2 style="font-family:'Cinzel',serif;font-size:1.7rem;font-weight:400;margin-bottom:1rem;text-align:center;color:#f5efe3;">探索を続ける</h2>
-    <p style="font-size:1.05rem;line-height:1.7;color:#c8bfa8;margin-bottom:1.4rem;text-align:center;">応神天皇の継承はこの地で決まりました——その正統性の神話は、のちにこの地を治めたあらゆる王朝にまで響いています。</p>
+    <p style="font-size:1.05rem;line-height:1.7;color:#c8bfa8;margin-bottom:1.4rem;text-align:center;">同じ時代を語る三つの記録——『日本書紀』『宋書』、そして台地に残された倉庫群——が交わるのはこの地です。</p>
     <ul style="list-style:none;padding:0;margin:0 0 1.4rem;">
         <li><a href="/ja/yayoi_timeline.html">日本の弥生時代</a> — 四人の王が治めた前の世界</li>
         <li><a href="/ja/empress_jingu_timeline.html">神功皇后：伝説と史実を分かつ</a> — 応神の誕生神話に絡まる伝説の統治者</li>

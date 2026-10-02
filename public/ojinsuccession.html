@@ -23,24 +23,24 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Ōjin Succession — Three Versions of the Same Story</title>
+<title>The Ōjin Succession — Three Records of the Same Era</title>
 
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Ōjin Succession — Three Versions of the Same Story">
-<meta property="og:description" content="The Ojin succession as three versions of the same story, each revealing how legitimacy was constructed in early Japan.">
+<meta property="og:title" content="The Ōjin Succession — Three Records of the Same Era">
+<meta property="og:description" content="The succession from Emperor Ōjin to Emperor Nintoku, read through three records: the Nihon Shoki’s story, the Chinese Book of Song’s diplomacy, and the warehouses of 5th-century Naniwa.">
 <meta property="og:url" content="https://osakacastletours.com/ojinsuccession">
 <meta property="og:image" content="https://osakacastletours.com/ojinsuccession.webp">
 <meta property="og:image:width" content="1915">
 <meta property="og:image:height" content="821">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Ōjin Succession — Three Versions of the Same Story">
-<meta name="twitter:description" content="The Ojin succession as three versions of the same story, each revealing how legitimacy was constructed in early Japan.">
+<meta name="twitter:title" content="The Ōjin Succession — Three Records of the Same Era">
+<meta name="twitter:description" content="The succession from Emperor Ōjin to Emperor Nintoku, read through three records: the Nihon Shoki’s story, the Chinese Book of Song’s diplomacy, and the warehouses of 5th-century Naniwa.">
 <meta name="twitter:image" content="https://osakacastletours.com/ojinsuccession.webp">
 
 <meta property="og:site_name" content="Osaka Castle Walks with Edward">
-<meta name="description" content="The Ojin succession as three versions of the same story, each revealing how legitimacy was constructed in early Japan.">
+<meta name="description" content="The succession from Emperor Ōjin to Emperor Nintoku, read through three records: the Nihon Shoki’s story, the Chinese Book of Song’s diplomacy, and the warehouses of 5th-century Naniwa.">
 <meta name="author" content="Edward Iftody">
 <link rel="canonical" href="https://osakacastletours.com/ojinsuccession">
 <link rel="alternate" hreflang="en" href="https://osakacastletours.com/ojinsuccession">
@@ -174,47 +174,6 @@
     text-transform: uppercase;
   }
 
-  .key-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .key-china { background: var(--china-red); }
-  .key-japan { background: var(--japan-rust); }
-  .key-korea { background: var(--korea-blue); }
-  .key-influence { background: var(--gold); }
-
-  .era-nav {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 16px 40px 20px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .era-btn {
-    font-family: 'Cinzel', serif;
-    font-size: 0.84rem;
-    letter-spacing: 0.12em;
-    padding: 5px 12px;
-    border: 1px solid rgba(200, 169, 110, 0.3);
-    background: transparent;
-    color: var(--parchment-dim);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-  }
-
-  .era-btn:hover, .era-btn.active {
-    background: var(--gold);
-    color: var(--parchment-dim);
-    border-color: var(--gold);
-  }
-
   .timeline-wrapper {
     max-width: 1200px;
     margin: 0 auto;
@@ -223,22 +182,14 @@
     z-index: 1;
   }
 
-  .tri-row {
+  .chapter-cards {
     display: grid;
-    grid-template-columns: 1fr 2px 1fr 2px 1fr;
-    gap: 0;
-    margin-bottom: 0;
-    position: relative;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+    margin-bottom: 10px;
   }
 
-  .col-china { grid-column: 1; }
-  .col-spine-left { grid-column: 2; background: var(--line); min-height: 20px; }
-  .col-japan { grid-column: 3; }
-  .col-spine-right { grid-column: 4; background: var(--line); min-height: 20px; }
-  .col-korea { grid-column: 5; }
-
   .era-header {
-    grid-column: 1 / -1;
     display: flex;
     align-items: center;
     margin: 40px 0 20px;
@@ -263,37 +214,12 @@
     white-space: nowrap;
   }
 
-  .col-headers {
-    display: grid;
-    grid-template-columns: 1fr 2px 1fr 2px 1fr;
-    margin-bottom: 10px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .col-header {
-    text-align: center;
-    font-family: 'Cinzel', serif;
-    font-size: 0.91rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    padding: 8px;
-  }
-
-  .col-header.china { color: var(--china-red); }
-  .col-header.japan { color: var(--japan-rust); }
-  .col-header.korea { color: var(--korea-blue); }
-  .col-header.spine { background: var(--line); }
-
   .event-card {
     padding: 14px 16px;
-    margin: 6px 8px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border-left: 3px solid transparent;
+    border: 1px solid rgba(200, 169, 110, 0.16);
+    border-left: 3px solid var(--gold);
+    background: rgba(26, 21, 16, 0.45);
     opacity: 0;
     transform: translateY(10px);
     transition: opacity 0.5s ease, transform 0.5s ease, background 0.2s ease, border 0.2s ease;
@@ -308,61 +234,27 @@
     background: rgba(200, 169, 110, 0.08);
   }
 
-  .event-card.china-card {
-    border-left-color: var(--china-red);
-    text-align: right;
-    margin-right: 4px;
-  }
-
-  .event-card.china-card:hover { background: rgba(212, 168, 96, 0.14); }
-
-  .event-card.korea-card {
-    border-right: 3px solid var(--korea-blue);
-    border-left: none;
-    margin-left: 4px;
-  }
-
-  .event-card.korea-card:hover { background: rgba(127, 168, 214, 0.14); }
-
-  .event-card.japan-card {
-    border-left-color: var(--japan-rust);
-    border-right: 3px solid var(--japan-rust);
-    text-align: center;
-    margin: 6px 4px;
-    background: rgba(201, 160, 106, 0.07);
-  }
-
-  .event-card.japan-card:hover { background: rgba(201, 160, 106, 0.16); }
-
-  .event-card.influence-card {
-    background: rgba(200, 169, 110, 0.12);
-    border-left-color: var(--gold);
-    border-right: 3px solid var(--gold);
-    margin: 6px 4px;
-  }
-
   .card-date {
     font-family: 'Cinzel', serif;
     font-size: 0.87rem;
     letter-spacing: 0.12em;
     margin-bottom: 4px;
     display: block;
+    color: var(--gold);
   }
 
-  .china-card .card-date { color: var(--china-red); }
-  .japan-card .card-date { color: var(--japan-rust); }
-  .korea-card .card-date { color: var(--korea-blue); }
-  .influence-card .card-date { color: var(--gold); }
-
-  .card-dynasty {
-    font-family: 'Cinzel', serif;
-    font-size: 0.81rem;
-    letter-spacing: 0.15em;
+  .item-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    opacity: 0.6;
-    display: block;
-    margin-bottom: 4px;
+    padding: 2px 9px;
+    border: 1px solid;
+    border-radius: 2px;
+    margin: 0 6px 8px 0;
   }
+  .b-legend { color: var(--rust); border-color: rgba(178, 94, 66, 0.55); }
+  .b-source, .b-arch { color: var(--gold); border-color: rgba(200, 169, 110, 0.55); }
 
   .card-title {
     font-size: 1.29rem;
@@ -400,34 +292,6 @@
 
   .event-card.expanded .card-expand { display: none; }
 
-  .influence-row {
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 0;
-    gap: 10px;
-    font-style: italic;
-    color: var(--gold);
-    font-size: 1.15rem;
-  }
-
-  .arrow {
-    font-size: 1.68rem;
-    color: var(--gold);
-  }
-
-  .influence-label {
-    background: rgba(200, 169, 110, 0.12);
-    border: 1px solid rgba(200, 169, 110, 0.4);
-    padding: 4px 14px;
-    font-family: 'Cinzel', serif;
-    font-size: 0.81rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
   .tour-badge {
     display: inline-block;
     font-family: 'Cinzel', serif;
@@ -440,33 +304,19 @@
     vertical-align: middle;
   }
 
-  .empty { padding: 8px; }
-
-  .spine-segment { background: var(--line); }
-
   .era-group { transition: opacity 0.3s ease; }
-  .era-group.hidden { display: none; }
 
   @media (max-width: 768px) {
-    .tri-row, .col-headers { grid-template-columns: 1fr; }
-    .col-china { grid-column: 1; }
-    .col-spine-left, .col-spine-right { display: none; }
-    .col-japan { grid-column: 1; }
-    .col-korea { grid-column: 1; }
-    .era-header { grid-column: 1; overflow: hidden; min-width: 0; }
-    .era-header span { white-space: normal; font-size: 0.77rem; letter-spacing: 0.08em; text-align: center; padding: 5px 10px; max-width: 60vw; display: inline-block; }
-    .event-card.china-card { text-align: left; border-left: 3px solid var(--china-red); }
-    .influence-row { flex-wrap: wrap; font-size: 1.01rem; padding: 6px 4px; }
-    .influence-label { font-size: 0.7rem; padding: 3px 8px; }
+    .chapter-cards { grid-template-columns: 1fr; gap: 10px; }
+    .era-header { overflow: hidden; min-width: 0; }
+    .era-header span { white-space: normal; font-size: 0.77rem; letter-spacing: 0.08em; text-align: center; padding: 5px 10px; max-width: 70vw; display: inline-block; }
     .card-title { word-wrap: break-word; overflow-wrap: break-word; white-space: normal; font-size: 1.23rem; }
     .card-date { word-wrap: break-word; white-space: normal; }
-    .event-card { padding: 10px 12px; margin: 4px; }
-    .col-header { font-size: 0.77rem; padding: 6px 4px; white-space: normal; word-wrap: break-word; }
-    .era-btn { font-size: 0.77rem; padding: 4px 8px; }
+    .event-card { padding: 10px 12px; }
     .timeline-wrapper { padding: 0 8px 60px; }
     .header { padding: 30px 16px 20px; }
     .header-subtitle { font-size: 0.77rem; letter-spacing: 0.15em; }
-    .card-dynasty { white-space: normal; word-wrap: break-word; }
+    .column-key { gap: 14px; padding: 16px 16px 6px; }
   }
 </style>
 <script type="application/ld+json">{
@@ -499,7 +349,7 @@
       "@type": "Article",
       "@id": "https://osakacastletours.com/ojinsuccession#article",
       "headline": "The Ōjin Succession",
-      "description": "Emperor Ōjin's succession was the most contested in early Japanese history — the Chronicles describe a smooth transition, but modern scholars see evidence of a violent power struggle.",
+      "description": "The Nihon Shoki's succession story and the 5th-century diplomatic records of the Wa kings in the Chinese Book of Song — how to read the two together.",
       "image": "https://osakacastletours.com/ojinsuccession.webp",
       "mainEntityOfPage": "https://osakacastletours.com/ojinsuccession",
       "inLanguage": "en",
@@ -512,7 +362,7 @@
         "@id": "https://osakacastletours.com/#business"
       },
       "datePublished": "2026-03-09",
-      "dateModified": "2026-08-31"
+      "dateModified": "2026-10-02"
     },
     {
       "@type": "Person",
@@ -554,26 +404,34 @@
  "mainEntity": [
   {
    "@type": "Question",
-   "name": "What was the Ōjin succession crisis?",
+   "name": "What was the Emperor Ōjin succession crisis?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "When Emperor Ōjin died (c. 395–410), the Nihon Shoki records that his younger son Uji no Wakiiratsuko was named heir, bypassing older brothers. Two princes — Ōyamamori and Uji himself — then died under circumstances the chronicles frame as justice and sacrifice, allowing the fourth son Nintoku to take the throne."
+    "text": "According to the Nihon Shoki, after Emperor Ōjin’s death a conflict arose among the princes over the succession. Ōjin is said to have named his son Prince Uji no Wakiiratsuko as heir, but his elder brother Prince Ōyamamori raised troops in opposition and lost his life at the Uji River. Thereafter Uji no Wakiiratsuko and Prince Ōsazaki (the future Emperor Nintoku) repeatedly offered each other the throne; after a long interregnum, Uji no Wakiiratsuko died and Ōsazaki took the throne — so the Nihon Shoki tells it. The account can also be read as a succession tale that turns a bitter conflict among brothers into a story of loyalty and self-sacrifice. There is, however, no contemporaneous source that allows us to confirm directly what political conflict actually occurred."
    }
   },
   {
    "@type": "Question",
-   "name": "Why do historians distrust the official story?",
+   "name": "Why can’t we judge from the Nihon Shoki story alone?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "The pattern is too convenient: at the end of the crisis, both plausible rivals to Nintoku are dead, and in both cases the chronicles present his path as entirely clean. Compiled more than three hundred years later by historians with a stake in a legitimate Yamato lineage, the account resembles crafted narrative more than record."
+    "text": "The Nihon Shoki was completed in 720, several centuries after the age of Ōjin and Nintoku. It is therefore not a contemporaneous record of 5th-century royal succession. Moreover, in the 5th century the Chinese history Book of Song introduces the Wa kings San, Chin, Sei, Kō and Bu. How these Five Kings of Wa correspond to the imperial line of the Nihon Shoki has been studied for a long time. San has been identified as Ōjin, Nintoku or Richū among others, and Chin as Nintoku or Hanzei among others, but nothing is settled. In short, the genealogy of the Nihon Shoki and the king names of the Book of Song cannot simply be overlaid one to one."
    }
   },
   {
    "@type": "Question",
-   "name": "What do the Chinese records say instead?",
+   "name": "What do the Chinese records report?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "The Book of Song records that a King San of Wa sent tribute missions to China in 421 and 425, seeking recognition and military titles over Korean territories — major diplomatic events that the Nihon Shoki omits entirely. The absence is deliberate: admitting the Yamato king needed foreign recognition would undermine the chronicle's ideological framework."
+    "text": "The Book of Song records that in the 5th century the kings of Wa sent envoys to the Song dynasty of southern China. In 421 the Wa king San sent envoys, and in 425 San dispatched Sima Caoda to present tribute. Then in 438, the record says, after San died his younger brother Chin took the throne. Chin styled himself “Commissioner with Separate Credentials, Commander of Military Affairs of the six kingdoms of Wa, Baekje, Silla, Imna, Chinhan and Mokhan, Grand General who Maintains the East, and King of Wa,” and asked Song to have the title formally recognized. What Song actually recognized was “General who Maintains the East and King of Wa.” This is an important source showing that the 5th-century Wa polity sought diplomatic recognition of its position within East Asia’s international order."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Does this contradict the Nihon Shoki?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "It cannot simply be declared a “contradiction.” The question is rather how to align the two records. The Nihon Shoki transmits the imperial line of Ōjin, Nintoku, Richū and Hanzei. The Book of Song transmits the names of the Wa kings San, Chin, Sei, Kō and Bu. Researchers have long tried to match them, but there are multiple theories of who San was. The National Diet Library’s overview likewise introduces theories placing San with Ōjin, Nintoku or Richū, and Chin with Nintoku or Hanzei among others. What matters here, then, is not to decide that “one of them is lying,” but to see what the two sources do and do not say about the 5th-century Wa polity."
    }
   },
   {
@@ -581,7 +439,7 @@
    "name": "How does this connect to Osaka?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "One of the crisis's events — Prince Suminoe's 'minor rebellion' against Emperor Richū — was actually a serious assassination attempt at Naniwa, the commercial heart of Yamato power. Historians note that in the chronicle, the shorter the entry, the more serious the event it is covering up."
+    "text": "The Nihon Shoki includes a conflict over the succession set at Naniwa around the time of Emperor Nintoku’s accession. In the reign of Emperor Richū, Nintoku’s successor, his younger brother Prince Suminoe no Ō is said to have rebelled and attacked the Naniwa Palace. Richū fled Naniwa and eventually escaped to Yamato. This story is not necessarily a verbatim record of events. But that Naniwa was remembered as an important place for the polity’s transport, logistics and politics is itself a significant archaeological question. At the northern end of the Uemachi Plateau large warehouse groups were built in the 5th century, and connections to Naniwa’s water transport are considered likely."
    }
   }
  ]
@@ -634,397 +492,184 @@
 
 
 <div class="hero" style="background-image: url('ojinsuccession.webp');">
-  <div class="hero-caption">Prince Ōyamamori escaping accross the Uji River, c. 410 AD</div>
+  <div class="hero-caption">Prince Ōyamamori crossing the Uji River — the succession struggle as the Nihon Shoki tells it</div>
 </div>
 
 <div class="header">
   <div class="header-subtitle">Osaka Castle Walks with Edward — Warehouse District Stop</div>
-  <h1>The Ōjin Succession<br><em style="font-weight:300;font-size:0.78em">Three Versions of the Same Story</em></h1>
-  <p>Emperor Ōjin's succession was the most contested in early Japanese history — the Chronicles describe a smooth transition, but modern scholars see evidence of a violent power struggle.</p>
+  <h1>The Ōjin Succession<br><em style="font-weight:300;font-size:0.78em">Three Records of the Same Era</em></h1>
+  <p>The succession from Emperor Ōjin to Emperor Nintoku leaves a lasting puzzle between the story of the Nihon Shoki and the Chinese histories of the 5th century.</p>
 </div>
+
+<!-- OPENING (lead) -->
+<section style="position:relative;z-index:1;max-width:900px;margin:0 auto 40px;padding:0 20px;">
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:1.1rem;">The Nihon Shoki draws the conflict among brothers over the throne as a story in which loyalty and self-sacrifice restore order.</p>
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:1.1rem;">The Chinese Book of Song, by contrast, records that in the 5th century the Wa kings San, Chin and others sent envoys to China’s southern dynasties, seeking recognition of their royal standing and generalships.</p>
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:1.1rem;">However, which emperors of the Nihon Shoki these kings should be identified with remains under debate.</p>
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:0;">Laying the two records together reveals a different picture of the 5th-century Wa polity and its royal successions.</p>
+</section>
 
 <!-- QUICK ANSWERS (AEO) -->
 <section style="position:relative;z-index:1;max-width:900px;margin:0 auto 40px;padding:0 20px;">
   <div style="border:1px solid rgba(200,169,110,0.25);border-left:3px solid #c8a96e;background:rgba(26,21,16,0.6);padding:2.2rem 2.5rem;border-radius:2px;">
     <h2 style="font-family:'Cinzel',serif;font-size:1.4rem;font-weight:400;margin-bottom:1.2rem;color:#f5efe3;text-transform:uppercase;letter-spacing:0.15em;">Quick Answers</h2>
-    <p style="font-size:1.05rem;line-height:1.7;color:#c8bfa8;margin-bottom:1.4rem;">
-      The succession after Emperor Ōjin (c. 395–410) survives as three separate versions: the official Nihon Shoki, modern scholarly reconstruction, and independent Chinese records. Each reveals a different picture — a noble handover, a manufactured path to power, and a king seeking recognition China recorded but his own chronicle suppressed.
-    </p>
     <details class="faq-item" style="margin-bottom:0.8rem;">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">What was the Ōjin succession crisis?</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">When Emperor Ōjin died (c. 395–410), the Nihon Shoki records that his younger son Uji no Wakiiratsuko was named heir, bypassing older brothers. Two princes — Ōyamamori and Uji himself — then died under circumstances the chronicles frame as justice and sacrifice, allowing the fourth son Nintoku to take the throne.</p>
+    <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">What was the Emperor Ōjin succession crisis?</summary>
+    <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">According to the Nihon Shoki, after Emperor Ōjin’s death a conflict arose among the princes over the succession. Ōjin is said to have named his son Prince Uji no Wakiiratsuko as heir, but his elder brother Prince Ōyamamori raised troops in opposition and lost his life at the Uji River. Thereafter Uji no Wakiiratsuko and Prince Ōsazaki (the future Emperor Nintoku) repeatedly offered each other the throne; after a long interregnum, Uji no Wakiiratsuko died and Ōsazaki took the throne — so the Nihon Shoki tells it. The account can also be read as a succession tale that turns a bitter conflict among brothers into a story of loyalty and self-sacrifice. There is, however, no contemporaneous source that allows us to confirm directly what political conflict actually occurred.</p>
     </details>
     <details class="faq-item" style="margin-bottom:0.8rem;">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">Why do historians distrust the official story?</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">The pattern is too convenient: at the end of the crisis, both plausible rivals to Nintoku are dead, and in both cases the chronicles present his path as entirely clean. Compiled more than three hundred years later by historians with a stake in a legitimate Yamato lineage, the account resembles crafted narrative more than record.</p>
+    <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">Why can’t we judge from the Nihon Shoki story alone?</summary>
+    <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">The Nihon Shoki was completed in 720, several centuries after the age of Ōjin and Nintoku. It is therefore not a contemporaneous record of 5th-century royal succession. Moreover, in the 5th century the Chinese history Book of Song introduces the Wa kings San, Chin, Sei, Kō and Bu. How these Five Kings of Wa correspond to the imperial line of the Nihon Shoki has been studied for a long time. San has been identified as Ōjin, Nintoku or Richū among others, and Chin as Nintoku or Hanzei among others, but nothing is settled. In short, the genealogy of the Nihon Shoki and the king names of the Book of Song cannot simply be overlaid one to one.</p>
     </details>
     <details class="faq-item" style="margin-bottom:0.8rem;">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">What do the Chinese records say instead?</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">The Book of Song records that a King San of Wa sent tribute missions to China in 421 and 425, seeking recognition and military titles over Korean territories — major diplomatic events that the Nihon Shoki omits entirely. The absence is deliberate: admitting the Yamato king needed foreign recognition would undermine the chronicle's ideological framework.</p>
+    <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">What do the Chinese records report?</summary>
+    <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">The Book of Song records that in the 5th century the kings of Wa sent envoys to the Song dynasty of southern China. In 421 the Wa king San sent envoys, and in 425 San dispatched Sima Caoda to present tribute. Then in 438, the record says, after San died his younger brother Chin took the throne. Chin styled himself “Commissioner with Separate Credentials, Commander of Military Affairs of the six kingdoms of Wa, Baekje, Silla, Imna, Chinhan and Mokhan, Grand General who Maintains the East, and King of Wa,” and asked Song to have the title formally recognized. What Song actually recognized was “General who Maintains the East and King of Wa.” This is an important source showing that the 5th-century Wa polity sought diplomatic recognition of its position within East Asia’s international order.</p>
+    </details>
+    <details class="faq-item" style="margin-bottom:0.8rem;">
+    <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">Does this contradict the Nihon Shoki?</summary>
+    <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">It cannot simply be declared a “contradiction.” The question is rather how to align the two records. The Nihon Shoki transmits the imperial line of Ōjin, Nintoku, Richū and Hanzei. The Book of Song transmits the names of the Wa kings San, Chin, Sei, Kō and Bu. Researchers have long tried to match them, but there are multiple theories of who San was. The National Diet Library’s overview likewise introduces theories placing San with Ōjin, Nintoku or Richū, and Chin with Nintoku or Hanzei among others. What matters here, then, is not to decide that “one of them is lying,” but to see what the two sources do and do not say about the 5th-century Wa polity.</p>
     </details>
     <details class="faq-item">
-      <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">How does this connect to Osaka?</summary>
-      <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">One of the crisis's events — Prince Suminoe's 'minor rebellion' against Emperor Richū — was actually a serious assassination attempt at Naniwa, the commercial heart of Yamato power. Historians note that in the chronicle, the shorter the entry, the more serious the event it is covering up.</p>
+    <summary style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.05em;color:#f5efe3;cursor:pointer;">How does this connect to Osaka?</summary>
+    <p style="font-size:1rem;line-height:1.7;color:#b8ae9d;margin-top:0.6rem;">The Nihon Shoki includes a conflict over the succession set at Naniwa around the time of Emperor Nintoku’s accession. In the reign of Emperor Richū, Nintoku’s successor, his younger brother Prince Suminoe no Ō is said to have rebelled and attacked the Naniwa Palace. Richū fled Naniwa and eventually escaped to Yamato. This story is not necessarily a verbatim record of events. But that Naniwa was remembered as an important place for the polity’s transport, logistics and politics is itself a significant archaeological question. At the northern end of the Uemachi Plateau large warehouse groups were built in the 5th century, and connections to Naniwa’s water transport are considered likely.</p>
     </details>
   </div>
 </section>
 
 
-<div class="cta-inline">
-  <h3>Experience This History in Person</h3>
-  <p>Explore the stone walls, hidden moats, and battleground sites Osaka Castle, personally led by Edward Iftody. One historian. Six guests. One investigation.</p>
-  <a href="https://osakacastletours.com/goddess_queen_empress_concubine.html" class="cta-btn">Book Goddess, Queen, Empress, Concubine</a>
-</div>
-
-
-
-
 <div class="column-key">
-  <div class="key-item"><div class="key-dot key-china"></div> Nihon Shoki — The Official Version</div>
-  <div class="key-item"><div class="key-dot key-japan"></div> Historian Reconstruction</div>
-  <div class="key-item"><div class="key-dot key-korea"></div> Chinese Records — Book of Song</div>
-  <div class="key-item"><div class="key-dot key-influence"></div> Cross-Source Hinge Event</div>
-</div>
-
-<div class="era-nav">
-  <button class="era-btn active" onclick="filterEra('all', event)">All</button>
-  <button class="era-btn" onclick="filterEra('provocation', event)">Ōjin's Death</button>
-  <button class="era-btn" onclick="filterEra('struggle', event)">The Struggle</button>
-  <button class="era-btn" onclick="filterEra('silence', event)">Nintoku's Reign</button>
-  <button class="era-btn" onclick="filterEra('pattern', event)">The Pattern</button>
+  <div class="key-item"><span class="item-badge b-legend">Legend</span> The story the Nihon Shoki tells</div>
+  <div class="key-item"><span class="item-badge b-source">Source</span> The record of the Chinese Book of Song</div>
+  <div class="key-item"><span class="item-badge b-arch">Archaeology</span> The 5th century seen through warehouses and terrain</div>
 </div>
 
 <div class="timeline-wrapper">
 
-  <div class="col-headers">
-    <div class="col-header china">Nihon Shoki (Official)</div>
-    <div class="col-header spine"></div>
-    <div class="col-header japan">Historian Reconstruction</div>
-    <div class="col-header spine"></div>
-    <div class="col-header korea">Chinese Records — Book of Song</div>
+
+  <div class="era-group">
+    <div class="era-header"><div class="era-header-line"></div><span>The Succession as the Nihon Shoki Draws It</span><div class="era-header-line"></div></div>
+    <div class="chapter-cards">
+      <div class="event-card" onclick="toggle(this)">
+        <span class="item-badge b-legend">Legend</span>
+        <div class="card-title">Uji no Wakiiratsuko named heir</div>
+        <div class="card-body">The Nihon Shoki says Emperor Ōjin named his son Prince Uji no Wakiiratsuko as heir. But the prince had elder brothers, and one of them — Prince Ōyamamori — opposed the decision. Worth noting is that the younger, not the elder, sons were chosen. This, however, cannot be asserted as a “deliberate provocation” or a “calculated political strategy.” What the Nihon Shoki transmits is, above all, a succession story of that shape.</div>
+        <span class="card-expand">Click to expand</span>
+      </div>
+      <div class="event-card" onclick="toggle(this)">
+        <span class="item-badge b-legend">Legend</span>
+        <div class="card-title">Prince Ōyamamori dies — the struggle at the Uji River</div>
+        <div class="card-body">Prince Ōyamamori gathered troops with the aim of attacking Uji no Wakiiratsuko, the Nihon Shoki says. But the plan was detected, and Ōyamamori was defeated and killed at the Uji River. Within the story this is drawn as the result of treason against the crown prince. Modern scholarship, however, cannot directly reconstruct what political position Ōyamamori held or what actually happened. Reading it as “an incident that eliminated a rival” is one interpretation; there is no basis for asserting outright that “the court covered up an assassination.”</div>
+        <span class="card-expand">Click to expand</span>
+      </div>
+      <div class="event-card" onclick="toggle(this)">
+        <span class="item-badge b-legend">Legend</span>
+        <div class="card-title">Uji no Wakiiratsuko and Ōsazaki — three years without an emperor</div>
+        <div class="card-body">Even after Ōyamamori’s death the succession was not settled quickly. The Nihon Shoki says Uji no Wakiiratsuko and Ōsazaki repeatedly offered each other the throne. That state continued for three years; only after Uji no Wakiiratsuko died did Ōsazaki accede. Later ages came to understand Uji no Wakiiratsuko’s death as “self-sacrifice to yield the throne to his elder brother.” But what actually happened, historically, is unknown.</div>
+        <span class="card-expand">Click to expand</span>
+      </div>
+    </div>
   </div>
 
-  <!-- ERA 1: ŌJIN'S DEATH -->
-  <div class="era-group" data-era="provocation">
 
-    <div class="tri-row">
-      <div class="era-header" style="grid-column:1/-1"><div class="era-header-line"></div><span>Ōjin's Death — The Provocation (c. 395–410)</span><div class="era-header-line"></div></div>
-    </div>
-
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">c. 395–410</span>
-          <span class="card-dynasty">Imperial Succession</span>
-          <div class="card-title">Ōjin Designates a Younger Son</div>
-          <div class="card-body">Emperor Ōjin, the fifteenth emperor, dies and leaves behind a deliberate and unusual choice: his younger son Uji no Wakiiratsuko is named heir, bypassing older brothers who hold stronger traditional claims. The Nihon Shoki presents this as a straightforward expression of the emperor's paternal preference, with no suggestion of political calculation or anticipated conflict.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
+  <div class="era-group">
+    <div class="era-header"><div class="era-header-line"></div><span>The Wa Kings in the Book of Song</span><div class="era-header-line"></div></div>
+    <div class="chapter-cards">
+      <div class="event-card" onclick="toggle(this)">
+        <span class="card-date">421 & 425</span>
+        <span class="item-badge b-source">Source</span>
+        <div class="card-title">421 — King San of Wa</div>
+        <div class="card-body">The Book of Song says that in 421 the Wa king San sent envoys to Song; in 425 San also dispatched Sima Caoda to present tribute. The point to note is that the mere absence of the 421 and 425 diplomatic records from the Nihon Shoki cannot be declared a deliberate suppression. The Nihon Shoki and the Book of Song are sources of different purposes, compiled at different times.</div>
+        <span class="card-expand">Click to expand</span>
       </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">c. 395–410</span>
-          <span class="tour-badge">On Tour</span>
-          <span class="card-dynasty">Political Reading</span>
-          <div class="card-title">A Calculated Provocation</div>
-          <div class="card-body">Historians read the designation of a younger son over multiple older brothers not as simple paternal preference but as a calculated political move — one that made violent conflict among the brothers almost inevitable. Ōjin reportedly had more than twenty sons across multiple consorts. Choosing a younger son meant every older brother had a legitimate grievance. Whether that was a deliberate strategy to test the strongest survivor, or simply a preference that went badly wrong, is a question the chronicles refuse to answer.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">c. 395–410</span>
-          <span class="card-dynasty">Diplomatic Silence</span>
-          <div class="card-title">No Contact Recorded</div>
-          <div class="card-body">The Chinese records are completely silent on this period. No tribute missions from Wa are recorded during the years surrounding Ōjin's death and the succession crisis that followed. This silence is itself informative — it suggests either diplomatic isolation or internal instability serious enough to prevent Yamato from projecting outward confidence toward the continent. A kingdom in succession crisis does not send ambassadors.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
+      <div class="event-card" onclick="toggle(this)">
+        <span class="card-date">438</span>
+        <span class="item-badge b-source">Source</span>
+        <div class="card-title">438 — King Chin of Wa</div>
+        <div class="card-body">The Book of Song records that after San died his younger brother Chin took the throne. Chin sent envoys to Song and claimed for himself an official title carrying wide military authority. It included military authority over the six kingdoms of Wa, Baekje, Silla, Imna, Chinhan and Mokhan. But what Song actually granted was only part of it: General who Maintains the East and King of Wa. This matters. The 5th-century kings of Wa were not simply paying tribute to China; within East Asia’s international order they negotiated their own political and military standing.</div>
+        <span class="card-expand">Click to expand</span>
       </div>
     </div>
-
   </div>
 
-  <!-- ERA 2: THE SUCCESSION STRUGGLE -->
-  <div class="era-group" data-era="struggle">
 
-    <div class="tri-row">
-      <div class="era-header" style="grid-column:1/-1"><div class="era-header-line"></div><span>The Succession Struggle — Two Brothers Die (c. 395–410)</span><div class="era-header-line"></div></div>
-    </div>
-
-    <!-- Ōyamamori -->
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">c. 395–410</span>
-          <span class="card-dynasty">Treachery Punished</span>
-          <div class="card-title">Ōyamamori Falls at the Uji River</div>
-          <div class="card-body">Prince Ōyamamori — an older brother passed over for the throne — plots against the designated heir Uji no Wakiiratsuko. He is caught, pursued to the Uji River, and drowns. The Nihon Shoki presents this as natural justice: a treasonous prince receives the fate he deserved. His death is framed as the righteous outcome of his own disloyalty, with no suggestion that anyone in power benefited from his removal.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
+  <div class="era-group">
+    <div class="era-header"><div class="era-header-line"></div><span>Laying the Two Records Together</span><div class="era-header-line"></div></div>
+    <div class="chapter-cards">
+      <div class="event-card" onclick="toggle(this)">
+        <span class="item-badge b-source">Source</span>
+        <div class="card-title">Who was San?</div>
+        <div class="card-body">This is one of the greatest puzzles of the Five Kings of Wa. The Book of Song transmits the king names San, Chin, Sei, Kō and Bu; the Nihon Shoki, by contrast, transmits the imperial line of Ōjin, Nintoku, Richū, Hanzei, Ingyō, Ankō and Yūryaku. Research matching the two has gone on for a long time, but there is no complete agreement. San has been identified as Ōjin, Nintoku or Richū among others; Chin as Nintoku or Hanzei among others. So either the Book of Song “misrecorded” the Japanese royal line; or the Nihon Shoki reconstructed 5th-century politics to fit a later genealogy; or the two sources are not recording the same political actors at all. With the sources we have now, it cannot simply be settled toward one of them.</div>
+        <span class="card-expand">Click to expand</span>
       </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">c. 395–410</span>
-          <span class="tour-badge">On Tour</span>
-          <span class="card-dynasty">Convenient Justice</span>
-          <div class="card-title">The Most Dangerous Rival Eliminated</div>
-          <div class="card-body">Ōyamamori's death is suspiciously convenient for everyone who came after him. The chronicles frame it as natural justice, but the result is that one of the most dangerous rivals to the eventual emperor is eliminated without anyone having to take direct responsibility for it. Historians note that the narrative structure — rival plots, rival is caught, rival dies in flight — is exactly the kind of story a later court would construct to explain away a targeted killing. Whether Ōyamamori was genuinely treasonous or simply in the way cannot be determined from the sources we have.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
+      <div class="event-card" onclick="toggle(this)">
+        <span class="item-badge b-legend">Legend</span>
+        <span class="tour-badge">On Tour</span>
+        <div class="card-title">Emperor Richū and Naniwa — Prince Suminoe no Ō’s rebellion</div>
+        <div class="card-body">After Emperor Nintoku’s death conflict over the throne broke out again. The Nihon Shoki says that before Emperor Richū’s accession his younger brother Prince Suminoe no Ō rebelled and surrounded the Naniwa Palace. Richū escaped from Naniwa and, passing through Kawachi, eventually fled to Yamato. His younger brother Prince Mizushirowake — the future Emperor Hanzei — is said to have defeated Prince Suminoe. This was indeed a serious conflict over the succession. But to go so far as to say “it was an attempted assassination,” “a coup that nearly succeeded,” or “the shorter the entry, the more serious the event it covered up” cannot be demonstrated directly from the sources. Rather than declaring the account “suspicious,” it is historically stronger to show how the Nihon Shoki turns the rebellion into a story.</div>
+        <span class="card-expand">Click to expand</span>
       </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">c. 395–410</span>
-          <span class="card-dynasty">Still Silent</span>
-          <div class="card-title">No External Witness</div>
-          <div class="card-body">Whatever happened to Ōyamamori left no trace in Chinese diplomatic records. The Book of Song records no contact with Wa during this period. There is no external source to confirm or contradict the Nihon Shoki account. We are entirely dependent on a chronicle compiled more than three hundred years after these events by court historians with a direct interest in presenting the Yamato lineage as legitimate and untroubled.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
+      <div class="event-card" onclick="toggle(this)">
+        <span class="item-badge b-source">Source</span>
+        <div class="card-title">Emperor Hanzei and King Chin — the moment the two lineages draw near</div>
+        <div class="card-body">There is a theory identifying Chin with Emperor Hanzei. Hanzei’s Japanese-style posthumous name was Mizushirowake-no-Mikoto, and the equation of “Chin” with Hanzei is an old one. But it is not settled. The National Diet Library’s materials introduce not only the theory that Chin was Emperor Hanzei, but also theories placing him with Emperor Nintoku and others. This page therefore says not “Chin = Emperor Hanzei,” but “there is a theory identifying Chin with Emperor Hanzei.”</div>
+        <span class="card-expand">Click to expand</span>
       </div>
     </div>
-
-    <!-- Uji's Death -->
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">c. 395–410</span>
-          <span class="card-dynasty">Noble Self-Sacrifice</span>
-          <div class="card-title">Uji Kills Himself for His Brother</div>
-          <div class="card-body">The designated heir Uji no Wakiiratsuko, unable to persuade his older brother Nintoku to accept the throne, and unwilling to take it himself against the wishes of an older brother, kills himself. The chronicle presents this as an act of extraordinary nobility — a prince who valued harmony over his own life. For three years, neither brother had been willing to rule. Uji's death resolves the impasse by removing himself from the equation entirely.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">c. 395–410</span>
-          <span class="tour-badge">On Tour</span>
-          <span class="card-dynasty">Skeptical Reading</span>
-          <div class="card-title">Voluntary Suicide — Or Something Else?</div>
-          <div class="card-body">Historians are deeply skeptical of the voluntary suicide narrative. The more plausible reconstruction is that Uji was removed — by coercion, by force, or by an arranged death that court historians later dressed up as noble sacrifice. The pattern is worth noting: at the end of this succession window, both potential rivals to Nintoku are dead. Ōyamamori died as a traitor. Uji died as a saint. In both cases, the man who benefited most is Nintoku — and in both cases, the chronicles present his path to power as entirely clean.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">c. 395–410</span>
-          <span class="card-dynasty">Still Silent</span>
-          <div class="card-title">China Records Nothing</div>
-          <div class="card-body">The Chinese records remain silent throughout the entire period when these succession events allegedly occurred. For a kingdom in the middle of a crisis dramatic enough to leave a three-year interregnum with no emperor — as the chronicles themselves describe — the complete absence of any diplomatic contact with the continent suggests Yamato was either unable or unwilling to project outward during these years. The silence ends only when a stable ruler is ready to seek international recognition.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <!-- ERA 3: NINTOKU'S REIGN & THE DIPLOMATIC SILENCE -->
-  <div class="era-group" data-era="silence">
 
-    <div class="tri-row">
-      <div class="era-header" style="grid-column:1/-1"><div class="era-header-line"></div><span>Nintoku's Reign — Power Secured, China Ignored (c. 410–430)</span><div class="era-header-line"></div></div>
-    </div>
-
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">c. 410</span>
-          <span class="card-dynasty">The Benevolent Reign</span>
-          <div class="card-title">Nintoku Becomes Emperor</div>
-          <div class="card-body">With all rivals removed or dead, Nintoku — the fourth son of Ōjin — ascends to the throne and begins what the chronicles describe as one of the most benevolent reigns in Japanese history. He is said to have suspended taxation when he saw his people suffering poverty, living simply himself until the realm recovered. The Nihon Shoki presents his accession as peaceful and his rule as a golden age. The chaos of the succession is presented as ancient history by the time he takes power.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">c. 410</span>
-          <span class="tour-badge">On Tour</span>
-          <span class="card-dynasty">The Last Man Standing</span>
-          <div class="card-title">Nintoku Did Not Become Emperor Peacefully</div>
-          <div class="card-body">Nintoku became emperor last. He was the fourth son of Ōjin — meaning at least three brothers stood between him and the throne in any natural order of succession. The chronicles account clearly for two of those deaths: Ōyamamori and Uji. What happened to the others is largely silence. Historians note that the benevolent-emperor narrative is exactly the kind of legacy construction a court would apply to a ruler whose path to power required significant cleaning up. Nintoku may well have been a good ruler. Whether he became one innocently is a different question.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">c. 410 – 420</span>
-          <span class="card-dynasty">A Conspicuous Absence</span>
-          <div class="card-title">No Tribute Missions During Nintoku's Reign</div>
-          <div class="card-body">Despite the Nihon Shoki describing Nintoku's reign as long, stable, and prosperous — exactly the conditions under which a strong ruler would seek international recognition — China records no tribute missions from Wa during his entire time on the throne. This is a significant omission. By contrast, missions are recorded in 421 and 425. Either Nintoku never sent ambassadors to China, or the king who did send them was not Nintoku at all — which raises uncomfortable questions about who exactly was ruling Wa during this period.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
+  <div class="era-group">
+    <div class="era-header"><div class="era-header-line"></div><span>5th-Century Naniwa</span><div class="era-header-line"></div></div>
+    <div class="chapter-cards">
+      <div class="event-card" onclick="toggle(this)">
+        <span class="card-date">5th century</span>
+        <span class="item-badge b-arch">Archaeology</span>
+        <span class="tour-badge">On Tour</span>
+        <div class="card-title">The Hōenzaka warehouse group — a polity’s logistics base</div>
+        <div class="card-body">At the northern end of the Uemachi Plateau at Hōenzaka, a large warehouse group dating to the 5th century has been excavated. Six buildings in the east group and ten in the west — sixteen in all — stand in orderly rows, with an average floor area of about 90 square meters. Research evaluates them as a hub warehouse group of the Wa polity in the middle Kofun period; their position close to the mouth of the Yodo River to the north suggests a close relationship with the water transport of Naniwa. This site does not prove the succession conflict of Ōjin and Nintoku itself. But it shows that on the same 5th-century Uemachi Plateau there existed a large-scale political and logistics base capable of concentrating and managing large quantities of goods. Here is a crucial link between written sources and archaeology.</div>
+        <span class="card-expand">Click to expand</span>
       </div>
     </div>
-
-    <div class="tri-row">
-      <div class="influence-row" style="grid-column:1/-1">
-        <span class="influence-label">421 AD</span>
-        <span class="arrow">→</span>
-        <span style="font-style:italic; font-size:0.8rem; color:var(--faded)">King San of Wa contacts Liu Song China — the Nihon Shoki records nothing</span>
-        <span class="arrow">→</span>
-        <span class="influence-label">The Omission Begins</span>
-      </div>
-    </div>
-
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">421 & 425</span>
-          <span class="card-dynasty">Complete Silence</span>
-          <div class="card-title">No Entry — These Events Do Not Exist</div>
-          <div class="card-body">The Nihon Shoki contains no corresponding entry for either the 421 or the 425 tribute missions to China. A major diplomatic initiative to the most powerful dynasty in East Asia — conducted twice within four years — goes completely unrecorded in the official Japanese chronicle. This is not an oversight. The Nihon Shoki was compiled with care and political purpose. What is not in it was left out deliberately.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">421 & 425</span>
-          <span class="card-dynasty">The Meaning of the Omission</span>
-          <div class="card-title">Omitted Because It Complicated the Narrative</div>
-          <div class="card-body">The double omission strongly suggests the Nihon Shoki authors were aware of these missions and chose not to include them — most likely because they complicated the narrative of natural Yamato dominance that the chronicle was constructed to project. Admitting that your ruler needed to travel to a foreign court and request recognition — including military titles over Korean territories that the chronicle presents as already subordinate — would undercut the entire ideological framework of the document.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">421 & 425</span>
-          <span class="card-dynasty">The External Record</span>
-          <div class="card-title">King San Seeks Recognition From China</div>
-          <div class="card-body">The Book of Song records that King San of Wa sends tribute missions to the Liu Song dynasty in both 421 and 425. He is recognised as King of Wa. In the second mission, he explicitly requests that China formally recognise Yamato's military authority over territories on the Korean peninsula — including Silla, Baekje, and Gaya. San is asking a foreign superpower to legitimise claims that the Nihon Shoki will later present as self-evident and uncontested. His exact identity remains debated: he may be Ōjin, Nintoku, or Richū — the Japanese and Chinese records cannot be reconciled on this point.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ERA 4: RICHŪ, HANZEI & THE PATTERN -->
-  <div class="era-group" data-era="pattern">
-
-    <div class="tri-row">
-      <div class="era-header" style="grid-column:1/-1"><div class="era-header-line"></div><span>Richū, Hanzei & The Pattern Established (c. 430–440)</span><div class="era-header-line"></div></div>
-    </div>
-
-    <!-- Suminoe assassination attempt -->
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">c. 430</span>
-          <span class="card-dynasty">A Minor Rebellion</span>
-          <div class="card-title">Suminoe Is Punished for Misbehaviour</div>
-          <div class="card-body">Prince Suminoe no Nakatsu, a younger brother of the new emperor Richū, launches what the chronicles call a rebellion. He is caught, exposed, and executed. The Nihon Shoki account is brief and presents the episode as a minor disruption quickly resolved — the kind of predictable misbehaviour that sometimes accompanies a succession, dealt with firmly and without lasting consequence for the stability of the realm.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">c. 430</span>
-          <span class="tour-badge">On Tour</span>
-          <span class="card-dynasty">A Near-Successful Coup</span>
-          <div class="card-title">A Serious Assassination Attempt at Naniwa</div>
-          <div class="card-body">Suminoe's attack on Richū was not a minor rebellion. It was a serious and nearly successful assassination attempt that took place at Naniwa — the commercial and political heart of Yamato power, the port through which all foreign trade and diplomatic contact flowed. Richū escaped, but only barely. This was a coup attempt at the most strategically important location in the kingdom, conducted by a man with a credible claim to the throne. The brevity of the Nihon Shoki account is itself suspicious — the shorter the entry, the more serious the event it is covering up.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">c. 430</span>
-          <span class="card-dynasty">San Dies</span>
-          <div class="card-title">A Brother Takes the Throne — But Which Brother?</div>
-          <div class="card-body">The Book of Song records that King San of Wa dies around this period and that his younger brother Chin immediately takes the throne. The Chinese record him as a brother — not a son, not a cousin, but a brother. If San was Richū and Chin was Hanzei, that relationship matches the Nihon Shoki. But if San was Nintoku, then Chin cannot be Hanzei without the entire succession sequence being wrong. Historians have never fully resolved this discrepancy. The Chinese did not care about Japanese court mythology. They simply recorded who arrived and what they said.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mizuhawake / Hanzei -->
-    <div class="tri-row">
-      <div class="col-china">
-        <div class="event-card china-card" onclick="toggle(this)">
-          <span class="card-date">c. 430 – 438</span>
-          <span class="tour-badge">On Tour</span>
-          <span class="card-dynasty">Loyalty Rewarded</span>
-          <div class="card-title">Mizuhawake Proves His Loyalty</div>
-          <div class="card-body">A younger brother, Prince Mizuhawake, exposes Suminoe's plot and helps bring him to justice. Richū is grateful and rewards him. The chronicles present this as the straightforward behaviour of a loyal and trustworthy younger brother doing his duty to the emperor. Mizuhawake is subsequently named crown prince. The account implies a natural and fitting outcome — loyalty recognised, treachery punished, order restored.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">c. 430 – 438</span>
-          <span class="tour-badge">On Tour</span>
-          <span class="card-dynasty">Betrayal Inside Loyalty</span>
-          <div class="card-title">Mizuhawake Arranged the Killing — Then Became Heir</div>
-          <div class="card-body">Mizuhawake did not simply expose Suminoe. He arranged Suminoe's assassination through a bribed retainer — a killing, not a capture. He then used this act to secure his own position so effectively that Richū bypassed his own children and named Mizuhawake crown prince. Historians find this sequence deeply suspicious. A man who demonstrates his loyalty by having a rival killed, and is immediately rewarded with the succession over the emperor's direct heirs, is following a pattern that will become very familiar to anyone who watches Japanese history long enough. Mizuhawake becomes Emperor Hanzei. The pattern is now fully established.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea">
-        <div class="event-card korea-card" onclick="toggle(this)">
-          <span class="card-date">438</span>
-          <span class="card-dynasty">Chin Contacts China</span>
-          <div class="card-title">The One Moment Both Sources Partially Agree</div>
-          <div class="card-body">Chin — almost certainly Hanzei — sends a tribute mission to Liu Song in 438. The Chinese records describe him as having succeeded his brother San, which matches the Nihon Shoki on the Richū-to-Hanzei transition at least in principle. He requests military titles over Korean territories; China grants some and refuses others — a diplomatic rebuff that goes entirely unmentioned in Japanese sources. This is the one point of partial alignment between the two records — and that partial agreement makes every surrounding discrepancy more visible, not less. Where the sources agree, the picture sharpens. Where they diverge, someone is lying.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="tri-row">
-      <div class="influence-row" style="grid-column:1/-1">
-        <span class="influence-label">The Pattern</span>
-        <span class="arrow">→</span>
-        <span style="font-style:italic; font-size:0.8rem; color:var(--faded)">Rivals die. Loyalty is rewarded with power. The official record presents every outcome as natural, just, and untroubled.</span>
-        <span class="arrow">→</span>
-        <span class="influence-label">1200 Years Later: Ieyasu</span>
-      </div>
-    </div>
-
-    <div class="tri-row">
-      <div class="col-china"><div class="empty"></div></div>
-      <div class="col-spine-left spine-segment"></div>
-      <div class="col-japan">
-        <div class="event-card japan-card" onclick="toggle(this)">
-          <span class="card-date">Today</span>
-          <span class="tour-badge">On Tour</span>
-          <div class="card-title">The Warehouses Are Still Here. The Kingdom That Filled Them Is Not.</div>
-          <div class="card-body">Stand with me at the Naniwa waterfront — the port through which Yamato's power flowed outward and the world's goods flowed in. The warehouses that stood here were built on 300 years of trade relationships and the ambitions of rulers who killed their brothers, bribed their rivals, and sent ambassadors to China to ask for the recognition they could not manufacture at home. Osaka Castle, visible from here, was built on the same logic 1,200 years later. Hideyoshi made promises he knew would be broken. Ieyasu broke them. The official record called it a clean ending. The physical evidence does not agree. The pattern you are looking at began here.</div>
-          <span class="card-expand">Click to expand</span>
-        </div>
-      </div>
-      <div class="col-spine-right spine-segment"></div>
-      <div class="col-korea"><div class="empty"></div></div>
-    </div>
-
   </div>
 
 </div>
 
-  <section style="max-width:900px;margin:40px auto 60px;padding:0 20px;">
+<!-- RECORDS: HOW TO READ THE GAPS -->
+<section style="max-width:900px;margin:10px auto 50px;padding:0 20px;position:relative;z-index:1;">
+  <div style="border:1px solid rgba(200,169,110,0.25);border-left:3px solid #c8a96e;background:rgba(26,21,16,0.55);padding:2rem 2.4rem;border-radius:2px;">
+    <h2 style="font-family:'Cinzel',serif;font-size:1.5rem;font-weight:400;margin-bottom:1.1rem;color:#f5efe3;text-align:center;letter-spacing:0.1em;">How to Read the Gaps in the Record</h2>
+    <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:1.1rem;">The Nihon Shoki and the Book of Song seem to speak of the same 5th-century Wa. Yet what they show is not the same.</p>
+    <p style="font-size:1.05rem;line-height:2;color:#c8bfa8;margin-bottom:0.8rem;"><strong style="font-family:'Cinzel',serif;color:#f5efe3;">The Nihon Shoki</strong>　A story drawn as: prince → succession to the throne → loyalty → treason → self-sacrifice → a legitimate accession.</p>
+    <p style="font-size:1.05rem;line-height:2;color:#c8bfa8;margin-bottom:0.8rem;"><strong style="font-family:'Cinzel',serif;color:#f5efe3;">The Book of Song</strong>　A record of diplomacy: king → tribute → official titles → international recognition → military designations.</p>
+    <p style="font-size:1.05rem;line-height:2;color:#c8bfa8;margin-bottom:1.1rem;"><strong style="font-family:'Cinzel',serif;color:#f5efe3;">The Hōenzaka warehouses</strong>　A material world: goods → water transport → concentration → management → the polity.</p>
+    <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:0;">Laid together, the three show that the 5th-century Wa polity cannot be understood through a single story.</p>
+  </div>
+</section>
+
+<!-- THE WAREHOUSES ARE STILL HERE -->
+<section style="max-width:900px;margin:0 auto 50px;padding:0 20px;position:relative;z-index:1;">
+  <h2 style="font-family:'Cinzel',serif;font-size:1.6rem;font-weight:400;margin-bottom:1.1rem;color:#f5efe3;text-align:center;letter-spacing:0.08em;">The Warehouses Are Still Here</h2>
+  <p style="font-size:1.1rem;line-height:1.9;color:#c8bfa8;margin-bottom:1rem;text-align:center;">Stand for a moment at the northern end of the Uemachi Plateau.</p>
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:1rem;">This was not only the ground of the Osaka Castle of later ages; long before that, goods gathered here through river and sea transport, and political activity unfolded. The 5th-century Hōenzaka warehouses are thought to have been part of that vast logistics system.</p>
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:1rem;">The Nihon Shoki told this age as a story of royal succession. The Book of Song recorded the Wa kings of the same age within diplomacy with China. And archaeology, from the warehouses and terrain remaining on the Uemachi Plateau, seeks out the scale of that politics and logistics.</p>
+  <p style="font-size:1.05rem;line-height:1.8;color:#c8bfa8;margin-bottom:0;text-align:center;">Three records of the same era. None of them is the complete picture.<br>That is exactly why walking Naniwa has meaning.</p>
+</section>
+
+<section style="max-width:900px;margin:40px auto 60px;padding:0 20px;">
   <div class="callout">
     <h2 style="font-family:'Cinzel',serif; font-size:2rem; margin-bottom:20px; text-align:center;">
       Continue the Story at Osaka Castle
     </h2>
     <p style="font-size:1.15rem;line-height:1.8;">
-    The pattern that emerged in the Ōjin succession—rivals eliminated, loyalty rewarded with power, and an official record that presents every outcome as clean and inevitable—didn't stay buried in the 5th century. It became the underlying grammar of Japanese power itself, replayed by clan after clan, until it finally erupted on the plain where Osaka Castle would rise.
+      From Emperor Ōjin to Emperor Nintoku. From Emperor Nintoku to Emperor Richū. And on to the 5th-century Wa kings San, Chin, Sei, Kō and Bu.
     </p>
-    <p style="font-size:1.15rem;line-height:1.8;margin-top:20px;">
-      If you'd like to see how that same pattern shaped the relationship between Hideyoshi and Ieyasu enacted it 1200 years later, 
-      <a href="beforejapanhadaname.html"><strong>Before Japan had a Name</strong></a>
-      follows that story across the very ground where it would one day be settled for good.
+    <p style="font-size:1.15rem;line-height:1.8;margin-top:16px;">
+      Lay the story of the succession beside the diplomatic records with China, and the 5th-century Wa polity comes into view as a far more complex world than later genealogies alone would suggest. And one of the stages of that politics and logistics was here, at Naniwa.
+    </p>
+    <p style="font-size:1.15rem;line-height:1.8;margin-top:16px;">
+      The Hōenzaka warehouses. The ancient harbor. The Uemachi Plateau. And Osaka Castle, built upon all of it.<br>
+      Beneath Osaka’s ground lie not only the stories of kingship, but the traces of the logistics and diplomacy that sustained it.<br>
+      Continue the story at Osaka Castle.
     </p>
   </div>
 </section>
@@ -1032,14 +677,6 @@
 <script>
   function toggle(el) {
     el.classList.toggle('expanded');
-  }
-
-  function filterEra(era, e) {
-    document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
-    e.target.classList.add('active');
-    document.querySelectorAll('.era-group').forEach(g => {
-      g.classList.toggle('hidden', era !== 'all' && g.dataset.era !== era);
-    });
   }
 
   // Scroll reveal
@@ -1060,7 +697,7 @@
 <section style="max-width:900px;margin:0 auto 60px;padding:0 20px;">
   <div style="border:1px solid rgba(200,169,110,0.25);border-left:3px solid #c8a96e;background:rgba(26,21,16,0.5);padding:2.2rem 2.5rem;border-radius:2px;">
     <h2 style="font-family:'Cinzel',serif;font-size:1.7rem;font-weight:400;margin-bottom:1rem;text-align:center;color:#f5efe3;">Continue Exploring</h2>
-    <p style="font-size:1.05rem;line-height:1.7;color:#c8bfa8;margin-bottom:1.4rem;text-align:center;">The Ōjin succession was decided on this ground — and its myths of legitimacy echo through every later dynasty that ruled here.</p>
+    <p style="font-size:1.05rem;line-height:1.7;color:#c8bfa8;margin-bottom:1.4rem;text-align:center;">Three records of the same era — the Nihon Shoki, the Book of Song, and the warehouses beneath the plateau — meet on this ground.</p>
     <ul style="list-style:none;padding:0;margin:0 0 1.4rem;">
         <li><a href="/yayoi_timeline.html">The Yayoi Age in Japan</a> — the world of the four kings who came before</li>
         <li><a href="/empress_jingu_timeline.html">Empress Jingū: Fact From Folklore</a> — the legendary ruler tangled in Ōjin's origin myth</li>
@@ -1080,7 +717,7 @@
   <a href="https://osakacastletours.com/book?tour=Osaka%20Castle%20Goddess,%20Queen,%20Empress,%20Concubine" class="cta-btn">Book Goddess, Queen, Empress, Concubine</a>
   <a href="tel:+819012474069" class="cta-btn">Call / Text Edward</a>
   <a href="https://wa.me/819012474069" class="cta-btn">WhatsApp Edward</a>
-    <p class="page-date">Last updated: September 2026</p>
+    <p class="page-date">Last updated: October 2026</p>
 <p class="edward-sig">Edward Iftody — Osaka Castle’s Resident Historian</p>
 </section>
 
