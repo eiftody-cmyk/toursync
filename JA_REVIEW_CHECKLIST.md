@@ -89,6 +89,7 @@ Return findings as `page → sentence → suggested fix`.
 | Azai ending | **離反** for the 1570 defection in factual prose (裏切り kept in titles/hero/filter label as narrative framing), **自害** not 切腹/終焉を悟った, **戦国大名として滅亡** not 断絶/一族の壊滅, **本能寺の変（1582）** not 織田の崩壊, 1564 marriage/6年後 locked (round 17) |
 | Hideyoshi ending | **露と落ち　露と消えにし** as the death poem (never 露の世は露の世ながら — that is Kobayashi Issa's おらが春; error rule in `data/ja-glossary.json`); **木下弥右衛門** for the father (never 足軽（百姓兵）の弥助; status uncertain); era labels **立身期/権力掌握期/天下人期/晩年** (never 登極期 — imperial accession); **兵糧攻め** (never 飢餓封鎖); **一夜城 = 伝承** (墨俣 + 石垣山, 石垣山 actual build ~80日); 高松 water attack = **1582** (never 1581); kanpaku **1585-07-11** (近衛前久の猶子・藤原氏), 豊臣姓・太政大臣 = **1586**; shogun answer never claims blood bar; 石山本願寺 = **推定地**; FAQ visible↔JSON-LD byte-synced ×2 per locale |
 | Hideyoshi–Rikyū ending | `<title>` + h1 = **協力者から「政治問題」へ** (round 19; EN “From Partners to ‘Political Problem’” — curly quotes in all title slots/OG/headline/breadcrumb); era buttons/headers **出会いと基盤 / 関係の深化 / 茶の湯と権力 / 政治空間の変化 / 終焉** (filter keys foundations/recognition/summit/asymmetry/rupture unchanged); **山崎の戦い = 1582年（天正10年）** (never 1583); **1585年に関白** alone (never 関白（摂政）), 1586 豊臣姓・太政大臣; 豊臣秀長 = **異母弟** (never 異父弟); 北野大茶湯 = **四人の茶堂 + 八百三人** per 『兼見卿記』 (never 亭主 framing); 大徳寺木像 = **金毛閣 + 1591年処分時の問題点** (never fixed 1589 installation; card-date 1589〜1591); 中村修也 = **有力な異説の一つ** (never settled truth); 唐物→和物 = **傾向** (never complete replacement); 承認/命令 column device kept as interpretive frame only — lead/quick answer/conclusion never present it as scholarly consensus; FAQ visible↔JSON-LD byte-synced ×5 both locales |
+| osaka-castle-history ending | 5 era buttons/headers **豊臣の夢 / 大坂の陣と豊臣家の滅亡 / 徳川による大坂城再築 / 近代軍事拠点 / 現代の大阪城** (EN: Toyotomi's Vision / The Siege & Toyotomi's End / Tokugawa Rebuilding / Modern Military Arsenal / Modern Osaka Castle; keys toyotomi/siege/edo/arsenal/modern; headers 1583〜1598 / 1614〜1615 / 1620〜1868 / 1868〜1945 / 1945〜現在 — round 20; never 大坂の陣と抹消 / 大阪城の再建); **`<title>` keeps 豊臣の夢、徳川の抹消** (round-20 item 42 rejected); death date **1615年6月4日 / June 4** site standard (item 14's 1615年5月8日 rejected; 城が**落ちた** never 落んだ); key dates **1627 天守 / 1629〜1665 / 1620〜1629 / 1868年1月6日 / 1931 募金・大坂夏の陣図屏風 / 1959 筒井文庫・1984 修復** (never 1626/1628/1630); **豊臣期大坂図屏風 / ねね = 1548/1549〜1624 / 奈阿姫** (never 豊臣襖絵/宁々/名姫/1546); pre-1868 **大坂城・大坂城代・大坂町奉行**; bibliography = round-20 source set (JA 7 li / EN 10 li; JA h2 **参考文献・関連史料**; never 『難波戦記』/『大阪記』 labeled 一次史料, never すべて英語で出版); motive prose = 覆うように築かれた/盛土で覆う (never 意図的な…殲滅戦・埋め立て・罠/見せかけ); FAQ visible↔JSON-LD byte-synced ×4 both locales |
 
 ## 4. ⚠ Uncertain phrases — review these first
 
@@ -1185,6 +1186,62 @@ but "overstates its scholarly consensus"; ratings 7 / 6.5 / 6.5 / 7.5
   locales; structure delta identical across locales (+1 p +2 li +2 strong =
   3rd interpretation paragraph + 2 bibliography entries; ids/hrefs identical
   to HEAD).
+
+## 5t. Round 20 — osaka-castle-history (45 items) (2026-10-02)
+
+**Provenance:** external reviewer 45-item historical/editorial audit of
+`osaka-castle-history` (JA primary, EN mirror audited in parallel). Full item
+record + decision table persisted in `ja-review-annot-11.md` (untracked).
+
+- **Locked user decisions (2026-10-02):**
+  1. **Death date stays site standard 1615年6月4日 / June 4** — item 14's
+     1615年5月8日 rejected (site standard wins, cf. §3 Siege death date);
+     城が落んだ → 城が落ちた and FAQ3 "1615年5月の夏の陣" → 1615年6月 still
+     applied.
+  2. **5-era restructure adopted** (item 40): buttons/headers → 豊臣の夢 /
+     大坂の陣と豊臣家の滅亡 / 徳川による大坂城再築 / 近代軍事拠点 /
+     現代の大阪城 with new filter keys arsenal + modern (toyotomi/siege/edo
+     reused); 8-section split (item 44) rejected; column-key/card-dynasty
+     tags kept. Cards stay 44 with quad-rows intact — redistribution
+     implemented as **12/12/12/4/4**; annot's 12/11/13/4/4 (moving
+     意図的な埋め立て to the rebuild era) NOT applied — the card (retitled
+     **豊臣期の城郭、盛土の下へ**) stays in the siege group, whose header reads
+     大坂の陣と豊臣家の滅亡（1614〜1615）.
+  3. **Bibliography replaced** (item 41): JA = reviewer's 7 Japanese sources
+     (deletes すべて英語で出版 + the 一次史料 mislabel of 『難波戦記』/『大阪記』;
+     5→7 li), EN = same 7 with English annotations + the 3 kept English books
+     (5→10 li); JA h2 参考文献・関連図書 → 参考文献・関連史料, EN h2 Sources &
+     Further Reading unchanged.
+  4. **Title 豊臣の夢、徳川の抹消 kept** (item 42 rejected) — body prose uses
+     覆うように築かれた / 盛土で覆う language, no motive assertions.
+  5. Standing: full EN mirror; FAQ visible↔JSON-LD byte-identical ×4 both
+     locales; glossary-first error rules; dateModified → 2026-10-02.
+- **Factual/terminology rewrites (items 1–43):** 築城 period, 政治的空間 and
+  野面積み card rewrites; ねね = **1548/1549〜1624** (never 1546), 豊臣期大坂図
+  屏風 (never 豊臣襖絵), 奈阿姫 (never 名姫), 鶴松; dates **1627** 天守 (never
+  1626), **1629〜1665** / **1620〜1629** (never 1628/1630); **1868年1月6日**
+  大政奉還 (never 1868年2月); 1931 募金 + 大坂夏の陣図屏風, **1959** 筒井文庫
+  再建 + **1984** 修復, 280万人; **大阪城代 → 大坂城代** + 大坂町奉行 + title
+  城代 rows; 江戸期 restorations framed as repairs (never 復元/江戸時代の姿に
+  戻る); Edo-peace claims hedged (never 265年続く徳川の平和); Kobori Enshu
+  attribution removed (縄張りは藤堂高虎); FAQ ×4 rewritten in both locales.
+- **Narrative de-overreach:** summer/winter campaign cards + FAQ3 = 講和の
+  破綻・対立の悪化 framing (never 意図的な殲滅戦 / それは罠でした / 見せかけで
+  した / 意図的な埋め立て / 日本史上に例がなく / 心中しました / 軍事的な目標と
+  して使った); no victors/declining-shogunate claims.
+- **18 new glossary error rules:** `豊臣襖絵`, `宁々`, `名姫`, `1546〜1624`,
+  `城が落んだ`, `日本史上に例がなく`, `意図的な殲滅戦`, `それは罠でした`,
+  `見せかけでした`, `藤堂高虎と小堀遠州`, `江戸時代の姿に戻`,
+  `265年続く徳川の平和`, `心中しました`, `軍事的な目標として使った`,
+  `意図的な埋め立て`, `大阪城代`, and the two exact bibliography-mislabel
+  patterns `一次史料：</strong> <em>『難波戦記』` / `…『大阪記』` (site-wide
+  grep first: bare 一次史料 stays legal — hideyoshi-rikyu uses it correctly).
+- **Verification:** check:ja OK 21 pages/0 warnings (18 new rules, no false
+  positives), check:data 61 pages/101 blocks + FAQ parity, check:parity OK,
+  tsc, build green; FAQ byte-sync 4/4 ×2 locales (questions + answers);
+  forbidden greps 0 both locales; structure delta identical across locales
+  (era-group +2, era-btn +2, era-header +2 = 5/5/5, cards 44,
+  li +2 JA / +5 EN; ids/hrefs identical to HEAD).
 
 ## 6. Automated gates (must stay green after any edit)
 
