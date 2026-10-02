@@ -98,7 +98,12 @@
     { "forbidden": "日本を支配", "required": "朝廷政治を動かした", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): the Fujiwara never 'ruled Japan'; they dominated court politics" },
     { "forbidden": "派閥クーデター", "required": "宮廷内の派閥による武力政変", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): 派閥クーデター is a modern political-science label for the 645 coup" },
     { "forbidden": "機械を回", "required": "形式だけが動き続ける職", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): machinery metaphor is a translated idiom; state that the office persisted formally" },
-    { "forbidden": "つまみ", "required": "形式だけの職", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): 'dial/knob' metaphor is a translated idiom; describe the office instead" }
+    { "forbidden": "つまみ", "required": "形式だけの職", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): 'dial/knob' metaphor is a translated idiom; describe the office instead" },
+    { "forbidden": "学者から神になった", "required": "死後に神格化された", "level": "error", "reason": "review round 15 (tenjin-matsuri-history): 'became a god from a scholar' is a converted-noun calque; state deification after death" },
+    { "forbidden": "宗教的な川祭り", "required": "水上の神事を中心とする都市祭礼", "level": "error", "reason": "review round 15 (tenjin-matsuri-history): 'religious river festival' misframes the event; it is an urban festival organised around a water ritual" },
+    { "forbidden": "日本最大の水上祭り", "required": "日本屈指の水上祭り", "level": "error", "reason": "review round 15 (tenjin-matsuri-history): 'Japan's largest water festival' is an unverifiable superlative; 屈指 is defensible" },
+    { "forbidden": "時康親王", "required": "斉世親王", "level": "error", "reason": "review round 15 (tenjin-matsuri-history): 斉世親王 is the name used for Prince Tokiyoshi; 時康親王 is the childhood name and reads as a different person" },
+    { "forbidden": "帝位の左右", "required": "皇位の継承をめぐる政治勢力", "level": "error", "reason": "review round 15 (tenjin-matsuri-history): 'left and right of the throne' is an opaque metaphor; name the succession struggle" }
   ],
   "chineseChars": "关这说应无时发战义产从众亲广铁间门东车马长问现华图书机权记议报导终经结约级职举变边还进运过连远军农击创则刚动务势样备币钟队买乐乡习个们头儿几仅认让该给对单观于",
   "titleForbidden": ["―", "─", "·", "｜"]
