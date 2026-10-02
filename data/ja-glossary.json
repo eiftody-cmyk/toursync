@@ -89,7 +89,16 @@
     { "forbidden": "下野薬師寺の別当として送られています", "required": "下野国薬師寺別当に左遷されました", "level": "error", "reason": "review round 13 (empress-shotoku): use 左遷 and state the 770 appointment; do not paraphrase the chronicle's motive without quoting it" },
     { "forbidden": "宣告が取り上げられ", "required": "神託が伝えられ", "level": "error", "reason": "review round 13 (empress-shotoku): 宣告 was 'taken up' — wrong verb; the oracle was delivered/reported" },
     { "forbidden": "宣命と呼ばれる勅令", "required": "729年の宣命", "level": "error", "reason": "review round 13 (empress-shotoku): 宣命 and 勅令 are not interchangeable; call it the 729 宣命" },
-    { "forbidden": "上皇となった孝謙の病を治療", "required": "近江の保良宮で病を患った孝謙上皇の治療", "level": "error", "reason": "review round 13 (empress-shotoku): the source tradition places Dōkyō's care of the retired empress at Hora Palace in Ōmi, 762" }
+    { "forbidden": "上皇となった孝謙の病を治療", "required": "近江の保良宮で病を患った孝謙上皇の治療", "level": "error", "reason": "review round 13 (empress-shotoku): the source tradition places Dōkyō's care of the retired empress at Hora Palace in Ōmi, 762" },
+    { "forbidden": "学術的合意", "required": "研究上の論点", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): label scholarship as a debated position, not an agreed consensus" },
+    { "forbidden": "日本の学界の合意", "required": "研究上の論点", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): do not claim a Japanese scholarly consensus; use 研究上の論点" },
+    { "forbidden": "影の政治", "required": "皇位の背後で動いた政治", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): 'shadow politics' is a translated metaphor; describe what actually happened" },
+    { "forbidden": "母系戦略", "required": "母方のつながりを重ねる方針", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): 母系戦略 sounds like a modern policy doctrine; describe the marriage practice plainly" },
+    { "forbidden": "皇位乗っ取り", "required": "皇位をめぐる政変", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): 'hijacking the throne' is colloquial and prejudicial; use neutral 皇位をめぐる政変" },
+    { "forbidden": "日本を支配", "required": "朝廷政治を動かした", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): the Fujiwara never 'ruled Japan'; they dominated court politics" },
+    { "forbidden": "派閥クーデター", "required": "宮廷内の派閥による武力政変", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): 派閥クーデター is a modern political-science label for the 645 coup" },
+    { "forbidden": "機械を回", "required": "形式だけが動き続ける職", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): machinery metaphor is a translated idiom; state that the office persisted formally" },
+    { "forbidden": "つまみ", "required": "形式だけの職", "level": "error", "reason": "review round 14 (fujiwara-shadow-politics): 'dial/knob' metaphor is a translated idiom; describe the office instead" }
   ],
   "chineseChars": "关这说应无时发战义产从众亲广铁间门东车马长问现华图书机权记议报导终经结约级职举变边还进运过连远军农击创则刚动务势样备币钟队买乐乡习个们头儿几仅认让该给对单观于",
   "titleForbidden": ["―", "─", "·", "｜"]

@@ -28,7 +28,7 @@
 - /ja/yayoi_timeline — 弥生時代 — 並行する歴史
 - /ja/empress_jingu_timeline — 神功皇后：伝説と史実を分かつ
 - /ja/ojinsuccession — 応神天皇の継承 — 同じ時代を語る、三つの記録
-- /ja/fujiwara-shadow-politics — 藤原摂関政治 — 五百年にわたる影の支配
+- /ja/fujiwara-shadow-politics — 藤原摂関 — 皇位を支えた外戚政治
 - /ja/genpei-timeline — 平氏、源氏と最初の幕府
 - /ja/azaiclanbetrayal — 織田・浅井の裏切り — 戦国タイムライン
 - /ja/sanada_nobushige — 真田信繁 — 日本最強の武将
