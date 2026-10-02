@@ -88,6 +88,7 @@ Return findings as `page → sentence → suggested fix`.
 | Ishiyama ending | **和議 / 講和 … 本願寺が** (round 17: never 降伏 — court-mediated 1580 peace, FAQ4 + JSON-LD byte-synced ×2 per locale, card 講和と退去 / Peace and Evacuation); **「鉄甲船」と呼ばれる大型の安宅船** (never 世界初の「鉄甲艦」, construction debated); **門徒・本願寺勢 / 本願寺の坊官ら** in body prose (never 僧兵 except title/meta/link 「僧兵、百姓、将軍」; never undocumented 下間仲之); **水軍** not 海軍; fire cause always hedged **諸説** — both forbidden strings live as error rules in `data/ja-glossary.json` |
 | Azai ending | **離反** for the 1570 defection in factual prose (裏切り kept in titles/hero/filter label as narrative framing), **自害** not 切腹/終焉を悟った, **戦国大名として滅亡** not 断絶/一族の壊滅, **本能寺の変（1582）** not 織田の崩壊, 1564 marriage/6年後 locked (round 17) |
 | Hideyoshi ending | **露と落ち　露と消えにし** as the death poem (never 露の世は露の世ながら — that is Kobayashi Issa's おらが春; error rule in `data/ja-glossary.json`); **木下弥右衛門** for the father (never 足軽（百姓兵）の弥助; status uncertain); era labels **立身期/権力掌握期/天下人期/晩年** (never 登極期 — imperial accession); **兵糧攻め** (never 飢餓封鎖); **一夜城 = 伝承** (墨俣 + 石垣山, 石垣山 actual build ~80日); 高松 water attack = **1582** (never 1581); kanpaku **1585-07-11** (近衛前久の猶子・藤原氏), 豊臣姓・太政大臣 = **1586**; shogun answer never claims blood bar; 石山本願寺 = **推定地**; FAQ visible↔JSON-LD byte-synced ×2 per locale |
+| Hideyoshi–Rikyū ending | `<title>` + h1 = **協力者から「政治問題」へ** (round 19; EN “From Partners to ‘Political Problem’” — curly quotes in all title slots/OG/headline/breadcrumb); era buttons/headers **出会いと基盤 / 関係の深化 / 茶の湯と権力 / 政治空間の変化 / 終焉** (filter keys foundations/recognition/summit/asymmetry/rupture unchanged); **山崎の戦い = 1582年（天正10年）** (never 1583); **1585年に関白** alone (never 関白（摂政）), 1586 豊臣姓・太政大臣; 豊臣秀長 = **異母弟** (never 異父弟); 北野大茶湯 = **四人の茶堂 + 八百三人** per 『兼見卿記』 (never 亭主 framing); 大徳寺木像 = **金毛閣 + 1591年処分時の問題点** (never fixed 1589 installation; card-date 1589〜1591); 中村修也 = **有力な異説の一つ** (never settled truth); 唐物→和物 = **傾向** (never complete replacement); 承認/命令 column device kept as interpretive frame only — lead/quick answer/conclusion never present it as scholarly consensus; FAQ visible↔JSON-LD byte-synced ×5 both locales |
 
 ## 4. ⚠ Uncertain phrases — review these first
 
@@ -1111,6 +1112,79 @@ terminology/accuracy).
   locales; badges 12/12 intact; structure delta as planned (+1 card +1 row ×2
   locales — new 1586 card + Takamatsu row move; +1 china-card, −1 korea-card),
   ids/hrefs identical to HEAD.
+
+## 5s. Round 19 — hideyoshi-rikyu-timeline (34 items) (2026-10-02)
+
+**Provenance:** external reviewer working from Japanese-language scholarship
+and Japanese institutional sources only (NDL, J-STAGE, Rekihaku, Sakai City,
+the cited JA studies; no Wikipedia/Reddit). Full item record + decision table
+persisted in `ja-review-annot-10.md` (untracked). Verdict: thesis "very good"
+but "overstates its scholarly consensus"; ratings 7 / 6.5 / 6.5 / 7.5
+(naturalness / terminology / accuracy / argument).
+
+- **Locked user decisions (2026-10-02):**
+  1. **Title variant 「政治問題」→ everywhere** — `<title>`/og/twitter/JSON-LD
+     headline/breadcrumb/h1 all become 協力者から「政治問題」へ (EN: From
+     Partners to “Political Problem”); reviewer's item-2 fork resolved to the
+     bolder option.
+  2. **Both additions adopted** — Kitano card expanded with 八百三人 +
+     茶堂 terminology; bibliography gains 『兼見卿記』 + 『天王寺屋会記』
+     (both locales).
+  3. **承認/命令 column device kept** (column-key, col-headers, card-dynasty
+     chips) per item 30 — reviewer explicitly permits it as an interpretive
+     sidebar; it is simply no longer presented as scholarly consensus in
+     lead/quick answer/conclusion.
+  4. Defaults applied: E3C2 統治者の茶人 + E4C1 命令が引き締まる left as-is
+     (not cited by reviewer); E5C1 keeps its 1589〜1591 card-date span.
+  5. Standing: full EN mirror; FAQ visible↔JSON-LD byte-identical ×5 both
+     locales; glossary-first error rules.
+- **Framing rewrite (items 1–4):** lead = 近年の研究では…単純な「金と侘び」
+  の対立だけでは説明しない見方が重視されています…複数の見解があります
+  (deletes 日本の研究が描くのは別の弧です + 異常な相互依存); h1 em =
+  権力と承認、そしてなお論争の続く破綻の原因; quick answer = reviewer's
+  defensible paragraph (drops 二つの権威の形 / 中央集権化する身分秩序 as
+  assertions); Article JSON-LD description re-aimed at 1591 punishment debate.
+- **Factual corrections (items 5–8, 15, 27–28):** Yamazaki = **1582年
+  （天正10年）** with 1583 築城着手 (was 1583天正11年); **関白（摂政） →
+  関白**; E3C1 sequence = 1585 関白就任 / 1586 豊臣姓・太政大臣; **異父弟 →
+  異母弟** + 申次 framing replaces 政治の内輪にまで関与; Fukui FAQ/card =
+  2011 論文 comparative review + 博士論文 discourse-formation (drops
+  争いのない単一の説明); Rikyū death card = 1591 処分・京都を離れた・
+  研究上の議論 (drops 命を失いました/時系列…確定していません); statue card +
+  FAQ5 = 金毛閣・1591年同時代日記・象徴するものと解釈されることがあります
+  (deletes 1589年に再建…安置 implication; card-date → 1589〜1591);
+  **切腹像是 → 切腹像は** + Nakamura framed as 有力な異説の一つ.
+- **Naturalness/interpretive de-overreach (items 9–14, 16–26, 29):**
+  Hideyoshi birth = 尾張国中村 + 弥右衛門不明・史料制約 (deletes 氏族の系譜
+  はありませんでした); Rikyū birth card = 堺の有力商人の家に生まれた茶人;
+  結合組織 → 媒介の場, 文化的ブローカー → 文化的な仲介者, psychological
+  有用性を発見した deleted; 村井 = observation (呼称からは…捉えにくい側面)
+  not proof, + 地位は仕える以前から形成; 可視化する場の一つ (was 演出する
+  仕組み); 唐物→和物 = trend not replacement (both card + FAQ2); 質素対金
+  card = both-objects-present point (deletes 美意識の好みを異にしても +
+  後年の構築物 assertion); 聚楽第周辺の政治空間 / 政治空間の中の利休 /
+  異なる権威のかたち card renames + institutional rewrites (deletes
+  召されず、配置された / 埋め込まれる / strong centralization-inevitability
+  claim → research-question framing); interpretation section = reviewer's
+  3-paragraph replacement (no claims about what Hideyoshi "needed").
+- **Era relabel (items 26, 31):** 5 buttons + 5 era-headers adopted verbatim
+  (終焉 — 1591年の処分とその原因; era4 range now 1587〜1590); filter keys
+  untouched.
+- **Additions (items 33–34):** Kitano card = 兼見卿記四茶堂順 + 八百三人 +
+  public-staging point (title 四人の茶堂、一つの舞台); FAQ3 rewritten on the
+  same evidence; bibliography + 『兼見卿記』/『天王寺屋会記』; Nakamura
+  bibliography entry sharpened to 有力な異説.
+- **10 new glossary error rules:** `異常な相互依存`, `結合組織`,
+  `文化的ブローカー`, `召されず、配置された`, `切腹像是`,
+  `秀吉の異父弟` (phrase-scoped — genpei legitimately uses bare 異父弟),
+  `関白（摂政）`, `後年の構築物`, `争いのない単一の説明`,
+  `1583年（天正11年）に山崎`.
+- **Verification:** check:ja OK 21 pages/0 warnings (10 new rules, no false
+  positives), check:data 61 pages/101 blocks + FAQ parity, check:parity OK,
+  tsc, build green; FAQ byte-sync 5/5 ×2 locales; forbidden greps 0 both
+  locales; structure delta identical across locales (+1 p +2 li +2 strong =
+  3rd interpretation paragraph + 2 bibliography entries; ids/hrefs identical
+  to HEAD).
 
 ## 6. Automated gates (must stay green after any edit)
 
