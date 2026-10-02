@@ -11,7 +11,8 @@ Work landed in: `38b5641` (guide/lint), `5039c49` (P0 term fixes),
 `69ad5ff` (round 8, §5h — yayoi accuracy/terminology),
 `7e74a4b` (round 9, §5i — empress_jingu historical rewrite),
 `dc594b7` (round 10, §5j — ojinsuccession three-record rewrite),
-`26cc219` (round 11, §5k — shitennojihistory accuracy/terminology rewrite).
+`26cc219` (round 11, §5k — shitennojihistory accuracy/terminology rewrite),
+`ab4250a` (round 12, §5l — soga-fujiwara-timeline native/accuracy rewrite).
 
 ---
 
@@ -95,6 +96,7 @@ Return findings as `page → sentence → suggested fix`.
 | `ojinsuccession` (Group C era) | 元明天皇 → 祖母で文武天皇の母; 厩戸王（のちの聖徳太子）; 敏達; 山背大兄王; 645年（大化元年） anchor | superseded — page fully rewritten round 10 (§5j); items no longer on the page |
 | `ojinsuccession` | round-10 reviewer items (**395–410 regnal years**, 国家レベル overclaims, **商業的**難波, era headers 挑発/外交的沈黙, Hideyoshi–Ieyasu 1200年 aside) — **resolved round 10**: three-record rewrite removed all regnal years, interpretation-as-fact reframed, aside deleted (§5j). Native review still wanted on the new prose: 宋書 honorific quote (使持節・都督倭…六国諸軍事・安東大将軍・倭国王), readings 大鷦鷯尊/瑞歯別皇子, 倭の五王 transliteration (讃・珍・済・興・武) | open for prose review; content closed 2026-10-02 |
 | `soga-fujiwara-timeline` | **藤原氏と摂関政治** (dedup), **皇室との婚姻** (was 王室結婚) | wording de-duplication |
+| `soga-fujiwara-timeline` | round-12 new vocabulary — **歴史叙述**, **公伝**, **外戚**, **夫人**, **左遷**, **内印**, **駅鈴**, **荘園整理令**, **記録荘園券契所**, **薬子の変**, **異母兄妹** | agent-introduced historical terms — confirm naturalness/registers (公伝 vs 公伝来, 内印 vs 御璽 alternatives avoided, 記録荘園券契所 reading); content closed 2026-10-02 (§5l), open for prose review |
 | `shitennojihistory` | round-11 new vocabulary — **官寺**, **四箇院（敬田院・施薬院・療病院・悲田院）**, **二河白道**, **四天王寺式伽藍配置**, **開基**, **乙巳の変**, **難波長柄豊碕宮**, **厩戸皇子**, **門前町** | agent-introduced historical terms — confirm naturalness/registers (官寺 vs 寺院, 四箇院 reading, 難波長柄豊碕宮 full name); content closed 2026-10-02 (§5k), open for prose review |
 | `azaiclanbetrayal` | **1564 marriage date** — round-2 review claimed 1567 "almost certainly"; sources actually split (Wikipedia Oichi body says 1567, its own infobox + Azai article say 1564), traditional/majority = 1564, site EN says 1564 ×7 (+ warriormonks teaser ×2). **Kept 1564 everywhere** (decision 2026-10-01); JA-only change would have contradicted EN |
 | all pages | JSON-LD `publisher.name` left Latin | intentional, see §2 |
@@ -548,6 +550,76 @@ assertion greps clean both locales (EN: officially administered/international
 port/blueprint/Mandate of Heaven/guesthouse/training center/oldest surviving
 Pure Land/etc.; JA: all glossary terms + 6世紀中頃/青写真/天命/歴史参照シリーズ
 0 hits); JA meta 83 chars ≤120.
+
+## 5l. Round 12 — soga-fujiwara-timeline native/accuracy rewrite (2026-10-02)
+
+External native/history critique of `soga-fujiwara-timeline` (47 items, JA +
+EN): the JA read like a translated English essay (大和朝廷, 政策を支配, 御璽,
+義父, 異父兄, 逃れるように, 愚かな女帝と悪僧), and the page stated later
+narratives and source claims as settled fact (『日本書紀』stories as direct
+history, 710–784 when the page itself spans to 794, 道真 card dated 891–901
+with the "exile to check Fujiwara dominance" framing, "the Soga fell in a
+single coup / the Fujiwara then controlled the throne", the concluding
+Soga→Fujiwara→shoguns conveyor belt). Rewrote both locales preserving the
+core argument (6–7c 蘇我 → 645 乙巳の変 → 藤原氏の台頭 → 摂関 → 道真 →
+摂関政治の限界と後三条 → 政治構造の変化).
+
+- **User decisions (2026-10-02):** subtitle → 歴史叙述 / Historical Narratives;
+  FAQ2 question → 藤原氏は、摂関政治でどのような影響力を持ちましたか？ /
+  What influence did the Fujiwara clan gain through regency politics?; AOE
+  heading → 概要：蘇我氏と藤原氏 — 宮廷権力の二つのかたち / At a Glance: The
+  Soga and the Fujiwara — Two Shapes of Court Power; keep the 粛清 taxonomy
+  (legend/col-header/print CSS/metas/JSON-LD/card title 山背大兄王の粛清) and
+  fix prose only; full EN mirror in the same ship.
+- **Terminology (glossary-first):** 19 error terms added to
+  `data/ja-glossary.json` — 大和朝廷→ヤマト王権/朝廷, 国家行政を近代化し→
+  政治的な変化を支えました, 仏教の公式の導入→仏教の公伝, 隋中国へ→隋へ,
+  策士→主導者の一人, 御璽→内印, 皇太子に対して兵を起こした→孝謙太上天皇側と
+  対立して兵を挙げた, 皇室本来の政治→王権本来の政治, 愚かな女帝と悪僧→女帝と
+  道鏡, 経済的な独占を打ち破り→荘園整理, 皇室そのものの政府→藤原氏に依存しない
+  朝廷政治, 逃れるように→距離を取りながら, 義父→母方の祖父, 異父兄→異母兄妹,
+  政務を握った→影響力を持った, クーデター一つで滅びました→乙巳の変によって
+  本宗家が倒れました, 着せられた→謀反の疑いをかけられて, 大宰府へ流され→
+  大宰府へ左遷され, 政策を支配→政策に影響を与えた. Excluded as legitimate
+  elsewhere → page-local assertions only: 粛清 (card title 山背大兄王の粛清,
+  taxonomy retained per user), 公式記録・近代化 (deeptimeline Meiji), generic
+  支配/独占, 現代の研究は (osaka-castle-history), 現代の歴史家 (genpei +
+  tenjin), クーデター (FAQ1 + card title 乙巳の変：クーデターか回復か？).
+- **Accuracy fixes (item numbers from the review):** header/QA/FAQ2 reframed as
+  影響力 not 支配; era header 奈良時代 710〜794 (was 710–784); 『日本書紀』
+  attribution added to 乙巳の変・山背大兄王・蘇我蝦夷/入鹿 cards; 一般に…
+  最初の女性天皇; 隋へ (not 隋中国); 异母兄妹 for Bidatsu–Suiko; 御璽→内印,
+  駅鈴 in the 仲麻呂 card; 孝謙–道鏡 card retitled 女帝と道鏡 and framed as
+  後世の歴史叙述 with Usa-haku controversy as 政治問題; 桓武 784/794 without
+  "escaped monks"; 摂関 9世紀後半以降 (not a monopolised institution from the
+  start); 道真 card-date 894〜901年 with 899右大臣 → 901大宰権帥左遷 (no
+  "falsely accused/exile to check dominance"); 後三条 reformed with
+  荘園整理令・記録荘園券契所; concluding callout replaced wholesale with the
+  user's 4-paragraph text (relationships being rearranged, 王権と摂関の共存,
+  征夷大将軍→幕府 run, 大阪城を歩く = 千年の政治史を歩く).
+- **EN mirror:** same fixes — subtitle Historical Narratives; header/QA/FAQ2
+  byte-matched rewrite; era header Nara Period 710–794; cards mirrored
+  (Yamato no Ayabe no Koma romanization fixed, Nihon Shoki attribution,
+  Generally regarded as the first empress, half-siblings, ritsuryō,
+  Heijō-kyō move, The Later Narrative of the Empress and Dōkyō, regency
+  "second half of the ninth century", Michizane 894–901 with no
+  check-dominance framing, Kusuko, Uda, Go-Sanjō land-reclamation orders +
+  Record of Estates and Contracts Bureau); 4-paragraph callout translation;
+  dateModified 2026-10-02, page-date October 2026; FAQ byte-sync 2/2 both
+  locales; H1/title/metas untouched except dateModified (llms.txt,
+  site-graph, deeptimeline labels use 藤原氏と皇室 → untouched).
+
+Verification: check:ja 0 warnings (21 pages; 19 new glossary rules cause no
+site-wide collisions), check:data 61 pages/101 blocks FAQ parity,
+check:parity 8/18/10, tsc, npm run build; FAQ byte-identity 2/2 both locales;
+assertion greps clean both locales (EN: Official Chronicles/dominate/purge
+that reshaped/control Japanese emperors/710–784/891–901/Modern
+scholarship/modern historians/proper imperial government/economic
+monopoly/attempted escape/no longer needed to control; JA: all glossary terms
++ 大和朝廷/近代化/公式記録/粛清は/愚かな女帝/御璽/義父/異父兄/皇室本来/
+逃れるように/経済的な独占/皇室そのもの/政務を握/クーデター一つ/着せられた/
+隋中国/二人目の女性/流されました 0 hits); dump regenerated
+(`ja-review-cards.md`).
 
 ## 6. Automated gates (must stay green after any edit)
 
