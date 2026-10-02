@@ -7,7 +7,8 @@ Scope: all 21 pages under `public/ja/*.html`.
 Work landed in: `38b5641` (guide/lint), `5039c49` (P0 term fixes),
 `b84a8b9` (Group A, 9 pages), `bf991dc` (Group B, 7 pages),
 `e5e0e6f` (Group C, 5 pages), `54b1707` (this checklist + strict title lint),
-`caa62ef` (round 2, azaiclan), `2cce699` (round 3, §5c).
+`caa62ef` (round 2, azaiclan), `2cce699` (round 3, §5c),
+`69ad5ff` (round 8, §5h — yayoi accuracy/terminology).
 
 ---
 
@@ -66,7 +67,7 @@ Return findings as `page → sentence → suggested fix`.
 | JA list tour links | EN-only tour pages linked root-absolute with JA titles — **僧兵、百姓、将軍** (`/warriormonkspeasantshogun.html`), **女神・女王・皇后・側室** (`/goddess_queen_empress_concubine.html`); item-count parity over link-language purity (no JA twins exist; JA-relative paths would 404) |
 | Festival name | **天神祭** (round 6: ja/tenjin ×35 incl. title/meta/JSON-LD visible+FAQ — was 天神祭り; llms already canonical); **大川川 → 大川** ×15 (EN "Okawa River"); EN untouched |
 | Taira naming | **平氏** for EN "Taira" in ja/genpei titles/meta/JSON-LD/prose ×37 (round 6: was 平家 — pairs with 源氏 per llms 平氏、源氏); **平家物語** ×4 kept (work title); era-btn/era-header 平氏の台頭 too |
-| Gojoseon | **古朝鮮** in ja/yayoi ancient contexts (round 6: card titles ×2 + bodies ×2; EN "Gojoseon"); **のちの韓国** kept for EN "later Korea"; JSON-LD ancient cross-ref **朝鮮半島** (aligns JA HTML meta; EN "Korea" untouched); 衛氏朝鮮 kept |
+| Gojoseon | **古朝鮮** in ja/yayoi ancient contexts (round 6: card titles ×2 + bodies ×2; EN "Gojoseon"); **のちの韓国** dropped from both locales' yayoi card prose in round 8 (→ 朝鮮半島の…); JSON-LD ancient cross-ref **朝鮮半島** (aligns JA HTML meta; EN "Korea" untouched); 衛氏朝鮮 kept |
 | Suishou | **倭国王帥升** (round 6: was 倭面土王 ×2 in ja/yayoi JSON-LD + card; EN "Suishou" = 帥升, 後漢書 107 CE — visible = JSON-LD byte-aligned) |
 | Ikasuri shrine | **坐摩神社** (readings いかすり/ざま; round 6: was 生駒神社 ×8 + 座摩 ×1 in ja/empress; EN "Ikasuri Shrine (Zama-san)" was already correct and kept; legend = Jingū founded it, five Ikasuri deities, moved 1608 when Osaka Castle was built) |
 | Companion links | EN `/beforejapanhadaname.html` ↔ JA **/ja/before-the-castle-prehistoric-osaka.html** with short title **城になる前の大阪** (round 6: tenjin DYK trailing sentence + yayoi callout companion p added; no ja/beforejapanhadaname.html exists — never link it) |
@@ -83,7 +84,6 @@ Return findings as `page → sentence → suggested fix`.
 |---|---|---|
 | `tenjin-matsuri-history`, `fujiwara-shadow-politics` | **時康親王** | EN says "Prince Tokiyo" — verify reading/attribution and whether both pages need the same figure |
 | `ishiyama-timeline` | **焦土作戦** | calque of EN "scorched-earth campaign" — check if 焦土化作戦 / 焦土と化した is the natural JA military-historical term |
-| `yayoi_timeline`, `deeptimeline` | **紀元前1000 vs 紀元前300** | internal dating inconsistency carried from EN — which start date should JA use? |
 | `osaka-castle-history` | **国松** | EN "Kunimatsu" — confirm presentation (国松 with 幼名 千丸?) |
 | `deeptimeline` | **政治の座から外された台地** | original JA said 昇格させられた (opposite of EN "Politically sidelined") — new wording follows EN; confirm intent |
 | `empress-shotoku` | **紀百継 → 吉備真備**, card title **直接皇権の再主張** | agent-side factual/title corrections |
@@ -346,6 +346,50 @@ Explore All → `/osaka_history_things_to_do.html`; labels follow §3: 蘇我氏
 article) / 豊臣秀吉 — 太閤の軌跡 / 睡龍 / 真田信繁). EN-only flags to raise in
 the end-of-work reply: EN hideyori flat seppuku statement, EN fujiwara cta blurb
 missing comma ("its masters Osaka Castle"), EN "Kishi" vs Kisako.
+
+## 5h. Round 8 — museum/archive-verified yayoi accuracy review (2026-10-02)
+
+47-item external review against museum/archive sources on ja/yayoi (+ EN twin,
+deeptimeline pair). Applied:
+
+- **Chronology:** extended Yayoi **紀元前1000年頃～300年頃 / c. 1000 BCE – 300 CE**
+  everywhere (title-safe: lead, FAQ, JSON-LD, intro, hero caption
+  紀元前5～4世紀頃, era bands 初期弥生への移行／集落の拡大と首長制社会の形成／
+  複雑な社会と政治勢力の形成 with 頃 ranges + 1〜3世紀) + methodology ※ note
+  under the JA/EN intro (resolves §4 **紀元前1000 vs 紀元前300**). 魏蜀呉
+  card-date 3世紀後期→**3世紀** (220 CE body); 古墳 card **3世紀後期～4世紀**,
+  body no longer claims "horse culture".
+- **Terminology:** 水稲農耕→**水田稲作** everywhere except the reviewer's verbatim
+  FAQ sentences; 首長国家→首長制社会／政治勢力; 国造 dropped (EN `kuni no
+  miyatsuko` too); シャーマンの女王→『魏志』倭人伝 **鬼道に仕えた女王** (EN
+  "served the spirits (kido)"); 通道→経路; 辰韓同盟→**三韓の形成 — 馬韓・辰韓・
+  弁韓**; 青銅鏡→銅鏡; 仏教の布教 card **removed** (1st c. CE = 后漢明帝伝説/
+  538/384 range, not yayoi-era Japan) — row now Japan+Korea only;
+  中国を二分 dropped; のちの韓国 dropped (both locales, §3 row).
+- **Facts:** 57–108 row split — 金印/『後漢書』 detail on the Japan card, China
+  card framed as Han-side diplomacy; 古朝鮮 2333 BCE flagged as Dangun legend;
+  四郡 kept (108 BCE) but framed as one route among networks; 107 CE = 帥升ら
+  生口160人 per 『後漢書』; Himiko = 238 CE/親魏倭王/銅鏡百面;
+  百済/新羅 dates hedged as 『三国史記』伝承; callout rewritten (移住者/天然の港
+  claims dropped).
+- **Osaka evidence card:** 猪刃遺跡 (unverifiable) replaced with verified sites —
+  西福井遺跡 (茨木, 前期 石包丁・蛤刃石斧), 瓜生堂遺跡 (東大阪, 住居遺構・方形周溝墓
+  per Wikipedia 東大阪市), 池島・福万寺遺跡 (縄文晩期〜, 生産遺構); footprints
+  claim dropped (not verifiable). deeptimeline 稲葉/Inaba → 瓜生堂/Guruido
+  (card no longer claims "early" for Guruido).
+- **deeptimeline pair:** corrupted strings 約38,000 – 14,紀元前000年 /
+  約14,紀元前000〜紀元前300年 restored (14,000年前 / 紀元前1000年 — Jōmon band
+  end now matches yayoi start; EN "c. 14,000 – 1000 BCE").
+- **Glossary:** 4 warn terms added — 首長国家 / 通道 / シャーマンの女王 / 辰韓同盟
+  (国造 deliberately **not** added: valid in later Yamato contexts).
+- **Both locales:** FAQ visible ↔ JSON-LD byte-synced ×3, dateModified
+  2026-10-02, EN lead/intro/era labels/callout mirrored; no structure/href/tag
+  changes (§2 intact).
+
+Verification: check:ja 0 warnings, check:data, check:parity, tsc, assertion
+greps (0 hits: 猪刃|辰韓同盟|首長国家|国造|シャーマン|中国を二分|仏教の布教|
+通道|のちの韓国|紀元前000|稲葉|Inaba on the touched pages), FAQ byte-identity
+script.
 
 ## 6. Automated gates (must stay green after any edit)
 
