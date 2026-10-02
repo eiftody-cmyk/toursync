@@ -8,7 +8,8 @@ Work landed in: `38b5641` (guide/lint), `5039c49` (P0 term fixes),
 `b84a8b9` (Group A, 9 pages), `bf991dc` (Group B, 7 pages),
 `e5e0e6f` (Group C, 5 pages), `54b1707` (this checklist + strict title lint),
 `caa62ef` (round 2, azaiclan), `2cce699` (round 3, §5c),
-`69ad5ff` (round 8, §5h — yayoi accuracy/terminology).
+`69ad5ff` (round 8, §5h — yayoi accuracy/terminology),
+`7e74a4b` (round 9, §5i — empress_jingu historical rewrite).
 
 ---
 
@@ -87,7 +88,7 @@ Return findings as `page → sentence → suggested fix`.
 | `osaka-castle-history` | **国松** | EN "Kunimatsu" — confirm presentation (国松 with 幼名 千丸?) |
 | `deeptimeline` | **政治の座から外された台地** | original JA said 昇格させられた (opposite of EN "Politically sidelined") — new wording follows EN; confirm intent |
 | `empress-shotoku` | **紀百継 → 吉備真備**, card title **直接皇権の再主張** | agent-side factual/title corrections |
-| `empress_jingu_timeline` | **朝鮮 ×3** (was 韓国 in ancient contexts), **女王** (was シャマンの女王), removal of contradictory 「200年頃創建」 FAQ/timeline line | verify removal was right vs adding a caveat |
+| `empress_jingu_timeline` | round-6 items (朝鮮×3, 女王, contradictory 200年頃 line) — **resolved round 9**: full historical rewrite removed 女帝 for Jingū, reframed Gwanggaeto/Himiko/Hōenzaka claims (§5i) | closed 2026-10-02 |
 | `fujiwara-shadow-politics` | readings **侃子・重子**; **別部穢麻呂**; **詔を読み上げている儀式** (was 誥文) — round 7 resolved 諸盛の娘・安子 → 師輔の娘・安子 and 乙縄と多治比の娘 → 乙牟漏/旅子, added 伊尹（=Koretada, father of 懐子; 国史大辞典 花山天皇 entry) and fixed 文武→聖武 streak | EN names ambiguous or terminology avoided |
 | `ojinsuccession` | 元明天皇 → **祖母で文武天皇の母** (EN called her "mother" — impossible); **厩戸王（のちの聖徳太子）** (was 宇治川王); **敏達** (was 応達); **山背大兄王は聖徳太子の子** kept (traditional attribution); anchor **645年（大化元年）** added | EN self-contradictions resolved — confirm choices |
 | `soga-fujiwara-timeline` | **藤原氏と摂関政治** (dedup), **皇室との婚姻** (was 王室結婚) | wording de-duplication |
@@ -390,6 +391,61 @@ Verification: check:ja 0 warnings, check:data, check:parity, tsc, assertion
 greps (0 hits: 猪刃|辰韓同盟|首長国家|国造|シャーマン|中国を二分|仏教の布教|
 通道|のちの韓国|紀元前000|稲葉|Inaba on the touched pages), FAQ byte-identity
 script.
+
+## 5i. Round 9 — empress_jingu historical-accuracy rewrite (2026-10-02)
+
+External historian review (40-item critique + full 改訂版 draft): the page's
+claims had escalated from "scholars propose X" to "X happened". Rewrote both
+locales to keep 記紀の伝承 / independent evidence / archaeology / modern
+interpretation visibly separate, and added per-card epistemic badges.
++243/−166 across 3 files.
+
+- **Thesis (header + Article JSON-LD):** 「8世紀の朝廷が、女性の皇権を正
+  当化するために…組み立てた」 (an unknowable motive, asserted as fact) →
+  layered-transmission version: 伝承上の人物 / 『日本書紀』は…描きます / 記憶と
+  王統の歴史観が重なっていると考えられています. Subtitle 境目 → 境界.
+- **FAQ 4 → 5** (visible + JSON-LD byte-synced): Q1 どのような人物 → 720年 +
+  伝承過程 caveat, no 女帝; Q2 朝鮮半島へ出兵 → 三韓征伐=伝承, no direct
+  evidence, Gwanggaeto = 別系統の金石文史料 (4世紀末〜5世紀初頭, 解釈に議論あり);
+  Q3 住吉 (縁起 framing, 住吉三神, 211年 = 『帝王編年記』推定 + 社自身の注記);
+  Q4 坐摩 (創祀縁起, 生井神・福井神・綱長井神・波比祇神・阿須波神の五柱,
+  旧社地=渡辺津/石町, 久太郎町, 築城移転伝承 — order verified vs ja.wikipedia
+  坐摩神社); Q5 卑弥呼 → name absent, 神功紀引用『魏志』239年, 対応関係が論じられて
+  きた + 単純な同一視ではない (NDL レファレンス cited).
+- **Timeline:** dividers → 「『日本書紀』が置く年代（3世紀初頭）」/「別系統の史料と
+  考古学（4世紀末〜8世紀）」; card dates 193〜200/200/211年頃 → 3世紀初頭,
+  Gwanggaeto 391年 → 4世紀末〜5世紀初頭, Hōenzaka 400年代頃 → **5世紀**
+  (reviewer's key correction: warehouses cannot evidence a 3rd-c episode).
+  Titles: 神託と仲哀天皇の死 / 三韓征伐の伝承 / 難波と上町台地 / 坐摩大神の伝承 /
+  住吉大神の鎮座 / 法円坂の大型高床倉庫群 (16棟・約90㎡・博物館も5世紀) /
+  『日本書紀』と卑弥呼の時代. Removed: 不審な最期, 冒涜, 大艦隊→大規模な船団,
+  朝鮮三国への侵攻, 最高の武将→王権を支える重要な女性, 上町台地戦略断定,
+  「高級品・武器・先進技術」・「証明」, 独立した同時代の証拠, はぎ取って貼り付け,
+  皇室には決して登場しません, 統一されていた.
+- **Badges (new, both locales):** CSS `.item-badge` + `.b-legend/.b-source/
+  .b-arch`; 5 myth cards = 伝承/Legend, Gwanggaeto + 720 = 史料/Source,
+  Hōenzaka = 考古学/Archaeology (reviewer's production suggestion, applied).
+- **Callout:** 「物語が書き換えられた土地に立つ…力の軸の真実」 → 「物語が重ねられた
+  土地に立つ」 + 4層の時間差 (3世紀/4世紀末/5世紀/8世紀) + 台地を歩けば…問い.
+  Continue-Exploring motive claim softened (both locales).
+- **EN twin: fully mirrored** — header, lead, 5 FAQs byte-synced, both
+  dividers, all 8 cards (Jilin Province, readings debated, 5th-century
+  Hōenzaka, "independently confirms" not "proving"), callout, page-date →
+  October 2026, fixed pre-existing `influencial` typo, cta heading
+  "rode at the head of an empire" → "led a fleet in legend".
+- **女帝 kept** only where it means later empresses (称徳天皇 refs); never for
+  Jingū. Hero caption kept (already 伝説的 + Nihon Shoki's own dating).
+- **Glossary:** 3 terms added — error 大陸の金石学 (→朝鮮半島・中国側の金石文),
+  error 朝鮮三国への侵攻 (→三韓征伐の伝承／新羅への遠征), warn 大艦隊 (→大規模な船団).
+
+Verification: check:ja 0 warnings, check:data (61 pages/101 blocks, FAQ
+parity), check:parity, tsc, npm run build; FAQ byte-identity 5/5 both
+locales; assertion greps 0 hits (朝鮮三国|不審な最期|最高の武将|血の流れていない|
+はぎ取って|高級材|大艦隊|境目|大陸の金石学|作られた存在|独立した証拠|統一されていた|
+保証するもの|冒涜|193〜200|200〜211|391|shaman queen|stripped|bloodless|
+Three Korean Kingdoms|justify female|armada|suspicious death|influencial).
+Note: 女帝 (×2) and 正当化する神話的叙述 remain by design — later-empress
+contexts and the reviewer's own mythic-narrative sentence.
 
 ## 6. Automated gates (must stay green after any edit)
 
