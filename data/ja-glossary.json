@@ -115,7 +115,7 @@
     { "forbidden": "文化的ブローカー", "required": "文化的な仲介者", "level": "error", "reason": "review round 19 (hideyoshi-rikyu): unnecessary English-derived term" },
     { "forbidden": "召されず、配置された", "required": "政治空間の中の利休", "level": "error", "reason": "review round 19 (hideyoshi-rikyu): unnatural phrase; card renamed 政治空間の中の利休" },
     { "forbidden": "切腹像是", "required": "切腹像は", "level": "error", "reason": "review round 19 (hideyoshi-rikyu): typo (像是); Nakamura's claim must be framed as 異説, not established truth" },
-    { "forbidden": "秀吉の異父弟", "required": "秀吉の異母弟（豊臣秀長）", "level": "error", "reason": "review round 19 (hideyoshi-rikyu): Hidenaga is Hideyoshi's 異母弟 (different mother); rule is phrase-scoped because genpei legitimately uses bare 異父弟" },
+    { "forbidden": "異父弟", "required": "異母弟", "level": "error", "reason": "review round 19 (hideyoshi-rikyu) + October 2026 audit §6: Hidenaga is Hideyoshi's 異母弟, Yoritomo's brothers are his 異母弟 — bare 異父弟 corrected in genpei-timeline (was wrongly grandfathered as legitimate)" },
     { "forbidden": "関白（摂政）", "required": "関白", "level": "error", "reason": "review round 19 (hideyoshi-rikyu): 関白 and 摂政 are different positions; Hideyoshi became 関白 in 1585" },
     { "forbidden": "後年の構築物", "required": "後世に形成された通俗的なイメージ", "level": "error", "reason": "review round 19 (hideyoshi-rikyu): too categorical — hedge the gold/wabi contrast as a later construction" },
     { "forbidden": "争いのない単一の説明", "required": "一致した一つの説明", "level": "error", "reason": "review round 19 (hideyoshi-rikyu): awkward phrasing flagged by reviewer" },
