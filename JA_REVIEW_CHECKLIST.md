@@ -96,6 +96,7 @@ Return findings as `page → sentence → suggested fix`.
 
 | Sanada Nobushige naming | h1 subtitle **「日本一の兵」と呼ばれた武将** (attested, NDL; never 日本最強の武将/武士 — error rule), FAQ2 Q = **なぜ信繁は「日本一の兵」と呼ばれるのですか？**; death site **安居神社** (never 安井神社 — error rule), Sanada = **1615年6月3日** / Hideyori & Yodō-dono = **翌6月4日 自害・豊臣氏は滅亡** (row 86 split, round 23); late-life **配流・蟄居・約14年** (never 流刑/14年間もの隠遁); Kudoyama card title **九度山の蟄居**, death-card tag **最期 — 安居神社へ** (never 百に一人の英雄); 十勇士 = **後世の語り伝え・確実な同時代史料なし** (never 諜報活動) |
 | Timeline column legends | korea column = **戦略と伝承 / 伝承と戦略** (sanada + tokugawa both locales, round 23; EN **Strategy & Legends / Legends & Strategy** — also on toyotomihideyoshi EN; never 戦略と噂 / 噂と戦略 / Strategies & Rumours / Rumours & Strategy — error rules); sanada buttons = **すべて｜若年期・人質時代｜上田・九度山｜冬の陣｜夏の陣** (era-headers follow; keys youth/exile/winter/summer unchanged) |
+| Tokugawa Ieyasu ending | title/epithet = **忍耐の天下人 / The Patient Unifier** (round 25: never 眠れる龍 / Sleeping Dragon / 睡龍 / 臥龍 — fixed site-wide incl. 7 EN + 3 JA cross-links, error rules added); h1 em = **天下統一を成し遂げた将軍 / The Shogun Who Unified Japan** (never 最後の統一者 / The Last Unifier); hostage years = **約13年にわたる / about thirteen years** (never 25年/30年); three houses = **今川の人質・信長の同盟者・秀吉の家臣 / Imagawa captive, Nobunaga's ally, Toyotomi vassal** (never 三人の主に仕え / served three different lords); shogun appointment explained by **武家関白制 / buke-kanpaku** (never 秀吉の出自が故に / Hideyoshi's common birth barred him); winter card ends **豊臣側は同意しました / The Toyotomi side agrees.** (trap sentence dropped — row 93 alignment); scholars = **谷口克広・小和田哲男** (never 谷口克博 / 大和田哲夫); FAQ visible↔JSON-LD byte-synced ×5 both locales; 27 cards kept (round-25 25-card proposal rejected) |
 
 ## 4. ⚠ Uncertain phrases — review these first
 
@@ -1408,6 +1409,58 @@ round-6/9 handling); verified against the shrine plaque account (替地 ordered
 - **§3 row 80 amended** (new Ikasuri account, two-distinct-sites note).
 - **Verification:** FAQ byte-sync 5/5 ×2 locales; 波比祇/奉斎 site-wide 0;
   check:ja 21 pages 0 warnings; check:data; check:parity; tsc; build.
+
+
+## 5y. Round 25 — tokugawa-ieyasu-timeline Ieyasu review (27 items kept) (2026-10-03)
+
+**Provenance:** external review round 25; plan approved by user 2026-10-03.
+Record in `ja-review-annot-16.md` (untracked).
+
+- **Locked user decisions (2026-10-03):**
+  1. **Keep all 27 cards** — reviewer's 25-card set rejected (すでに勝っていた関ヶ原
+     and 江戸大建設 stay separate); itemized fixes only.
+  2. Title → **忍耐の天下人 — 徳川家康の年表** /
+     **The Patient Unifier — A Tokugawa Ieyasu Timeline** (reviewer's 大坂城
+     title suffix rejected; brand suffix kept).
+  3. FAQ4 keeps the site standard (round-21 hideyori row 93); the trap assertion
+     **それが罠だと気づいていませんでした** / "They do not yet understand the
+     trap" deleted from the winter-siege card both locales.
+  4. FAQ3 low-birth claim replaced with the positive **武家関白制 /
+     buke-kanpaku** explanation (Hideyoshi chose Kanpaku & Grand Minister,
+     leaving the shogunate vacant; 1603 appointment, 1605 abdication to
+     Hidetada = hereditary signal).
+- **Edits:** epithet swap site-wide — metas/title/og/twitter/breadcrumb/Article
+  headline+description, subtitle **忍耐の天下人編 / The Patient Unifier Edition**,
+  h1 em, quick answer, FAQ1 (Q → 「忍耐の人」/"a man of patience"; A → 青年期に信長と
+  同盟を結び/"allied with Nobunaga as a young man"), FAQ5 Q → すべて埋め立てられた/
+  "completely filled in", lead (~13-year hostage + 今川の人質・信長の同盟者・秀吉の
+  家臣; dropped 25/30年 + castle-fate parenthetical), 征夷大将軍 card → 武家関白制
+  wording both locales, scholars 谷口克博/大和田哲夫 → **谷口克広/小和田哲男**,
+  5 era headers (政治の道具とされた幼少期 / 信長とともに / 混迷の戦国を生き抜く /
+  関ヶ原と幕府開設 / 豊臣家滅亡と平和の確立 + EN mirrors), 6 chip renames
+  (織田氏による人質奪取, 苦渋の決断, 神君伊賀越え, 甲斐・信濃への進出,
+  将軍職の世襲と徳川体制の確立, 日光での神格化 + EN), 3 card titles
+  (決死の脱出行, 関東八州と湿地帯の江戸, 東照大権現としての神格化 + EN).
+- **Cross-page epithet fixes (9 other files):** EN links `Tokugawa Ieyasu: The
+  Sleeping Dragon` → `The Patient Unifier` (ishiyama, sanada, hideyori,
+  hideyoshi), `The Sleeping Dragon: Tokugawa Ieyasu` → `The Patient Unifier:
+  Tokugawa Ieyasu` (lordconcubine, warriormonk), things-to-do CTA `The Last
+  Unifier` → `The Shogun Who Unified Japan`; JA `睡龍 — 徳川家康の年表` →
+  忍耐の天下人 (ishiyama, hideyori JA), `臥龍：徳川家康` → 忍耐の天下人：徳川家康
+  (lordconcubine JA). dateModified bumps: ishiyama EN+JA 2026-07-07→2026-10-03,
+  lordconcubine + warriormonk EN 2026-09-23→2026-10-03 (+ page-date → October).
+- **Rejected:** birth c. 1543 + 1547 card 「わずか4歳」 (reviewer's 6歳), Sekigahara
+  Gregorian 1600年10月21日, FAQ5/Senda moat answers, 25-card structure.
+- **24 new glossary error rules** (222 → **246** final): 眠れる龍, 睡龍, 臥龍,
+  最後の統一者, 25年におよぶ人質, 30年におよぶ人質, 三人の主に仕え, 谷口克博,
+  大和田哲夫, 秀吉の出自が故に, 出自ゆえに手に入れられなかった, 何十年ものあいだ
+  信長に仕えた, 歩ける前に権力を得る, 最初の拉致, 涙なき義務, 機会主義的忍耐,
+  王朝の示唆, 天の政治, 八つの沼, 敵地を越える逃避, 信長の影で二十年,
+  信長後の混乱を乗り越える, 永遠の秩序の建設, それが罠だと気づいていませんでした.
+- **§3 new row added** (Tokugawa Ieyasu ending).
+- **Verification:** FAQ byte-sync 5/5 ×2 locales; structure parity 27 cards /
+  5 FAQ / 5 buttons both locales; Sleeping Dragon + The Last Unifier site-wide 0;
+  check:ja 21 pages 0 warnings; check:data 61/101; check:parity; tsc; build.
 
 
 ## 6. Automated gates (must stay green after any edit)
