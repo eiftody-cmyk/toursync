@@ -1,9 +1,9 @@
-# GetYourGuide Environment Variables for Vercel
+# GetYourGuide Environment Variables for Cloudflare Workers
 
-Set these in your Vercel project settings → Environment Variables.
+Set these as Worker secrets: `npx wrangler secret put <NAME>`.
 
-**Do not commit real passwords here.** Use password manager / `wrangler secret` /
-Vercel UI. Values below are placeholders.
+**Do not commit real passwords here.** Use password manager / `wrangler secret`.
+Values below are placeholders.
 
 ## GYG Integration (Required)
 
@@ -17,16 +17,15 @@ Vercel UI. Values below are placeholders.
 
 ## How to Set
 
-1. Go to https://vercel.com/edwardiftody-osaka-castle-walks-with-edward/toursync/settings/environment-variables
-2. Add each variable above
-3. Set scope to **Production** and **Preview**
-4. Redeploy after setting
+1. Run `npx wrangler secret put <NAME>` for each secret above
+2. Verify with `npx wrangler secret list`
+3. Redeploy after setting (`npm run deploy`)
 
 ## Testing
 
 Once set, GYG will test by calling:
-- `GET https://toursync1.vercel.app/1/get-availabilities/?productId=T-1221780&fromDateTime=...&toDateTime=...`
-- `POST https://toursync1.vercel.app/1/reserve/`
-- `POST https://toursync1.vercel.app/1/book/`
-- `POST https://toursync1.vercel.app/1/cancel-reservation/`
-- `POST https://toursync1.vercel.app/1/cancel-booking/`
+- `GET https://osakacastletours.com/1/get-availabilities/?productId=T-1221780&fromDateTime=...&toDateTime=...`
+- `POST https://osakacastletours.com/1/reserve/`
+- `POST https://osakacastletours.com/1/book/`
+- `POST https://osakacastletours.com/1/cancel-reservation/`
+- `POST https://osakacastletours.com/1/cancel-booking/`

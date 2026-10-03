@@ -8,7 +8,7 @@
 
 **When the trigger hits:**
 1. Change passwords in the GYG supplier portal
-2. Update secrets: `wrangler secret put GYG_PASSWORD`, `GYG_INBOUND_PASSWORD`, `GYG_PROD_PASSWORD` (and Vercel/env if used)
+2. Update secrets: `wrangler secret put GYG_PASSWORD`, `GYG_INBOUND_PASSWORD`, `GYG_PROD_PASSWORD`
 3. Optional later: purge old values from git history with `git-filter-repo`
 
 Related: see STATUS.md → Next Move / REMINDERS.

@@ -91,4 +91,4 @@ Viator/GYG APIs, Travelio, billing, multi-tenant admin, mobile app.
 
 ## Deploy
 
-Vercel → connect repo `toursync` → set env vars → deploy. Add production `GOOGLE_REDIRECT_URI` to Google Cloud Console.
+Cloudflare Workers → `npm run deploy` (guards + `opennextjs-cloudflare build` + `wrangler deploy`). Secrets via `wrangler secret put <NAME>`. Add production `GOOGLE_REDIRECT_URI` to Google Cloud Console.
