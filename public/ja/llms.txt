@@ -10,7 +10,7 @@
 - /ja/hideyoshi-rikyu-timeline — 秀吉と千利休：協力者から政治的問題へ ― 年表
 - /ja/ishiyama-timeline — 石山本願寺戦争（1570〜1580）
 - /ja/three-unifiers — 三人の統一者
-- /ja/tokugawa-ieyasu-timeline — 睡龍 — 徳川家康の年表
+- /ja/tokugawa-ieyasu-timeline — 忍耐の天下人 — 徳川家康の年表
 - /ja/toyotomi_hideyori — 豊臣秀頼：大阪城の崩壊に直面した継承者
 - /ja/before-the-castle-prehistoric-osaka — 城の前史：大阪が太古の潟であった頃
 - /ja/empress-shotoku — 称徳天皇・道鏡・難波宮 — 王権をめぐる政治
