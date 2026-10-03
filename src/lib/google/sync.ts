@@ -283,7 +283,18 @@ export async function unblockSlot(params: UnblockSlotParams): Promise<UnblockSlo
       const msg = e instanceof Error ? e.message : String(e);
       // Keep the row so event id is not lost — retryable via unblock or sync
       console.error("[google/sync] unblock Google delete failed (row kept):", msg);
-      return { ok: false, googleDeleted: false, rowDeleted: false, error: msg };
+      const disconnected =
+        e instanceof GoogleDisconnectedError ||
+        msg.includes("No valid") ||
+        msg.includes("not connected");
+      return {
+        ok: false,
+        googleDeleted: false,
+        rowDeleted: false,
+        error: disconnected
+          ? "Google Calendar disconnected — reconnect in Settings, then retry the unblock."
+          : msg,
+      };
     }
   }
 
