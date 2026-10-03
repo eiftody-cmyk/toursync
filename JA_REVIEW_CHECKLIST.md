@@ -91,6 +91,8 @@ Return findings as `page → sentence → suggested fix`.
 | Hideyoshi–Rikyū ending | `<title>` + h1 = **協力者から「政治問題」へ** (round 19; EN “From Partners to ‘Political Problem’” — curly quotes in all title slots/OG/headline/breadcrumb); era buttons/headers **出会いと基盤 / 関係の深化 / 茶の湯と権力 / 政治空間の変化 / 終焉** (filter keys foundations/recognition/summit/asymmetry/rupture unchanged); **山崎の戦い = 1582年（天正10年）** (never 1583); **1585年に関白** alone (never 関白（摂政）), 1586 豊臣姓・太政大臣; 豊臣秀長 = **異母弟** (never 異父弟); 北野大茶湯 = **四人の茶堂 + 八百三人** per 『兼見卿記』 (never 亭主 framing); 大徳寺木像 = **金毛閣 + 1591年処分時の問題点** (never fixed 1589 installation; card-date 1589〜1591); 中村修也 = **有力な異説の一つ** (never settled truth); 唐物→和物 = **傾向** (never complete replacement); 承認/命令 column device kept as interpretive frame only — lead/quick answer/conclusion never present it as scholarly consensus; FAQ visible↔JSON-LD byte-synced ×5 both locales |
 | osaka-castle-history ending | 5 era buttons/headers **豊臣の夢 / 大坂の陣と豊臣家の滅亡 / 徳川による大坂城再築 / 近代軍事拠点 / 現代の大阪城** (EN: Toyotomi's Vision / The Siege & Toyotomi's End / Tokugawa Rebuilding / Modern Military Arsenal / Modern Osaka Castle; keys toyotomi/siege/edo/arsenal/modern; headers 1583〜1598 / 1614〜1615 / 1620〜1868 / 1868〜1945 / 1945〜現在 — round 20; never 大坂の陣と抹消 / 大阪城の再建); **`<title>` keeps 豊臣の夢、徳川の抹消** (round-20 item 42 rejected); death date **1615年6月4日 / June 4** site standard (item 14's 1615年5月8日 rejected; 城が**落ちた** never 落んだ); key dates **1627 天守 / 1629〜1665 / 1620〜1629 / 1868年1月6日 / 1931 募金・大坂夏の陣図屏風 / 1959 筒井文庫・1984 修復** (never 1626/1628/1630); **豊臣期大坂図屏風 / ねね = 1548/1549〜1624 / 奈阿姫** (never 豊臣襖絵/宁々/名姫/1546); pre-1868 **大坂城・大坂城代・大坂町奉行**; bibliography = round-20 source set (JA 7 li / EN 10 li; JA h2 **参考文献・関連史料**; never 『難波戦記』/『大阪記』 labeled 一次史料, never すべて英語で出版); motive prose = 覆うように築かれた/盛土で覆う (never 意図的な…殲滅戦・埋め立て・罠/見せかけ); FAQ visible↔JSON-LD byte-synced ×4 both locales |
 | Hideyori ending | 5 era buttons/headers **奇跡の子 / 孤立した継承者 / 運命の衝突 / 和議と城の崩壊 / 夏の陣と滅亡** (EN: The Miracle Child / The Isolated Heir / The Fateful Clash / Peace & the Unmaking / The Summer Siege; keys miracle/isolation/clash/peace/final; headers 1593〜1598 / 1600〜1611 / 1614〜1615 / 1614〜1615 / 1615 — round 21; cards **15** = 3/5/3/2/2, new: 1595 秀次事件と継承の確定, 1605 右大臣・二重構造, 片桐且元をめぐる対立, 堀の埋め立てと真田丸の破却); column labels **大坂の陣と軍事的局面 / 史料と後世の伝承** (never 主な攻城戦と役割 / 噂と戦略 / 戦役と攻城戦 / 策略と滅亡); death **1615年6月4日** plain Gregorian site standard (round-21 item 3's 5月8日（新暦6月4日）rejected — same date, wareki declined, and 「元和元年」is the wrong era since 元和 starts 1615-07; death/fall same day = **落城の際に** never 落城の翌日); **黄金の鳥籠** kept as title + now defined in lead para 2 and the 1603 政権 card (item 24); 二条城会見 = 19歳 / 『当代記』/ 後世の解釈として慎重に扱う (never 18歳 / 深く警戒したと噂 / 血統を断ち切らねば); 1603 wedding = 11歳・7歳 marriage (ages swapped nowhere); metas rewritten both locales (no 徳川幕府が残した「自殺」説と…真相を検証 / "'suicide' story, and what really happened" promise); dateModified 2026-10-03; FAQ visible↔JSON-LD byte-synced ×4 both locales |
+| Toyotomi house end | **豊臣氏は滅亡** for 1615 (round 22: never **豊臣の血筋** — the blood continued via Senhime/Tokugawa; fixed ×8 across five JA pages — three-unifiers, tokugawa-ieyasu-timeline ×4, lordconcubineshogunlie, toyotomi_hideyori, osaka-castle-history — error rule in `data/ja-glossary.json`; EN "Toyotomi line" idiom kept) |
+| three-unifiers ending | FAQ1 Q = **日本統一を進めた三人とは誰ですか？** (round 22; JSON-LD breadcrumb name **三英傑**, was 三人の統一者); FAQ answers = **江戸幕府を開きました** + **三人の政権とその継承** (never 江戸幕府として制度化 / 体制を築きました / 三人の関係が); FAQ2 = **尾張国に生まれ**…1583年（天正11年）に大坂城の築城を開始・政治的・軍事的拠点 (never 百姓の出身から関白へ上り詰めた / 権威を示す宣言); FAQ3 Q = **石山本願寺と10年にわたって戦った**, A = 寺内町 + 1570〜1580 石山合戦 + 門徒・武将・水軍・海上交通 + **朝廷の仲介による和議・顕如が大坂を退去** (never 10年も包囲 / 一向一揆の要塞都市 / 飢餓と講和によって攻略); FAQ4 = **徳川方が勝利しました・和議によっていったん終結・江戸幕府の政治秩序が定着…大きな転換点** (never 勝利が帰しました / 講和で一旦は決着 / 約260年の幕府時代); portraits = **十年** (row 72 enforcement) / **無名の家臣から** (never 一農民から) / **天下統一の拠点として築かれた** (never 世界への彼の宣言); catchphrase h1 + og/twitter descriptions kept; FAQ visible↔JSON-LD byte-synced ×5 both locales; dateModified 2026-10-03 |
 
 ## 4. ⚠ Uncertain phrases — review these first
 
@@ -1293,7 +1295,43 @@ table persisted in `ja-review-annot-12.md` (untracked).
   byte-sync 4/4 ×2 locales; forbidden greps 0 both locales (supreme lord /
   Most scholars agree / ruled from Osaka Castle / Toyotomi dynasty / last
   living witnesses / safely rescued / cunningly fill / near-impregnable / …);
-  check:ja 21 pages, check:data + check:parity, tsc, build green.
+   check:ja 21 pages, check:data + check:parity, tsc, build green.
+
+## 5v. Round 22 — three-unifiers (8 items) (2026-10-03)
+
+**Provenance:** external historical/terminology review of `three-unifiers`
+(JA primary, full EN mirror). Reviewer's §8 publishable texts were no longer
+verbatim in context at execution time — final byte strings reconstructed from
+the round summary and approved by the site owner before any edit. Full record
+persisted in `ja-review-annot-13.md` (untracked).
+
+- **Locked user decisions (2026-10-03):**
+  1. **`豊臣の血筋` fixed site-wide** (8 occurrences / 5 JA pages →
+     豊臣氏は滅亡 / は滅亡した / は滅亡しました / を滅ぼした攻城戦) + error rule;
+     EN "Toyotomi line" idiom untouched; dateModified bumped on touched pages
+     (hideyori already 2026-10-03).
+  2. **Portraits fixed** (owner-added, not in review text): 十一年→十年
+     (enforces §3 row 72), 一農民から→**無名の家臣から**, 世界への彼の宣言→
+     **天下統一の拠点として築かれた** (JA+EN); Ieyasu drama line kept.
+  3. **FAQ1 Q** → 日本統一を進めた三人とは誰ですか？ (reviewer's publishable
+     pick; 三英傑 alt declined); EN "Who were the three unifiers?" kept.
+  4. **JSON-LD breadcrumb** 三人の統一者 → **三英傑** (owner-added; reviewer
+     silent — only surviving instance after the FAQ1 rename).
+- **Narrative rewrites (items 1–7):** quick answer + all 5 FAQ answers
+  byte-identical ×2 per locale; FAQ3 Q renamed (包囲→戦った, both locales);
+  Article description overclaim (「三人が…日本を統一した」/ "the three men who
+  unified Japan") rewritten both locales; catchphrase h1 + og/twitter
+  descriptions + eyebrow kept (review header lines naming 最終決戦編 treated as
+  not applicable — that is hideyori's label); dates → 2026-10-03 /
+  October 2026 (item 8).
+- **10 new glossary error rules** (177 → 187), phrase-scoped
+  百姓の出身から関白 (bare 百姓の出身 on toyotomihideyoshi metas stays legal);
+  site-wide grep-first on every candidate.
+- **Verification:** FAQ byte-sync 5/5 ×2 locales; structure 3 portrait /
+  5 details identical across locales; forbidden greps 0 both locales
+  (勝利が帰しました / 豊臣の血筋 / 要塞都市 / 飢餓と講和 / 約260年の幕府時代 /
+  十一年 / peasant roots / Toyotomi line …); check:ja 21 pages,
+  check:data + check:parity, tsc, build green.
 
 ## 6. Automated gates (must stay green after any edit)
 
