@@ -176,7 +176,17 @@
     { "forbidden": "天守の炎上と切腹", "required": "天守の炎上と自害", "level": "error", "reason": "review round 21 (toyotomi_hideyori item 20): seppuku certainty not established" },
     { "forbidden": "最大の競敵", "required": "新たな政治秩序", "level": "error", "reason": "review round 21 (toyotomi_hideyori item 4): 'final rival' framing" },
     { "forbidden": "戦争の公式な口実", "required": "重要な契機", "level": "error", "reason": "review round 21 (toyotomi_hideyori item 4): 'official justification' overstates the record" },
-    { "forbidden": "ひたすら守られていました", "required": "守られていました", "level": "error", "reason": "review round 21 (toyotomi_hideyori item 8): 'merely sheltered' aside" }
+    { "forbidden": "ひたすら守られていました", "required": "守られていました", "level": "error", "reason": "review round 21 (toyotomi_hideyori item 8): 'merely sheltered' aside" },
+    { "forbidden": "勝利が帰しました", "required": "徳川方が勝利しました", "level": "error", "reason": "review round 22 (three-unifiers FAQ4): 'the victory went to' is broken framing" },
+    { "forbidden": "豊臣の血筋", "required": "豊臣氏は滅亡", "level": "error", "reason": "review round 22 (three-unifiers FAQ4): bloodline is ambiguous — the house ended, the daughters survived" },
+    { "forbidden": "一向一揆の要塞都市", "required": "寺内町", "level": "error", "reason": "review round 22 (three-unifiers FAQ3): 'fortress city' framing — it was a temple town with moats and earthworks" },
+    { "forbidden": "飢餓と講和によって攻略", "required": "和議により退去", "level": "error", "reason": "review round 22 (three-unifiers FAQ3): not taken by famine — court-mediated peace, Kennyo withdrew (§3 Ishiyama ending)" },
+    { "forbidden": "講和で一旦は決着", "required": "和議によっていったん終結", "level": "error", "reason": "review round 22 (three-unifiers FAQ4): 'settled for now' undersells the peace agreement" },
+    { "forbidden": "江戸幕府として制度化", "required": "江戸幕府を開きました", "level": "error", "reason": "review round 22 (three-unifiers FAQ1): Ieyasu opened the shogunate; the regimes succeeded each other" },
+    { "forbidden": "家康が体制を築きました", "required": "江戸幕府を開きました", "level": "error", "reason": "review round 22 (three-unifiers quick answer): vague 'built the order' phrasing" },
+    { "forbidden": "三人の関係が", "required": "三人の政権とその継承", "level": "error", "reason": "review round 22 (three-unifiers FAQ1): their regimes and succession, not a personal relationship" },
+    { "forbidden": "約260年の幕府時代", "required": "徳川幕府の政治秩序", "level": "error", "reason": "review round 22 (three-unifiers FAQ4): teleological 260-year framing" },
+    { "forbidden": "百姓の出身から関白", "required": "尾張国に生まれ", "level": "error", "reason": "review round 22 (three-unifiers FAQ2): categorical origin claim — Hideyoshi's origins are uncertain" }
   ],
   "chineseChars": "关这说应无时发战义产从众亲广铁间门东车马长问现华图书机权记议报导终经结约级职举变边还进运过连远军农击创则刚动务势样备币钟队买乐乡习个们头儿几仅认让该给对单观于",
   "titleForbidden": ["―", "─", "·", "｜"]
