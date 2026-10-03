@@ -62,7 +62,7 @@ Return findings as `page → sentence → suggested fix`.
 | Power phrase | **権力と承認** in all JA (hideyoshi hero/H1 + deeptimeline continue li; was 命令・承認 = calque of EN "command, recognition" — EN kept as-is) |
 | Continue heading | **大阪城で物語を続けましょう** on every JA page with that section (4 files normalized from 続ける) |
 | Nara-era header | **藤原仲麻呂の乱** (was 藤原氏の変革; EN `Fujiwara Coup` → `Nakamaro's Rebellion`) |
-| CTA trio | the 3 exact strings (法人向けチームビルディング… / 学校・大学向け歴史フィールドレッスン… / この再構成は、同時代のヨーロッパ人の記録…) on all 21 JA pages — buttons and English-link lines unchanged |
+| CTA trio | the 3 exact strings (法人向けチームビルディング… / 学校・大学向け歴史フィールドレッスン… / この再構成は、同時代のヨーロッパ人の記録…) on all 21 JA pages **except `sanada_nobushige` (round 23 site-wide exception):** sanada uses 「この再構成は、同時代の史料、後世の軍記物、城郭考古学の知見を突き合わせ、史実と伝承を区別して構成しています。」 (EN mirror: contemporary sources, later military chronicles, castle archaeology … distinguishing established history from later legend) — buttons and English-link lines unchanged |
 | Credit name | **エドワード・イフトディ** (round 0: was エドワード・イフティ ×32 / 20 JA files incl. `ja/llms.txt`) — matches EN "Edward Iftody" / JSON-LD `#edward-iftody`; the JSON-LD `イフトウデイ　エドワード` name fields (both locales) are a separate established rendering and stay as-is |
 | Historian label | **専属** (round 0: was 常駐 ×25 / 20 JA files, incl. JSON-LD `jobTitle: 独立研究者・専属歴史家`); overrides the round-3 keep — reviewer's part 4/5/6 call; EN `Resident Historian` untouched |
 | Tour badge | **ツアーで訪問** on all 83 JA `tour-badge` spans (round 0: was ツアー対象 ×61 + 徒歩コース ×13; deeptimeline already correct); EN badge stays `On Tour` ×83 |
@@ -77,7 +77,7 @@ Return findings as `page → sentence → suggested fix`.
 | Taira naming | **平氏** for EN "Taira" in ja/genpei titles/meta/JSON-LD/prose ×37 (round 6: was 平家 — pairs with 源氏 per llms 平氏、源氏); **平家物語** ×4 kept (work title); era-btn/era-header 平氏の台頭 too |
 | Gojoseon | **古朝鮮** in ja/yayoi ancient contexts (round 6: card titles ×2 + bodies ×2; EN "Gojoseon"); **のちの韓国** dropped from both locales' yayoi card prose in round 8 (→ 朝鮮半島の…); JSON-LD ancient cross-ref **朝鮮半島** (aligns JA HTML meta; EN "Korea" untouched); 衛氏朝鮮 kept |
 | Suishou | **倭国王帥升** (round 6: was 倭面土王 ×2 in ja/yayoi JSON-LD + card; EN "Suishou" = 帥升, 後漢書 107 CE — visible = JSON-LD byte-aligned) |
-| Ikasuri shrine | **坐摩神社** (readings いかすり/ざま; round 6: was 生駒神社 ×8 + 座摩 ×1 in ja/empress; EN "Ikasuri Shrine (Zama-san)" was already correct and kept; legend = Jingū founded it, five Ikasuri deities, moved 1608 when Osaka Castle was built) |
+| Ikasuri shrine | **坐摩神社** (readings いかすり/ざま; round 6: was 生駒神社 ×8 + 座摩 ×1 in ja/empress; EN "Ikasuri Shrine (Zama-san)" was already correct and kept; legend = Jingū dedicated the five 坐摩大神 (生井・福井・綱長井・**波比岐**・阿須波 — never 波比祇) at 大江・田蓑島のちの渡辺（天満橋西方・石町付近）per the shrine plaque (**奉祀** not 奉斎); ordered to vacate (**替地**, 1582) for Hideyoshi's castle build, moved to present 久太郎町 site **in the 寛永年間** (round 24; never a single 1583/1608 move); **旧社地石町2-2-15 has 坐摩神社元宮・行宮** — present shrine and 行宮 are two related but distinct sites (FAQ ×2 + event card both locales; visible↔JSON-LD byte-synced ×5)) |
 | Companion links | EN `/beforejapanhadaname.html` ↔ JA **/ja/before-the-castle-prehistoric-osaka.html** with short title **城になる前の大阪** (round 6: tenjin DYK trailing sentence + yayoi callout companion p added; no ja/beforejapanhadaname.html exists — never link it) |
 | Box blurb | standard 「大阪城の石垣…」 sentence where EN blurb = "Explore the stone walls…" (round 6: empress/tenjin/yayoi); **genpei keeps its own pair** ("Walk the story of how warrior power swallowed the imperial court" → 武士の力が朝廷を呑み込んだ物語を… ); **fujiwara keeps its own pair** (round 7: "Walk the story of the women who bound the throne…" → 玉座とその主人を結びつけた女性たちの物語を…) |
 | Fujiwara mothers | **母** in every "Fujiwara mothers" slot on fujiwara (round 7: was 后 ×9 — 立后 ×3 / 皇后 ×8 kept as terms of art; FAQ JSON↔visible byte-synced ×2; streak began with **聖武天皇**, both locales — EN Monmu claim was fact error); mothers cards: 乙牟漏（良継）/旅子（百川）/明子（冬嗣）/沢子, 安子=**師輔**の娘, 懐子=**伊尹**の娘, card title **二人の母と三つの治世** |
@@ -93,6 +93,9 @@ Return findings as `page → sentence → suggested fix`.
 | Hideyori ending | 5 era buttons/headers **奇跡の子 / 孤立した継承者 / 運命の衝突 / 和議と城の崩壊 / 夏の陣と滅亡** (EN: The Miracle Child / The Isolated Heir / The Fateful Clash / Peace & the Unmaking / The Summer Siege; keys miracle/isolation/clash/peace/final; headers 1593〜1598 / 1600〜1611 / 1614〜1615 / 1614〜1615 / 1615 — round 21; cards **15** = 3/5/3/2/2, new: 1595 秀次事件と継承の確定, 1605 右大臣・二重構造, 片桐且元をめぐる対立, 堀の埋め立てと真田丸の破却); column labels **大坂の陣と軍事的局面 / 史料と後世の伝承** (never 主な攻城戦と役割 / 噂と戦略 / 戦役と攻城戦 / 策略と滅亡); death **1615年6月4日** plain Gregorian site standard (round-21 item 3's 5月8日（新暦6月4日）rejected — same date, wareki declined, and 「元和元年」is the wrong era since 元和 starts 1615-07; death/fall same day = **落城の際に** never 落城の翌日); **黄金の鳥籠** kept as title + now defined in lead para 2 and the 1603 政権 card (item 24); 二条城会見 = 19歳 / 『当代記』/ 後世の解釈として慎重に扱う (never 18歳 / 深く警戒したと噂 / 血統を断ち切らねば); 1603 wedding = 11歳・7歳 marriage (ages swapped nowhere); metas rewritten both locales (no 徳川幕府が残した「自殺」説と…真相を検証 / "'suicide' story, and what really happened" promise); dateModified 2026-10-03; FAQ visible↔JSON-LD byte-synced ×4 both locales |
 | Toyotomi house end | **豊臣氏は滅亡** for 1615 (round 22: never **豊臣の血筋** — the blood continued via Senhime/Tokugawa; fixed ×8 across five JA pages — three-unifiers, tokugawa-ieyasu-timeline ×4, lordconcubineshogunlie, toyotomi_hideyori, osaka-castle-history — error rule in `data/ja-glossary.json`; EN "Toyotomi line" idiom kept) |
 | three-unifiers ending | FAQ1 Q = **日本統一を進めた三人とは誰ですか？** (round 22; JSON-LD breadcrumb name **三英傑**, was 三人の統一者); FAQ answers = **江戸幕府を開きました** + **三人の政権とその継承** (never 江戸幕府として制度化 / 体制を築きました / 三人の関係が); FAQ2 = **尾張国に生まれ**…1583年（天正11年）に大坂城の築城を開始・政治的・軍事的拠点 (never 百姓の出身から関白へ上り詰めた / 権威を示す宣言); FAQ3 Q = **石山本願寺と10年にわたって戦った**, A = 寺内町 + 1570〜1580 石山合戦 + 門徒・武将・水軍・海上交通 + **朝廷の仲介による和議・顕如が大坂を退去** (never 10年も包囲 / 一向一揆の要塞都市 / 飢餓と講和によって攻略); FAQ4 = **徳川方が勝利しました・和議によっていったん終結・江戸幕府の政治秩序が定着…大きな転換点** (never 勝利が帰しました / 講和で一旦は決着 / 約260年の幕府時代); portraits = **十年** (row 72 enforcement) / **無名の家臣から** (never 一農民から) / **天下統一の拠点として築かれた** (never 世界への彼の宣言); catchphrase h1 + og/twitter descriptions kept; FAQ visible↔JSON-LD byte-synced ×5 both locales; dateModified 2026-10-03 |
+
+| Sanada Nobushige naming | h1 subtitle **「日本一の兵」と呼ばれた武将** (attested, NDL; never 日本最強の武将/武士 — error rule), FAQ2 Q = **なぜ信繁は「日本一の兵」と呼ばれるのですか？**; death site **安居神社** (never 安井神社 — error rule), Sanada = **1615年6月3日** / Hideyori & Yodō-dono = **翌6月4日 自害・豊臣氏は滅亡** (row 86 split, round 23); late-life **配流・蟄居・約14年** (never 流刑/14年間もの隠遁); Kudoyama card title **九度山の蟄居**, death-card tag **最期 — 安居神社へ** (never 百に一人の英雄); 十勇士 = **後世の語り伝え・確実な同時代史料なし** (never 諜報活動) |
+| Timeline column legends | korea column = **戦略と伝承 / 伝承と戦略** (sanada + tokugawa both locales, round 23; EN **Strategy & Legends / Legends & Strategy** — also on toyotomihideyoshi EN; never 戦略と噂 / 噂と戦略 / Strategies & Rumours / Rumours & Strategy — error rules); sanada buttons = **すべて｜若年期・人質時代｜上田・九度山｜冬の陣｜夏の陣** (era-headers follow; keys youth/exile/winter/summer unchanged) |
 
 ## 4. ⚠ Uncertain phrases — review these first
 
@@ -1332,6 +1335,80 @@ persisted in `ja-review-annot-13.md` (untracked).
   (勝利が帰しました / 豊臣の血筋 / 要塞都市 / 飢餓と講和 / 約260年の幕府時代 /
   十一年 / peasant roots / Toyotomi line …); check:ja 21 pages,
   check:data + check:parity, tsc, build green.
+
+## 5w. Round 23 — sanada_nobushige legend-vs-history (23 items) (2026-10-03)
+
+**Provenance:** external historical review of `sanada_nobushige` (JA primary,
+full EN mirror), sources = NDL / Osaka City / Nagano Prefectural History
+Museum / Japanese scholarship on Nobushige and the Osaka campaigns. Full item
+record persisted in `ja-review-annot-14.md` (untracked).
+
+- **Locked user decisions (2026-10-03):**
+  1. h1 subtitle → **「日本一の兵」と呼ばれた武将** (EN "Called 'Japan's
+     Finest Warrior'") — attested epithet replaces superlative.
+  2. **Thesis line added** as own line after rewritten opening:
+     「史実の信繁と、伝説の幸村。二人の姿は、どこまで重なるのでしょうか。」
+     (EN mirror: The historical Nobushige and the legend of Yukimura…).
+  3. Cross-page label fixes so bare error rules are site-wide safe:
+     `ja/deeptimeline` L1432 日本最強の武将に10年間抵抗 → **織田信長に10年間抵抗**
+     (EN card had no counterpart); `tokugawa-ieyasu-timeline` key 戦略と噂 →
+     戦略と伝承 + header 噂と戦略 → 伝承と戦略 (EN Strategy & Legends /
+     Legends & Strategy; dateModified/page-date bumped); EN
+     `toyotomihideyoshi` same label pair aligned.
+  4. Methodology footnote replaced **sanada-only** (see §3 CTA trio row for
+     the exact new sentence + EN mirror); §3 row 65 amended.
+- **Narrative rewrites:** opening, quick answer, 4 FAQ answers byte-identical
+  ×2 per locale (FAQ2 Q → なぜ信繁は「日本一の兵」と呼ばれるのですか？);
+  13 cards per reviewer Better texts (安居神社, 越前松平家, 6月3日 attack, 碑,
+  豊臣方の招き, 半月形/諸説, 籠城で進軍を大きく遅らせ・関ヶ原に遅参 —
+  2,000/38,000 + 見事に dropped, 配流・蟄居・約14年, 十勇士 = 後世の語り伝え,
+  真田丸 = 防御の弱点を補う・城外に出城・土塁や堀、柵, 包囲戦 = 撤退→撃退・
+  冬の陣の大きな戦果・講和, 道明寺 = 濃霧下の交戦・撤退中も戦闘継続,
+  天王寺 = 本陣を目指す攻撃・危機の場面・幸村伝説の中心, decapitation card →
+  家康の本陣を目指す, death = 6月4日 秀頼・淀殿自害・**豊臣氏は滅亡** —
+  never 豊臣家は翌日に滅び/戦国時代は終わりを告げました); nav cascade
+  (key/headers/buttons/card titles 九度山の蟄居・信濃に生まれる・最期 —
+  安居神社へ; data-era keys unchanged); dates → 2026-10-03 / October 2026.
+- **32 new glossary error rules** (187 → 219; round 24 adds 3 more → 222,
+  see 5x), grep-first site-wide (日本最強,
+  流刑, 安井神社, ことごとく防ぎ/撃退 — tokugawa's ことごとく取り除きました
+  stays legal, 家康の首を狙う, 建築的天才, 疲れきり …).
+- **Verification:** FAQ byte-sync 4/4 ×2 locales; 13 cards / 5 buttons / 3
+  keys identical across locales; forbidden greps 0 both locales; check:ja
+  21 pages; check:data + check:parity; tsc; build.
+
+## 5x. Round 24 — empress_jingu Ikasumi shrine correction (owner self-correction) (2026-10-03)
+
+**Provenance:** owner-supplied correction to earlier advice (supersedes the
+round-6/9 handling); verified against the shrine plaque account (替地 ordered
+1582, 寛永年間遷座) via shrine sources. Record in `ja-review-annot-15.md`
+(untracked).
+
+- **Locked user decisions (2026-10-03):**
+  1. Bundled with round 23 (single push/deploy).
+  2. Geographic passage 「神功皇后の伝承を考えるうえで重要なのは…水辺の地理と
+     結びついています。」→ **event card body** (replacing its geographic
+     closing); FAQ ends at 遷座したと伝えられています exactly as supplied.
+  3. Event card **includes the address** 石町2-2-15.
+  4. EN-only `osaka_history_things_to_do` Ikasuri section **aligned in the same
+     run** (see below).
+- **Edits:** JA FAQ answer ×2 → owner verbatim (奉祀, **波比岐神** — fixes 波比祇
+  ×3, 天満橋西方・石町付近, **坐摩神社元宮・行宮が残されています**, 替地 +
+  **寛永年間**遷座 — supersedes 「豊臣秀吉の大坂築城に伴って現在地に移った」);
+  event card body both locales = 起源 + 五柱 + 元宮・行宮
+  （大阪市中央区石町2-2-15）+ 3世紀遺構 caution + geographic passage;
+  EN mirror uses plaque readings (Ikui, Sakui, Tsunagai, Hahiki, Asuha) and
+  the things-to-do heading terms Former Main Sanctuary / Temporary Sanctuary;
+  things-to-do: "moved to modern Hommachi" → present site Kushitarō-chō,
+  1583 forced-relocation + "didn't dare" → 替地/寛永 account, Chinza-ishi left
+  at Ishimachi (3× dateModified → 2026-10-03, page-date October 2026);
+  empress dateModified both locales → 2026-10-03 (EN page-date already Oct).
+- **3 new glossary error rules** (… → **222** final): 波比祇, 坐摩大神を奉斎,
+  大坂築城に伴って現在地に移った (scoped; required = 替地/寛永 phrasing).
+- **§3 row 80 amended** (new Ikasuri account, two-distinct-sites note).
+- **Verification:** FAQ byte-sync 5/5 ×2 locales; 波比祇/奉斎 site-wide 0;
+  check:ja 21 pages 0 warnings; check:data; check:parity; tsc; build.
+
 
 ## 6. Automated gates (must stay green after any edit)
 
