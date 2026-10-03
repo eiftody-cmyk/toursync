@@ -692,6 +692,79 @@
       align-items: start;
     }
   }
+
+  /* ── OICHI STORY (featured deep-dive) ── */
+  .oichi-story {
+    max-width: 860px;
+    margin: 5rem auto;
+    padding: 0 2rem;
+  }
+  .oichi-lede {
+    font-size: 1.35rem;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--gold-light);
+    line-height: 1.75;
+    text-align: center;
+    max-width: 720px;
+    margin: -1.5rem auto 3.5rem;
+  }
+  .oichi-part {
+    border-left: 2px solid rgba(200, 169, 110, 0.35);
+    padding-left: 1.6rem;
+    margin-bottom: 2.8rem;
+  }
+  .oichi-part h3 {
+    font-family: "Cinzel", serif;
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.9rem;
+  }
+  .oichi-num { color: var(--gold-mid); margin-right: 0.5rem; }
+  .oichi-date {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 0.95rem;
+    color: var(--parchment-dim);
+    margin-left: 0.5rem;
+    letter-spacing: 0;
+  }
+  .oichi-part p {
+    font-size: 1.12rem;
+    line-height: 1.75;
+    color: var(--parchment);
+    margin-bottom: 0.9rem;
+  }
+  .oichi-part .oichi-em {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--gold-light);
+    line-height: 1.55;
+    margin: 1.1rem 0;
+  }
+  .oichi-part ul {
+    margin: 0.6rem 0 1.1rem;
+    padding-left: 1.3rem;
+    list-style: none;
+  }
+  .oichi-part ul li {
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--parchment);
+    margin-bottom: 0.55rem;
+    position: relative;
+  }
+  .oichi-part ul li::before {
+    content: "—";
+    color: var(--gold-mid);
+    position: absolute;
+    left: -1.3rem;
+  }
+  .oichi-part ul li strong { color: var(--gold-light); font-weight: 600; }
 </style>
 
 <!-- HERO -->
@@ -713,7 +786,7 @@
 
 <!-- CTA -->
 <section class="cta-section">
-  <h2>This is not a standard castle tour.<br>It is a reckoning with 2,000 years of history.</h2>
+  <h2>This is not a standard castle tour.<br>It is a confrontation with the women who shaped 2,000 years of history.</h2>
   <p class="cta-sub">Walk with a historian who lives beside it. Private groups. 2.5 Hours • English • ¥9,500/person</p>
   <div class="booking-options">
     <div class="booking-option">
@@ -741,7 +814,7 @@
     A generation later, the chronicles introduce another woman whose story blurs the line between history and political invention: Empress Jingū. The archaeology and Korean sources confirm the war she’s credited with was real — but it happened centuries later. The Nihon Shoki backdates her reign to overwrite Himiko’s era and installs her at the center of a campaign she may have never led, creating a narrative that served Yamato’s legitimacy far more than it recorded actual events.<br><br>
     Fast-forward to the mid-7th century. Empress Kōgyoku/Saimei — a woman so thoroughly written out of the reforms she may have engineered that most people couldn't name her. But the archaeology and the politics tell a different story. At this stop, we examine the assassination staged in open court — in front of her — that she neither prevented nor punished. A single act that detonated the old order, forced the creation of Japan's first world-class imperial capital, and birthed the nation we now call Japan.<br><br>
     On the same palace ground we enter Empress Shōtoku's world — Nara's last great empress, the monk Dōkyō at her side, and the Naniwa capital whose story she shaped. Hers is the pattern in miniature: absolute power, followed by systematic erasure.<br><br>
-    As we approach the warrior-monk temple ruins of Ishiyama Hongan-ji and stand before Hideyoshi's shrine, we trace Oichi's tragic story — Nobunaga's sister, sent to seal an alliance with his enemy, widowed when Odani fell, and remarried and widowed again within the year. Her daughter, raised inside the most powerful household in Japan, would become Yodo-dono.<br><br>
+    As we approach the warrior-monk temple ruins of Ishiyama Hongan-ji and stand before Hideyoshi's shrine, we trace Oichi's tragic story — Nobunaga's sister, married off to seal an alliance, widowed when Odani fell, and remarried in 1582 only to die at Kitanosho the next year, having sent her daughters to safety. Her daughter, raised inside the most powerful household in Japan, would become Yodo-dono.<br><br>
     And then the woman who defined Osaka Castle's final act: Yodo-dono. Born in a world where women were diplomatic instruments, she ended up commanding the most powerful castle in Japan. History branded her irrational, emotional, uncompromising. In reality, she was brilliant, dangerous — and inconvenient enough that the Tokugawa needed her erased.<br><br>
     On this 2.5-hour walking tour, you'll trace 2,000 years of female sovereignty, from the legendary Queen Himiko to Yodo-dono's last, desperate gambit within these walls.<br><br>
     Separate legend from history, and discover how female power changed Japan forever.<br><br>
@@ -812,7 +885,7 @@
  
 <!-- CTA -->
 <section class="cta-section">
-  <h2>This is not a standard castle tour.<br>It is a reckoning with 2,000 years of history.</h2>
+  <h2>This is not a standard castle tour.<br>It is a confrontation with the women who shaped 2,000 years of history.</h2>
   <p class="cta-sub">Walk with a historian who lives beside it. Private groups. 2.5 Hours • English • ¥9,500/person</p>
   <div class="booking-options">
     <div class="booking-option">
@@ -873,7 +946,7 @@ const mapStops = [
     "date": "1496 – 1580",
     "lat": 34.684566,
     "lng": 135.5244533,
-    "teaser": "At the warrior-monk temple ruins and before Hideyoshi's shrine, we trace Oichi's tragic story — Nobunaga's sister, sent to seal an alliance with his enemy, widowed when Odani fell, remarried and widowed again within the year — and gone before the girl Hideyoshi raised could become Yodo-dono.",
+    "teaser": "At the warrior-monk temple ruins and before Hideyoshi's shrine, we trace Oichi's tragic story — Nobunaga's sister, married off to seal an alliance, widowed at Odani, remarried in 1582, and dead at Kitanosho the next year — gone before the girl Hideyoshi could raise into Yodo-dono.",
     "img": "tower.webp",
     "caption": "The Ishiyama Hongan-ji remains — beside them, the shrine Hideyoshi built."
   },
@@ -914,7 +987,7 @@ const cardStops = [
     "label": "3",
     "name": "Ishiyama Hongan-ji",
     "date": "1496 - 1580",
-    "teaser": "At the warrior-monk temple ruins and before Hideyoshi's shrine, we trace Oichi's tragic story — Nobunaga's sister, sent to seal an alliance with his enemy, widowed when Odani fell, remarried and widowed again within the year — and gone before the girl Hideyoshi raised could become Yodo-dono.",
+    "teaser": "At the warrior-monk temple ruins and before Hideyoshi's shrine, we trace Oichi's tragic story — Nobunaga's sister, married off to seal an alliance, widowed at Odani, remarried in 1582, and dead at Kitanosho the next year — gone before the girl Hideyoshi could raise into Yodo-dono.",
     "img": "tower.webp",
     "caption": "The Ishiyama Hongan-ji remains — beside them, the shrine Hideyoshi built."
   },
@@ -993,7 +1066,7 @@ const itineraryByStop = [
     { "name": "Enter Empress Shōtoku's world", "img": "images/empress-shotoku.webp",
       "desc": "Nara's last great empress and the Naniwa capital whose story she shaped — then written out of the record almost as completely." } ],
   [ { "name": "Trace Oichi's tragic story", "img": "Oichiescape.webp",
-      "desc": "Sent to seal an alliance, widowed when it fell, remarried and widowed again within the year — Oichi's tragedy is what left her daughters, including the girl Hideyoshi would raise, with no one to choose for them." },
+      "desc": "Sent to seal an alliance her brother needed, widowed when Odani fell, remarried in 1582 — then at Kitanosho the next year she sent her daughters to safety and stayed to die with her husband. Oichi's tragedy left the girl Hideyoshi would raise with no one to choose for her." },
     { "name": "Stand before Hideyoshi's shrine", "img": "images/itinerary/wm1.webp",
       "desc": "Where Hideyoshi's shrine looks over the ruins of the warrior-monk stronghold that stood here for 84 years." } ],
   [ { "name": "Stand at the concubine's last stand", "img": "hideyoriyamazatomaru.webp",
@@ -1034,6 +1107,129 @@ cardStops.forEach((stop, i) => {
   grid.appendChild(block);
 });
 </script>
+
+<section class="oichi-story">
+  <p class="sec-label">The Woman Behind Yodo-dono</p>
+  <h2 class="sec-title">Oichi: The Woman Who Had No Choices</h2>
+  <p class="oichi-lede">Her life is a sequence of political orders, impossible loyalties, and two marriages that ended in fire. Every decision she made was shaped by the fact that she was Nobunaga&rsquo;s sister &mdash; a status that gave her prestige but removed her agency.</p>
+
+  <div class="oichi-part">
+    <h3><span class="oichi-num">1.</span> Born into the Oda Clan <span class="oichi-date">c. 1547</span></h3>
+    <p>Oichi was born into a rising but still provincial clan.<br>
+    Her brother Nobunaga was already showing signs of brilliance &mdash; and volatility.</p>
+    <p>From childhood, Oichi&rsquo;s role was clear:</p>
+    <p class="oichi-em">She would be used to secure alliances.</p>
+    <p>This was not cruelty.<br>It was Sengoku politics.</p>
+  </div>
+
+  <div class="oichi-part">
+    <h3><span class="oichi-num">2.</span> First Marriage: Azai Nagamasa <span class="oichi-date">1564</span></h3>
+    <p>Nobunaga needed the Azai clan to secure his northern flank and open the route to Kyoto. So he sent Oichi to marry Azai Nagamasa, the young daimyo of Odani Castle.</p>
+    <p>This marriage was political &mdash; but it was also stable, even affectionate. They had three daughters:</p>
+    <ul>
+      <li><strong>Chacha</strong> (later Yodo-dono)</li>
+      <li><strong>Ohatsu</strong></li>
+      <li><strong>Oeyo</strong></li>
+    </ul>
+    <p>These girls would become the most politically influential sisters of the era.</p>
+    <p class="oichi-em">But the alliance was doomed.</p>
+  </div>
+
+  <div class="oichi-part">
+    <h3><span class="oichi-num">3.</span> The Azai&ndash;Asakura Betrayal <span class="oichi-date">1570</span></h3>
+    <p>When Nobunaga marched against the Asakura, Nagamasa betrayed him &mdash; siding with the Asakura against his brother-in-law.</p>
+    <p>This placed Oichi in an impossible position:</p>
+    <ul>
+      <li>Her husband was now her brother&rsquo;s enemy.</li>
+      <li>Her daughters were inside a castle Nobunaga intended to destroy.</li>
+    </ul>
+    <p class="oichi-em">She could not choose.<br>History chose for her.</p>
+  </div>
+
+  <div class="oichi-part">
+    <h3><span class="oichi-num">4.</span> Fall of Odani Castle <span class="oichi-date">1573</span></h3>
+    <p>Nobunaga crushed the Azai&ndash;Asakura coalition. Odani Castle fell. Nagamasa committed suicide.</p>
+    <p>Oichi escaped the fallen castle with her daughters and returned to the Oda household.</p>
+    <p>This is the first time she becomes a widow. She is still only about 26. Her daughters are children.</p>
+  </div>
+
+  <div class="oichi-part">
+    <h3><span class="oichi-num">5.</span> Eight Quiet Years <span class="oichi-date">1574&ndash;1582</span></h3>
+    <p>Oichi lives under Nobunaga&rsquo;s protection. She raises her daughters. She does not remarry. She becomes the highest-status Oda woman.</p>
+    <p>These years matter because they shape Chacha&rsquo;s worldview:</p>
+    <ul>
+      <li>sudden loss</li>
+      <li>political betrayal</li>
+      <li>survival</li>
+      <li>the knowledge that women do not choose their fate</li>
+    </ul>
+    <p class="oichi-em">This is the emotional foundation of Yodo-dono.</p>
+  </div>
+
+  <div class="oichi-part">
+    <h3><span class="oichi-num">6.</span> Honn&#333;ji: Nobunaga Dies <span class="oichi-date">1582</span></h3>
+    <p>The assassination of Nobunaga by Akechi Mitsuhide destabilizes everything.</p>
+    <p>Hideyoshi moves fast. He needs legitimacy. He needs the Oda world to hold still while he consolidates. And Oichi is the most important Oda woman still alive &mdash; her allegiance is the prize every faction is reaching for.</p>
+  </div>
+
+  <div class="oichi-part">
+    <h3><span class="oichi-num">7.</span> Second Marriage: Shibata Katsuie <span class="oichi-date">1582</span></h3>
+    <p>At the Kiyosu Conference, Oichi&rsquo;s nephew Oda Nobutaka proposes the match, and Oichi is married to Shibata Katsuie, the senior Oda general.</p>
+    <p>This marriage is not about love. It is about:</p>
+    <ul>
+      <li>binding Katsuie to the Oda bloodline</li>
+      <li>preventing him from challenging Hideyoshi</li>
+      <li>stabilizing the Oda world long enough for Hideyoshi to consolidate power</li>
+    </ul>
+    <p class="oichi-em">Oichi obeys. She has no choice.</p>
+    <p>But the timing is brutal: She moves to Kitanosho in the 10th month of 1582. In 1583, Hideyoshi defeats Katsuie at Shizugatake. Barely half a year of marriage &mdash; and her husband&rsquo;s world is already ending.</p>
+  </div>
+
+  <div class="oichi-part">
+    <h3><span class="oichi-num">8.</span> Siege of Kitanosho Castle <span class="oichi-date">1583</span></h3>
+    <p>Hideyoshi and Katsuie clash at Shizugatake. Katsuie loses. He retreats to Kitanosho Castle with Oichi and her daughters.</p>
+    <p>Inside the castle:</p>
+    <ul>
+      <li>Oichi knows this marriage was a political instrument from the first day.</li>
+      <li>She knows the man Katsuie once served is now trying to destroy him.</li>
+      <li>She knows her daughters&rsquo; futures depend on her choice.</li>
+    </ul>
+    <p>So she makes the most heartbreaking decision of her life: She sends her daughters out to Hideyoshi. She stays behind with Katsuie.</p>
+    <p class="oichi-em">This is the moment that defines her.<br>She chooses loyalty to her husband over survival.</p>
+    <p>Katsuie sets the castle ablaze. Oichi dies in the flames. She is about 36. Her daughters are orphans.</p>
+  </div>
+
+  <div class="oichi-part">
+    <h3><span class="oichi-num">9.</span> The Daughters: Three Paths, One Trauma</h3>
+    <p>Hideyoshi takes the girls into his household. Their mother&rsquo;s story becomes the blueprint for their lives:</p>
+    <ul>
+      <li><strong>Chacha (Yodo-dono)</strong> &mdash; Raised by Hideyoshi. Becomes his concubine. Commands Osaka Castle. Dies in the final flames of the Toyotomi.</li>
+      <li><strong>Ohatsu</strong> &mdash; Marries into the Ky&#333;goku. Survives by navigating Tokugawa politics.</li>
+      <li><strong>Oeyo</strong> &mdash; Marries Tokugawa Hidetada. Becomes the mother of Tokugawa Iemitsu, the shogun who destroys Yodo-dono&rsquo;s son.</li>
+    </ul>
+    <p class="oichi-em">Three sisters. Three political destinies. All shaped by Oichi&rsquo;s tragedy.</p>
+  </div>
+
+  <div class="oichi-part">
+    <h3><span class="oichi-num">10.</span> Why Oichi Matters</h3>
+    <p>Because her life explains the emotional and political world that produced Yodo-dono.</p>
+    <p>Because her daughters inherited:</p>
+    <ul>
+      <li>her loyalty</li>
+      <li>her trauma</li>
+      <li>her political value</li>
+      <li>her lack of agency</li>
+    </ul>
+    <p>Because her death is the hinge between:</p>
+    <ul>
+      <li>the fall of the Azai</li>
+      <li>the rise of Hideyoshi</li>
+      <li>the destruction of the Toyotomi</li>
+    </ul>
+    <p>And because she is the clearest example of what it meant to be a high-status woman in the Sengoku era:</p>
+    <p class="oichi-em">You were powerful. But you had no choices.</p>
+  </div>
+</section>
 
 <h2 class="photo-header">Previous Truth-Seekers</h2>
 
